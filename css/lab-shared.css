@@ -1,0 +1,328 @@
+/* ── LAB SHARED STYLES ──────────────────────────────────
+   Loaded on all module pages. Overrides container-sm width
+   so the split layout gets enough room for terminals/browsers.
+──────────────────────────────────────────────────────── */
+
+/* ── Gjør lab-sider mye bredere enn standard container-sm ── */
+.container-sm{max-width:1280px}
+
+/* page chrome */
+.mod-hero{padding:52px 0 40px;border-bottom:1px solid var(--border);margin-bottom:36px}
+.back-link{font-family:var(--mono);font-size:12px;color:var(--text3);display:inline-flex;align-items:center;gap:6px;margin-bottom:20px;transition:color .18s}
+p{font-size:14px;color:var(--text2);line-height:1.7;font-weight:400;margin-bottom:10px}
+p:last-child{margin-bottom:0}
+code{font-family:var(--mono);font-size:12px;background:rgba(255,255,255,.07);padding:1px 5px;border-radius:3px;color:var(--text)}
+strong{font-weight:600;color:var(--text)}
+.tasks{display:flex;flex-direction:column;gap:20px}
+
+/* lab card */
+.lab-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);transition:border-color .2s;overflow:hidden;overflow:clip}
+.lab-card.done{border-color:rgba(0,229,160,.35)}
+.lab-header{padding:18px 24px;display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none;border-bottom:1px solid var(--border)}
+.lab-header:hover{background:rgba(255,255,255,.02)}
+.lab-num{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--text3);min-width:28px}
+.lab-title{flex:1;font-size:15px;font-weight:600}
+.lab-meta{display:flex;align-items:center;gap:8px}
+.lab-chev{color:var(--text3);font-size:12px;transition:transform .2s}
+.lab-card.open .lab-chev{transform:rotate(90deg)}
+.lab-body{display:none}
+.lab-card.open .lab-body{display:block}
+
+/* split layout — original størrelse, bredere plass pga. container-sm override */
+.lab-split{display:grid;grid-template-columns:300px 1fr;min-height:480px}
+.lab-left{padding:24px;border-right:1px solid var(--border);background:var(--bg3);display:flex;flex-direction:column;gap:14px}
+.lab-right{background:#0a0c10;display:flex;flex-direction:column}
+
+/* objective panel */
+.obj-title{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
+.obj-item{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+.obj-num{font-family:var(--mono);font-size:10px;font-weight:700;min-width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;background:var(--blue-d);border:1px solid rgba(75,142,255,.25);color:var(--blue);flex-shrink:0;margin-top:1px}
+.obj-text{font-size:13px;color:var(--text2);line-height:1.5;font-weight:400}
+.lab-desc{font-size:13px;color:var(--text2);line-height:1.65;font-weight:400}
+
+/* status */
+.lab-status{display:none;align-items:center;gap:8px;padding:8px 12px;border-radius:6px;font-family:var(--mono);font-size:11px;margin-top:10px}
+.lab-status.show{display:flex}
+.lab-status.ok{background:var(--green-d);border:1px solid rgba(0,229,160,.3);color:var(--green)}
+.lab-status.warn{background:var(--amber-d);border:1px solid rgba(255,181,71,.3);color:var(--amber)}
+.lab-status.err{background:var(--red-d);border:1px solid rgba(255,92,92,.3);color:var(--red)}
+.lab-status.inf{background:var(--blue-d);border:1px solid rgba(75,142,255,.3);color:var(--blue)}
+.pulse{width:7px;height:7px;border-radius:50%;flex-shrink:0;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.pulse.g{background:var(--green)}.pulse.a{background:var(--amber)}.pulse.r{background:var(--red)}.pulse.b{background:var(--blue)}
+
+/* fake browser */
+.fake-browser{flex:1;display:flex;flex-direction:column}
+.fake-bar{background:var(--bg4);padding:8px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);flex-shrink:0}
+.fake-dots{display:flex;gap:5px}
+.fdot{width:10px;height:10px;border-radius:50%}
+.fdot-r{background:#ff5f57}.fdot-y{background:#febc2e}.fdot-g{background:#28c840}
+.fake-url{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);font-size:11px;color:var(--text3);padding:4px 10px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.secure{color:var(--green)}
+.site-wrap{flex:1;overflow-y:auto}
+
+/* target site (always light-themed) */
+.ts{background:#f8f9fa;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;color:#1a1a2e}
+.ts-nav{padding:10px 20px;display:flex;align-items:center;gap:20px}
+.ts-logo{color:#fff;font-weight:700;font-size:15px}
+.ts-nl{color:rgba(255,255,255,.6);font-size:13px}
+.ts-nl.on{color:#fff}
+.ts-body{padding:18px 20px}
+.ts-input{width:100%;border:1px solid #ddd;border-radius:6px;padding:9px 13px;font-size:13px;color:#333;outline:none;transition:border-color .2s;background:#fff}
+.ts-input:focus{border-color:#4b8eff}
+.ts-btn{border:none;border-radius:6px;padding:9px 18px;font-size:13px;cursor:pointer;font-weight:600;transition:all .18s;color:#fff}
+.ts-card{background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin-bottom:12px}
+.ts-card-title{font-weight:700;font-size:14px;margin-bottom:4px;color:#111}
+.ts-card-sub{font-size:12px;color:#666}
+.ts-label{font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:4px;margin-top:10px}
+.ts-result{background:#fff;border:1px solid #e5e7eb;border-radius:6px;padding:12px;min-height:40px;font-size:13px;color:#444}
+.ts-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;text-transform:uppercase;letter-spacing:.05em}
+.vuln-tag{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+.safe-tag{background:#dcfce7;color:#166634;border:1px solid #86efac}
+.info-tag{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
+
+/* level badges */
+.level-badge{display:inline-flex;align-items:center;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;padding:4px 11px;border-radius:6px;margin-bottom:4px;text-transform:uppercase}
+.lb-1{background:rgba(0,229,160,.12);color:var(--green);border:1px solid rgba(0,229,160,.3)}
+.lb-2{background:rgba(75,142,255,.12);color:var(--blue);border:1px solid rgba(75,142,255,.3)}
+.lb-3{background:rgba(255,181,71,.12);color:var(--amber);border:1px solid rgba(255,181,71,.3)}
+.lb-4{background:rgba(255,92,92,.12);color:var(--red);border:1px solid rgba(255,92,92,.3)}
+.lb-5{background:rgba(176,122,255,.12);color:var(--purple);border:1px solid rgba(176,122,255,.3)}
+
+/* hint/sol */
+.hint-btn,.sol-btn{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.05em;background:transparent;padding:6px 13px;border-radius:5px;cursor:pointer;transition:all .18s;margin-top:4px}
+.hint-btn{border:1px solid var(--border2);color:var(--text3);margin-right:6px}
+.hint-btn:hover,.hint-btn.on{border-color:var(--amber);color:var(--amber);background:var(--amber-d)}
+.sol-btn{border:1px solid var(--border2);color:var(--text3)}
+.sol-btn:hover,.sol-btn.on{border-color:var(--green);color:var(--green);background:var(--green-d)}
+.hint-box,.sol-box{display:none;padding:12px 14px;border-radius:7px;font-size:12px;line-height:1.7;margin-top:8px;font-weight:400}
+.hint-box.show{display:block;background:var(--amber-d);border:1px solid rgba(255,181,71,.2);color:#d4b07a}
+.sol-box.show{display:block;background:var(--green-d);border:1px solid rgba(0,229,160,.2);color:#7acfb0}
+.hint-box code,.sol-box code{font-family:var(--mono);font-size:11px;background:rgba(255,255,255,.1);padding:1px 5px;border-radius:3px}
+.hint-box strong{color:var(--amber);font-weight:600}.sol-box strong{color:var(--green);font-weight:600}
+
+/* complete */
+.complete-banner{display:none;align-items:center;gap:10px;background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.3);border-radius:8px;padding:12px 16px;margin-top:12px;font-size:14px;color:var(--green);font-weight:600}
+.complete-banner.show{display:flex;animation:fadeUp .3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* terminal in lab */
+.lab-term{background:#05070a;border-top:1px solid var(--border);flex:1;display:flex;flex-direction:column;font-family:var(--mono)}
+.lab-term-body{padding:14px 18px;max-height:320px;overflow-y:auto;font-size:12px;line-height:1.9;flex:1}
+.lt-prompt{color:var(--green)}.lt-out{color:var(--text2)}.lt-info{color:var(--amber)}.lt-err{color:var(--red)}
+.lab-term-input{display:flex;align-items:center;padding:9px 18px;border-top:1px solid var(--border);background:#05070a}
+.lt-ps1{color:var(--green);font-size:13px;white-space:nowrap;margin-right:6px}
+.lt-in{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--mono);font-size:13px;caret-color:var(--green)}
+
+/* progress */
+.progress-wrap{margin-bottom:28px}
+.progress-label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--text3);margin-bottom:7px}
+.progress-track{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--green);border-radius:2px;transition:width .4s ease}
+
+/* filter pills */
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.filter-pill{font-family:var(--mono);font-size:11px;font-weight:700;padding:6px 14px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;transition:all .18s;letter-spacing:.04em}
+.filter-pill:hover{border-color:var(--text2);color:var(--text)}
+.filter-pill.active-all{background:var(--text);color:var(--bg1);border-color:var(--text)}
+.filter-pill.active-easy{background:var(--green);color:#000;border-color:var(--green)}
+.filter-pill.active-medium{background:var(--amber);color:#000;border-color:var(--amber)}
+.filter-pill.active-hard{background:var(--red);color:#fff;border-color:var(--red)}
+
+@media(max-width:900px){
+  .lab-split{grid-template-columns:1fr;min-height:auto}
+  .lab-left{border-right:none;border-bottom:1px solid var(--border)}
+}
+
+/* ── ANSWER BOXES ── TryHackMe-style typed answers ────────
+   Used by .ans-row in cyberlab.js. Sits inside .lab-left
+   under the objectives, or anywhere in a lab body.
+──────────────────────────────────────────────────────── */
+.ans-block{margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.ans-block .obj-title{margin-bottom:10px}
+.ans-row{margin-bottom:12px}
+.ans-q{display:block;font-size:12.5px;color:var(--text2);line-height:1.5;margin-bottom:6px}
+.ans-in{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:6px;
+  color:var(--text);font-family:var(--mono);font-size:12px;padding:8px 11px;outline:none;
+  transition:border-color .18s,color .18s}
+.ans-in::placeholder{color:var(--text3)}
+.ans-in:focus{border-color:var(--blue)}
+.ans-in.ok{border-color:var(--green);color:var(--green);background:rgba(0,229,160,.06)}
+.ans-in.bad{border-color:var(--red)}
+.ans-mark{display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;
+  margin-left:8px;min-width:12px;vertical-align:middle}
+.ans-mark.ok{color:var(--green)}
+.ans-mark.bad{color:var(--red)}
+.ans-hint{font-size:11px;color:var(--text3);margin-top:4px;font-family:var(--mono)}
+
+/* ── TEORI ── forklaringsblokker, promotert fra web-sårbarheter ──
+   Brukes i alle moduler. Teksten kommer FØR målene, slik at
+   studenten leser konseptet før de gjør noe.
+──────────────────────────────────────────────────────── */
+.theory-block{background:var(--bg3);border:1px solid var(--border);border-radius:10px;
+  padding:16px 18px;margin-bottom:14px}
+.theory-title{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:9px;
+  display:flex;align-items:center;gap:8px}
+.theory-text{font-size:13px;color:var(--text2);line-height:1.75}
+.theory-text p{margin:0 0 9px}
+.theory-text p:last-child{margin-bottom:0}
+.theory-text code{font-family:var(--mono);font-size:11.5px;background:rgba(255,255,255,.07);
+  padding:1px 5px;border-radius:3px;color:var(--text)}
+.theory-text strong{color:var(--text);font-weight:600}
+.theory-block.why{border-left:2px solid var(--amber)}
+.theory-block.why .theory-title{color:var(--amber)}
+
+/* intro- og oppsummeringskort */
+.intro-card{background:linear-gradient(135deg,rgba(0,229,160,.06),rgba(0,229,160,.02));
+  border:1px solid rgba(0,229,160,.25);border-radius:var(--radius-lg);padding:24px 28px;margin-bottom:24px}
+.intro-card h3{font-size:16px;font-weight:700;margin-bottom:10px}
+.intro-card p{font-size:13.5px;color:var(--text2);line-height:1.75;margin-bottom:10px;max-width:62ch}
+.intro-card ul{margin:0 0 10px;padding-left:18px;color:var(--text2);font-size:13.5px;line-height:1.8}
+.intro-card .lect{font-family:var(--mono);font-size:11px;color:var(--green);
+  letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.recap-card{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--blue);
+  border-radius:var(--radius-lg);padding:24px 28px;margin-top:28px}
+.recap-card h3{font-size:16px;font-weight:700;margin-bottom:12px}
+.recap-card ol{margin:0;padding-left:20px;color:var(--text2);font-size:13.5px;line-height:1.85}
+.recap-card li{margin-bottom:7px}
+.recap-card li strong{color:var(--text)}
+
+/* ── FLERVALG ─────────────────────────────────────────── */
+.mcq{margin-bottom:16px}
+.mcq-q{font-size:13px;color:var(--text2);line-height:1.55;margin-bottom:9px;font-weight:500}
+.mcq-opt{display:block;width:100%;text-align:left;background:var(--bg);border:1px solid var(--border2);
+  border-radius:6px;color:var(--text2);font:inherit;font-size:12.5px;padding:9px 12px;margin-bottom:6px;
+  cursor:pointer;transition:all .16s;line-height:1.45}
+.mcq-opt:hover:not(:disabled){border-color:var(--blue);color:var(--text)}
+.mcq-opt:disabled{opacity:.4;cursor:default}
+.mcq-opt.sel.ok{border-color:var(--green);background:rgba(0,229,160,.08);color:var(--green);font-weight:600}
+.mcq-opt.sel.bad{border-color:var(--red);background:rgba(255,92,92,.07);color:var(--red)}
+.mcq-fb{display:none;font-size:12px;margin-top:4px;padding:7px 11px;border-radius:5px;line-height:1.6}
+.mcq-fb.show{display:block}
+.mcq-fb.ok{background:var(--green-d);border:1px solid rgba(0,229,160,.25);color:#7acfb0}
+.mcq-fb.bad{background:var(--red-d);border:1px solid rgba(255,92,92,.25);color:#d99}
+
+/* ── REGNEEKSEMPEL ── regelen brukt én gang, synlig ──────────
+   Står mellom teorien og oppgavene. Teorien gir regelen,
+   eksempelet viser den brukt, oppgavene bruker den på et nytt
+   tilfelle som ikke står i teksten.
+──────────────────────────────────────────────────────── */
+.worked{background:var(--bg2);border:1px solid var(--border);border-left:2px solid var(--blue);
+  border-radius:0 9px 9px 0;padding:14px 17px;margin-bottom:14px}
+.worked-t{font-size:12.5px;font-weight:700;color:var(--blue);margin-bottom:9px;
+  font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase}
+.worked-b{font-size:12.5px;color:var(--text2);line-height:1.75}
+.worked-b p{margin:0 0 7px}.worked-b p:last-child{margin:0}
+.worked-b code{font-family:var(--mono);font-size:11.5px;background:rgba(255,255,255,.07);
+  padding:1px 5px;border-radius:3px;color:var(--text)}
+.worked-b strong{color:var(--text);font-weight:600}
+.wsteps{list-style:none;counter-reset:w;margin:8px 0 0;padding:0}
+.wsteps li{counter-increment:w;position:relative;padding:5px 0 5px 26px;
+  font-size:12.5px;color:var(--text2);line-height:1.6}
+.wsteps li::before{content:counter(w);position:absolute;left:0;top:6px;
+  font-family:var(--mono);font-size:9.5px;font-weight:700;width:17px;height:17px;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--blue-d);border:1px solid rgba(75,142,255,.3);color:var(--blue)}
+
+/* ── LESEKOLONNE OG KLEBRIG VERKTØYPANEL ──────────────────
+   To rettelser etter tilbakemelding fra undervisningen:
+
+   1. Verktøypanelet fulgte ikke med når man leste. Teksten er
+      lang, panelet var kort, og man måtte bla oppover igjen for
+      å se hva man skulle skrive. Nå står det fast mens teksten
+      ruller under.
+   2. Teorien lå i 300px-kolonnen mens kommandolista fikk resten.
+      Det var motsatt av hva innholdet trengte. Moduler uten
+      terminal snur nå på forholdet.
+──────────────────────────────────────────────────────── */
+.lab-right{
+  position:sticky;
+  top:76px;                 /* 60px sticky nav + luft */
+  /* NB: .lab-card m&aring; bruke overflow:clip, ikke hidden.
+     overflow:hidden lager en scroll-container, og da har
+     dette panelet ingen plass &aring; feste seg i. */
+  align-self:start;         /* uten denne strekkes den og har ingen plass å feste seg i */
+  max-height:calc(100vh - 92px);
+  overflow-y:auto;
+}
+
+/* moduler der høyre panel bare er en kommandoliste:
+   gi lesekolonnen plassen den trenger */
+.lab-split.reading{grid-template-columns:minmax(0,1fr) 330px}
+.lab-split.reading .lab-left{max-width:none}
+.lab-split.reading .theory-text,
+.lab-split.reading .worked-b,
+.lab-split.reading .lab-desc{max-width:68ch}
+
+@media(max-width:900px){
+  .lab-right{position:static;max-height:none;overflow:visible}
+  .lab-split.reading{grid-template-columns:1fr}
+}
+
+/* ── LESEFLYT ── én kolonne, kommandoene der de trengs ─────
+   Erstatter totkolonneoppsettet for moduler uten terminal.
+   Kommandoene står rett over spørsmålene de hører til, så man
+   slipper å bla oppover for å se hva man skulle skrive.
+──────────────────────────────────────────────────────── */
+.lab-flow{padding:26px 30px;max-width:78ch}
+.lab-flow .theory-block:first-of-type{margin-top:4px}
+.lab-flow .ans-block{margin-top:18px;padding-top:18px}
+.cmd-block{margin:18px 0 4px;background:#05070a;border:1px solid var(--border);
+  border-left:2px solid var(--blue);border-radius:0 8px 8px 0;padding:14px 16px}
+.cmd-block .obj-title{margin-bottom:8px;color:var(--blue)}
+.cmd-block .cmd{background:none;border:0;padding:0;margin:0;font-family:var(--mono);
+  font-size:12px;color:var(--text2);line-height:1.9;overflow-x:auto;white-space:pre-wrap;
+  word-break:break-word}
+.cmd-block .cmd .c{color:var(--text3)}
+.cmd-note{font-size:12.5px;color:var(--text3);margin:10px 0 0;line-height:1.6}
+.hint-row{margin-top:16px}
+@media(max-width:640px){.lab-flow{padding:20px 18px}}
+
+/* ── TERMINAL INLINE ──────────────────────────────────────
+   Terminalen laa i en egen kolonne ved siden av teksten. Da ble
+   teksten presset ned i 300px mens terminalen sto halvtom. Naa
+   staar den i flyten, rett etter maalene og foer spoersmaalene.
+──────────────────────────────────────────────────────── */
+.term-block{margin:18px 0 4px;border:1px solid var(--border);border-radius:9px;overflow:clip;
+  background:#0a0c10}
+.term-block .lab-term{border-top:0;flex:none}
+.term-block .lab-term-body{max-height:300px;min-height:150px}
+.term-block .lab-topbar{border-radius:9px 9px 0 0}
+.term-block .kali-desktop,.term-block .fake-browser{border:0;border-radius:0}
+.term-block > *:first-child{border-radius:9px 9px 0 0}
+.lab-flow .obj-list{margin-bottom:4px}
+
+/* Panelene som ble flyttet inn i flyten mistet hoeyden sin.
+   I totkolonneoppsettet var .lab-right en flex-kolonne inne i et
+   grid med min-height 480px, og .fake-browser levde av flex:1 mot
+   den hoeyden. Som vanlig blokk kollapset hele kjeden til null, og
+   XSS-labbene rendret en usynlig side. */
+.term-block{display:flex;flex-direction:column}
+.term-block .fake-browser{min-height:440px}
+.term-block .kali-desktop{min-height:380px}
+.term-block .lab-term{min-height:200px}
+@media(max-width:640px){
+  .term-block .fake-browser{min-height:360px}
+  .term-block .kali-desktop{min-height:320px}
+}
+
+/* ── HJELP PER SPØRSMÅL ────────────────────────────────────
+   Tidligere hadde hvert kort ett hint og én løsning, mens kortet
+   har tre spørsmål. Hintet traff da ett av dem, og løsningen var
+   en oppsummering i stedet for svar. Nå får hvert spørsmål sitt
+   eget hint og sitt eget svar.
+──────────────────────────────────────────────────────── */
+.ah{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.ah-btn{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.03em;
+  background:transparent;border:1px solid var(--border2);color:var(--text3);
+  padding:4px 10px;border-radius:5px;cursor:pointer;transition:all .16s}
+.ah-btn:hover{border-color:var(--amber);color:var(--amber)}
+.ah-btn.on{border-color:var(--amber);color:var(--amber);background:var(--amber-d)}
+.ah-btn.sv:hover{border-color:var(--green);color:var(--green)}
+.ah-btn.sv.on{border-color:var(--green);color:var(--green);background:var(--green-d)}
+.ah-box{display:none;width:100%;font-size:12.5px;line-height:1.7;padding:9px 13px;border-radius:6px;order:9}
+.ah-box.show{display:block}
+.ah-box.tip{background:var(--amber-d);border:1px solid rgba(255,181,71,.2);color:#d4b07a}
+.ah-box.sv{background:var(--green-d);border:1px solid rgba(0,229,160,.2);color:#7acfb0;
+  font-family:var(--mono);font-size:12px}
+.ah-box code{font-family:var(--mono);font-size:11.5px;background:rgba(255,255,255,.08);padding:1px 5px;border-radius:3px}

@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>IP-adressering, DNS og DHCP &middot; CyberLab</title>
+<link rel="stylesheet" href="css/style.css?v=1">
+<link rel="stylesheet" href="css/lab-shared.css?v=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+/* Hentet ordrett fra emne1.html, slik at modulb&aring;nd og leksjonsrader
+   ser ut som p&aring; resten av sida. */
+.mod-band{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  padding:13px 20px;border-radius:10px;margin:32px 0 14px;border:1px solid var(--border);background:var(--bg2)}
+.mod-band.green{border-left:3px solid var(--green)}
+.mod-band.amber{border-left:3px solid var(--amber)}
+.mod-band.blue{border-left:3px solid var(--blue)}
+.mod-band.purple{border-left:3px solid var(--purple)}
+.mod-band-l{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.mod-tag{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--text3);text-transform:uppercase}
+.mod-name{font-size:15px;font-weight:700}
+.mod-weeks{font-family:var(--mono);font-size:11px;color:var(--text3)}
+.week{display:flex;gap:18px;padding:4px 0 4px 6px}
+.week-no{font-family:var(--mono);font-size:11px;color:var(--text3);min-width:56px;padding-top:15px;flex-shrink:0}
+.week-body{flex:1;min-width:0}
+.lesson{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;background:var(--bg2);
+  border:1px solid var(--border);border-radius:9px;margin-bottom:8px;transition:border-color .18s}
+.lesson:hover{border-color:var(--border2)}
+.l-no{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--green);min-width:26px;padding-top:2px}
+.l-main{flex:1;min-width:0}
+.l-title{font-size:14px;font-weight:600;margin-bottom:3px}
+.l-desc{font-size:12.5px;color:var(--text3);line-height:1.6}
+.l-links{display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap}
+.lchip{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:4px 10px;
+  border-radius:5px;text-decoration:none;border:1px solid;white-space:nowrap}
+.lchip.lab{color:var(--green);border-color:rgba(0,229,160,.35);background:rgba(0,229,160,.08)}
+.lchip.lab:hover{background:rgba(0,229,160,.16)}
+.lchip.quiz{color:var(--blue);border-color:rgba(75,142,255,.35);background:rgba(75,142,255,.08)}
+.lchip.quiz:hover{background:rgba(75,142,255,.16)}
+.lchip.soon{color:var(--text3);border-color:var(--border2);background:transparent}
+@media(max-width:720px){.week{flex-direction:column;gap:4px}.week-no{padding-top:0}
+  .lesson{flex-wrap:wrap}.l-links{width:100%;padding-left:40px}}
+.modline{font-size:12.5px;color:var(--text3);margin:-6px 0 12px 6px;max-width:64ch}
+.lchip.bok{color:var(--amber);border-color:rgba(255,181,71,.35);background:rgba(255,181,71,.08)}
+.lchip.bok:hover{background:rgba(255,181,71,.16)}
+.l-no{color:var(--blue)}
+/* Begrepene vises som modulb&aring;nd inne i labben. Ett klikk &aring;pner stegene. */
+.tasks .mod-band{margin:14px 0 0;cursor:pointer;user-select:none}
+.tasks .mod-band:hover{border-color:var(--border2)}
+.del-tell:after{content:'▸';display:inline-block;margin-left:10px;transition:transform .2s}
+.tasks .mod-band.on .del-tell:after{transform:rotate(90deg)}
+.del-gruppe{display:none;padding:8px 0 4px}
+.del-gruppe.vis{display:block}
+/* Tettere kort, slik at hvert enkelt steg f&aring;r plass i ett skjermbilde. */
+.lab-flow .level-badge{display:none}
+.tasks .lab-header{padding-top:11px;padding-bottom:11px}
+.tasks .lab-card.open .lab-body{padding-top:14px;padding-bottom:14px}
+.lab-flow .ans-row{padding-top:7px;padding-bottom:7px}
+.lab-flow .theory-block{padding:11px 14px}
+.lab-flow .worked{padding:11px 14px}
+.term-block .fake-browser{height:auto;min-height:0}
+.term-block .lab-term{flex:none}
+.term-block .lab-term-body{max-height:170px;min-height:140px;overflow-y:auto}
+</style>
+</head>
+<body class="page">
+<nav class="nav">
+  <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
+  <div class="nav-links">
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="nav-link">Hjem</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne1.html" class="nav-link">Emne 1</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne3.html" class="nav-link">Emne 3</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="nav-link on">Labber</a>
+    <a href="https://tk1104.timoamling.com/" target="_blank" rel="noopener" class="nav-link">Self check &nearr;</a>
+  </div>
+</nav>
+
+<div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
+  <a href="index.html" class="back-link">&larr; Tilbake</a>
+  <div class="mod-hero">
+    <div class="section-eyebrow">Emne 1 &middot; Leksjon 6</div>
+    <div class="section-title">IP-adressering, DNS og DHCP</div>
+    <p class="section-desc">Lese en IPv4-adresse med nettverksmaske, og avgjøre om to adresser ligger i samme nett.</p>
+  </div>
+
+  <div class="info-box"><strong>Krav: ingenting.</strong>
+  Alt i denne labben kj&oslash;rer i nettleseren. Ingen virtuell maskin og ingen innlogging.
+  Svarene lagres lokalt, s&aring; du kan ta en del av gangen og fortsette n&aring;r du vil.</div>
+
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Fremdrift</span>
+    <span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div class="filter-row">
+    <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+    <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+    <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+    <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+  </div>
+
+  <div class="tasks">
+  <div class="mod-band blue del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 1</span><span class="mod-name">IP-adressen er leilighetsnummeret</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">01</span>
+        <span class="lab-title">Nummeret på døra</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🚪 Nummeret på døra</div><div class="theory-text"><p>Alle leilighetene i Storgata 12 har et nummer. Nummeret sier ingenting om hvem som bor der. Det sier bare hvor i blokka du skal.</p><p>To leiligheter kan ikke ha samme nummer. Da vet ikke vaktmesteren hvor posten skal.</p><p>Flytter du til en annen blokk, får du et nytt nummer. Nummeret følger leiligheten.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>Nummeret er en <strong>IP-adresse</strong>. Den sier hvor en maskin er, ikke hvem den er.</p><p>Adressen skrives i fire grupper med punktum mellom, for eksempel 192.168.1.40. Hver gruppe er et tall fra 0 til 255.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-1b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">02</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="177628,881495536,193505847,193506343"><span class="ans-q">To naboer bytter leilighet, men tar med seg navneskiltet på døra. Hvilket nummer skal posten til den som nå bor i nummer 7 sendes til?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Posten sorteres på nummeret, ikke på hvem som bor der.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">7</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">03</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Adressen 192.168.1.40 lest fra venstre mot høyre.</p><ol class="wsteps"><li>Fire grupper, skilt med punktum</li><li>Første gruppe er 192, andre er 168, tredje er 1, fjerde er 40</li><li>De første gruppene sier hvilket nett</li><li>Den siste sier hvilken maskin i det nettet</li><li>Hvor skillet går, bestemmes av nettmasken, som kommer i neste del</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-1d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">04</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="5861677"><span class="ans-q">Hva er den siste gruppen i adressen 10.20.30.44?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Lengst til høyre.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">44</div></div></div><div class="ans-row" data-a="5861580"><span class="ans-q">Hva er den andre gruppen fra venstre i adressen 172.16.5.200?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell gruppene fra venstre.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">16</div></div></div><div class="ans-row" data-a="177625,2090257387"><span class="ans-q">Hvor mange grupper består en IP-adresse av?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell punktumene og legg til en.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">4</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-1e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">05</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="193433249"><span class="ans-q">En kollega skriver adressen 192.168.1.300. Den kan ikke stemme. Hva er det høyeste tallet en gruppe kan ha?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på hvilket intervall hver gruppe kan ligge i.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">255</div></div></div><div class="ans-row" data-a="177621,2090557760,262742614"><span class="ans-q">To maskiner får ved et uhell samme IP-adresse i samme nett. Hvor mange av dem kan være sikre på å få riktig trafikk?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Vaktmesteren står med to dører som har samme nummer.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">0</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">06</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>At adressen sier hvor og ikke hvem, er også grunnen til at en IP-adresse alene er svakt bevis. Den peker på et punkt i nettet på et tidspunkt, ikke på en person.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="mod-band blue del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 2</span><span class="mod-name">Nettmasken sier hvor blokka slutter</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">07</span>
+        <span class="lab-title">Land, by, gate, leilighet</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🗺️ Land, by, gate, leilighet</div><div class="theory-text"><p>Tenk deg at adressen din ble skrevet som fire deler etter hverandre: Norge.Sandefjord.Storgata.12</p><p>Hvor mange av delene som må være like for at dere skal regnes som naboer, er ikke gitt. Må de tre første være like, er dere i samme gate. Må bare de to første være like, er hele byen naboer.</p><p>Noen må altså si hvor mange av delene som teller.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>Den som sier det, er <strong>nettmasken</strong>.</p><p>255 betyr at denne gruppen må være lik. 0 betyr at den kan være hva som helst. Nettmasken 255.255.255.0 betyr altså at de tre første gruppene må stemme.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-2b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">08</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="177624,193507184"><span class="ans-q">Adressen skrives Norge.Sandefjord.Storgata.12. Hvor mange av de fire delene må være like for at to adresser skal ligge i samme gate?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Alt unntatt husnummeret.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">3</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">09</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Maskinen 192.168.1.40 med nettmaske 255.255.255.0.</p><ol class="wsteps"><li>Nettmasken har 255 i de tre første gruppene</li><li>Altså er de tre første gruppene nettet</li><li>Nettet er 192.168.1</li><li>Den siste gruppen, 40, er maskinen</li><li>Alle adresser som begynner på 192.168.1, er naboer</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-2d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">10</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="177624,193507184"><span class="ans-q">Nettmaske 255.255.255.0. Hvor mange av de fire gruppene er nett?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell hvor mange 255 det står.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">3</div></div></div><div class="ans-row" data-a="177623,5863848"><span class="ans-q">Nettmaske 255.255.0.0. Hvor mange av de fire gruppene er nett?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Samme telling.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">2</div></div></div><div class="ans-row" data-a="177624,193507184"><span class="ans-q">Nettmaske 255.0.0.0. Hvor mange av de fire gruppene er maskin?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell nullene denne gangen, ikke 255-erne.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">3</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-2e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">11</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="177624,193507184"><span class="ans-q">Nettmasken skrives ofte kort, som /24. Tallet er antall biter, og hver gruppe er 8 biter. Hvor mange grupper er nett når det står /24?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Del antall biter på 8.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">3</div></div></div><div class="ans-row" data-a="177623,5863848"><span class="ans-q">Hvor mange grupper er nett når det står /16?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Samme regnestykke, mindre tall.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">2</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">12</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>Nettmasken avgjør hvor stort område en maskin regner som «hjemme». Settes den for vidt, snakker maskiner direkte med hverandre som egentlig skulle vært atskilt, og trafikken passerer aldri noe som kunne stoppet den.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="mod-band blue del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 3</span><span class="mod-name">Er vi i samme nett eller ikke</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">13</span>
+        <span class="lab-title">Sammenligningen maskinen gjør hver gang</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">⚖️ Sammenligningen maskinen gjør hver gang</div><div class="theory-text"><p>Før maskinen din sender noe som helst, gjør den en sammenligning.</p><p>Den tar sin egen adresse, tar mottakerens adresse og ser på så mange grupper som nettmasken sier. Stemmer de, sendes det direkte. Stemmer de ikke, sendes det til døra ut.</p><p>Dette er den eneste avgjørelsen maskinen tar på egen hånd.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>Sammenligningen kalles å finne <strong>nettverksadressen</strong> til begge, og sjekke om de er like.</p><p>Du trenger tre ting for å gjøre det: din egen adresse, mottakerens adresse og nettmasken.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-3b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">14</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="5863504"><span class="ans-q">Du har Norge.Sandefjord.Storgata.12 og naboen har Norge.Sandefjord.Storgata.14. Bare de tre første delene teller. Er dere naboer?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Sammenlign de tre første delene og se bort fra den fjerde.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">ja</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">15</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Maskin A er 192.168.1.40, maskin B er 192.168.1.77, nettmasken er 255.255.255.0.</p><ol class="wsteps"><li>Nettmasken sier at tre grupper teller</li><li>De tre første gruppene i A er 192.168.1</li><li>De tre første gruppene i B er 192.168.1</li><li>De er like, altså samme nett</li><li>Trafikken går direkte, uten å gå innom ruteren</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-3d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">16</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="5863504"><span class="ans-q">A er 192.168.1.40 og B er 192.168.1.200, nettmaske 255.255.255.0. Samme nett?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se bare på de tre første gruppene.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">ja</div></div></div><div class="ans-row" data-a="193500225"><span class="ans-q">A er 192.168.1.40 og C er 192.168.4.40, nettmaske 255.255.255.0. Samme nett?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på den tredje gruppen, ikke på den siste.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-a="5863504"><span class="ans-q">A er 10.4.1.9 og D er 10.9.9.9, nettmaske 255.0.0.0. Samme nett?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Denne nettmasken sier at bare en gruppe teller.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">ja</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-3e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">17</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="5863504"><span class="ans-q">A er 10.4.1.9 og B er 10.4.7.9. Nettmasken er 255.255.0.0. Er de i samme nett?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvor mange grupper sier denne nettmasken at du skal sammenligne?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">ja</div></div></div><div class="ans-row" data-a="193500225"><span class="ans-q">De samme to maskinene, men nettmasken endres til 255.255.255.0. Er de i samme nett nå?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Adressene er uendret. Det eneste som er endret, er hvor mange grupper som teller.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">nei</div></div></div><div class="mcq" data-c="283269988" data-ok="Riktig. Adressene alene forteller ikke om to maskiner når hverandre direkte." data-no="Ikke helt. Legg merke til at bare en ting ble endret mellom de to spørsmålene."><div class="mcq-q">Hva sier de to forrige svarene til sammen?</div><button class="mcq-opt">Adressene bestemmer alt</button><button class="mcq-opt">To maskiner kan være naboer eller ikke, avhengig av nettmasken</button><button class="mcq-opt">Nettmasken har ingen betydning</button><div class="mcq-fb"></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">18</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>Feil nettmaske er en klassisk feilkilde, og den er stille. Alt ser ut til å virke, helt til trafikk som skulle vært innom en brannmur, i stedet går direkte, eller til at en maskin plutselig ikke når noe som helst.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="mod-band blue del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 4</span><span class="mod-name">Hvor mange får plass i nettet</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">19</span>
+        <span class="lab-title">To skilt ingen kan bo bak</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔢 To skilt ingen kan bo bak</div><div class="theory-text"><p>Blokka har 256 nummerskilt, fra 0 til 255.</p><p>To av dem kan ingen bo bak. Det første er navnet på hele blokka. Det siste er oppslagstavla i inngangen, som når alle beboerne på en gang.</p><p>Resten er ekte leiligheter.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>Det første kalles <strong>nettverksadressen</strong>. Det siste kalles <strong>kringkastingsadressen</strong>.</p><p>Med nettmaske 255.255.255.0 går den siste gruppen fra 0 til 255. Det er 256 tall, og når du trekker fra de to, står det igjen 254 maskiner.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-4b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">20</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="193433248"><span class="ans-q">Blokka har 256 nummerskilt, og to av dem kan ingen bo bak. Hvor mange leiligheter er det plass til?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Trekk fra de to som er opptatt av noe annet.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">254</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">21</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Nettet 192.168.1.0 med nettmaske 255.255.255.0.</p><ol class="wsteps"><li>Den siste gruppen går fra 0 til 255, altså 256 tall</li><li>192.168.1.0 er nettverksadressen</li><li>192.168.1.255 er kringkastingsadressen</li><li>Igjen står 254 adresser til maskiner</li><li>Den første brukbare er 192.168.1.1, og den siste er 192.168.1.254</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-4d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">22</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="193433248"><span class="ans-q">Nettet 10.0.5.0 med nettmaske 255.255.255.0. Hvor mange maskiner får plass?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Samme regnestykke som i eksempelet.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">254</div></div></div><div class="ans-row" data-a="-1845202074"><span class="ans-q">Hva er den første brukbare adressen i det nettet?</span><input class="ans-in" placeholder="en adresse" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den første er opptatt av navnet på nettet.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">10.0.5.1</div></div></div><div class="ans-row" data-a="619638832"><span class="ans-q">Hva er den siste brukbare adressen i det nettet?</span><input class="ans-in" placeholder="en adresse" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den aller siste er opptatt av oppslagstavla.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">10.0.5.254</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-4e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">23</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="193500225"><span class="ans-q">En avdeling trenger adresser til 300 maskiner. Holder ett nett med nettmaske 255.255.255.0?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Sammenlign 300 med hvor mange som faktisk får plass.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">nei</div></div></div><div class="mcq" data-c="-344193167" data-ok="Riktig. Det er oppslagstavla, ikke en leilighet." data-no="Ikke helt. Se hvilke to skilt ingen kan bo bak."><div class="mcq-q">Hvorfor kan ingen maskin bruke adressen 192.168.1.255 i et nett med nettmaske 255.255.255.0?</div><button class="mcq-opt">Tallet 255 er ikke lov i en adresse</button><button class="mcq-opt">Den adressen når alle maskinene i nettet på en gang</button><button class="mcq-opt">Den er reservert til ruteren</button><div class="mcq-fb"></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">24</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>En melding til kringkastingsadressen når alle maskinene samtidig. Det kan brukes til å finne ut hvor mange maskiner som er i live på sekunder, og derfor er svar på slike kall slått av i de fleste nett i dag.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="mod-band blue del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 5</span><span class="mod-name">Private og offentlige adresser</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">25</span>
+        <span class="lab-title">Leilighet 12 finnes i tusenvis av blokker</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🏘️ Leilighet 12 finnes i tusenvis av blokker</div><div class="theory-text"><p>Det finnes en leilighet 12 i tusenvis av blokker i Norge. Det går helt fint, fordi nummeret bare gjelder inne i den ene blokka.</p><p>Gateadressen til selve blokka er derimot unik. Det finnes bare en Storgata 12 i Sandefjord.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>Adresser som gjentas inne i hvert lokalnett, kalles <strong>private adresser</strong>. De begynner på 10, på 192.168 eller på 172 fulgt av 16 til 31.</p><p>Adresser som er unike på internett, kalles <strong>offentlige adresser</strong>.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-5b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">26</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="193500225"><span class="ans-q">To ulike blokker har begge en leilighet 12. Er det et problem for posten?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Posten finner først blokka, og så leiligheten.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">nei</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">27</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Tre adresser sortert.</p><ol class="wsteps"><li>192.168.1.40 begynner på 192.168, altså privat</li><li>10.0.0.7 begynner på 10, altså privat</li><li>51.15.44.2 begynner på ingen av dem, altså offentlig</li><li>Private adresser kan gjenbrukes i hvert eneste lokalnett</li><li>Offentlige adresser må tildeles, og de koster penger</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-5d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">28</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="359353179"><span class="ans-q">Er 192.168.4.5 privat eller offentlig?</span><input class="ans-in" placeholder="privat / offentlig" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på de to første gruppene.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">privat</div></div></div><div class="ans-row" data-a="899781859"><span class="ans-q">Er 8.8.8.8 privat eller offentlig?</span><input class="ans-in" placeholder="privat / offentlig" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Begynner den på 10, 192.168 eller 172?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">offentlig</div></div></div><div class="ans-row" data-a="359353179"><span class="ans-q">Er 10.44.7.15 privat eller offentlig?</span><input class="ans-in" placeholder="privat / offentlig" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Første gruppe avgjør her.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">privat</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-5e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">29</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="177621,2090557760,262742614"><span class="ans-q">Tre ulike bedrifter bruker alle 192.168.1.0 internt. Hvor mange av dem må bytte adresser?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Gjelder nummeret utenfor den enkelte blokka?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">0</div></div></div><div class="mcq" data-c="1444550637" data-ok="Riktig. Du møter løsningen på dette i L09, og den heter NAT." data-no="Ikke helt. Tenk på leilighet 12 i tusenvis av blokker."><div class="mcq-q">Hvorfor kan ikke en maskin med privat adresse nås direkte fra internett?</div><button class="mcq-opt">Den er slått av</button><button class="mcq-opt">Adressen finnes mange steder samtidig, så den peker ikke på noe entydig ute</button><button class="mcq-opt">Private adresser er krypterte</button><div class="mcq-fb"></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">30</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>At en maskin har privat adresse, blir ofte lest som at den er beskyttet. Det stemmer bare så lenge ingen slipper trafikk inn til den med vilje, og det er nettopp det en videresendt port gjør.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="mod-band blue del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 6</span><span class="mod-name">Navnet på døra er DNS</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">31</span>
+        <span class="lab-title">Skiltet og lista</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🏷️ Skiltet og lista</div><div class="theory-text"><p>På hver dør står et skilt med navnet til den som bor der. Du husker Hansen lettere enn leilighet 17.</p><p>Vaktmesteren har en liste som kobler navn til nummer. Spør du etter Hansen, slår han opp og finner 17.</p><p>Flytter Hansen til nummer 3, endres lista. Navnet er det samme, nummeret er nytt.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>Lista er <strong>DNS</strong> (Domain Name System). Du oppgir et navn, og DNS gir deg tilbake en IP-adresse.</p><p>Nettsteder bytter IP-adresse ganske ofte. Navnet står stille, og derfor merker du ingenting.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-6b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">32</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="177624,881495532,193507184"><span class="ans-q">Hansen flytter fra nummer 17 til nummer 3, og lista er oppdatert. Hvilket nummer får posten til Hansen nå?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Navnet er uendret, men oppslaget gir et nytt nummer.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">3</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">33</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Du skriver inn et nettstedsnavn i nettleseren.</p><ol class="wsteps"><li>Nettleseren har bare et navn, ikke en adresse</li><li>Den spør DNS om navnet</li><li>DNS svarer med en IP-adresse</li><li>Nettleseren kobler seg til den adressen</li><li>Uten svar fra DNS skjer ingenting, selv om serveren er oppe</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-6d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">34</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="-1845207515"><span class="ans-q">Lista sier at gokstad.no er 10.0.0.5. Hvilken adresse kobler nettleseren seg til?</span><input class="ans-in" placeholder="en adresse" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den nettleseren fikk tilbake.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">10.0.0.5</div></div></div><div class="ans-row" data-a="-1845207511"><span class="ans-q">Serveren flyttes til 10.0.0.9 og lista oppdateres. Hvilken adresse kobler nettleseren seg til nå?</span><input class="ans-in" placeholder="en adresse" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Lista er endret.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">10.0.0.9</div></div></div><div class="ans-row" data-a="-1845207515"><span class="ans-q">Serveren flyttes til 10.0.0.9, men lista blir ikke oppdatert. Hvilken adresse blir besøkende sendt til?</span><input class="ans-in" placeholder="en adresse" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Nettleseren stoler på lista, ikke på hvor serveren faktisk står.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">10.0.0.5</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-6e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">35</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="5863504"><span class="ans-q">DNS er nede, men du kjenner IP-adressen til serveren fra før. Kan du nå tjenesten likevel?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Du trenger oppslaget bare hvis du mangler nummeret.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">ja</div></div></div><div class="mcq" data-c="-153375403" data-ok="Riktig. Du skrev riktig navn og fikk likevel feil sted. Det kalles DNS-forgiftning." data-no="Ikke helt. Hvem er det nettleseren stoler på når den skal finne adressen?"><div class="mcq-q">En angriper klarer å legge inn feil adresse i lista for et banknavn. Hva skjer med de besøkende?</div><button class="mcq-opt">De får feilmelding</button><button class="mcq-opt">De sendes til angriperens server selv om de skrev riktig navn</button><button class="mcq-opt">Ingenting, navnet er jo riktig</button><div class="mcq-fb"></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">36</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>DNS er et tillitsledd som ingen legger merke til før det svikter. Klarer noen å svare på oppslaget før den ekte serveren, havner du på maskinen deres med riktig navn i adressefeltet.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="mod-band blue del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 7</span><span class="mod-name">DHCP deler ut numrene</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">37</span>
+        <span class="lab-title">Vaktmesteren som deler ut nøkler</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔑 Vaktmesteren som deler ut nøkler</div><div class="theory-text"><p>En ny leieboer flytter inn. Hun velger ikke nummer selv. Vaktmesteren gir henne et ledig nummer, og noterer at det er opptatt.</p><p>Nummeret gjelder for en periode. Flytter hun ut, blir det ledig igjen etter en stund.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>Vaktmesteren som deler ut numre, er <strong>DHCP</strong> (Dynamic Host Configuration Protocol). Maskinen din ber om en adresse når den kobler seg til.</p><p>Den avtalte tiden kalles <strong>utlånstid</strong>. Først når den er ute, kan adressen gis til noen andre. Maskinen får også nettmaske, gateway og DNS-server samtidig.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-7b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">38</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="177621,2090557760,262742614"><span class="ans-q">Blokka har 24 leiligheter og 24 leieboere. En til flytter inn. Hvor mange ledige numre er igjen til henne?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell hvor mange numre som ikke er i bruk.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">0</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">39</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Et gjestenett har plass til 50 adresser, og utlånstiden er 2 timer.</p><ol class="wsteps"><li>50 gjester kobler seg på, og alle 50 adressene er utdelt</li><li>Gjest nummer 51 ber om en adresse</li><li>Det finnes ingen ledig, og hun får ingen</li><li>En gjest går hjem, men adressen er reservert i 2 timer til</li><li>Først etter det kan gjest nummer 51 få plass</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-7d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">40</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="177621,2090557760,262742614"><span class="ans-q">Et nett har 20 adresser, og 20 maskiner er på. Hvor mange nye maskiner kan få adresse nå?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det er ikke plass i rommet som avgjør. Det er antall ledige numre.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">0</div></div></div><div class="ans-row" data-a="902855570"><span class="ans-q">Utlånstiden settes ned fra 2 timer til 15 minutter. Blir adressene ledige raskere eller saktere?</span><input class="ans-in" placeholder="raskere / saktere" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kortere reservasjon betyr kortere ventetid.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">raskere</div></div></div><div class="ans-row" data-a="5861673,264156626,259233257"><span class="ans-q">Et nett har 100 adresser, og 60 maskiner er på. Hvor mange nye kan kobles på?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Trekk de brukte fra de tilgjengelige.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">40</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-7e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">41</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="177621,2090557760,262742614"><span class="ans-q">Maskinen din får adresse, nettmaske, gateway og DNS-server automatisk. Hvor mange av de fire må du selv skrive inn?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Les hva utdeleren sender med.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">0</div></div></div><div class="mcq" data-c="-226949157" data-ok="Riktig. Den som deler ut oppsettet, bestemmer hvor trafikken går og hvem som slår opp navn." data-no="Ikke helt. Se på lista over hva som deles ut, og spør hvilke av dem som styrer trafikken."><div class="mcq-q">En angriper setter opp sin egen utdeler på nettet og svarer raskere enn den ekte. Hva er det farligste hun kan sette?</div><button class="mcq-opt">Utlånstiden</button><button class="mcq-opt">Gateway og DNS-server, slik at all trafikk går via henne</button><button class="mcq-opt">Antall adresser</button><div class="mcq-fb"></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">42</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>En falsk utdeler er et av de enkleste angrepene i et lokalnett, nettopp fordi maskiner tar imot oppsettet uten å spørre hvem som sendte det. Det er derfor svitsjer i bedriftsnett ofte settes opp til bare å godta svar fra en kjent port.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="mod-band blue del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 8</span><span class="mod-name">Se det selv, uten å installere noe</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">43</span>
+        <span class="lab-title">Spør maskinen om alt du nettopp leste</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">⌨️ Spør maskinen om alt du nettopp leste</div><div class="theory-text"><p>Terminalen under kjører i nettleseren, og maskinen den viser står i Storgata 12.</p><p>Skriv <strong>help</strong> og trykk enter. Spørsmålene under krever at du kombinerer to deler, ikke bare leser av en linje.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>Alt du ser her, finnes på en ekte maskin også, med de samme kommandoene.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-8b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">44</span>
+        <span class="lab-title">Kjør det selv, 1</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="term-block"><div class="fake-browser" style="flex-direction:column"><div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">Terminal · student@storgata12</div></div><div class="lab-term" style="flex:1"><div class="lab-term-body" id="l06term-1"><div class="lt-info">Skriv help og trykk enter.</div></div><div class="lab-term-input"><span class="lt-ps1">student@storgata12:~$&nbsp;</span><input class="lt-in" id="l06term-1-in" placeholder="skriv en kommando" autocomplete="off"></div></div></div></div>
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="1857480275"><span class="ans-q">Kjør ipconfig. Hvilken nettmaske har maskinen?</span><input class="ans-in" placeholder="en nettmaske" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Andre linje i utskriften.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">255.255.255.0</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-8c" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">45</span>
+        <span class="lab-title">Kjør det selv, 2</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="term-block"><div class="fake-browser" style="flex-direction:column"><div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">Terminal · student@storgata12</div></div><div class="lab-term" style="flex:1"><div class="lab-term-body" id="l06term-2"><div class="lt-info">Skriv help og trykk enter.</div></div><div class="lab-term-input"><span class="lt-ps1">student@storgata12:~$&nbsp;</span><input class="lt-in" id="l06term-2-in" placeholder="skriv en kommando" autocomplete="off"></div></div></div></div>
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="177624,193507184"><span class="ans-q">Ut fra den nettmasken, hvor mange av de fire gruppene i adressen din er nett?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell hvor mange 255 det står i nettmasken.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">3</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-8d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">46</span>
+        <span class="lab-title">Kjør det selv, 3</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="term-block"><div class="fake-browser" style="flex-direction:column"><div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">Terminal · student@storgata12</div></div><div class="lab-term" style="flex:1"><div class="lab-term-body" id="l06term-3"><div class="lt-info">Skriv help og trykk enter.</div></div><div class="lab-term-input"><span class="lt-ps1">student@storgata12:~$&nbsp;</span><input class="lt-in" id="l06term-3-in" placeholder="skriv en kommando" autocomplete="off"></div></div></div></div>
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="5863504"><span class="ans-q">Kjør nslookup gokstad.local. Ligger adressen du fikk i ditt eget nett?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Sammenlign de tre første gruppene med din egen adresse.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">ja</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-8e" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">47</span>
+        <span class="lab-title">Kjør det selv, 4</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="term-block"><div class="fake-browser" style="flex-direction:column"><div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">Terminal · student@storgata12</div></div><div class="lab-term" style="flex:1"><div class="lab-term-body" id="l06term-4"><div class="lt-info">Skriv help og trykk enter.</div></div><div class="lab-term-input"><span class="lt-ps1">student@storgata12:~$&nbsp;</span><input class="lt-in" id="l06term-4-in" placeholder="skriv en kommando" autocomplete="off"></div></div></div></div>
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="193500225"><span class="ans-q">Kjør nslookup vg.no. Ligger den adressen i ditt eget nett?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Samme sammenligning, helt annet resultat.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">nei</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l06-8f" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">48</span>
+        <span class="lab-title">Kjør det selv, 5</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="term-block"><div class="fake-browser" style="flex-direction:column"><div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">Terminal · student@storgata12</div></div><div class="lab-term" style="flex:1"><div class="lab-term-body" id="l06term-5"><div class="lt-info">Skriv help og trykk enter.</div></div><div class="lab-term-input"><span class="lt-ps1">student@storgata12:~$&nbsp;</span><input class="lt-in" id="l06term-5-in" placeholder="skriv en kommando" autocomplete="off"></div></div></div></div>
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="177623,5863848,2130642664"><span class="ans-q">Kjør ipconfig /all. Hvor mange døgn varer utlånet av adressen?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på datoene for når utlånet starter og utløper.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">2</div></div></div></div>
+      </div></div>
+    </div>
+  </div>
+  </div>
+
+  <div class="recap-card" style="margin-top:36px">
+    <h3>Kort oppsummert</h3>
+    <ol><li>En <strong>IP-adresse</strong> har fire grupper, og hver gruppe går fra 0 til 255</li><li><strong>Nettmasken</strong> sier hvor mange av gruppene som er nett og hvor mange som er maskin</li><li>To maskiner er naboer bare hvis nettdelen er lik, og nettmasken bestemmer hvor den delen slutter</li><li><strong>Private adresser</strong> gjentas i hvert lokalnett, <strong>offentlige</strong> er unike</li><li><strong>DNS</strong> gjør navn om til adresse, og den som svarer på oppslaget styrer hvor du havner</li><li><strong>DHCP</strong> deler ut adresse, nettmaske, gateway og DNS-server, alt sammen automatisk</li></ol>
+  </div>
+
+  <div style="margin-top:36px;display:flex;gap:12px;flex-wrap:wrap"><a href="leksjon-05.html" class="btn btn-ghost">&larr; L05 Hva et nettverk er</a><a href="index.html" class="btn btn-ghost">Alle leksjoner</a></div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span>
+      <span>Gratis &amp; &aring;pen kildekode</span>
+    </div>
+  </div>
+</footer>
+<script src="js/cyberlab.js?v=1"></script>
+<script>
+function visDel(el){
+  el.classList.toggle('on');
+  el.nextElementSibling.classList.toggle('vis');
+  tellDel();
+}
+function tellDel(){
+  document.querySelectorAll('.del-gruppe').forEach(function(g){
+    var alle = g.querySelectorAll('.lab-card[id]').length;
+    var gjort = g.querySelectorAll('.lab-card[id].done').length;
+    var t = g.previousElementSibling.querySelector('.del-tell');
+    if (t) t.textContent = gjort + ' / ' + alle;
+  });
+}
+document.addEventListener('DOMContentLoaded', tellDel);
+document.addEventListener('input', tellDel);
+document.addEventListener('click', tellDel);
+</script>
+<script>
+const SVAR = {
+  help:[
+    {t:'info',v:'Tilgjengelige kommandoer:'},
+    {t:'out', v:'  ipconfig              adresse, nettmaske, gateway og DNS'},
+    {t:'out', v:'  ipconfig /all         ogs\u00e5 utl\u00e5nstid fra DHCP'},
+    {t:'out', v:'  nslookup [navn]       sl\u00e5r opp et navn og gir en adresse'},
+    {t:'out', v:'  clear                 t\u00f8mmer skjermen'},
+    {t:'info',v:'Navn du kan pr\u00f8ve: gokstad.local og vg.no'},
+  ],
+  ipconfig:[
+    {t:'info',v:'Ethernet adapter Ethernet:'},
+    {t:'out', v:'   IPv4-adresse . . . . . . : 192.168.1.40'},
+    {t:'out', v:'   Nettmaske  . . . . . . . : 255.255.255.0'},
+    {t:'out', v:'   Standard gateway . . . . : 192.168.1.1'},
+    {t:'out', v:'   DNS-server . . . . . . . : 192.168.1.1'},
+  ],
+  'ipconfig /all':[
+    {t:'info',v:'Ethernet adapter Ethernet:'},
+    {t:'out', v:'   Fysisk adresse . . . . . : 3C-52-82-A1-04-9F'},
+    {t:'out', v:'   DHCP aktivert  . . . . . : Ja'},
+    {t:'out', v:'   IPv4-adresse . . . . . . : 192.168.1.40'},
+    {t:'out', v:'   Nettmaske  . . . . . . . : 255.255.255.0'},
+    {t:'out', v:'   Utl\u00e5net starter . . . . : 17.09.2026 07:12:44'},
+    {t:'out', v:'   Utl\u00e5net utl\u00f8per . . . . : 19.09.2026 07:12:44'},
+    {t:'out', v:'   Standard gateway . . . . : 192.168.1.1'},
+    {t:'out', v:'   DHCP-server  . . . . . . : 192.168.1.1'},
+  ],
+  'nslookup gokstad.local':[
+    {t:'out', v:'Server:   192.168.1.1'},
+    {t:'info',v:'Svar:'},
+    {t:'out', v:'Navn:     gokstad.local'},
+    {t:'out', v:'Adresse:  192.168.1.90'},
+  ],
+  'nslookup vg.no':[
+    {t:'out', v:'Server:   192.168.1.1'},
+    {t:'info',v:'Ikke-autoritativt svar:'},
+    {t:'out', v:'Navn:     vg.no'},
+    {t:'out', v:'Adresse:  195.88.55.16'},
+  ],
+  nslookup:[
+    {t:'info',v:'Bruk: nslookup [navn]'},
+    {t:'out', v:'Pr\u00f8v nslookup gokstad.local eller nslookup vg.no'},
+  ],
+};
+document.addEventListener('DOMContentLoaded', () => {
+  termInit('l06term-1', 'l06term-1-in', SVAR);
+  termInit('l06term-2', 'l06term-2-in', SVAR);
+  termInit('l06term-3', 'l06term-3-in', SVAR);
+  termInit('l06term-4', 'l06term-4-in', SVAR);
+  termInit('l06term-5', 'l06term-5-in', SVAR);
+});
+</script>
+</body>
+</html>

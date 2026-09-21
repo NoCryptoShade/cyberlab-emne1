@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Å jobbe med cybersikkerhet &middot; CyberLab</title>
+<link rel="stylesheet" href="css/style.css?v=1">
+<link rel="stylesheet" href="css/lab-shared.css?v=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+/* Hentet ordrett fra emne1.html, slik at modulb&aring;nd og leksjonsrader
+   ser ut som p&aring; resten av sida. */
+.mod-band{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  padding:13px 20px;border-radius:10px;margin:32px 0 14px;border:1px solid var(--border);background:var(--bg2)}
+.mod-band.green{border-left:3px solid var(--green)}
+.mod-band.amber{border-left:3px solid var(--amber)}
+.mod-band.blue{border-left:3px solid var(--blue)}
+.mod-band.purple{border-left:3px solid var(--purple)}
+.mod-band-l{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.mod-tag{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--text3);text-transform:uppercase}
+.mod-name{font-size:15px;font-weight:700}
+.mod-weeks{font-family:var(--mono);font-size:11px;color:var(--text3)}
+.week{display:flex;gap:18px;padding:4px 0 4px 6px}
+.week-no{font-family:var(--mono);font-size:11px;color:var(--text3);min-width:56px;padding-top:15px;flex-shrink:0}
+.week-body{flex:1;min-width:0}
+.lesson{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;background:var(--bg2);
+  border:1px solid var(--border);border-radius:9px;margin-bottom:8px;transition:border-color .18s}
+.lesson:hover{border-color:var(--border2)}
+.l-no{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--green);min-width:26px;padding-top:2px}
+.l-main{flex:1;min-width:0}
+.l-title{font-size:14px;font-weight:600;margin-bottom:3px}
+.l-desc{font-size:12.5px;color:var(--text3);line-height:1.6}
+.l-links{display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap}
+.lchip{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:4px 10px;
+  border-radius:5px;text-decoration:none;border:1px solid;white-space:nowrap}
+.lchip.lab{color:var(--green);border-color:rgba(0,229,160,.35);background:rgba(0,229,160,.08)}
+.lchip.lab:hover{background:rgba(0,229,160,.16)}
+.lchip.quiz{color:var(--blue);border-color:rgba(75,142,255,.35);background:rgba(75,142,255,.08)}
+.lchip.quiz:hover{background:rgba(75,142,255,.16)}
+.lchip.soon{color:var(--text3);border-color:var(--border2);background:transparent}
+@media(max-width:720px){.week{flex-direction:column;gap:4px}.week-no{padding-top:0}
+  .lesson{flex-wrap:wrap}.l-links{width:100%;padding-left:40px}}
+.modline{font-size:12.5px;color:var(--text3);margin:-6px 0 12px 6px;max-width:64ch}
+.lchip.bok{color:var(--amber);border-color:rgba(255,181,71,.35);background:rgba(255,181,71,.08)}
+.lchip.bok:hover{background:rgba(255,181,71,.16)}
+.l-no{color:var(--blue)}
+/* Begrepene vises som modulb&aring;nd inne i labben. Ett klikk &aring;pner stegene. */
+.tasks .mod-band{margin:14px 0 0;cursor:pointer;user-select:none}
+.tasks .mod-band:hover{border-color:var(--border2)}
+.del-tell:after{content:'▸';display:inline-block;margin-left:10px;transition:transform .2s}
+.tasks .mod-band.on .del-tell:after{transform:rotate(90deg)}
+.del-gruppe{display:none;padding:8px 0 4px}
+.del-gruppe.vis{display:block}
+/* Tettere kort, slik at hvert enkelt steg f&aring;r plass i ett skjermbilde. */
+.lab-flow .level-badge{display:none}
+.tasks .lab-header{padding-top:11px;padding-bottom:11px}
+.tasks .lab-card.open .lab-body{padding-top:14px;padding-bottom:14px}
+.lab-flow .ans-row{padding-top:7px;padding-bottom:7px}
+.lab-flow .theory-block{padding:11px 14px}
+.lab-flow .worked{padding:11px 14px}
+.term-block .fake-browser{height:auto;min-height:0}
+.term-block .lab-term{flex:none}
+.term-block .lab-term-body{max-height:170px;min-height:140px;overflow-y:auto}
+</style>
+</head>
+<body class="page">
+<nav class="nav">
+  <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
+  <div class="nav-links">
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="nav-link">Hjem</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne1.html" class="nav-link">Emne 1</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne3.html" class="nav-link">Emne 3</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="nav-link on">Labber</a>
+    <a href="https://tk1104.timoamling.com/" target="_blank" rel="noopener" class="nav-link">Self check &nearr;</a>
+  </div>
+</nav>
+
+<div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
+  <a href="index.html" class="back-link">&larr; Tilbake</a>
+  <div class="mod-hero">
+    <div class="section-eyebrow">Emne 1 &middot; Leksjon 1</div>
+    <div class="section-title">Å jobbe med cybersikkerhet</div>
+    <p class="section-desc">Hva cybersikkerhet skal beskytte, fire vanlige jobber i bransjen, og hvem som angriper.</p>
+  </div>
+
+  <div class="info-box"><strong>Krav: ingenting.</strong>
+  Alt i denne labben kj&oslash;rer i nettleseren. Ingen virtuell maskin og ingen innlogging.
+  Svarene lagres lokalt, s&aring; du kan ta en del av gangen og fortsette n&aring;r du vil.</div>
+
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Fremdrift</span>
+    <span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div class="filter-row">
+    <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+    <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+    <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+    <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+  </div>
+
+  <div class="tasks">
+  <div class="mod-band green del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 1</span><span class="mod-name">De tre tingene vi beskytter</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">01</span>
+        <span class="lab-title">Permen med leieboerlista</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">📒 Permen med leieboerlista</div><div class="theory-text"><p>Vaktmesteren i Storgata 12 har en perm med lista over hvem som bor i hvilken leilighet.</p><p>Tre forskjellige ting kan gå galt med den permen. Noen uvedkommende leser den. Noen endrer et navn i den. Eller den er borte når han trenger den.</p><p>De tre henger ikke sammen. Permen kan være lest uten å være endret, og endret uten å være borte.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>De tre heter <strong>konfidensialitet</strong>, <strong>integritet</strong> og <strong>tilgjengelighet</strong>. På engelsk confidentiality, integrity og availability (CIA).</p><p>Konfidensialitet betyr at ingen uvedkommende får se det. Integritet betyr at ingen har endret på det uten lov. Tilgjengelighet betyr at det er der når du trenger det.</p><p>Alt du gjør i faget handler om å verne en eller flere av disse tre.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l01-1b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">02</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="695547986,1537516101"><span class="ans-q">Permen ligger framme i en ulåst kjeller. Ingenting er endret, og den er på plass. Hvilken av de tre er brutt?</span><input class="ans-in" placeholder="konfidensialitet / integritet / tilgjengelighet" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">To av de tre er i orden. Hvilken er det ikke?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">konfidensialitet</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">03</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En e-post blir lest av feil person.</p><ol class="wsteps"><li>Innholdet i e-posten er uendret</li><li>Du får den fortsatt selv</li><li>Men noen andre har lest den</li><li>Altså er bare en av de tre brutt</li><li>Hvilken som er brutt, bestemmer hva du må gjøre etterpå</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l01-1d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">04</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="1352151876,-680386121"><span class="ans-q">Noen endrer beløpet i en faktura fra 5000 til 50000. Hvilken av de tre er brutt?</span><input class="ans-in" placeholder="konfidensialitet / integritet / tilgjengelighet" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Alle kan fortsatt se fakturaen, og den er ikke borte.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">integritet</div></div></div><div class="ans-row" data-a="1605244187,59233614"><span class="ans-q">En nettbutikk er nede i seks timer. Hvilken av de tre er brutt?</span><input class="ans-in" placeholder="konfidensialitet / integritet / tilgjengelighet" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ingenting er lest, og ingenting er endret.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">tilgjengelighet</div></div></div><div class="ans-row" data-a="695547986,1537516101"><span class="ans-q">Et passordregister blir lastet ned av en utenforstående. Ingenting endres, og tjenesten går som før. Hvilken er brutt?</span><input class="ans-in" placeholder="konfidensialitet / integritet / tilgjengelighet" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Noen har sett noe de ikke skulle ha sett.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">konfidensialitet</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l01-1e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">05</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="1605244187,59233614"><span class="ans-q">Et løsepengevirus krypterer alle filene så ingen får åpnet dem, men kopierer ingenting ut. Hvilken av de tre er brutt?</span><input class="ans-in" placeholder="konfidensialitet / integritet / tilgjengelighet" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Filene ligger der fortsatt. Hjelper det?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">tilgjengelighet</div></div></div><div class="mcq" data-c="695547986" data-ok="Riktig. At det var et uhell, endrer ikke at noen har sett noe de ikke skulle ha sett." data-no="Ikke helt. Gå gjennom de tre etter tur og spør om hver enkelt er i orden."><div class="mcq-q">En kollega får ved en feil lesetilgang til lønnsmappa. Hun endrer ingenting, og alle andre har tilgang som før. Hva er brutt?</div><button class="mcq-opt">Konfidensialitet</button><button class="mcq-opt">Integritet</button><button class="mcq-opt">Tilgjengelighet</button><button class="mcq-opt">Ingen av dem</button><div class="mcq-fb"></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">06</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>Hvilken av de tre som er brutt, avgjør hva du gjør. Brutt tilgjengelighet løses med gjenoppretting. Brutt konfidensialitet kan ikke gjenopprettes, for det som er lest, er lest. Da handler jobben om varsling og skadebegrensning.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="mod-band green del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 2</span><span class="mod-name">Sikkerhetsarbeid er tre jobber, ikke en</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">07</span>
+        <span class="lab-title">Vaktmesteren i Storgata 12</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🏢 Vaktmesteren i Storgata 12</div><div class="theory-text"><p>I kjelleren står det sykler. I gangen henger postkassene. På veggen hos vaktmesteren henger lista over hvem som bor hvor.</p><p>Vaktmesteren kan ikke gjøre tyveri umulig. Det han kan, er å gjøre det vanskelig nok, merke seg når noe skjer, og sørge for at blokka kommer seg på beina etterpå.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>Cybersikkerhet er det samme arbeidet, bare at verdiene er data.</p><p>Det er alltid tre jobber, og de er forskjellige. <strong>Hindre</strong> at noe skjer. <strong>Oppdage</strong> at det likevel skjedde. <strong>Komme tilbake</strong> etterpå.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l01-2b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">08</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="193500225"><span class="ans-q">Vaktmesteren setter opp en lås ingen klarer å bryte opp. Er blokka dermed helt sikker?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Må alle som kommer inn, gå gjennom akkurat den døra?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">nei</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">09</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Slik tenker vaktmesteren når han ser på sykkelboden.</p><ol class="wsteps"><li>Hva er verdt å ta her</li><li>Hvem kan tenkes å ville ha det</li><li>Hvordan kommer de eventuelt inn</li><li>Hva kan gjøre det vanskeligere for dem</li><li>Og hvordan får vi vite at det faktisk skjedde</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l01-2d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">10</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="1906635813,462263146,-441466462"><span class="ans-q">Vaktmesteren setter opp et kamera ved sykkelboden. Er det å hindre, oppdage eller komme tilbake?</span><input class="ans-in" placeholder="hindre / oppdage / komme tilbake" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Et kamera stopper ingen. Det forteller deg noe.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">oppdage</div></div></div><div class="ans-row" data-a="35757375,1814095844"><span class="ans-q">Døra til sykkelboden får en kodelås. Hindre, oppdage eller komme tilbake?</span><input class="ans-in" placeholder="hindre / oppdage / komme tilbake" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">En lås gjør det vanskeligere å komme inn i utgangspunktet.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">hindre</div></div></div><div class="ans-row" data-a="-1347361734,1388782399,390898937"><span class="ans-q">Blokka har en lånesykkel i kjelleren til den som mister sin. Hindre, oppdage eller komme tilbake?</span><input class="ans-in" placeholder="hindre / oppdage / komme tilbake" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gjør ingenting med tyveriet. Den gjør noe med etterpå.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">komme tilbake</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l01-2e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">11</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="-1347361734,1388782399,390898937"><span class="ans-q">En bedrift tar sikkerhetskopi av alle filene hver natt. Hvilken av de tre jobbene er det?</span><input class="ans-in" placeholder="hindre / oppdage / komme tilbake" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">En kopi stopper ingen, og den varsler ingen.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">komme tilbake</div></div></div><div class="mcq" data-c="1906635813" data-ok="Riktig. De kan stoppe, og de kan gjenopprette, men de vet ikke når noe skjer." data-no="Ikke helt. Se hvilke to de allerede har, og hva som da står igjen."><div class="mcq-q">Et selskap har brannmur og sikkerhetskopi, men ingen ser på loggene. Hvilken av de tre jobbene mangler?</div><button class="mcq-opt">Hindre</button><button class="mcq-opt">Oppdage</button><button class="mcq-opt">Komme tilbake</button><div class="mcq-fb"></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">12</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>De fleste virksomheter bruker mest penger på å hindre og minst på å oppdage. Derfor er den vanligste alvorlige hendelsen ikke et innbrudd ingen kunne stoppet, men et innbrudd ingen la merke til på flere måneder.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="mod-band green del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 3</span><span class="mod-name">Fire vanlige jobber i bransjen</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">13</span>
+        <span class="lab-title">Fire personer rundt den samme blokka</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">👥 Fire personer rundt den samme blokka</div><div class="theory-text"><p>Vaktmesteren går runden hver dag og ser etter noe uvanlig.</p><p>Kontrolløren kommer en gang i året, går gjennom alle låsene og skriver en rapport.</p><p>Skadeservice rykker ut når noe allerede har skjedd, og rydder opp.</p><p>Og hun som styret har leid inn, prøver alle dørene for å se hvilke som står ulåste.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>De fire rollene finnes i faget også. En <strong>SOC-analytiker</strong> (Security Operations Centre) følger med til daglig. En <strong>sikkerhetsrådgiver</strong> vurderer og anbefaler. En <strong>hendelseshåndterer</strong> rykker ut. En <strong>penetrasjonstester</strong> bryter seg inn på oppdrag.</p><p>De som forsvarer, kalles <strong>blått lag</strong>. De som angriper på oppdrag, kalles <strong>rødt lag</strong>. Begge jobber for den samme virksomheten.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l01-3b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">14</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="193491852,350989728"><span class="ans-q">Hun som prøver alle dørene i blokka, gjør det på oppdrag fra styret. Jobber hun for blokka eller mot den?</span><input class="ans-in" placeholder="for / mot" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvem har bedt henne om å gjøre det?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">for</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">15</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En vanlig dag i et SOC.</p><ol class="wsteps"><li>Varsler kommer inn hele døgnet</li><li>De aller fleste er falske alarmer</li><li>Analytikeren vurderer hvert enkelt varsel</li><li>Ett av dem viser seg å være ekte</li><li>Da eskaleres det til dem som håndterer hendelser</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l01-3d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">16</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="254507008,254363260,-195967587,674946164,193487512"><span class="ans-q">En som overvåker logger og svarer på varsler. Blått eller rødt lag?</span><input class="ans-in" placeholder="blått / rødt" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Forsvar eller angrep?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">blått</div></div></div><div class="ans-row" data-a="2090843911,2090694718,273449635,888753915,193509427"><span class="ans-q">En som forsøker å bryte seg inn på oppdrag for å finne hull. Blått eller rødt lag?</span><input class="ans-in" placeholder="blått / rødt" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hun gjør det samme som en angriper, bare med tillatelse.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">rødt</div></div></div><div class="ans-row" data-a="254507008,254363260,-195967587,674946164,193487512"><span class="ans-q">En som setter opp regler i brannmuren. Blått eller rødt lag?</span><input class="ans-in" placeholder="blått / rødt" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Bygger hun en vei inn, eller stenger hun en?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">blått</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l01-3e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">17</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="177622,5863352,5867708"><span class="ans-q">Et SOC får 500 varsler på en dag, og 499 av dem er falske alarmer. Hvor mange ekte hendelser er det?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Trekk de falske fra antallet.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">1</div></div></div><div class="mcq" data-c="-1326039235" data-ok="Riktig. Det koster ikke maskinen noe. Det koster oppmerksomheten til den som ser." data-no="Ikke helt. Tenk på mennesket som skal vurdere 500 varsler på en dag."><div class="mcq-q">Hvorfor er mange falske alarmer et sikkerhetsproblem, og ikke bare et irritasjonsmoment?</div><button class="mcq-opt">De bruker strøm</button><button class="mcq-opt">Den ekte hendelsen drukner i mengden</button><button class="mcq-opt">De fyller opp harddisken</button><div class="mcq-fb"></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">18</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>Varslingstretthet er en reell svakhet. Et system som varsler om alt, varsler i praksis om ingenting, og en angriper som vet det, legger seg innenfor støyen i stedet for utenfor den.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="mod-band green del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 4</span><span class="mod-name">Hvem som angriper</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">19</span>
+        <span class="lab-title">Fire som kan tenkes å ville inn</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🕵️ Fire som kan tenkes å ville inn</div><div class="theory-text"><p>Han som går gjennom sykkelboden og tar den som ikke er låst. Han bryr seg ikke om hvilken sykkel det er.</p><p>Hun som har planlagt i ukevis fordi hun vet at det står noe bestemt i bod 14.</p><p>Den tidligere beboeren som fortsatt har nøkkel og aldri leverte den inn.</p><p>Og han som henger opp en plakat i oppgangen fordi han vil bli sett.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>De fire kalles <strong>trusselaktører</strong>, og de skilles på motiv.</p><p><strong>Kriminelle</strong> vil ha penger. <strong>Statlige aktører</strong> vil ha informasjon, og de har tålmodighet. <strong>Innsidere</strong> har allerede tilgang. <strong>Hacktivister</strong> vil ha oppmerksomhet om en sak.</p><p>Motivet bestemmer hvem de går etter, og hvor lenge de holder på.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l01-4b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">20</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="277039474,408665893,276895726,547604847,233423301"><span class="ans-q">Han i sykkelboden prøver alle låsene og går videre når de holder. Leter han etter en bestemt sykkel, eller etter hvilken som helst ulåst sykkel?</span><input class="ans-in" placeholder="bestemt / ulåst" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvorfor gikk han videre fra de låste?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">ulåst</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">21</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Motivet bestemmer hvem som rammes.</p><ol class="wsteps"><li>Den som vil ha penger, går etter den som betaler raskest</li><li>Den som vil ha informasjon, går etter den som har den</li><li>Den som vil ha oppmerksomhet, går etter den som er mest synlig</li><li>Ingen av dem leter først etter en bestemt virksomhet</li><li>De fleste angrep treffer den som var lettest å komme inn hos</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l01-4d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">22</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="344099686"><span class="ans-q">Et løsepengeangrep mot et sykehjem. Er motivet penger, informasjon eller oppmerksomhet?</span><input class="ans-in" placeholder="penger / informasjon / oppmerksomhet" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva er det de ber om for å gi filene tilbake?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">penger</div></div></div><div class="ans-row" data-a="-2115480501"><span class="ans-q">Noen kopierer forskningsdata fra et universitet over to år uten å ødelegge noe. Penger, informasjon eller oppmerksomhet?</span><input class="ans-in" placeholder="penger / informasjon / oppmerksomhet" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">De ville ikke bli oppdaget, og de krevde ingenting.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">informasjon</div></div></div><div class="ans-row" data-a="-1106208333"><span class="ans-q">Forsida på nettstedet til en kommune byttes ut med et politisk budskap. Penger, informasjon eller oppmerksomhet?</span><input class="ans-in" placeholder="penger / informasjon / oppmerksomhet" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva oppnår de ved at alle ser det?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">oppmerksomhet</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l01-4e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">23</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="2133686017,2133686013"><span class="ans-q">En ansatt slutter, men brukerkontoen hennes er fortsatt gyldig tre måneder etter. Regnes hun som utenforstående eller innsider?</span><input class="ans-in" placeholder="utenforstående / innsider" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva er det som skiller de to gruppene? Ikke hvor de sitter.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">innsider</div></div></div><div class="mcq" data-c="-525149541" data-ok="Riktig. Du blir ikke valgt ut. Du blir funnet." data-no="Ikke helt. Tenk på ham som gikk gjennom hele sykkelboden."><div class="mcq-q">En liten bedrift sier «vi er for små til at noen bryr seg». Hva er svakheten i resonnementet?</div><button class="mcq-opt">De har rett, små virksomheter blir ikke angrepet</button><button class="mcq-opt">De fleste angrep leter etter det som står åpent, ikke etter en bestemt virksomhet</button><button class="mcq-opt">Små virksomheter har ingen data</button><div class="mcq-fb"></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">24</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>Angrepet som rammer en liten norsk virksomhet, starter sjelden med at noen valgte akkurat den. Det starter med at en maskin lette etter en bestemt åpen tjeneste på hele internett og fant den.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="mod-band green del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 5</span><span class="mod-name">Den korteste veien inn går ofte gjennom et menneske</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">25</span>
+        <span class="lab-title">Han som bærer en pakke og ser travel ut</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">📦 Han som bærer en pakke og ser travel ut</div><div class="theory-text"><p>Blokka får ny kodelås på ytterdøra. Ingen klarer å bryte den opp.</p><p>Så kommer det en mann med en pakke i armene. Han ser sliten og travel ut, og en beboer holder døra for ham.</p><p>Låsen var aldri problemet.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>Når noen blir lurt til å slippe en inn, eller til å gi fra seg noe de ikke burde, kalles det <strong>sosial manipulering</strong>.</p><p>Det er ikke et hull i teknikken. Det er et hull i tilliten, og teknikk alene lukker det ikke.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l01-5b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">26</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="193500225"><span class="ans-q">Blokka får ny kodelås, og beboerne skriver koden på en lapp ved døra. Er blokka sikrere enn før?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvem kan lese lappen?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">nei</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">27</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En helt vanlig hendelse, steg for steg.</p><ol class="wsteps"><li>En e-post ser ut til å komme fra sjefen</li><li>Den sier at det haster</li><li>Mottakeren logger inn på en side som ligner på den ekte</li><li>Passordet havner hos avsenderen av e-posten</li><li>Og angriperen logger inn som en helt vanlig ansatt</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l01-5d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">28</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="1351937975,2064399419"><span class="ans-q">En ansatt gir passordet sitt på telefon til en som sier han er fra IT. Er svakheten teknisk eller menneskelig?</span><input class="ans-in" placeholder="teknisk / menneskelig" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ble det utnyttet et hull i et program her?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">menneskelig</div></div></div><div class="ans-row" data-a="-662009378"><span class="ans-q">En gammel versjon av et program har et kjent hull som blir utnyttet. Teknisk eller menneskelig?</span><input class="ans-in" placeholder="teknisk / menneskelig" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Her ble ingen snakket med.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">teknisk</div></div></div><div class="ans-row" data-a="1351937975,2064399419"><span class="ans-q">En minnepinne som lå på parkeringsplassen, blir plugget inn av nysgjerrighet. Teknisk eller menneskelig?</span><input class="ans-in" placeholder="teknisk / menneskelig" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Noen tok et valg her.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">menneskelig</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l01-5e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">29</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="193500225"><span class="ans-q">En bedrift kjøper en dyrere brannmur etter at en ansatt ble lurt av en falsk e-post. Løser det problemet som faktisk oppsto?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvor sto døra åpen, og hvor satte de inn tiltaket?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">nei</div></div></div><div class="mcq" data-c="1308013216" data-ok="Riktig. Teknikken hindret ikke feilen, men den gjorde feilen mindre verdt." data-no="Ikke helt. Feilen er allerede gjort. Spørsmålet er hva som stopper neste steg."><div class="mcq-q">En ansatt blir lurt til å oppgi passordet sitt på en falsk side. Hva begrenser skaden mest?</div><button class="mcq-opt">En raskere server</button><button class="mcq-opt">En større harddisk</button><button class="mcq-opt">Tofaktor, slik at passordet alene ikke er nok</button><div class="mcq-fb"></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">30</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>Tofaktor er et av få tiltak som virker etter at et menneske allerede har gjort en feil. Teknikk kan ikke hindre at noen blir lurt, men den kan sørge for at det ikke holder å bli lurt.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  </div>
+
+  <div class="recap-card" style="margin-top:36px">
+    <h3>Kort oppsummert</h3>
+    <ol><li>Vi beskytter <strong>konfidensialitet</strong>, <strong>integritet</strong> og <strong>tilgjengelighet</strong></li><li>Sikkerhetsarbeid er tre jobber: <strong>hindre</strong>, <strong>oppdage</strong> og <strong>komme tilbake</strong></li><li>Fire vanlige roller: SOC-analytiker, sikkerhetsrådgiver, hendelseshåndterer og penetrasjonstester</li><li><strong>Blått lag</strong> forsvarer, <strong>rødt lag</strong> angriper på oppdrag, begge for samme virksomhet</li><li><strong>Trusselaktører</strong> skilles på motiv: penger, informasjon, tilgang innenfra eller oppmerksomhet</li><li>De fleste angrep leter etter det som står åpent, ikke etter en bestemt virksomhet</li><li>Mange hendelser starter med <strong>sosial manipulering</strong>, ikke med et teknisk hull</li></ol>
+  </div>
+
+  <div style="margin-top:36px;display:flex;gap:12px;flex-wrap:wrap"><a href="index.html" class="btn btn-ghost">Alle leksjoner</a><a href="leksjon-05.html" class="btn btn-success">L05 Hva et nettverk er &rarr;</a></div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span>
+      <span>Gratis &amp; &aring;pen kildekode</span>
+    </div>
+  </div>
+</footer>
+<script src="js/cyberlab.js?v=1"></script>
+<script>
+function visDel(el){
+  el.classList.toggle('on');
+  el.nextElementSibling.classList.toggle('vis');
+  tellDel();
+}
+function tellDel(){
+  document.querySelectorAll('.del-gruppe').forEach(function(g){
+    var alle = g.querySelectorAll('.lab-card[id]').length;
+    var gjort = g.querySelectorAll('.lab-card[id].done').length;
+    var t = g.previousElementSibling.querySelector('.del-tell');
+    if (t) t.textContent = gjort + ' / ' + alle;
+  });
+}
+document.addEventListener('DOMContentLoaded', tellDel);
+document.addEventListener('input', tellDel);
+document.addEventListener('click', tellDel);
+</script>
+</body>
+</html>

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Hva et nettverk er &middot; CyberLab</title>
+<link rel="stylesheet" href="css/style.css?v=1">
+<link rel="stylesheet" href="css/lab-shared.css?v=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+/* Hentet ordrett fra emne1.html, slik at modulb&aring;nd og leksjonsrader
+   ser ut som p&aring; resten av sida. */
+.mod-band{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  padding:13px 20px;border-radius:10px;margin:32px 0 14px;border:1px solid var(--border);background:var(--bg2)}
+.mod-band.green{border-left:3px solid var(--green)}
+.mod-band.amber{border-left:3px solid var(--amber)}
+.mod-band.blue{border-left:3px solid var(--blue)}
+.mod-band.purple{border-left:3px solid var(--purple)}
+.mod-band-l{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.mod-tag{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--text3);text-transform:uppercase}
+.mod-name{font-size:15px;font-weight:700}
+.mod-weeks{font-family:var(--mono);font-size:11px;color:var(--text3)}
+.week{display:flex;gap:18px;padding:4px 0 4px 6px}
+.week-no{font-family:var(--mono);font-size:11px;color:var(--text3);min-width:56px;padding-top:15px;flex-shrink:0}
+.week-body{flex:1;min-width:0}
+.lesson{display:flex;align-items:flex-start;gap:14px;padding:13px 16px;background:var(--bg2);
+  border:1px solid var(--border);border-radius:9px;margin-bottom:8px;transition:border-color .18s}
+.lesson:hover{border-color:var(--border2)}
+.l-no{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--green);min-width:26px;padding-top:2px}
+.l-main{flex:1;min-width:0}
+.l-title{font-size:14px;font-weight:600;margin-bottom:3px}
+.l-desc{font-size:12.5px;color:var(--text3);line-height:1.6}
+.l-links{display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap}
+.lchip{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:4px 10px;
+  border-radius:5px;text-decoration:none;border:1px solid;white-space:nowrap}
+.lchip.lab{color:var(--green);border-color:rgba(0,229,160,.35);background:rgba(0,229,160,.08)}
+.lchip.lab:hover{background:rgba(0,229,160,.16)}
+.lchip.quiz{color:var(--blue);border-color:rgba(75,142,255,.35);background:rgba(75,142,255,.08)}
+.lchip.quiz:hover{background:rgba(75,142,255,.16)}
+.lchip.soon{color:var(--text3);border-color:var(--border2);background:transparent}
+@media(max-width:720px){.week{flex-direction:column;gap:4px}.week-no{padding-top:0}
+  .lesson{flex-wrap:wrap}.l-links{width:100%;padding-left:40px}}
+.modline{font-size:12.5px;color:var(--text3);margin:-6px 0 12px 6px;max-width:64ch}
+.lchip.bok{color:var(--amber);border-color:rgba(255,181,71,.35);background:rgba(255,181,71,.08)}
+.lchip.bok:hover{background:rgba(255,181,71,.16)}
+.l-no{color:var(--blue)}
+/* Begrepene vises som modulb&aring;nd inne i labben. Ett klikk &aring;pner stegene. */
+.tasks .mod-band{margin:14px 0 0;cursor:pointer;user-select:none}
+.tasks .mod-band:hover{border-color:var(--border2)}
+.del-tell:after{content:'▸';display:inline-block;margin-left:10px;transition:transform .2s}
+.tasks .mod-band.on .del-tell:after{transform:rotate(90deg)}
+.del-gruppe{display:none;padding:8px 0 4px}
+.del-gruppe.vis{display:block}
+/* Tettere kort, slik at hvert enkelt steg f&aring;r plass i ett skjermbilde. */
+.lab-flow .level-badge{display:none}
+.tasks .lab-header{padding-top:11px;padding-bottom:11px}
+.tasks .lab-card.open .lab-body{padding-top:14px;padding-bottom:14px}
+.lab-flow .ans-row{padding-top:7px;padding-bottom:7px}
+.lab-flow .theory-block{padding:11px 14px}
+.lab-flow .worked{padding:11px 14px}
+.term-block .fake-browser{height:auto;min-height:0}
+.term-block .lab-term{flex:none}
+.term-block .lab-term-body{max-height:170px;min-height:140px;overflow-y:auto}
+</style>
+</head>
+<body class="page">
+<nav class="nav">
+  <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
+  <div class="nav-links">
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="nav-link">Hjem</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne1.html" class="nav-link">Emne 1</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne3.html" class="nav-link">Emne 3</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="nav-link on">Labber</a>
+    <a href="https://tk1104.timoamling.com/" target="_blank" rel="noopener" class="nav-link">Self check &nearr;</a>
+  </div>
+</nav>
+
+<div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
+  <a href="index.html" class="back-link">&larr; Tilbake</a>
+  <div class="mod-hero">
+    <div class="section-eyebrow">Emne 1 &middot; Leksjon 5</div>
+    <div class="section-title">Hva et nettverk er</div>
+    <p class="section-desc">Hvorfor data deles i pakker, og hvorfor en enhet trenger både MAC- og IP-adresse.</p>
+  </div>
+
+  <div class="info-box"><strong>Krav: ingenting.</strong>
+  Alt i denne labben kj&oslash;rer i nettleseren. Ingen virtuell maskin og ingen innlogging.
+  Svarene lagres lokalt, s&aring; du kan ta en del av gangen og fortsette n&aring;r du vil.</div>
+
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Fremdrift</span>
+    <span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div class="filter-row">
+    <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+    <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+    <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+    <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+  </div>
+
+  <div class="tasks">
+  <div class="mod-band blue del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 1</span><span class="mod-name">Et nettverk er to maskiner og en vei mellom dem</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">01</span>
+        <span class="lab-title">Blokka i Storgata 12</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🏢 Blokka i Storgata 12</div><div class="theory-text"><p>Storgata 12 er en helt vanlig blokk. 24 leiligheter, en vaktmester som sorterer posten i kjelleren, og en ytterdør ut mot gata.</p><p>Skal du sende en lapp til naboen i samme blokk, går den aldri ut på gata. Vaktmesteren tar den rett til riktig dør.</p><p>Skal du sende en lapp til noen i en annen by, må den ut ytterdøra først.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>Blokka er et <strong>lokalnett</strong>. Alt som skjer inne i blokka, er lokal trafikk.</p><p>Denne blokka følger deg gjennom hele emnet. Hvert nytt faguttrykk får sin plass i den, så du slipper å bygge et nytt bilde for hvert tema.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-1b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">02</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="193500225"><span class="ans-q">Du skal levere en pakke til leilighet 14 i samme blokk. Må pakken innom postsystemet ute i byen?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Vaktmesteren når begge dørene uten å gå ut.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">nei</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">03</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Maskinen din stiller seg ett spørsmål hver gang den skal sende noe.</p><ol class="wsteps"><li>Du oppgir adressen til mottakeren</li><li>Maskinen sammenligner den med sin egen adresse</li><li>Er de i samme blokk, sendes det direkte</li><li>Er de ikke det, sendes det til ytterdøra</li><li>Ytterdøra tar seg av resten, og maskinen din vet ikke mer</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-1d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">04</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="177621,2090557760,262742614"><span class="ans-q">To maskiner står i samme lokalnett og sender data til hverandre. Hvor mange ganger må trafikken ut av nettet?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tenk på lappen til naboen i samme oppgang.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">0</div></div></div><div class="ans-row" data-a="177622,5863352,5867708"><span class="ans-q">En maskin sender data til en maskin i en annen by. Hvor mange ganger må trafikken ut av nettet?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det finnes bare en vei ut av blokka.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">1</div></div></div><div class="ans-row" data-a="5863504"><span class="ans-q">Kabelen ut av blokka blir kuttet. Kan leilighet 3 fortsatt sende en lapp til leilighet 14?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den lappen skulle aldri ut på gata.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">ja</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-1e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">05</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="5863504"><span class="ans-q">En bedrift mister internettforbindelsen helt. De har en filserver som står i samme lokalnett som de ansatte. Kan de fortsatt åpne filene sine?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvor står serveren i forhold til dem?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">ja</div></div></div><div class="mcq" data-c="-1997410714" data-ok="Riktig. Trafikken til skriveren skal aldri ut ytterdøra." data-no="Ikke helt. Spør hvor skriveren står, ikke hva den er."><div class="mcq-q">Hvorfor virker en skriver på kontoret ofte selv når internett er nede?</div><button class="mcq-opt">Skriveren har sitt eget internett</button><button class="mcq-opt">Skriveren står i det samme lokalnettet som maskinene</button><button class="mcq-opt">Skriveren bruker ikke nettverk</button><div class="mcq-fb"></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">06</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>Dette er også grunnen til at en angriper som først er kommet inn i lokalnettet, står mye friere enn en som står utenfor. Inne i blokka slipper han forbi ytterdøra på alt han gjør videre.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="mod-band blue del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 2</span><span class="mod-name">Meldinger deles opp i pakker</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">07</span>
+        <span class="lab-title">Esker, ikke ett stort lass</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">📦 Esker, ikke ett stort lass</div><div class="theory-text"><p>Du skal flytte 300 bøker til naboen. Du kan bruke ett stort lass, eller du kan bruke esker.</p><p>Med ett stort lass sperrer du hele oppgangen til du er ferdig. Mister du lasset, mister du alt.</p><p>Med esker kan andre gå forbi mellom hver tur. Mister du en eske, bærer du den ene om igjen.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>En eske er en <strong>pakke</strong>. All data på nettet sendes som pakker, ikke som en sammenhengende strøm.</p><p>En vanlig pakke er på omtrent 1500 byte. Alt større enn det deles opp.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-2b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">08</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="177622,5863352,5867708,193490930"><span class="ans-q">Du bærer 12 esker og setter fra deg nummer 5 i feil etasje. Hvor mange esker må du hente på nytt?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Bare den ene esken gikk feil vei.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">1</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">09</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En fil på 1 MB sendes over nettet.</p><ol class="wsteps"><li>1 MB er omtrent 1 000 000 byte</li><li>En pakke tar omtrent 1500 byte</li><li>1 000 000 delt på 1500 blir omtrent 667 pakker</li><li>Pakke nummer 300 forsvinner underveis</li><li>Mottakeren ber om pakke 300 på nytt, ikke om hele fila</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-2d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">10</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="2088324359,194652167,-1389834581,1766478320"><span class="ans-q">En fil på 3 MB deles i pakker på 1500 byte. Omtrent hvor mange pakker blir det?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">3 MB er omtrent 3 000 000 byte. Del på størrelsen per pakke.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">omtrent 2000</div></div></div><div class="ans-row" data-a="2088396233,197024009,-1389762707,1766550194"><span class="ans-q">En fil på 6 MB deles i pakker på 1500 byte. Omtrent hvor mange pakker blir det?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Samme regnestykke, dobbelt så stor fil.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">omtrent 4000</div></div></div><div class="ans-row" data-a="2088401678,197029454,1717728034"><span class="ans-q">Tre av de pakkene forsvinner underveis. Hvor mange byte må sendes på nytt?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tre pakker, og hver pakke er 1500 byte.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">4500</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-2e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">11</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="177623,5863848,2090138107,-20268192"><span class="ans-q">En forbindelse mister omtrent 1 av 1000 pakker. Du laster ned en fil på 3 MB. Omtrent hvor mange pakker må sendes på nytt?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Regn først ut hvor mange pakker fila blir, og ta så en av tusen av det.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">2</div></div></div><div class="mcq" data-c="1777912571" data-ok="Riktig. Pakketap koster tid, ikke bare størrelse." data-no="Ikke helt. Tenk på hva som skjer med en eske som ikke kommer fram."><div class="mcq-q">En kollega sier at nettet er «tregt fordi fila er stor». Hva er en bedre forklaring når akkurat den ene fila er treg?</div><button class="mcq-opt">Store filer er alltid trege</button><button class="mcq-opt">Mange pakker må sendes på nytt fordi noe faller bort underveis</button><button class="mcq-opt">Maskinen har for lite minne</button><div class="mcq-fb"></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">12</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>At trafikk er delt i pakker, er også det som gjør den mulig å se på. En brannmur leser pakker en for en og bestemmer seg for hver av dem. Uten oppdeling ville det ikke finnes noe sted å ta den avgjørelsen.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="mod-band blue del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 3</span><span class="mod-name">Header og nyttelast</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">13</span>
+        <span class="lab-title">Utenpå konvolutten og inni den</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">✉️ Utenpå konvolutten og inni den</div><div class="theory-text"><p>Utenpå en konvolutt står avsender og mottaker. Inni ligger brevet.</p><p>Posten trenger bare det som står utenpå, for å gjøre jobben sin. Innholdet kan være hva som helst, og posten trenger ikke åpne det.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>Det som står utenpå pakken, kalles <strong>header</strong>. Det som ligger inni, kalles <strong>nyttelast</strong>.</p><p>Headeren er den delen nettverket leser. Nyttelasten er den delen mottakeren bryr seg om.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-3b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">14</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="-1031574802,1099416251"><span class="ans-q">Posten sorterer et brev uten å åpne det. Leste de konvolutten eller brevet?</span><input class="ans-in" placeholder="konvolutten / brevet" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva trengte de for å vite hvor det skulle?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">konvolutten</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">15</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En pakke på 1500 byte, sett fra utsiden.</p><ol class="wsteps"><li>Omtrent 40 byte går med til header</li><li>Der står avsenderadresse, mottakeradresse og litt til</li><li>Resten er nyttelast, altså omtrent 1460 byte</li><li>Rutere underveis leser bare headeren</li><li>Bare mottakeren åpner nyttelasten</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-3d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">16</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="2088292976,193470800"><span class="ans-q">En pakke er på 1500 byte og headeren tar 40. Hvor mange byte er nyttelast?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Trekk fra det som står utenpå.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">1460</div></div></div><div class="ans-row" data-a="193436544,344959700"><span class="ans-q">En pakke er på 600 byte og headeren tar 40. Hvor mange byte er nyttelast?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Samme regnestykke, mindre pakke.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">560</div></div></div><div class="ans-row" data-a="2088396233,197024009"><span class="ans-q">Du sender 100 pakker, hver med 40 byte header. Hvor mange byte gikk med til header til sammen?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hundre konvolutter koster hundre konvolutter.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">4000</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-3e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">17</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="30546094,-1095038559,2090335333,261589369"><span class="ans-q">Du fanger opp en pakke der selve innholdet er kryptert, men adressene er lesbare. Hva heter delen som fortsatt er lesbar?</span><input class="ans-in" placeholder="ett ord" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Krypteringen traff det som lå inni konvolutten, ikke det som sto utenpå.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">header</div></div></div><div class="mcq" data-c="2021693680" data-ok="Riktig. Kryptering skjuler hva du sier, ikke hvem du sier det til." data-no="Ikke helt. Hvilken del av pakken må være lesbar for at den skal komme fram i det hele tatt?"><div class="mcq-q">Noen som overvåker trafikken din, klarer ikke å lese innholdet, men ser likevel hvem du snakker med. Hvordan?</div><button class="mcq-opt">Han gjetter</button><button class="mcq-opt">Headeren er ikke kryptert, og den kan leses</button><button class="mcq-opt">Kryptering virker ikke</button><div class="mcq-fb"></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">18</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>Dette skillet er hele grunnen til at metadata er verdt å beskytte. Hvem som snakket med hvem, når og hvor ofte, ligger i headeren og er lesbart selv når innholdet ikke er det.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="mod-band blue del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 4</span><span class="mod-name">To slags adresser</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">19</span>
+        <span class="lab-title">Nummeret på døra og serienummeret på postkassa</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔖 Nummeret på døra og serienummeret på postkassa</div><div class="theory-text"><p>På døra står leilighetsnummeret. Det hører til leiligheten. Flytter du, får du et nytt.</p><p>På selve postkassa står et lite serienummer fra fabrikken. Det hører til kassa. Flyttes kassa til en annen blokk, følger serienummeret med.</p><p>De to endrer seg altså på helt ulike tidspunkt.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>Leilighetsnummeret er <strong>IP-adressen</strong>. Den sier hvor maskinen er akkurat nå.</p><p>Serienummeret er <strong>MAC-adressen</strong> (Media Access Control). Den ligger i nettkortet og følger maskinen uansett hvilket nett den kobles til.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-4b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">20</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="507416906,-1703322735,-1945360099"><span class="ans-q">Postkassa fra leilighet 7 flyttes til en annen blokk. Hvilket av de to numrene følger med kassa?</span><input class="ans-in" placeholder="leilighetsnummeret / serienummeret" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det ene står på selve kassa.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">serienummeret</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">21</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En bærbar maskin flyttes fra jobb til hjemmenettet.</p><ol class="wsteps"><li>På jobb har den IP-adressen 10.20.30.44</li><li>Hjemme får den 192.168.1.40</li><li>MAC-adressen er den samme begge steder</li><li>Altså endret IP-adressen seg, men MAC-adressen gjorde det ikke</li><li>Det er derfor MAC brukes lokalt og IP brukes på tvers av nett</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-4d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">22</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="5863486,-2064537440,-1700795501,2090372401"><span class="ans-q">En maskin flyttes fra et nett til et annet. Hvilken av de to adressene endrer seg?</span><input class="ans-in" placeholder="IP / MAC" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den ene sier hvor du er.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">IP</div></div></div><div class="ans-row" data-a="193498998,1784307416,-2146917941,267014761"><span class="ans-q">Den samme maskinen kobles på et tredje nett. Hvilken adresse er fortsatt den samme som første gang?</span><input class="ans-in" placeholder="IP / MAC" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den ene ligger i selve nettkortet.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">MAC</div></div></div><div class="ans-row" data-a="193498998,1784307416,-2146917941,267014761"><span class="ans-q">En bedrift bytter ut nettkortet i en maskin, men beholder den samme IP-adressen. Hvilken adresse er ny nå?</span><input class="ans-in" placeholder="IP / MAC" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva ble fysisk byttet ut?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">MAC</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-4e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">23</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="193498998,1784307416,-2146917941,267014761"><span class="ans-q">Et gjestenett logger hvilke enheter som har vært innom over tid. Enhetene får ny IP-adresse hver gang. Hvilken adresse må loggen bruke for å kjenne igjen den samme enheten?</span><input class="ans-in" placeholder="IP / MAC" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilken av de to er lik fra gang til gang?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">MAC</div></div></div><div class="mcq" data-c="1811841209" data-ok="Riktig. Det er nettopp fordi MAC-adressen ellers er den samme hver gang." data-no="Ikke helt. Tenk på hva en fast MAC-adresse forteller om deg over tid."><div class="mcq-q">Hvorfor lar mange telefoner deg slå på «tilfeldig MAC-adresse» på trådløse nett?</div><button class="mcq-opt">For å gjøre forbindelsen raskere</button><button class="mcq-opt">For å spare batteri</button><button class="mcq-opt">For at nettet ikke skal kunne kjenne deg igjen fra gang til gang</button><div class="mcq-fb"></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">24</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>En fast MAC-adresse er et sporingsmerke. Butikker og flyplasser har brukt trådløse nett til å telle og følge besøkende på nettopp dette grunnlaget, og det er derfor tilfeldig MAC-adresse er blitt standard på nye telefoner.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="mod-band blue del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 5</span><span class="mod-name">Tre bokser med hver sin jobb</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">25</span>
+        <span class="lab-title">Vaktmesteren, ytterdøra og dørvakten</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🧰 Vaktmesteren, ytterdøra og dørvakten</div><div class="theory-text"><p>Vaktmesteren sorterer post inne i blokka. Han vet hvilken dør hvert nummer hører til, og han går aldri ut.</p><p>Ytterdøra er veien mellom blokka og resten av byen. Alt som skal ut eller inn, må gjennom den.</p><p>Dørvakten står ved ytterdøra og bestemmer hvem som får passere. Han flytter ingenting selv.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>Vaktmesteren er en <strong>svitsj</strong> (switch). Den sender trafikk til riktig maskin inne i lokalnettet.</p><p>Ytterdøra er en <strong>ruter</strong>. Den sender trafikk mellom ulike nett.</p><p>Dørvakten er en <strong>brannmur</strong>. Den slipper trafikk gjennom eller stopper den, etter faste regler.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-5b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">26</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="-181557890,-599647925"><span class="ans-q">En lapp skal fra leilighet 3 til leilighet 14. Hvem av de tre håndterer den?</span><input class="ans-in" placeholder="vaktmesteren / ytterdøra / dørvakten" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Skal lappen ut av blokka i det hele tatt?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">vaktmesteren</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">27</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Du åpner en nettside fra maskinen din.</p><ol class="wsteps"><li>Trafikken går først til svitsjen, som er nærmest deg</li><li>Svitsjen ser at adressen ikke hører hjemme i lokalnettet</li><li>Den sender trafikken videre til ruteren</li><li>Brannmuren vurderer om den får passere</li><li>Først da går den ut på internett</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-5d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">28</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="481501448,482686839,369070203,1659961002"><span class="ans-q">Trafikk mellom to maskiner i samme lokalnett. Hvilken boks gjør jobben?</span><input class="ans-in" placeholder="svitsj / ruter / brannmur" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Trafikken skal ikke ut av nettet.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">svitsj</div></div></div><div class="ans-row" data-a="273681623,1686547466,434495398"><span class="ans-q">Trafikk fra lokalnettet ut til internett. Hvilken boks sender den videre?</span><input class="ans-in" placeholder="svitsj / ruter / brannmur" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den som binder to ulike nett sammen.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">ruter</div></div></div><div class="ans-row" data-a="513733482,1110016861,1105442171"><span class="ans-q">En regel sier at trafikk til port 23 skal stoppes. Hvilken boks håndhever den?</span><input class="ans-in" placeholder="svitsj / ruter / brannmur" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvem av de tre tar stilling til om noe får lov?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">brannmur</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-5e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">29</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="177621,2090557760,262742614"><span class="ans-q">En bedrift har brannmur mot internett, men ingen kontroll på trafikk mellom maskiner i samme lokalnett. En angriper står allerede inne i lokalnettet. Hvor mange ganger møter han brannmuren når han beveger seg til nabomaskinen?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvor står dørvakten, og hvor beveger angriperen seg?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">0</div></div></div><div class="mcq" data-c="707050086" data-ok="Riktig. Det kalles lateral movement, og det er derfor segmentering finnes. Du møter det i L08." data-no="Ikke helt. Brannmuren gjør jobben sin, men bare der den står."><div class="mcq-q">Hva er den praktiske konsekvensen av svaret over?</div><button class="mcq-opt">Brannmuren er unødvendig</button><button class="mcq-opt">En angriper som først er innenfor, kan bevege seg fritt sidelengs</button><button class="mcq-opt">Lokalnettet er alltid trygt</button><div class="mcq-fb"></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">30</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>En brannmur som bare står i ytterkanten, beskytter mot dem som er utenfor. Den gjør ingenting med en angriper som allerede er kommet inn, og det er utgangspunktet for alt som handler om segmentering.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="mod-band blue del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 6</span><span class="mod-name">Følg pakken inne i nettet</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">31</span>
+        <span class="lab-title">Ropet i oppgangen</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">📣 Ropet i oppgangen</div><div class="theory-text"><p>Vaktmesteren vet hvilket leilighetsnummer posten skal til, men han vet ikke hvilken postkasse som hører til nummeret.</p><p>Så roper han ut i oppgangen: «Hvem har leilighet 90?» Den det gjelder, svarer.</p><p>Han noterer svaret på en lapp, slik at han slipper å rope neste gang.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>Ropet heter <strong>ARP</strong> (Address Resolution Protocol). Maskinen kjenner IP-adressen, men trenger MAC-adressen for å kunne sende noe i lokalnettet.</p><p>Lappen heter <strong>ARP-tabellen</strong>. Svaret blir liggende der en stund, så spørsmålet stilles bare den første gangen.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-6b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">32</span>
+        <span class="lab-title">Sjekk</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Ett sp&oslash;rsm&aring;l f&oslash;r du g&aring;r videre</div><div class="ans-row" data-a="193500225"><span class="ans-q">Vaktmesteren har ropt en gang og skrevet svaret på lappen. Må han rope igjen neste gang han har post til det samme nummeret?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva var lappen til?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">nei</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">33</span>
+        <span class="lab-title">Regneeksempel</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Første gang maskinen din skal sende noe til 192.168.1.90.</p><ol class="wsteps"><li>Du kjenner IP-adressen, altså leilighetsnummeret</li><li>Du mangler MAC-adressen, altså hvilken postkasse det er</li><li>Maskinen sender spørsmålet til alle i lokalnettet samtidig</li><li>Bare den ene maskinen svarer</li><li>Svaret lagres i ARP-tabellen og brukes videre</li></ol></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-6d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">34</span>
+        <span class="lab-title">Regn selv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Samme regel, nye tall</div><div class="ans-row" data-a="5863504"><span class="ans-q">Du sender til en maskin du aldri har snakket med før. Må maskinen din spørre etter MAC-adressen først?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står det noe om den på lappen fra før?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">ja</div></div></div><div class="ans-row" data-a="193500225"><span class="ans-q">Du sender til den samme maskinen ett sekund senere. Må den spørre på nytt?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Svaret ble jo notert.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-a="5861607,2090080771,2090761693"><span class="ans-q">Nettet har 20 maskiner. Hvor mange av dem hører spørsmålet når det sendes ut?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ropet går ut i hele oppgangen, ikke til en bestemt dør.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">20</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-6e" data-level="medium">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">35</span>
+        <span class="lab-title">Din tur</span>
+        <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="193500225"><span class="ans-q">Kan en maskin i et annet lokalnett høre ARP-spørsmålet ditt?</span><input class="ans-in" placeholder="ja / nei" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvor langt rekker et rop i oppgangen?</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">nei</div></div></div><div class="mcq" data-c="-1734253917" data-ok="Riktig. Du skrev feil postkasse på lappen, og du merker ingenting." data-no="Ikke helt. Hva er det svaret på ropet avgjør?"><div class="mcq-q">En angriper i det samme nettet svarer på ARP-spørsmålet ditt og oppgir sin egen MAC-adresse. Hva oppnår hun?</div><button class="mcq-opt">Ingenting, hun har feil adresse</button><button class="mcq-opt">Trafikken din går til henne i stedet for til riktig maskin</button><button class="mcq-opt">Hun får IP-adressen din</button><div class="mcq-fb"></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">36</span>
+        <span class="lab-title">Sikkerhetsperspektiv</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">🔒 Hvorfor dette betyr noe</div><div class="theory-text"><p>Ingen kontrollerer hvem som svarer på ropet. Den som svarer først, får trafikken. Det kalles ARP-forfalskning, og det er grunnen til at et lokalnett ikke er et trygt sted bare fordi det er lokalt.</p></div></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="mod-band blue del-band" onclick="visDel(this)">
+    <div class="mod-band-l"><span class="mod-tag">Del 7</span><span class="mod-name">Se det selv, uten å installere noe</span></div>
+    <span class="mod-weeks del-tell"></span>
+  </div>
+  <div class="del-gruppe">
+    <div class="lab-card" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">37</span>
+        <span class="lab-title">Terminalen under er ekte nok til å øve på</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="theory-block"><div class="theory-title">⌨️ Terminalen under er ekte nok til å øve på</div><div class="theory-text"><p>Maskinen kan spørres direkte om alt du nettopp har lest. Terminalen under kjører i nettleseren, og maskinen den viser står i Storgata 12.</p><p>Skriv <strong>help</strong> og trykk enter for å se hvilke kommandoer som finnes. Skriver du feil, skjer det ingenting galt.</p></div></div>
+        <div class="theory-block why"><div class="theory-title">Ordet du skal kunne</div><div class="theory-text"><p>Dette er de samme kommandoene du bruker i en ekte maskin senere i emnet. Forskjellen er at her kan ingenting gå i stykker, og ingenting skal installeres først.</p></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-7b" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">38</span>
+        <span class="lab-title">Kjør det selv, 1</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="term-block"><div class="fake-browser" style="flex-direction:column"><div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">Terminal · student@storgata12</div></div><div class="lab-term" style="flex:1"><div class="lab-term-body" id="l05term-1"><div class="lt-info">Skriv help og trykk enter.</div></div><div class="lab-term-input"><span class="lt-ps1">student@storgata12:~$&nbsp;</span><input class="lt-in" id="l05term-1-in" placeholder="skriv en kommando" autocomplete="off"></div></div></div></div>
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="177624,193507184"><span class="ans-q">Kjør arp -a. Hvor mange naboer står i lista?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene med adresser, ikke overskriften.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">3</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-7c" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">39</span>
+        <span class="lab-title">Kjør det selv, 2</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="term-block"><div class="fake-browser" style="flex-direction:column"><div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">Terminal · student@storgata12</div></div><div class="lab-term" style="flex:1"><div class="lab-term-body" id="l05term-2"><div class="lt-info">Skriv help og trykk enter.</div></div><div class="lab-term-input"><span class="lt-ps1">student@storgata12:~$&nbsp;</span><input class="lt-in" id="l05term-2-in" placeholder="skriv en kommando" autocomplete="off"></div></div></div></div>
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="-896484500"><span class="ans-q">I den samme lista, hvilken adresse er merket som ytterdøra?</span><input class="ans-in" placeholder="en adresse" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på merknaden helt til høyre.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">192.168.1.1</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-7d" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">40</span>
+        <span class="lab-title">Kjør det selv, 3</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="term-block"><div class="fake-browser" style="flex-direction:column"><div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">Terminal · student@storgata12</div></div><div class="lab-term" style="flex:1"><div class="lab-term-body" id="l05term-3"><div class="lt-info">Skriv help og trykk enter.</div></div><div class="lab-term-input"><span class="lt-ps1">student@storgata12:~$&nbsp;</span><input class="lt-in" id="l05term-3-in" placeholder="skriv en kommando" autocomplete="off"></div></div></div></div>
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="177621,2090557760,262742614"><span class="ans-q">Kjør ping 192.168.1.90. Hvor mange pakker gikk tapt?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Siste linje oppsummerer.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">0</div></div></div></div>
+      </div></div>
+    </div>
+    <div class="lab-card" id="l05-7e" data-level="easy">
+      <div class="lab-header" onclick="toggleTask(this)">
+        <span class="lab-num">41</span>
+        <span class="lab-title">Kjør det selv, 4</span>
+        <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+      </div>
+      <div class="lab-body"><div class="lab-flow">
+        <div class="term-block"><div class="fake-browser" style="flex-direction:column"><div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">Terminal · student@storgata12</div></div><div class="lab-term" style="flex:1"><div class="lab-term-body" id="l05term-4"><div class="lt-info">Skriv help og trykk enter.</div></div><div class="lab-term-input"><span class="lt-ps1">student@storgata12:~$&nbsp;</span><input class="lt-in" id="l05term-4-in" placeholder="skriv en kommando" autocomplete="off"></div></div></div></div>
+        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-a="177624,193507184"><span class="ans-q">Kjør tracert 8.8.8.8. Hvor mange bokser sto mellom deg og målet, uten å telle målet selv?</span><input class="ans-in" placeholder="et tall" autocomplete="off"><span class="ans-mark"></span><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene i sporingen, og trekk fra den siste.</div><button class="ah-btn sv" onclick="aTip(this)">&#9654; Svar</button><div class="ah-box sv">3</div></div></div></div>
+      </div></div>
+    </div>
+  </div>
+  </div>
+
+  <div class="recap-card" style="margin-top:36px">
+    <h3>Kort oppsummert</h3>
+    <ol><li>Et <strong>lokalnett</strong> er alt som når hverandre uten å gå ut av nettet</li><li>Data sendes som <strong>pakker</strong>, og en tapt pakke koster en pakke</li><li>Hver pakke har en <strong>header</strong> utenpå og en <strong>nyttelast</strong> inni</li><li><strong>IP-adressen</strong> sier hvor maskinen er, <strong>MAC-adressen</strong> følger nettkortet</li><li><strong>Svitsj</strong> flytter trafikk inne i nettet, <strong>ruter</strong> mellom nett, <strong>brannmur</strong> bestemmer hvem som får passere</li><li>En <strong>klient</strong> spør, en <strong>tjener</strong> venter og svarer</li></ol>
+  </div>
+
+  <div style="margin-top:36px;display:flex;gap:12px;flex-wrap:wrap"><a href="leksjon-01.html" class="btn btn-ghost">&larr; L01 Å jobbe med cybersikkerhet</a><a href="index.html" class="btn btn-ghost">Alle leksjoner</a><a href="leksjon-06.html" class="btn btn-success">L06 IP-adressering, DNS og DHCP &rarr;</a></div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span>
+      <span>Gratis &amp; &aring;pen kildekode</span>
+    </div>
+  </div>
+</footer>
+<script src="js/cyberlab.js?v=1"></script>
+<script>
+function visDel(el){
+  el.classList.toggle('on');
+  el.nextElementSibling.classList.toggle('vis');
+  tellDel();
+}
+function tellDel(){
+  document.querySelectorAll('.del-gruppe').forEach(function(g){
+    var alle = g.querySelectorAll('.lab-card[id]').length;
+    var gjort = g.querySelectorAll('.lab-card[id].done').length;
+    var t = g.previousElementSibling.querySelector('.del-tell');
+    if (t) t.textContent = gjort + ' / ' + alle;
+  });
+}
+document.addEventListener('DOMContentLoaded', tellDel);
+document.addEventListener('input', tellDel);
+document.addEventListener('click', tellDel);
+</script>
+<script>
+const SVAR = {
+  help:[
+    {t:'info',v:'Tilgjengelige kommandoer:'},
+    {t:'out', v:'  ping [adresse]      sjekker om noen svarer'},
+    {t:'out', v:'  arp -a              viser naboene i ditt eget lokalnett'},
+    {t:'out', v:'  tracert [adresse]   viser hvilke bokser pakken passerte'},
+    {t:'out', v:'  clear               t\u00f8mmer skjermen'},
+  ],
+  'ping 192.168.1.90':[
+    {t:'info',v:'Pinger 192.168.1.90 med 32 byte data:'},
+    {t:'out', v:'Svar fra 192.168.1.90: byte=32 tid=1ms'},
+    {t:'out', v:'Svar fra 192.168.1.90: byte=32 tid=1ms'},
+    {t:'out', v:'Svar fra 192.168.1.90: byte=32 tid=1ms'},
+    {t:'out', v:'Svar fra 192.168.1.90: byte=32 tid=1ms'},
+    {t:'info',v:'Sendt = 4, mottatt = 4, tapt = 0'},
+  ],
+  ping:[
+    {t:'info',v:'Bruk: ping [adresse]'},
+    {t:'out', v:'Pr\u00f8v ping 192.168.1.90'},
+  ],
+  'arp -a':[
+    {t:'info',v:'Naboer i mitt lokalnett:'},
+    {t:'out', v:'  Adresse         Fysisk adresse       Merknad'},
+    {t:'out', v:'  192.168.1.1     00-11-22-33-44-55    ytterd\u00f8ra'},
+    {t:'out', v:'  192.168.1.77    aa-bb-cc-dd-ee-ff    en nabo'},
+    {t:'out', v:'  192.168.1.90    11-22-33-44-55-66    en nabo'},
+  ],
+  arp:[{t:'info',v:'Bruk: arp -a'}],
+  'tracert 8.8.8.8':[
+    {t:'info',v:'Sporer ruten til 8.8.8.8:'},
+    {t:'out', v:'  1    <1 ms   192.168.1.1'},
+    {t:'out', v:'  2     4 ms   10.0.0.1'},
+    {t:'out', v:'  3    11 ms   62.115.2.1'},
+    {t:'out', v:'  4    14 ms   8.8.8.8'},
+    {t:'info',v:'Sporing fullf\u00f8rt.'},
+  ],
+  tracert:[
+    {t:'info',v:'Bruk: tracert [adresse]'},
+    {t:'out', v:'Pr\u00f8v tracert 8.8.8.8'},
+  ],
+};
+document.addEventListener('DOMContentLoaded', () => {
+  termInit('l05term-1', 'l05term-1-in', SVAR);
+  termInit('l05term-2', 'l05term-2-in', SVAR);
+  termInit('l05term-3', 'l05term-3-in', SVAR);
+  termInit('l05term-4', 'l05term-4-in', SVAR);
+});
+</script>
+</body>
+</html>

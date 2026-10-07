@@ -6,17 +6,23 @@
 <title>Adressering, subnetting, DHCP og DNS — CyberLab</title>
 <link rel="stylesheet" href="../css/style.css?v=13">
 <link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
 <style>
-.cmd{background:#05070a;border:1px solid var(--border);border-left:2px solid var(--blue);
-  border-radius:0 6px 6px 0;padding:11px 14px;font-family:var(--mono);font-size:11.5px;
-  color:var(--text2);overflow-x:auto;line-height:1.85;white-space:pre-wrap;word-break:break-word}
-.cmd .c{color:var(--text3)}
+.x-dim{color:var(--text3)}
+.x-rad{display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px}
+.x-maske{font-family:var(--mono);font-weight:700;font-size:18px;background:var(--blue-d);border:1px solid var(--blue);color:var(--blue);border-radius:8px;padding:3px 9px}
+.e-ip.vis span.x-vert{opacity:.35}
+.x-blokk{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:8px}
+.x-blokk span{border-radius:8px;padding:6px 2px;text-align:center;font-family:var(--mono);font-size:13px;font-weight:700;color:#000;line-height:1.35}
+.x-blokk small{display:block;font-weight:400;font-size:11.5px}
+.x-b0{background:var(--blue)}.x-b1{background:var(--green)}.x-b2{background:var(--amber)}.x-b3{background:var(--purple)}
+@media(max-width:560px){.e-ip{font-size:17px}.x-blokk span{font-size:12px}}
 </style>
 </head>
-<body class="page">
+<body class="page enkel">
 <nav class="nav">
   <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
   <div class="nav-links">
@@ -29,218 +35,548 @@
 </nav>
 
 <div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
-  <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
-  <div class="mod-hero">
-    <div class="section-eyebrow">Lab 14 &middot; Emne 1 &middot; Leksjon 6</div>
-    <div class="section-title">Adressering, subnetting, DHCP og DNS</div>
-    <p class="section-desc">Her ligger veggen de fleste treffer. Masken, nettdelen og regnestykket. Mye &oslash;ving, sm&aring; steg, og ingenting som krever binaertall.</p>
-  </div>
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
 
-  <div class="progress-wrap">
-    <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
-    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-  </div>
+<div class="mod-hero">
+  <div class="section-eyebrow">Lab 14 &middot; Emne 1 &middot; Leksjon 6</div>
+  <div class="section-title">Adressering, subnetting, DHCP og DNS</div>
+  <p class="section-desc">Hva betyr <code>/24</code> egentlig? Hvor får PC-en adressen sin fra? Og hvordan blir <code>vg.no</code> til et tall? Åtte små spill. Ingen binærtall.</p>
+</div>
 
-  <div class="filter-row">
-    <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
-    <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
-    <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
-    <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
-  </div>
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
 
-  <div class="tasks">
-  <div class="lab-card" id="n6-1" data-level="easy">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">01</span>
-      <span class="lab-title">32 biter i fire oktetter</span>
-      <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-1">Niv&aring; 1 &mdash; Formen</div>
-        <div class="theory-block"><div class="theory-title">🔢 Fire tall, hvert fra 0 til 255</div><div class="theory-text"><p>En IPv4-adresse er <strong>32 biter</strong>, skrevet som fire tall skilt med punktum. Hvert tall kalles en <strong>oktett</strong> og er 8 biter.</p><p>8 biter gir 256 kombinasjoner, alts&aring; verdiene <strong>0 til 255</strong>. Et tall over 255 i en oktett er ikke en gyldig adresse.</p><p>Adressen er ikke et navn p&aring; maskinen. Den sier <strong>hvilket nettverk</strong> maskinen st&aring;r i, og <strong>hvilken vert</strong> den er der. Flytter maskinen seg, f&aring;r den ny adresse.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Fire adresser, to av dem umulige.</p><ol class="wsteps"><li><code>192.168.1.10</code> gyldig: alle fire mellom 0 og 255</li><li><code>10.0.0.255</code> gyldig som tall, men ofte reservert som kringkasting</li><li><code>192.168.300.1</code> <strong>ugyldig</strong>: 300 er over 255</li><li><code>172.16.5</code> <strong>ugyldig</strong>: bare tre oktetter</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">ip addr show
-ipconfig          <span class='c'># Windows</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="atte|åtte|8"><span class="ans-q">Hvor mange biter er én oktett?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Fire oktetter utgj&oslash;r til sammen 32 bit.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">8</div></div></div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Er 192.168.1.256 en gyldig adresse? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">8 bit gir 256 verdier, men de teller fra null.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-p="1" data-a="32"><span class="ans-q">Hvor mange biter er hele adressen?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Fire oktetter, &aring;tte bit i hver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">32</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">8 biter gir 256 verdier, og de teller fra 0.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n6-2" data-level="easy">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">02</span>
-      <span class="lab-title">Nettdel og vertsdel</span>
-      <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-1">Niv&aring; 1 &mdash; Hva masken gj&oslash;r</div>
-        <div class="theory-block"><div class="theory-title">✂️ Masken forteller hvor adressen deles</div><div class="theory-text"><p>Adressen alene sier ingenting om hvilket nett du er i. Det er <strong>masken</strong> som deler den i to.</p><p><strong>Nettdelen</strong> er felles for alle p&aring; samme nett. <strong>Vertsdelen</strong> er unik for hver maskin.</p><p>I CIDR-notasjon st&aring;r masken som et tall etter skr&aring;strek: <code>/24</code> betyr at de <strong>24 f&oslash;rste bitene</strong> er nettdel. Siden hver oktett er 8 biter, er 24 biter n&oslash;yaktig <strong>tre oktetter</strong>.</p><p>Derfor er /8, /16 og /24 de enkleste: de treffer akkurat p&aring; et punktum.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Tre masker som treffer p&aring; punktum.</p><ol class="wsteps"><li><code>/8</code>: f&oslash;rste tall er nett, tre siste er vert. <code>10</code>.x.x.x</li><li><code>/16</code>: to f&oslash;rste er nett. <code>172.16</code>.x.x</li><li><code>/24</code>: tre f&oslash;rste er nett. <code>192.168.1</code>.x</li><li>For <code>192.168.1.10/24</code> er nettdelen <strong>192.168.1</strong> og vertsdelen <strong>10</strong></li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">ip addr show | grep inet
-<span class='c'># tallet etter / er masken</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="10.20"><span class="ans-q">For 10.20.30.40/16, hva er nettdelen?</span><input class="ans-in" placeholder="to tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Del masketallet p&aring; 8 for &aring; se hvor mange hele oktetter som er nettdel.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">10.20</div></div></div><div class="ans-row" data-p="1" data-a="8"><span class="ans-q">For 172.16.5.8/24, hva er vertsdelen?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">/24 gj&oslash;r de tre f&oslash;rste tallene til nettdel. Hva er igjen?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">8</div></div></div><div class="ans-row" data-p="1" data-a="en|én|1"><span class="ans-q">Hvor mange oktetter er nettdel ved /8?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">8 bit delt p&aring; 8 bit per oktett.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Del masketallet p&aring; 8 for &aring; se hvor mange hele oktetter det er.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n6-3" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">03</span>
-      <span class="lab-title">Samme nett eller ikke</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 2 &mdash; Sammenligningen</div>
-        <div class="theory-block"><div class="theory-title">⚖️ Lik nettdel betyr samme nett</div><div class="theory-text"><p>Dette er sp&oslash;rsm&aring;let maskinen din stiller f&oslash;r hver eneste pakke.</p><p>Regelen: to adresser er p&aring; <strong>samme nett</strong> hvis nettdelen er lik, med <strong>samme maske</strong> lagt til grunn.</p><p>Er den ulik, m&aring; trafikken gjennom en ruter, og da sendes pakken til standard gateway.</p><p>Med /24 holder det &aring; sammenligne de <strong>tre f&oslash;rste tallene</strong>. Med /16 de to f&oslash;rste. Med /8 bare det f&oslash;rste.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Din maskin er <code>192.168.4.10/24</code>.</p><ol class="wsteps"><li>Til <code>192.168.4.200</code>: nettdel 192.168.4 mot 192.168.4. <strong>Samme nett</strong></li><li>Til <code>192.168.5.200</code>: nettdel 192.168.4 mot 192.168.<strong>5</strong>. Ulik. <strong>Via ruter</strong></li><li>Hadde masken v&aelig;rt /16, ville nettdelen v&aelig;rt bare 192.168 for begge</li><li>Da hadde de to <strong>v&aelig;rt</strong> p&aring; samme nett</li><li>Samme adresser, ulik maske, motsatt svar</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">ip addr show
-ip route
-ping -c 1 <naboadresse></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">10.1.2.5/24 og 10.1.2.99. Samme nett? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Med /24 sammenligner du bare de tre f&oslash;rste tallene.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">10.1.2.5/24 og 10.1.3.99. Samme nett? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se n&oslash;ye p&aring; det tredje tallet i begge.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">10.1.2.5/16 og 10.1.3.99. Samme nett? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Masken er en annen her. Hvor mange tall dekker /16?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Sett masken f&oslash;rst, s&aring; sammenlign bare s&aring; mange tall som masken dekker.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">Legg merke til at oppgave 2 og 3 har <strong>identiske adresser</strong> og motsatt svar. Det er masken som avgj&oslash;r, ikke adressene. Derfor gir en adresse uten maske ingen mening.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n6-4" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">04</span>
-      <span class="lab-title">Hvor mange verter får plass</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 2 &mdash; Regnestykket</div>
-        <div class="theory-block"><div class="theory-title">🧮 To opphøyd i vertsbitene, minus to</div><div class="theory-text"><p>Antall <strong>vertsbiter</strong> er <code>32 minus masken</code>. Antall brukbare adresser er <code>2^vertsbiter - 2</code>.</p><p>De to som trekkes fra er <strong>nettverksadressen</strong>, der alle vertsbitene er null, og <strong>kringkastingsadressen</strong>, der alle er ett. Ingen av dem kan gis til en maskin.</p><p>Tabellen er verdt &aring; kunne:</p><p><code>/24</code> = 254 &middot; <code>/25</code> = 126 &middot; <code>/26</code> = 62 &middot; <code>/27</code> = 30 &middot; <code>/28</code> = 14 &middot; <code>/29</code> = 6 &middot; <code>/30</code> = 2</p><p>Legg merke til m&oslash;nsteret: hver gang masken &oslash;ker med &eacute;n, <strong>halveres</strong> antallet.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Hvor mange verter i et <code>/27</code>?</p><ol class="wsteps"><li>Vertsbiter: 32 - 27 = <strong>5</strong></li><li>Adresser totalt: 2^5 = <strong>32</strong></li><li>Trekk fra nettverksadresse og kringkasting: 32 - 2 = <strong>30</strong></li><li>Et /27 rommer alts&aring; 30 maskiner</li><li>Trenger du 40 maskiner, holder ikke /27. Da m&aring; du opp til /26, som gir 62</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Regnem&aring;te</div>
-          <div class="cmd"><span class='c'># regn selv, det g&aring;r fort</span>
-<span class='c'># 32 - maske = vertsbiter</span>
-<span class='c'># 2^vertsbiter - 2 = brukbare</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="14"><span class="ans-q">Hvor mange brukbare adresser i et /28?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">32 minus masken gir vertsbitene. To opph&oslash;yd i det, minus to.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">14</div></div></div><div class="ans-row" data-p="1" data-a="/25|25"><span class="ans-q">Du trenger plass til 100 maskiner. Hvilken maske er den minste som holder?</span><input class="ans-in" placeholder="en maske"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Regn nedover fra /24 til du finner den minste som fortsatt rommer 100.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">/25</div></div></div><div class="ans-row" data-p="1" data-a="2"><span class="ans-q">Hvor mange vertsbiter har et /30?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">32 minus masketallet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Regn vertsbitene f&oslash;rst, s&aring; to opph&oslash;yd i det, s&aring; minus to.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">100 maskiner: /26 gir 62, som er for lite. /25 gir 126, som holder. Du velger alltid den <strong>minste masken som er stor nok</strong>, ikke den n&aelig;rmeste.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n6-5" data-level="hard">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">05</span>
-      <span class="lab-title">Første og siste adresse</span>
-      <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-5">Niv&aring; 3 &mdash; Blokker</div>
-        <div class="theory-block"><div class="theory-title">📏 Blokkstørrelsen forteller hvor nettene begynner</div><div class="theory-text"><p>Med masker som ikke treffer p&aring; punktum, deles en oktett i blokker.</p><p><strong>Blokkst&oslash;rrelsen</strong> er antall adresser per nett: 2 opph&oslash;yd i vertsbitene. For /26 er det 64, for /27 er det 32, for /28 er det 16.</p><p>Nettene begynner p&aring; multipler av blokkst&oslash;rrelsen: 0, 64, 128, 192 for /26.</p><p>I hvert nett er <strong>f&oslash;rste adresse nettverksadressen</strong>, <strong>siste er kringkasting</strong>, og alt imellom er brukbart.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Hvilket nett ligger <code>192.168.1.100/26</code> i?</p><ol class="wsteps"><li>Vertsbiter: 32 - 26 = 6, s&aring; blokkst&oslash;rrelsen er 2^6 = <strong>64</strong></li><li>Nettene starter p&aring; 0, 64, 128 og 192</li><li>100 ligger mellom 64 og 128, alts&aring; i nettet som starter p&aring; <strong>64</strong></li><li>Nettverksadresse: <code>192.168.1.64</code>, kringkasting: <code>192.168.1.127</code></li><li>Brukbart omr&aring;de: <code>.65</code> til <code>.126</code></li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Regnem&aring;te</div>
-          <div class="cmd"><span class='c'># blokkst&oslash;rrelse = 2^(32-maske)</span>
-<span class='c'># start = n&aelig;rmeste multiplum under</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="32"><span class="ans-q">Hva er blokkstørrelsen for et /27?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">To opph&oslash;yd i antall vertsbiter.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">32</div></div></div><div class="ans-row" data-p="1" data-a="10.0.0.192"><span class="ans-q">Hvilken nettverksadresse hører 10.0.0.200/26 til?</span><input class="ans-in" placeholder="en adresse"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Finn blokkst&oslash;rrelsen og tell oppover i blokker til du passerer 200.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">10.0.0.192</div></div></div><div class="ans-row" data-p="1" data-a="10.0.0.255"><span class="ans-q">Hva er kringkastingsadressen i det nettet?</span><input class="ans-in" placeholder="en adresse"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Siste adresse i blokken, alts&aring; rett f&oslash;r neste nett begynner.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">10.0.0.255</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Finn blokkst&oslash;rrelsen, tell oppover i blokker, og se hvilken adressen havner i.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">/26 gir blokker p&aring; 64: 0, 64, 128, <strong>192</strong>. 200 ligger i den siste, som g&aring;r fra 192 til 255. Alts&aring; nett 192, kringkasting 255, brukbart 193 til 254.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n6-6" data-level="easy">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">06</span>
-      <span class="lab-title">Hvordan maskinen får innstillingene</span>
-      <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-1">Niv&aring; 1 &mdash; DHCP</div>
-        <div class="theory-block"><div class="theory-title">📨 Fire meldinger, og du har alt du trenger</div><div class="theory-text"><p>De fleste maskiner f&aring;r nettverksinnstillingene automatisk fra en <strong>DHCP-server</strong>.</p><p>Utvekslingen har fire steg, ofte forkortet <strong>DORA</strong>: klienten roper <em>Discover</em>, serveren svarer <em>Offer</em>, klienten sier <em>Request</em>, serveren bekrefter med <em>Acknowledge</em>.</p><p>Du f&aring;r fire ting: <strong>IP-adresse</strong>, <strong>maske</strong>, <strong>gateway</strong> og <strong>DNS-server</strong>. Mangler &eacute;n av dem, virker noe, men ikke alt.</p><p>F&aring;r maskinen en adresse som begynner p&aring; <code>169.254</code>, fant den <strong>ingen DHCP-server</strong> og fant p&aring; en adresse selv. Den n&aring;r da ingenting.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En PC f&aring;r <code>169.254.12.44</code> og n&aring;r ingenting.</p><ol class="wsteps"><li>169.254 er ikke fra en DHCP-server, den er selvtildelt</li><li>Alts&aring; fikk maskinen <strong>ingen svar</strong> p&aring; Discover</li><li>Mulige &aring;rsaker: kabel ute, feil VLAN, eller DHCP-serveren er nede</li><li>Merk at dette ikke er et DNS-problem eller et gateway-problem</li><li>Feilen er ett steg tidligere: maskinen har aldri f&aring;tt en gyldig adresse</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">ip addr show
-<span class='c'># Windows</span>
-ipconfig /all
-ipconfig /release &amp;&amp; ipconfig /renew</div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="dns-server|dns"><span class="ans-q">Hvilke fire opplysninger får du normalt fra DHCP? Skriv den som oversetter navn til adresse</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den som gj&oslash;r om navn til adresse.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">dns</div></div></div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">En maskin har adressen 169.254.8.3. Fikk den svar fra DHCP? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">169.254 tildeles av maskinen selv, ikke av en server.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-p="1" data-a="fire|4"><span class="ans-q">Hvor mange meldinger er det i DORA-utvekslingen?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ett bokstav per melding i forkortelsen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">169.254 er alltid et tegn p&aring; at ingen svarte.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n6-7" data-level="easy">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">07</span>
-      <span class="lab-title">Fra navn til adresse</span>
-      <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-1">Niv&aring; 1 &mdash; DNS</div>
-        <div class="theory-block"><div class="theory-title">🔎 Oppslaget går oppover i hierarkiet</div><div class="theory-text"><p>Du skriver <code>vg.no</code>, men maskinen trenger en IP-adresse. <strong>DNS</strong> gj&oslash;r oversettelsen.</p><p>Maskinen sp&oslash;r sin DNS-server. Kjenner den ikke svaret, sp&oslash;r den videre oppover: f&oslash;rst rotserverne, s&aring; serveren for <code>.no</code>, s&aring; serveren for <code>vg.no</code>.</p><p>Svaret <strong>mellomlagres</strong> med en levetid, kalt TTL, slik at neste oppslag g&aring;r raskere.</p><p>Feils&oslash;kingspoenget: virker <code>ping 8.8.8.8</code> men ikke <code>ping vg.no</code>, er nettverket i orden og <strong>DNS er problemet</strong>.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p><code>ping vg.no</code> feiler, men <code>ping 8.8.8.8</code> virker.</p><ol class="wsteps"><li>Pakker kommer fram til en IP-adresse, s&aring; ruting og gateway fungerer</li><li>Navnet blir ikke oversatt, s&aring; feilen ligger i <strong>navneoppslaget</strong></li><li>Sjekk hvilken DNS-server maskinen bruker</li><li>Test med en annen: <code>nslookup vg.no 8.8.8.8</code></li><li>Virker det med en annen server, er din egen DNS-server problemet</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">nslookup vg.no
-dig vg.no +short
-<span class='c'># test mot en annen server</span>
-nslookup vg.no 8.8.8.8</div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="dns"><span class="ans-q">ping 8.8.8.8 virker, ping vg.no feiler. Hva er problemet?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tallet virker, navnet gj&oslash;r ikke. Hvilket lag oversetter mellom dem?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">dns</div></div></div><div class="ans-row" data-p="1" data-a="ttl"><span class="ans-q">Hva kalles levetiden på et mellomlagret DNS-svar?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Samme forkortelse som feltet i IP-headeren som teller ned.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ttl</div></div></div><div class="ans-row" data-p="1" data-a="a-record|a"><span class="ans-q">Hvilken record-type gir deg IPv4-adressen til et domene?</span><input class="ans-in" placeholder="én bokstav"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den enkleste typen, med det korteste navnet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">a</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Test med IP f&oslash;rst, s&aring; med navn. Forskjellen peker rett p&aring; laget som feiler.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n6-8" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">08</span>
-      <span class="lab-title">Feilsøking: adresse, gateway eller navn</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 2 &mdash; Systematikk</div>
-        <div class="theory-block"><div class="theory-title">🧰 Fire tester i rekkefølge, og du vet hvor det stopper</div><div class="theory-text"><p>Gjett aldri. Test nedenfra og opp, og stopp p&aring; f&oslash;rste som feiler.</p><p><strong>1. Har jeg en gyldig adresse?</strong> <code>ip addr</code>. En 169.254-adresse betyr DHCP-problem.</p><p><strong>2. N&aring;r jeg gatewayen?</strong> <code>ping</code> gateway. Feiler den, er det lokalt: kabel, switch, VLAN.</p><p><strong>3. N&aring;r jeg ut?</strong> <code>ping 8.8.8.8</code>. Feiler den, er det ruting eller brannmur.</p><p><strong>4. Virker navn?</strong> <code>ping vg.no</code>. Feiler bare denne, er det DNS.</p><p>Hvert steg utelukker alt under seg. Det er derfor rekkef&oslash;lgen betyr noe.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En bruker sier «internett virker ikke». Du tester i rekkef&oslash;lge.</p><ol class="wsteps"><li><code>ip addr</code> gir 192.168.1.45/24. Gyldig adresse, <strong>DHCP er i orden</strong></li><li><code>ping 192.168.1.1</code> svarer. <strong>Lokalnettet er i orden</strong></li><li><code>ping 8.8.8.8</code> svarer. <strong>Ruting ut er i orden</strong></li><li><code>ping vg.no</code> feiler. Alts&aring; er det <strong>DNS</strong></li><li>Du har utelukket tre lag p&aring; under ett minutt, uten &aring; gjette</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">ip addr
-ping -c 2 $(ip route | awk '/default/{print $3}')
-ping -c 2 8.8.8.8
-ping -c 2 vg.no</div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="steg 1|dhcp|1"><span class="ans-q">ip addr viser 169.254.3.9. Hvilket steg feilet?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Feils&oslash;kingen har fire steg. Hvilket handler om &aring; f&aring; en adresse?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1</div></div></div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Gateway svarer, 8.8.8.8 svarer ikke. Er DNS problemet? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Du har ikke kommet til navneoppslaget enn&aring;.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-p="1" data-a="dns"><span class="ans-q">Alt virker unntatt ping vg.no. Hva er feilen?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Bare navnet feiler, alt annet virker.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">dns</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Stopp p&aring; f&oslash;rste test som feiler. Alt over den er uavklart, alt under er friskmeldt.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">Oppgave 2 er den viktige. N&aring;r 8.8.8.8 ikke svarer, har du ikke <em>kommet til</em> DNS-steget enn&aring;. &Aring; begynne &aring; feils&oslash;ke DNS da er &aring; hoppe over et lag, og det er den vanligste tidsbruken i praksis.</div></div>
-      </div>
-    </div>
-  </div>
-  </div>
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>Oktett</dt><dd>Ett av de fire tallene i adressen. 8 biter, 0 til 255.</dd>
+    <dt>Maske</dt><dd>Tallet etter skråstreken. <code>/24</code> = 24 biter nettdel.</dd>
+    <dt>Nettdel</dt><dd>«Gata». Lik for alle i samme nett.</dd>
+    <dt>Vertsdel</dt><dd>«Husnummeret». Unik for hver maskin.</dd>
+    <dt>Vertsbiter</dt><dd>32 minus masken.</dd>
+    <dt>Blokk</dt><dd>Ett lite nett når en oktett deles opp. <code>/26</code> = blokker på 64.</dd>
+    <dt>Nettverksadresse</dt><dd>Første adresse i blokka. Navnet på nettet.</dd>
+    <dt>Kringkasting</dt><dd>Siste adresse i blokka. «Til alle» (broadcast).</dd>
+    <dt>DHCP</dt><dd>Tjenesten som deler ut adresser automatisk.</dd>
+    <dt>DORA</dt><dd>De fire DHCP-meldingene: Discover, Offer, Request, Acknowledge.</dd>
+    <dt>169.254.x.x</dt><dd>Adressen PC-en lager selv når ingen DHCP-server svarer.</dd>
+    <dt>DNS</dt><dd>Gjør navn som <code>vg.no</code> om til IP-adresser.</dd>
+    <dt>A-record</dt><dd>DNS-svaret med en IPv4-adresse.</dd>
+    <dt>TTL</dt><dd>Hvor mange sekunder et DNS-svar kan huskes.</dd>
+  </dl>
+</details>
 
-  <div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
+
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · OKTETTER ═══════════════════════ -->
+<div class="lab-card" id="n6-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">32 biter i fire oktetter</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Formen</div>
+<p class="e-hook">Fire av disse adressene får PC-en til å si «nei takk». Én er helt grei. Ser du hva som er galt? 🔍</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Finn feilen" data-oppgave="Koble hver adresse til det som er galt med den.">
+  <div class="pr-par" data-forklar="Hvert tall kan være fra 0 til 255. 300 er for stort."><span>192.168.300.1</span><span>❌ Et tall er over 255</span></div>
+  <div class="pr-par" data-forklar="En IPv4-adresse har alltid fire tall. Her mangler ett."><span>172.16.5</span><span>❌ Bare tre tall</span></div>
+  <div class="pr-par" data-forklar="Fire tall, ikke fem. Ett for mye."><span>10.0.0.1.7</span><span>❌ Fem tall</span></div>
+  <div class="pr-par" data-forklar="Laveste tall er 0. Minus finnes ikke i en IP-adresse."><span>192.168.1.-5</span><span>❌ Et tall er under 0</span></div>
+  <div class="pr-par" data-forklar="Fire tall, alle mellom 0 og 255. Det er din egen PC fra L05 😄"><span>192.168.1.10</span><span>✅ Helt i orden</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Hvert av de fire tallene heter en <b>oktett</b> (octet). En oktett er <b>8 biter</b>. 8 biter gir 256 mulige verdier: <b>0 til 255</b>.<br>
+Fire oktetter × 8 biter = <b>32 biter</b>. Det er hele IPv4-adressen.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ip addr" data-mal="Finn de fire tallene dine:" data-alias="ip a|ip address|ip ad"><template class="ut">1: <span class="dim">lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 ...</span>
+    <span class="dim">inet 127.0.0.1/8 scope host lo</span>
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP
+    link/ether 08:00:27:3c:7a:10 brd ff:ff:ff:ff:ff:ff
+    inet <span class="h1">192</span>.<span class="h1">168</span>.<span class="h1">1</span>.<span class="h1">10</span>/24 brd 192.168.1.255 scope global dynamic eth0</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>fire oktetter, skilt med punktum: 192 · 168 · 1 · 10. Alle mellom 0 og 255 ✅</span></li></ul></template></div>
+<div class="tm-o" data-cmd="ipcalc -b 192.168.1.300" data-mal="Spør adresse-kalkulatoren om en adresse med 300 i:"><template class="ut"><span style="color:var(--red)">INVALID ADDRESS: 192.168.1.300</span></template><template class="forklar"><p><code>ipcalc</code> er en adresse-kalkulator. <code>-b</code> betyr «vis bare vanlige tall, ikke binær». Den nekter: 300 passer ikke i 8 biter.</p></template></div>
+<div class="tm-o" data-cmd="python3 -c 'print(2**8)'" data-mal="La Python regne ut hvor mange verdier 8 biter gir:" data-alias="python3 -c &quot;print(2**8)&quot;|python3 -c 'print(2 ** 8)'"><template class="ut"><span class="h3">256</span></template><template class="forklar"><p><code>2**8</code> betyr 2 opphøyd i 8: 2 × 2 × 2 × 2 × 2 × 2 × 2 × 2. Det gir <b>256</b> verdier. Vi teller fra 0, så den høyeste er <b>255</b>.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="10|ti"><span class="ans-q">Hva er den fjerde oktetten i IP-adressen til eth0?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det siste av de fire gule tallene etter <code>inet</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">10</div></div></div>
+<div class="ans-row" data-p="1" data-a="256"><span class="ans-q">Hvilket tall skrev Python ut?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det grønne tallet i det siste oppdraget.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">256</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Tallene dine blir litt annerledes enn her. Det er helt riktig!<br>Står det «command not found» på <code>ipcalc</code>? Kjør <code>sudo apt install ipcalc</code> først.<p class="e-win">Windows: <code>ipconfig</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="atte|åtte|8"><span class="ans-q">Hvor mange biter er én oktett?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Python regnet <code>2**8</code> for deg. Tallet etter <code>**</code> er svaret.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">8</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Er 192.168.1.256 en gyldig adresse? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Husk paret «Et tall er over 255». Er 256 over 255?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="32"><span class="ans-q">Hvor mange biter er hele adressen?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Fire oktetter × 8 biter. Står i den blå fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">32</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · NETTDEL OG VERTSDEL ═══════════════════════ -->
+<div class="lab-card" id="n6-2" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">Nettdel og vertsdel</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Hva masken gjør</div>
+<p class="e-hook">I L05 var <code>/24</code> = «de tre første tallene er gata». Men hvorfor <b>tre</b>? Hemmeligheten: <b>8 biter = ett tall</b>. Prøv selv 👇</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Finn gata" data-oppgave="Klikk på alle tallene som er «gata» (nettdelen). Del tallet etter / på 8.">
+<pre>💻 <span class="kl" data-rett data-forklar="/24: 24 ÷ 8 = 3 tall. 192 er med.">192</span>.<span class="kl" data-rett data-forklar="168 er tall nummer 2. Med i gata.">168</span>.<span class="kl" data-rett data-forklar="Tall nummer 3. Siste tall i gata ved /24.">1</span>.<span class="kl" data-forklar="Nei, det er tall nummer 4. /24 dekker bare tre. Dette er husnummeret.">10</span>   /24  <span class="x-dim">← 24 ÷ 8 = 3 tall</span>
+
+🏢 <span class="kl" data-rett data-forklar="/16: 16 ÷ 8 = 2 tall. 172 er med.">172</span>.<span class="kl" data-rett data-forklar="Tall nummer 2. Der slutter gata ved /16.">16</span>.<span class="kl" data-forklar="Nei! /16 er bare to tall. 99 hører til husnummeret.">99</span>.<span class="kl" data-forklar="Nei, det er husnummeret. /16 dekker bare to tall.">7</span>   /16  <span class="x-dim">← 16 ÷ 8 = ?</span>
+
+🌐 <span class="kl" data-rett data-forklar="/8: 8 ÷ 8 = 1 tall. Bare 10 er gata. Ei veldig stor gate!">10</span>.<span class="kl" data-forklar="Nei! /8 er bare ett tall. Resten er husnummer.">8</span>.<span class="kl" data-forklar="Nei, /8 dekker bare det første tallet.">4</span>.<span class="kl" data-forklar="Nei, dette er husnummeret.">2</span>    /8   <span class="x-dim">← 8 ÷ 8 = ?</span></pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Gata heter <b>nettdelen</b> (network). Husnummeret heter <b>vertsdelen</b> (host).<br>
+Tallet etter skråstreken heter <b>masken</b>. Den sier hvor mange biter som er nettdel. Skrivemåten <code>192.168.1.10/24</code> heter <b>CIDR</b>.<br>
+Huskeregel: <b>/8 = 1 tall, /16 = 2 tall, /24 = 3 tall.</b>
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ip addr" data-mal="Finn masken din." data-alias="ip a|ip address|ip ad" data-skjult data-hint="Samme kommando som i oppgave 1."><template class="ut">1: <span class="dim">lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 ...</span>
+    <span class="dim">inet 127.0.0.1/8 scope host lo</span>
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP
+    link/ether 08:00:27:3c:7a:10 brd ff:ff:ff:ff:ff:ff
+    inet <span class="h3">192.168.1</span>.<span class="h2">10</span><span class="h1">/24</span> brd 192.168.1.255 scope global dynamic eth0</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>masken: 24 biter = 3 tall</span></li><li><span class="m h3"></span><span>nettdelen, gata</span></li><li><span class="m h2"></span><span>vertsdelen, husnummeret</span></li></ul></template></div>
+<div class="tm-o" data-cmd="ipcalc -b 192.168.1.10/24" data-mal="Be ipcalc dele adressen din:"><template class="ut">Address:   192.168.1.10
+Netmask:   <span class="h4">255.255.255.0</span> = <span class="h1">24</span>
+Wildcard:  0.0.0.255
+=&gt;
+Network:   <span class="h3">192.168.1.0/24</span>
+HostMin:   192.168.1.1
+HostMax:   192.168.1.254
+Broadcast: 192.168.1.255
+Hosts/Net: 254                   Class C, Private Internet</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>masken din, /24</span></li><li><span class="m h4"></span><span>samme maske skrevet som fire tall. 255 = «dette tallet er gate». 0 = «husnummer». Windows viser den slik.</span></li><li><span class="m h3"></span><span>nettet ditt: gata, med 0 der husnummeret står</span></li></ul></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="24|/24"><span class="ans-q">Hvilket tall står etter skråstreken i inet-linja?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten i <code>ip addr</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">24</div></div></div>
+<div class="ans-row" data-p="1" data-a="255.255.255.0"><span class="ans-q">Hvordan skrives /24 som fire tall (Netmask)?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den lilla biten i <code>ipcalc</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">255.255.255.0</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Tallene dine blir litt annerledes enn her. Det er helt riktig! Bruk din egen adresse i <code>ipcalc</code>.<p class="e-win">Windows: <code>ipconfig</code>. Masken står som «Subnet Mask . . . : 255.255.255.0».</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="10.20"><span class="ans-q">For 10.20.30.40/16, hva er nettdelen?</span><input class="ans-in" placeholder="to tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Som 🏢-linja i spillet: /16 = to tall. Skriv dem med punktum mellom.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">10.20</div></div></div>
+<div class="ans-row" data-p="1" data-a="8"><span class="ans-q">For 172.16.5.8/24, hva er vertsdelen?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">/24 = tre tall er gata. Husnummeret er det som er igjen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">8</div></div></div>
+<div class="ans-row" data-p="1" data-a="en|én|1"><span class="ans-q">Hvor mange oktetter er nettdel ved /8?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvor mange tall klikket du på i 🌐-linja?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · SAMME NETT ═══════════════════════ -->
+<div class="lab-card" id="n6-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">Samme nett eller ikke</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Sammenligningen</div>
+<p class="e-hook">Samme to adresser kan være naboer eller fremmede. Det kommer helt an på masken 🎭 Sammenlign bare så mange tall som masken sier.</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Samme nett?" data-knapper="🏠 Samme nett|🏤 Annet nett">
+  <div class="ly-fast">Du er 💻 <span class="e-ip"><span>192</span><i>.</i><span>168</span><i>.</i><span>1</span><i>.</i><span>10</span></span><br>Masken på kortet gjelder begge.</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="/24 = tre tall. 192.168.1 = 192.168.1. Samme nett."><span class="x-rad"><span class="x-maske">/24</span><span class="e-ip"><span class="like">192</span><i>.</i><span class="like">168</span><i>.</i><span class="like">1</span><i>.</i><span class="x-vert">200</span></span></span></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="/24 = tre tall. Det tredje er 5, ikke 1."><span class="x-rad"><span class="x-maske">/24</span><span class="e-ip"><span class="like">192</span><i>.</i><span class="like">168</span><i>.</i><span class="ulik">5</span><i>.</i><span class="x-vert">200</span></span></span></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="/16 = bare to tall. 192.168 = 192.168. Femtallet teller ikke lenger!"><span class="x-rad"><span class="x-maske">/16</span><span class="e-ip"><span class="like">192</span><i>.</i><span class="like">168</span><i>.</i><span class="x-vert">5</span><i>.</i><span class="x-vert">200</span></span></span></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="/16 = to tall. Det andre er 169, ikke 168."><span class="x-rad"><span class="x-maske">/16</span><span class="e-ip"><span class="like">192</span><i>.</i><span class="ulik">169</span><i>.</i><span class="x-vert">1</span><i>.</i><span class="x-vert">10</span></span></span></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="/8 = bare ett tall. 192 = 192. Samme nett, selv om resten er helt ulikt."><span class="x-rad"><span class="x-maske">/8</span><span class="e-ip"><span class="like">192</span><i>.</i><span class="x-vert">77</span><i>.</i><span class="x-vert">3</span><i>.</i><span class="x-vert">4</span></span></span></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="/8 = ett tall. 10 er ikke 192. Annet nett."><span class="x-rad"><span class="x-maske">/8</span><span class="e-ip"><span class="ulik">10</span><i>.</i><span class="x-vert">168</span><i>.</i><span class="x-vert">1</span><i>.</i><span class="x-vert">10</span></span></span></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Lurt! 10 er ikke 1. Annet nett."><span class="x-rad"><span class="x-maske">/24</span><span class="e-ip"><span class="like">192</span><i>.</i><span class="like">168</span><i>.</i><span class="ulik">10</span><i>.</i><span class="x-vert">1</span></span></span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Regelen: <b>lik nettdel = samme nett</b>. Da leveres pakken direkte. Ulik nettdel = annet nett, og pakken går til <b>standard gateway</b> (fra L05).<br>
+Det er <b>masken</b> som bestemmer hvor mye av adressen som må være likt.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ip route" data-mal="Se hvilket nett PC-en mener er ditt." data-alias="ip r|ip ro" data-skjult data-hint="Kommandoen som viste gatewayen i L05. Den starter med <code>ip</code>."><template class="ut">default via 192.168.1.1 dev eth0 proto dhcp metric 100
+<span class="h3">192.168.1.0/24</span> dev eth0 proto kernel scope link src 192.168.1.10</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>«Alt som starter med 192.168.1 er mitt nett.» Resten går via 192.168.1.1.</span></li></ul></template></div>
+<div class="tm-o" data-cmd="ip route get 192.168.1.200" data-mal="Spør PC-en: hvordan sender du til 192.168.1.200?" data-alias="ip r get 192.168.1.200|ip ro get 192.168.1.200"><template class="ut">192.168.1.200 <span class="h3">dev eth0</span> src 192.168.1.10 uid 1000
+    cache</template><template class="forklar"><p>Ingen <code>via</code>. PC-en leverer <b>direkte</b> 🏠 Samme nett.</p></template></div>
+<div class="tm-o" data-cmd="ip route get 192.168.5.200" data-mal="Og til 192.168.5.200?" data-alias="ip r get 192.168.5.200|ip ro get 192.168.5.200" data-skjult data-hint="Samme som forrige oppdrag, bare med 5 i stedet for 1."><template class="ut">192.168.5.200 <span class="h1">via 192.168.1.1</span> dev eth0 src 192.168.1.10 uid 1000
+    cache</template><template class="forklar"><p><code>via 192.168.1.1</code> = «gi den til gatewayen» 🏤 Annet nett. Akkurat det du svarte i lynrunden.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="192.168.1.1"><span class="ans-q">Hvilken adresse står etter «via» når du spør om 192.168.5.200?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten i siste oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">192.168.1.1</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Står det «via» i svaret for 192.168.1.200? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på oppdrag 2. Ble den levert direkte?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Tallene dine blir litt annerledes enn her. Det er helt riktig! Prøv <code>ip route get</code> med en adresse i ditt eget nett, og med <code>8.8.8.8</code>.<p class="e-win">Windows (PowerShell): <code>Find-NetRoute -RemoteIPAddress 192.168.5.200</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">10.1.2.5/24 og 10.1.2.99. Samme nett? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">/24 = sammenlign tre tall, som i lynrunden. 10.1.2 og 10.1.2?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">10.1.2.5/24 og 10.1.3.99. Samme nett? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tredje tall: 2 og 3. Ville det blitt rødt i lynrunden?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">10.1.2.5/16 og 10.1.3.99. Samme nett? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Nå er masken /16: bare to tall teller. Husk kortet der femtallet plutselig ikke telte.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · ANTALL VERTER ═══════════════════════ -->
+<div class="lab-card" id="n6-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Hvor mange verter får plass</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Regnestykket</div>
+<p class="e-hook">Et <code>/24</code> har plass til 256 adresser. Hver gang masken går opp med 1, blir nettet <b>halvparten</b> så stort 🍰 Klarer du å koble riktig?</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hvor stor er kaka?" data-oppgave="Koble masken til størrelsen. Tips: start med /24 og halver.">
+  <div class="pr-par" data-forklar="32 − 24 = 8 vertsbiter. 2⁸ = 256 adresser. Minus 2 = 254 maskiner."><span>/24</span><span>256 adresser · 254 maskiner</span></div>
+  <div class="pr-par" data-forklar="32 − 25 = 7 vertsbiter. 2⁷ = 128. Halvparten av 256 ✂️"><span>/25</span><span>128 adresser · 126 maskiner</span></div>
+  <div class="pr-par" data-forklar="32 − 26 = 6 vertsbiter. 2⁶ = 64. Halvparten igjen ✂️"><span>/26</span><span>64 adresser · 62 maskiner</span></div>
+  <div class="pr-par" data-forklar="32 − 27 = 5 vertsbiter. 2⁵ = 32 adresser. Minus 2 = 30."><span>/27</span><span>32 adresser · 30 maskiner</span></div>
+  <div class="pr-par" data-forklar="32 − 29 = 3 vertsbiter. 2³ = 8 adresser. Bare 6 maskiner. Bitte lite!"><span>/29</span><span>8 adresser · 6 maskiner</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>Vertsbiter</b> = 32 − masken.<br>
+<b>Adresser</b> = 2 opphøyd i vertsbitene. Skrives <code>2**6</code> i Python.<br>
+<b>Maskiner</b> = adresser − 2. Den første er <b>nettverksadressen</b> (navnet på nettet), og den siste er <b>kringkastingsadressen</b> (broadcast, «til alle»). Ingen av dem kan gis til en maskin.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ipcalc -b 192.168.1.10/26" data-mal="Hva om PC-en din hadde /26?"><template class="ut">Address:   192.168.1.10
+Netmask:   255.255.255.192 = 26
+Wildcard:  0.0.0.63
+=&gt;
+Network:   192.168.1.0/26
+HostMin:   192.168.1.1
+HostMax:   192.168.1.62
+Broadcast: 192.168.1.63
+<span class="h4">Hosts/Net: 62</span>                    Class C, Private Internet</template><template class="forklar"><ul class="e-forklar"><li><span class="m h4"></span><span><code>Hosts/Net</code> = hvor mange maskiner som får plass. 62, som i par-spillet.</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 -c 'print(2**6 - 2)'" data-mal="Regn det samme selv med Python:" data-alias="python3 -c 'print(2**6-2)'|python3 -c &quot;print(2**6 - 2)&quot;|python3 -c &quot;print(2**6-2)&quot;"><template class="ut"><span class="h3">62</span></template><template class="forklar"><p>32 − 26 = 6 vertsbiter. 2⁶ = 64. Minus 2 = <b>62</b>. Samme svar som ipcalc 🎯</p></template></div>
+<div class="tm-o" data-cmd="ipcalc -b 192.168.1.10/27" data-mal="Og med /27?" data-skjult data-hint="Samme som oppdrag 1, bare med 27 i stedet for 26."><template class="ut">Address:   192.168.1.10
+Netmask:   255.255.255.224 = 27
+Wildcard:  0.0.0.31
+=&gt;
+Network:   192.168.1.0/27
+HostMin:   192.168.1.1
+HostMax:   192.168.1.30
+Broadcast: 192.168.1.31
+<span class="h4">Hosts/Net: 30</span>                    Class C, Private Internet</template><template class="forklar"><p>Én opp i masken, og plassen ble halvert ✂️</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="62"><span class="ans-q">Hvor mange maskiner får plass i /26 ifølge ipcalc?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tallet etter <code>Hosts/Net</code> i første oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">62</div></div></div>
+<div class="ans-row" data-p="1" data-a="30"><span class="ans-q">Og i /27?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip"><code>Hosts/Net</code> i siste oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">30</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Her blir tallene <b>helt like</b>, for dette er ren matte 🧮 Prøv gjerne andre masker, som <code>/28</code> og <code>/30</code>.</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="14"><span class="ans-q">Hvor mange brukbare adresser i et /28?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">32 − 28 = 4 vertsbiter. 2⁴ = 16. Minus 2. Eller: halver /27 sine 32 adresser.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">14</div></div></div>
+<div class="ans-row" data-p="1" data-a="/25|25"><span class="ans-q">Du trenger plass til 100 maskiner. Hvilken maske er den minste som holder?</span><input class="ans-in" placeholder="en maske"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på parene: 254, 126, 62 … Hvilken er den siste som fortsatt er over 100?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">/25</div></div></div>
+<div class="ans-row" data-p="1" data-a="2"><span class="ans-q">Hvor mange vertsbiter har et /30?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">32 minus masketallet. Første linje i fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · BLOKKER ═══════════════════════ -->
+<div class="lab-card" id="n6-5" data-level="hard">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">Første og siste adresse</span>
+  <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-5">Nivå 3 — Blokker</div>
+<p class="e-hook">Et <code>/26</code> har 64 adresser. Da deler det siste tallet seg i <b>fire biter</b> på 64 🍕 Hvilken bit havner adressen i?</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Hvilken pizzabit?" data-knapper="🟦 .0|🟩 .64|🟨 .128|🟪 .192">
+  <div class="ly-fast">Alle adressene er 192.168.1.x/26. Blokkene:
+    <div class="x-blokk"><span class="x-b0">.0<small>0–63</small></span><span class="x-b1">.64<small>64–127</small></span><span class="x-b2">.128<small>128–191</small></span><span class="x-b3">.192<small>192–255</small></span></div>
+  </div>
+  <div class="ly-item" data-svar="0" data-hvorfor="10 ligger mellom 0 og 63. Nett .0, kringkasting .63."><span class="e-ip"><span>192</span><i>.</i><span>168</span><i>.</i><span>1</span><i>.</i><span class="like">10</span></span></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="100 ligger mellom 64 og 127. Nett .64, kringkasting .127."><span class="e-ip"><span>192</span><i>.</i><span>168</span><i>.</i><span>1</span><i>.</i><span class="like">100</span></span></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Lurt! 63 er den siste i første blokk. Det er kringkastingen. Neste blokk starter på 64."><span class="e-ip"><span>192</span><i>.</i><span>168</span><i>.</i><span>1</span><i>.</i><span class="like">63</span></span></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="64 er den aller første i blokka. Det er selve nettverksadressen."><span class="e-ip"><span>192</span><i>.</i><span>168</span><i>.</i><span>1</span><i>.</i><span class="like">64</span></span></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="130 ligger mellom 128 og 191. Nett .128, kringkasting .191."><span class="e-ip"><span>192</span><i>.</i><span>168</span><i>.</i><span>1</span><i>.</i><span class="like">130</span></span></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="191 = 128 + 64 − 1. Den siste i 128-blokka, altså kringkastingen."><span class="e-ip"><span>192</span><i>.</i><span>168</span><i>.</i><span>1</span><i>.</i><span class="like">191</span></span></div>
+  <div class="ly-item" data-svar="3" data-hvorfor="250 ligger mellom 192 og 255. Nett .192, kringkasting .255."><span class="e-ip"><span>192</span><i>.</i><span>168</span><i>.</i><span>1</span><i>.</i><span class="like">250</span></span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Hver pizzabit heter en <b>blokk</b>. Antall adresser i den heter <b>blokkstørrelsen</b>: 64 for /26, 32 for /27, 16 for /28.<br>
+Blokkene starter i gangetabellen til blokkstørrelsen: 0, 64, 128, 192.<br>
+<b>Første</b> adresse i blokka = nettverksadressen. <b>Siste</b> = kringkastingsadressen. Alt imellom kan gis til maskiner.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ipcalc -b 192.168.1.100/26" data-mal="Sjekk blokka til 192.168.1.100/26." data-skjult data-hint="Samme verktøy som i oppgave 4: <code>ipcalc -b</code> og så adressen med maske."><template class="ut">Address:   192.168.1.100
+Netmask:   255.255.255.192 = 26
+Wildcard:  0.0.0.63
+=&gt;
+Network:   <span class="h3">192.168.1.64/26</span>
+HostMin:   <span class="h2">192.168.1.65</span>
+HostMax:   <span class="h2">192.168.1.126</span>
+Broadcast: <span class="h1">192.168.1.127</span>
+Hosts/Net: 62                    Class C, Private Internet</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>første adresse: nettverksadressen (🟩 .64)</span></li><li><span class="m h2"></span><span>første og siste som kan gis til en maskin</span></li><li><span class="m h1"></span><span>siste adresse: kringkastingen</span></li></ul></template></div>
+<div class="tm-o" data-cmd="ipcalc -b 192.168.1.150/26" data-mal="Og 192.168.1.150/26?" data-skjult data-hint="Samme som forrige oppdrag, med 150 i stedet for 100."><template class="ut">Address:   192.168.1.150
+Netmask:   255.255.255.192 = 26
+Wildcard:  0.0.0.63
+=&gt;
+Network:   <span class="h3">192.168.1.128/26</span>
+HostMin:   <span class="h2">192.168.1.129</span>
+HostMax:   <span class="h2">192.168.1.190</span>
+Broadcast: <span class="h1">192.168.1.191</span>
+Hosts/Net: 62                    Class C, Private Internet</template><template class="forklar"><p>150 ligger i 🟨-blokka: fra 128 til 191.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="192.168.1.127"><span class="ans-q">Hva er kringkastingsadressen (Broadcast) for 192.168.1.100/26?</span><input class="ans-in" placeholder="en adresse"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule linja i første oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">192.168.1.127</div></div></div>
+<div class="ans-row" data-p="1" data-a="192.168.1.128|192.168.1.128/26"><span class="ans-q">Hvilken nettverksadresse har 192.168.1.150/26?</span><input class="ans-in" placeholder="en adresse"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den grønne linja (Network) i siste oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">192.168.1.128</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Tallene blir helt like, for dette er ren matte. Gjett først, så sjekk med <code>ipcalc</code> 🎯</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="32"><span class="ans-q">Hva er blokkstørrelsen for et /27?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Blokkstørrelse = antall adresser. Se /27 i par-spillet i oppgave 4.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">32</div></div></div>
+<div class="ans-row" data-p="1" data-a="10.0.0.192"><span class="ans-q">Hvilken nettverksadresse hører 10.0.0.200/26 til?</span><input class="ans-in" placeholder="en adresse"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Samme pizzabiter som i lynrunden: 0, 64, 128, 192. Hvilken starter rett under 200?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">10.0.0.192</div></div></div>
+<div class="ans-row" data-p="1" data-a="10.0.0.255"><span class="ans-q">Hva er kringkastingsadressen i det nettet?</span><input class="ans-in" placeholder="en adresse"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Siste adresse i 🟪-blokka. Se tallene under .192 i lynrunden.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">10.0.0.255</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 6 · DHCP ═══════════════════════ -->
+<div class="lab-card" id="n6-6" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">06</span>
+  <span class="lab-title">Hvordan maskinen får innstillingene</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — DHCP</div>
+<p class="e-hook">Du har aldri skrevet inn <code>192.168.1.10</code> selv. Så hvem ga PC-en den adressen? 🎁 Fire korte meldinger, og alt er klart.</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Fire meldinger" data-oppgave="PC-en kobler seg til nettet uten adresse. Sett samtalen i riktig rekkefølge.">
+  <div class="rf-item" data-forklar="D for Discover. PC-en har ingen adresse, så den roper til alle.">💻 «Hallo alle! Er det en DHCP-server her?»</div>
+  <div class="rf-item" data-forklar="O for Offer. Et tilbud.">🖥️ «Du kan få 192.168.1.10»</div>
+  <div class="rf-item" data-forklar="R for Request. PC-en sier ja takk.">💻 «Ja takk, jeg tar 192.168.1.10!»</div>
+  <div class="rf-item" data-forklar="A for Acknowledge. Avtalen er klar.">🖥️ «Den er din i 24 timer. Her er maske, gateway og DNS-server også»</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Tjenesten heter <b>DHCP</b>. De fire meldingene heter <b>DORA</b>: Discover, Offer, Request, Acknowledge.<br>
+Du får fire ting: <b>IP-adresse</b>, <b>maske</b>, <b>gateway</b> og <b>DNS-server</b>.<br>
+Svarer ingen? Da lager PC-en en adresse selv som starter på <b>169.254</b>. Med den når du ingenting.
+</div>
+<p class="e-sikker">🦹 Hvem som helst på nettet kan svare på Discover. En falsk DHCP-server kan gi deg <b>sin egen</b> maskin som gateway. Da går all trafikken din via skurken. Kjent fra ARP i L05?</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sudo dhclient -v eth0" data-mal="Be om ny adresse, og se meldingene:"><template class="ut">[sudo] password for kali: <span class="dim">(passordet vises ikke mens du skriver)</span>
+<span class="dim">Internet Systems Consortium DHCP Client 4.4.3-P1
+Copyright 2004-2022 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/eth0/08:00:27:3c:7a:10
+Sending on   LPF/eth0/08:00:27:3c:7a:10
+Sending on   Socket/fallback</span>
+<span class="h1">DHCPDISCOVER</span> on eth0 to 255.255.255.255 port 67 interval 3 (xid=0x7c2a51e3)
+<span class="h2">DHCPOFFER</span> of 192.168.1.10 from 192.168.1.1
+<span class="h1">DHCPREQUEST</span> for 192.168.1.10 on eth0 to 255.255.255.255 port 67 (xid=0xe3512a7c)
+<span class="h2">DHCPACK</span> of 192.168.1.10 from 192.168.1.1 (xid=0x7c2a51e3)
+<span class="h3">bound to 192.168.1.10</span> -- renewal in 41522 seconds.</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>det PC-en sender (D og R)</span></li><li><span class="m h2"></span><span>det serveren svarer (O og A). Serveren er ruteren, 192.168.1.1.</span></li><li><span class="m h3"></span><span>ferdig! PC-en har adressen</span></li></ul><p><code>255.255.255.255</code> = «til alle». PC-en vet jo ikke hvem serveren er ennå.</p></template></div>
+<div class="tm-o" data-cmd="ip addr" data-mal="Sjekk at adressen kom fra DHCP." data-alias="ip a|ip address|ip ad" data-skjult data-hint="Samme kommando som i oppgave 1."><template class="ut">1: <span class="dim">lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 ...</span>
+    <span class="dim">inet 127.0.0.1/8 scope host lo</span>
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP
+    link/ether 08:00:27:3c:7a:10 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.10/24 brd 192.168.1.255 scope global <span class="h1">dynamic</span> eth0
+       valid_lft <span class="h2">86394sec</span> preferred_lft 86394sec</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span><code>dynamic</code> = fått fra DHCP, ikke skrevet inn for hånd</span></li><li><span class="m h2"></span><span>sekunder igjen av avtalen. 86 400 sekunder = 24 timer</span></li></ul></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="192.168.1.1"><span class="ans-q">Fra hvilken adresse kom DHCPOFFER?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står etter <code>from</code> på den blå OFFER-linja.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">192.168.1.1</div></div></div>
+<div class="ans-row" data-p="1" data-a="dynamic"><span class="ans-q">Hvilket ord i inet-linja viser at adressen kom fra DHCP?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten i <code>ip addr</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">dynamic</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Tallene dine blir litt annerledes enn her. Det er helt riktig! Grensesnittet ditt kan hete <code>eth0</code>, <code>ens33</code> eller <code>wlan0</code>.<br>Står det «command not found» på <code>dhclient</code>? Kjør <code>sudo apt install isc-dhcp-client</code> først.<p class="e-win">Windows: <code>ipconfig /release</code> og så <code>ipconfig /renew</code>. Se avtalen med <code>ipconfig /all</code>.</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="dns-server|dns"><span class="ans-q">Hvilke fire opplysninger får du normalt fra DHCP? Skriv den som oversetter navn til adresse</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den siste av de fire tingene i den siste meldingen i spillet. Tre bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">dns</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">En maskin har adressen 169.254.8.3. Fikk den svar fra DHCP? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se siste linje i den blå fagord-boksen. Hvem lager 169.254-adresser?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="fire|4"><span class="ans-q">Hvor mange meldinger er det i DORA-utvekslingen?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvor mange steg satte du i rekkefølge? Eller: tell DHCP-linjene fra <code>dhclient</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 7 · DNS ═══════════════════════ -->
+<div class="lab-card" id="n6-7" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">07</span>
+  <span class="lab-title">Fra navn til adresse</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — DNS</div>
+<p class="e-hook">Du skriver <code>vg.no</code>. Men pakker kan bare sendes til tall. Hvem oversetter? 📞</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Hvor bor vg.no?">
+  <div class="ch-item" data-fra="sys">📍 Du trykker Enter på vg.no. PC-en vet bare om én å spørre: DNS-serveren sin.</div>
+  <div class="ch-item" data-fra="pc" data-navn="Din PC">Hei! Hva er IP-adressen til vg.no? 🤔</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🔎 DNS-serveren">Aner ikke! Men jeg finner ut av det. Vent litt ⏳</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🌳 Rotserveren">vg.no? Jeg kjenner bare toppen. Spør serveren for .no 👉</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🇳🇴 .no-serveren">vg.no? Spør navneserveren til vg.no 👉</div>
+  <div class="ch-item" data-fra="nabo" data-navn="📰 Navneserveren til vg.no">Her er A-recorden: 99.84.118.117 (og tre til). Husk den i 60 sekunder ⏱️</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🔎 DNS-serveren">Fant den! vg.no = 99.84.118.117. Skriver det i notatboka 📓</div>
+  <div class="ch-item" data-fra="pc" data-navn="Din PC">Takk! 🚀</div>
+  <div class="ch-item" data-stopp="⏩ 30 sekunder senere…"></div>
+  <div class="ch-item" data-fra="pc" data-navn="Din PC">Hei igjen! vg.no?</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🔎 DNS-serveren">Står i notatboka: 99.84.118.117 ⚡ Ingen trenger å spørres.</div>
+  <div class="ch-item" data-fra="sys">⏱️ Etter 60 sekunder er lappen for gammel. Da starter runden på nytt.</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Navneoppslaget heter <b>DNS</b>. Svaret med en IPv4-adresse heter en <b>A-record</b>.<br>
+Notatboka heter <b>cache</b> (mellomlager). «Husk i 60 sekunder» heter <b>TTL</b> (time to live).
+</div>
+<p class="e-sikker">🦹 Akkurat som med ARP: et falskt DNS-svar kan sende deg til en falsk vg.no. Det heter <b>DNS-spoofing</b>.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat /etc/resolv.conf" data-mal="Se hvem PC-en spør om navn:"><template class="ut"><span class="dim"># Generated by NetworkManager</span>
+nameserver <span class="h2">192.168.1.1</span></template><template class="forklar"><p><code>nameserver</code> = DNS-serveren din. Her er det ruteren 🔎 Den sender spørsmålet videre til en større DNS-server ute på nett. Adressen fikk du fra DHCP i oppgave 6.</p></template></div>
+<div class="tm-o" data-cmd="nslookup vg.no" data-mal="Slå opp vg.no:"><template class="ut">Server:		192.168.1.1
+Address:	192.168.1.1#53
+
+Non-authoritative answer:
+Name:	vg.no
+Address: <span class="h3">99.84.118.117</span>
+Name:	vg.no
+Address: <span class="h3">99.84.118.99</span>
+Name:	vg.no
+Address: <span class="h3">99.84.118.51</span>
+Name:	vg.no
+Address: <span class="h3">99.84.118.76</span></template><template class="forklar"><p>Fire adresser 🟩 Alle går til vg.no. <code>#53</code> er porten DNS bruker. <i>Non-authoritative</i> = «svaret kom fra en mellommann, ikke fra vg.no selv».</p></template></div>
+<div class="tm-o" data-cmd="dig +noall +answer vg.no" data-mal="Se TTL og type med dig:" data-alias="dig vg.no +noall +answer"><template class="ut">vg.no.			<span class="h1">60</span>	IN	<span class="h4">A</span>	99.84.118.117
+vg.no.			<span class="h1">60</span>	IN	<span class="h4">A</span>	99.84.118.99
+vg.no.			<span class="h1">60</span>	IN	<span class="h4">A</span>	99.84.118.51
+vg.no.			<span class="h1">60</span>	IN	<span class="h4">A</span>	99.84.118.76</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>TTL: hvor mange sekunder svaret kan huskes</span></li><li><span class="m h4"></span><span>typen: A-record, altså en IPv4-adresse</span></li></ul><p><code>+noall +answer</code> = «vis bare svaret».</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="192.168.1.1"><span class="ans-q">Hvilken DNS-server spør PC-en din?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står etter <code>nameserver</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">192.168.1.1</div></div></div>
+<div class="ans-row" data-p="1" data-a="4|fire"><span class="ans-q">Hvor mange IP-adresser fikk du for vg.no?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de grønne adressene fra <code>nslookup</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Adressene og TTL-en blir annerledes hos deg. Det er helt riktig! Store nettsider bytter adresser ofte.<p class="e-win">Windows: <code>nslookup vg.no</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="dns"><span class="ans-q">ping 8.8.8.8 virker, ping vg.no feiler. Hva er problemet?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tallet virker, navnet gjør ikke. Hvem var det som oversatte i chatten?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">dns</div></div></div>
+<div class="ans-row" data-p="1" data-a="ttl"><span class="ans-q">Hva kalles levetiden på et mellomlagret DNS-svar?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">«Husk i 60 sekunder» i chatten. Navnet står i fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ttl</div></div></div>
+<div class="ans-row" data-p="1" data-a="a-record|a"><span class="ans-q">Hvilken record-type gir deg IPv4-adressen til et domene?</span><input class="ans-in" placeholder="én bokstav"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den lilla bokstaven i <code>dig</code>-utskriften.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">a</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 8 · FEILSØKING ═══════════════════════ -->
+<div class="lab-card" id="n6-8" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">08</span>
+  <span class="lab-title">Feilsøking: adresse, gateway eller navn</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Systematikk</div>
+<p class="e-hook">Fra L05 kan du tre tester. Nå får du en fjerde, helt først i køen. Fire trappetrinn. Finn trinnet der det stopper 🪜</p>
+<div class="e-roller">
+  <span>1️⃣ <code>ip addr</code> har jeg adresse?</span>
+  <span>2️⃣ <code>ping</code> gateway</span>
+  <span>3️⃣ <code>ping 8.8.8.8</code></span>
+  <span>4️⃣ <code>ping vg.no</code></span>
+</div>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Hvor stopper det?" data-knapper="1️⃣ Adresse|2️⃣ Gateway|3️⃣ Internett|4️⃣ DNS">
+  <div class="ly-item" data-svar="0" data-hvorfor="169.254 = ingen svar fra DHCP. Det stopper allerede på trinn 1."><span>1️⃣ ❌ <code>ip addr</code> viser 169.254.77.2</span></div>
+  <div class="ly-item" data-svar="3" data-hvorfor="Bare navnet feiler. Alt under virker. DNS!"><span>1️⃣ ✅ · 2️⃣ ✅ · 3️⃣ ✅ · 4️⃣ ❌</span></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Første som feiler er gatewayen. Resten feiler bare fordi trinn 2 gjør det."><span>1️⃣ ✅ · 2️⃣ ❌ · 3️⃣ ❌ · 4️⃣ ❌</span></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Lurt! vg.no feiler også, men det er en følgefeil. Første som feiler er 8.8.8.8."><span>1️⃣ ✅ · 2️⃣ ✅ · 3️⃣ ❌ · 4️⃣ ❌</span></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Ingen inet-linje = ingen adresse. Trinn 1."><span>1️⃣ ❌ <code>ip addr</code> viser ingen inet-linje på eth0</span></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Riktig adresse, men gatewayen svarer ikke. Sjekk kabel eller wifi lokalt."><span>1️⃣ ✅ 192.168.1.10/24 · 2️⃣ ❌ ping 192.168.1.1</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Dette heter å feilsøke <b>nedenfra og opp</b>. Regelen: <b>stopp på første trinn som feiler</b>. Alt under det er friskmeldt. Alt over er bare følgefeil.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ip addr" data-mal="Trinn 1: har du en adresse?" data-alias="ip a|ip address|ip ad" data-skjult data-hint="Samme kommando som i oppgave 1."><template class="ut">1: <span class="dim">lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 ...</span>
+    <span class="dim">inet 127.0.0.1/8 scope host lo</span>
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP
+    link/ether 08:00:27:3c:7a:10 brd ff:ff:ff:ff:ff:ff
+    inet <span class="h3">192.168.1.10/24</span> brd 192.168.1.255 scope global dynamic eth0</template><template class="forklar"><p>✅ Gyldig adresse, ikke 169.254. Trinn 1 er i orden.</p></template></div>
+<div class="tm-o" data-cmd="ping -c 1 192.168.1.1" data-mal="Trinn 2: svarer gatewayen?" data-alias="ping 192.168.1.1 -c 1|ping -c1 192.168.1.1" data-skjult data-hint="<code>ping</code> med <code>-c 1</code> og adressen til gatewayen. Du gjorde det samme i L05."><template class="ut">PING 192.168.1.1 (192.168.1.1) 56(84) bytes of data.
+64 bytes from 192.168.1.1: icmp_seq=1 ttl=64 time=1.3 ms
+
+--- 192.168.1.1 ping statistics ---
+1 packets transmitted, <span class="h3">1 received</span>, 0% packet loss, time 0ms</template><template class="forklar"><p>✅ Trinn 2 er i orden.</p></template></div>
+<div class="tm-o" data-cmd="ping -c 1 8.8.8.8" data-mal="Trinn 3: kommer du ut?" data-alias="ping 8.8.8.8 -c 1|ping -c1 8.8.8.8" data-skjult data-hint="Samme som trinn 2, men til Google sin 8.8.8.8."><template class="ut">PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, <span style="color:var(--red)">0 received, 100% packet loss</span>, time 0ms</template><template class="forklar"><p>❌ Her stopper det! Ingen svar fra internett. Feilen er mellom ruteren og verden.</p></template></div>
+<div class="tm-o" data-cmd="ping -c 1 vg.no" data-mal="Trinn 4: virker navn?" data-alias="ping vg.no -c 1|ping -c1 vg.no" data-skjult data-hint="Samme som trinn 3, men med navnet vg.no."><template class="ut"><span style="color:var(--red)">ping: vg.no: Temporary failure in name resolution</span></template><template class="forklar"><p>Feiler også. Men husk regelen: trinn 3 feilet først. DNS-serveren kommer seg ikke ut på nettet heller. Dette er en <b>følgefeil</b>, ikke et DNS-problem.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="3|tre|steg 3|trinn 3"><span class="ans-q">Hvilket trinn feilet først i øve-terminalen?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den første med rødt i utskriften.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+<div class="ans-row" data-p="1" data-a="100|100%"><span class="ans-q">Hvor mange prosent av pakkene til 8.8.8.8 ble borte?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står foran <code>packet loss</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">100</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Tallene dine blir litt annerledes enn her. Det er helt riktig! Hos deg virker sikkert alle fire 😄 Har gatewayen din en annen adresse? Bruk tallet etter «default via» fra <code>ip route</code>.<p class="e-win">Windows: <code>ipconfig</code>, så <code>ping -n 1 192.168.1.1</code>, <code>ping -n 1 8.8.8.8</code> og <code>ping -n 1 vg.no</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="steg 1|dhcp|1"><span class="ans-q">ip addr viser 169.254.3.9. Hvilket steg feilet?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilken knapp trykket du for 169.254-kortet i lynrunden?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Gateway svarer, 8.8.8.8 svarer ikke. Er DNS problemet? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Akkurat som i øve-terminalen. Stopp på første trinn som feiler.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="dns"><span class="ans-q">Alt virker unntatt ping vg.no. Hva er feilen?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Bare trinn 4 feiler. Hva het den knappen i lynrunden?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">dns</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
 </div>
 
 <footer class="footer"><div class="container"><div class="footer-inner">
-<span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
 </div></div></footer>
 <script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
 </body>
 </html>

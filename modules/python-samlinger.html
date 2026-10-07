@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hundre funn, én variabel — CyberLab</title>
+<link rel="stylesheet" href="../css/style.css?v=13">
+<link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+.x-kode{margin-bottom:12px !important;color:var(--text) !important}
+.x-kode .x-k{color:var(--blue)}
+.x-kode .x-t{color:var(--green)}
+.enkel code,.enkel pre,.enkel .ans-in,.enkel .tm-vindu{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+.rf-k code,.rf-svar code{font-size:14px;white-space:pre}
+</style>
+</head>
+<body class="page enkel">
+<nav class="nav">
+  <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
+  <div class="nav-links">
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="nav-link">Hjem</a>
+    <a href="../emne1.html" class="nav-link">Emne 1</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne3.html" class="nav-link">Emne 3</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="nav-link on">Labber</a>
+    <a href="https://tk1104.timoamling.com/" target="_blank" rel="noopener" class="nav-link">Self check &nearr;</a>
+  </div>
+</nav>
+
+<div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
+
+<div class="mod-hero">
+  <div class="section-eyebrow">Emne 1 &middot; Leksjon 17</div>
+  <div class="section-title">Hundre funn, én variabel</div>
+  <p class="section-desc">Lister, mengder og ordbøker. Velge datastruktur ut fra spørsmålet. Fem små spill, og så noen spørsmål etter hvert.</p>
+</div>
+
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
+
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>📋 Liste</dt><dd>Mange ting i rekkefølge. Duplikater er lov. <code>[]</code> · list på engelsk.</dd>
+    <dt>append</dt><dd>Legg til en ting bakerst i en liste.</dd>
+    <dt>len</dt><dd>Hvor mange ting det er i lista, mengden eller ordboka.</dd>
+    <dt>Indeks</dt><dd>Plassnummeret i en liste. Første plass er 0.</dd>
+    <dt>🧺 Mengde</dt><dd>Hver ting bare én gang, uten rekkefølge. <code>set()</code> · set på engelsk.</dd>
+    <dt>add</dt><dd>Legg en ting i en mengde. Finnes den fra før, skjer ingenting.</dd>
+    <dt>📒 Ordbok</dt><dd>Oppslag: nøkkel → verdi. <code>{}</code> · dict på engelsk.</dd>
+    <dt>Nøkkel</dt><dd>Det du slår opp på, for eksempel en IP. Key på engelsk.</dd>
+    <dt>Verdi</dt><dd>Det du finner, for eksempel antall forsøk. Value på engelsk.</dd>
+    <dt>get</dt><dd>Hent verdien til en nøkkel, eller en reserve hvis nøkkelen mangler.</dd>
+    <dt>sorted</dt><dd>Gir tingene tilbake sortert, i en ny liste.</dd>
+    <dt>Duplikat</dt><dd>Den samme tingen en gang til.</dd>
+  </dl>
+</details>
+
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
+
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · LISTE ═══════════════════════ -->
+<div class="lab-card" id="l17-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">📋 Lista: alle funnene i kø</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Liste</div>
+<p class="e-hook">Loggen har hundre angrep. Skal du lage <code>ip1</code>, <code>ip2</code>, <code>ip3</code> … <code>ip100</code>? 😩 Nei. Én variabel kan holde alle.</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hva skriver Python ut?" data-oppgave="Koble hver kodebit til det den gir.">
+<pre class="x-kode">ips = [<span class="x-t">"203.0.113.45"</span>, <span class="x-t">"198.51.100.7"</span>, <span class="x-t">"203.0.113.45"</span>]</pre>
+  <div class="pr-par" data-forklar="Plass 0 er den første. Vi teller fra 0, som med split() i L15."><span><code>ips[0]</code></span><span>203.0.113.45</span></div>
+  <div class="pr-par" data-forklar="Plass 1 er den andre i køen."><span><code>ips[1]</code></span><span>198.51.100.7</span></div>
+  <div class="pr-par" data-forklar="len teller tingene. Samme IP to ganger teller to ganger."><span><code>len(ips)</code></span><span>3</span></div>
+  <div class="pr-par" data-forklar="in sjekker om tingen finnes i lista. Det gjør den."><span><code>"198.51.100.7" in ips</code></span><span>True</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+En <b>liste</b> (list) er en kø av ting: <code>[ ]</code> rundt, komma mellom. Rekkefølgen beholdes, og <b>duplikater er lov</b>.<br>
+<code>ips = []</code> lager en tom liste · <code>ips.append(x)</code> legger x bakerst · <code>len(ips)</code> gir antallet · <code>ips[0]</code> er den første
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat auth.log" data-mal="Dagens logg. Litt lengre enn i L16:"><template class="ut">Oct  7 09:10:58 server sshd[1928]: Accepted password for kari from 192.168.1.10 port 51022 ssh2
+Oct  7 09:11:03 server sshd[1931]: Failed password for admin from <span class="h1">203.0.113.45</span> port 40122 ssh2
+Oct  7 09:11:06 server sshd[1931]: Failed password for admin from <span class="h1">203.0.113.45</span> port 40122 ssh2
+Oct  7 09:11:20 server sshd[1935]: Failed password for root from <span class="h2">198.51.100.7</span> port 33410 ssh2
+Oct  7 09:11:24 server sshd[1931]: Failed password for root from <span class="h1">203.0.113.45</span> port 40122 ssh2
+Oct  7 09:12:30 server sshd[1940]: Failed password for kari from <span class="h3">192.168.1.10</span> port 51040 ssh2
+Oct  7 09:12:41 server sshd[1940]: Accepted password for kari from 192.168.1.10 port 51040 ssh2
+Oct  7 09:13:15 server sshd[1946]: Failed password for test from <span class="h2">198.51.100.7</span> port 33502 ssh2
+Oct  7 09:14:02 server sshd[1952]: Failed password for root from <span class="h1">203.0.113.45</span> port 40188 ssh2</template><template class="forklar"><p>Ser du at de samme IP-ene dukker opp igjen og igjen? Én farge per IP på linjene med <b>Failed</b>. IP-en er ord nummer 10 hvis du teller fra 0.</p></template></div>
+<div class="tm-o" data-cmd="cat ips.py" data-mal="Se på programmet:"><template class="ut"><span class="h2">ips = []</span>
+for linje in open("auth.log"):
+    if "Failed password" in linje:
+        deler = linje.split()
+        <span class="h1">ips.append(deler[10])</span>
+print(ips)
+print("Antall:", len(ips))
+print("Første:", ips[0])</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>en tom liste, laget før løkka</span></li><li><span class="m h1"></span><span>hver runde: legg IP-en bakerst i lista</span></li></ul><p>Løkka og if-en kjenner du fra L16.</p></template></div>
+<div class="tm-o" data-cmd="python3 ips.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet, som i L16."><template class="ut">[<span class="h1">'203.0.113.45'</span>, <span class="h1">'203.0.113.45'</span>, '198.51.100.7', <span class="h1">'203.0.113.45'</span>, '192.168.1.10', '198.51.100.7', <span class="h1">'203.0.113.45'</span>]
+Antall: 7
+Første: 203.0.113.45</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>samme IP fire ganger. Lista tar vare på alle, i rekkefølge</span></li></ul><p>Python skriver lista med <code>[ ]</code> og enkle anførselstegn. Det er helt normalt.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="7|sju|syv"><span class="ans-q">Hvor mange IP-er ble lagt i lista?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se linja som starter med «Antall:».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">7</div></div></div>
+<div class="ans-row" data-p="1" data-a="4|fire"><span class="ans-q">Hvor mange ganger står 203.0.113.45 i lista?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de gule i utskriften av <code>python3 ips.py</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag loggen først: <code>nano auth.log</code>, lim inn de ni linjene fra <code>cat auth.log</code> over, lagre (<b>Ctrl + O</b>, <b>Enter</b>) og avslutt (<b>Ctrl + X</b>). Lag så <code>ips.py</code> med <code>nano ips.py</code>. Kjør <code>python3 ips.py</code>. Utskriften blir helt lik vår 🎯<p class="e-win">Windows: lagre filene i samme mappe med Notisblokk og kjør <code>python ips.py</code></p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="mcq" data-c="5863005" data-ok="Riktig! Firkantparenteser betyr liste." data-no="Ikke helt. Se hvordan ips = … starter i ips.py."><div class="mcq-q">Hvilke tegn lager en tom liste?</div><button class="mcq-opt">{}</button><button class="mcq-opt">[]</button><button class="mcq-opt">()</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="append|.append|append()"><span class="ans-q">Hvilket ord legger en ny ting bakerst i en liste?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule linja i <code>ips.py</code>: <code>ips.…(deler[10])</code></div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">append</div></div></div>
+<div class="ans-row" data-p="1" data-a="4|fire"><span class="ans-q">ips = ["a", "b", "a"]. Så kjører du ips.append("a"). Hva gir len(ips) nå?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Duplikater er lov i en liste. Alle teller med.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · MENGDE ═══════════════════════ -->
+<div class="lab-card" id="l17-2" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">🧺 Mengden: hver IP bare én gang</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Mengde</div>
+<p class="e-hook">Sjefen spør: «<b>Hvilke</b> IP-er prøvde seg?» Hun vil ikke ha 203.0.113.45 fire ganger. Møt en kurv som nekter å ta imot dobbelt 🙅</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Kurven som husker alt">
+  <div class="ch-item" data-fra="sys">📍 unike.py leser loggen. Den har en tom kurv: <code>unike = set()</code></div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 unike.py">Feilet innlogging! <code>add</code> 203.0.113.45, takk.</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🧺 unike">Lagt i kurven. Jeg har 1 nå.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 unike.py">Ny feil! <code>add</code> 203.0.113.45 igjen.</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🧺 unike">Den har jeg allerede 🙅 Ingenting skjer. Fortsatt 1.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 unike.py">Okei. <code>add</code> 198.51.100.7?</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🧺 unike">Ny! Nå har jeg 2.</div>
+  <div class="ch-item" data-stopp="⏩ Spol fram til slutten"></div>
+  <div class="ch-item" data-fra="sys">…fire feil til. Bare én av dem er en IP kurven ikke har sett før…</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 unike.py">Sjefen lurer: er 203.0.113.45 med?</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🧺 unike">⚡ Ja! Jeg trenger ikke lete. Jeg vet det med en gang.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 unike.py">Og hvilken kom først?</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🧺 unike">Aner ikke 🤷 Jeg husker <b>hva</b> jeg har, ikke rekkefølgen.</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+En <b>mengde</b> (set) har hver ting bare én gang. <code>unike = set()</code> lager en tom mengde · <code>unike.add(x)</code> legger x i · <code>x in unike</code> sjekker lynraskt.<br>
+Ingen rekkefølge, så <code>unike[0]</code> gir feil. Vil du ha den ryddig, bruk <code>sorted(unike)</code>.
+</div>
+<p class="e-sikker">⚡ <code>in</code> på en liste leter gjennom én og én. <code>in</code> på en mengde slår opp direkte. Med en svarteliste på en million IP-er merker du forskjellen!</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat unike.py" data-mal="Se på programmet:"><template class="ut"><span class="h2">unike = set()</span>
+for linje in open("auth.log"):
+    if "Failed password" in linje:
+        deler = linje.split()
+        <span class="h1">unike.add(deler[10])</span>
+print(<span class="h3">sorted(unike)</span>)
+print("Antall unike:", len(unike))
+print("203.0.113.45" in unike)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>tom mengde. Ikke <code>{}</code>, det er noe annet (oppgave 3)</span></li><li><span class="m h1"></span><span><code>add</code> i stedet for <code>append</code></span></li><li><span class="m h3"></span><span>sortert, så utskriften blir ryddig</span></li></ul><p>Nesten lik <code>ips.py</code>. Gjett: hvor mange IP-er kommer ut nå? 🤔</p></template></div>
+<div class="tm-o" data-cmd="python3 unike.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet."><template class="ut">['192.168.1.10', '198.51.100.7', '203.0.113.45']
+Antall unike: <span class="h1">3</span>
+<span class="h3">True</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>7 funn ble til 3 unike</span></li><li><span class="m h3"></span><span>svaret på <code>"203.0.113.45" in unike</code></span></li></ul></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hvor mange unike IP-er fant unike.py?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det gule tallet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+<div class="ans-row" data-p="1" data-a="true"><span class="ans-q">Hva svarte siste linje? True eller False</span><input class="ans-in" placeholder="True / False"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den grønne biten nederst.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">True</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag <code>unike.py</code> med <code>nano unike.py</code>, i samme mappe som <code>auth.log</code>. Kjør <code>python3 unike.py</code> 🎯 Prøv så å bytte <code>sorted(unike)</code> med bare <code>unike</code>. Da kan rekkefølgen bli en annen. Helt greit for en mengde!</div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="mcq" data-c="274290466" data-ok="Riktig! set() er en tom mengde." data-no="Ikke helt. {} er en tom ordbok, og [] er en tom liste. Se den blå linja i unike.py."><div class="mcq-q">Hvordan lager du en tom mengde?</div><button class="mcq-opt">{}</button><button class="mcq-opt">[]</button><button class="mcq-opt">set()</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="4|fire"><span class="ans-q">Lista hadde 7 IP-er, mengden 3. Hvor mange duplikater forsvant?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">7 minus 3.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Du kjører unike.add("203.0.113.45") en gang til. Hva gir len(unike) nå?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva sa kurven i chatten da den fikk en IP den hadde fra før?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · ORDBOK ═══════════════════════ -->
+<div class="lab-card" id="l17-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">📒 Ordboka: slå opp en IP</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Ordbok</div>
+<p class="e-hook">Kontaktlista på mobilen: du slår opp «Mamma» og får et nummer 📱 Python har det samme. Her er en ferdig utskrift. Hva er navn, og hva er nummer?</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Nøkler og verdier" data-oppgave="Dette skrev Python ut. Klikk på alle <b>verdiene</b>, altså antall forsøk.">
+<pre>{<span class="kl" data-forklar="Dette er en nøkkel. Den står til venstre for kolon. Det er den du slår opp på.">'203.0.113.45'</span>: <span class="kl" data-rett data-forklar="Verdien til 203.0.113.45: 4 forsøk.">4</span>, <span class="kl" data-forklar="Nøkkel! Venstre for kolon.">'198.51.100.7'</span>: <span class="kl" data-rett data-forklar="Verdien til 198.51.100.7: 2 forsøk.">2</span>, <span class="kl" data-forklar="Også en nøkkel. Den hører sammen med tallet rett etter kolon.">'192.168.1.10'</span>: <span class="kl" data-rett data-forklar="Verdien til 192.168.1.10: 1 forsøk.">1</span>}</pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+En <b>ordbok</b> (dict) er oppslag: <b>nøkkel</b> (key) <code>:</code> <b>verdi</b> (value). <code>{ }</code> rundt, komma mellom parene. Hver nøkkel finnes bare én gang.<br>
+<code>forsok["203.0.113.45"]</code> slår opp · <code>forsok["192.168.1.10"] = 1</code> legger til eller bytter
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat ordbok.py" data-mal="Se på programmet:"><template class="ut">forsok = {<span class="h2">"203.0.113.45"</span>: <span class="h1">4</span>, <span class="h2">"198.51.100.7"</span>: <span class="h1">2</span>}
+print(forsok[<span class="h2">"203.0.113.45"</span>])
+<span class="h3">forsok["192.168.1.10"] = 1</span>
+print(forsok)
+print(len(forsok))</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>nøkler</span></li><li><span class="m h1"></span><span>verdier</span></li><li><span class="m h3"></span><span>et nytt par legges til</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 ordbok.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet."><template class="ut"><span class="h1">4</span>
+{'203.0.113.45': 4, '198.51.100.7': 2, <span class="h3">'192.168.1.10': 1</span>}
+3</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>oppslaget: nøkkelen inn, verdien ut</span></li><li><span class="m h3"></span><span>det nye paret havnet bakerst</span></li></ul><p><code>len</code> teller <b>par</b>, ikke tall. 3 par.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hva skrev print(len(forsok)) ut?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Siste linje i utskriften.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+<div class="ans-row" data-p="1" data-a="1|en|én|ett"><span class="ans-q">Hvilken verdi har nøkkelen 192.168.1.10?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den grønne biten: tallet etter kolon.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv <code>nano ordbok.py</code>, skriv inn koden og lagre. Kjør <code>python3 ordbok.py</code> 🎯 Prøv så <code>print(forsok["10.0.0.1"])</code> nederst. Den nøkkelen finnes ikke, så Python svarer med <code>KeyError</code>. Husk den feilen til neste oppgave!</div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hva gir forsok["198.51.100.7"]?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Finn nøkkelen i spillet. Hvilket tall står etter kolon?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+<div class="ans-row" data-p="1" data-a="nøkkel|nøkkelen|key|nokkel|nøkler"><span class="ans-q">Hva heter det som står til venstre for kolon i en ordbok?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det var fellene i spillet. Det du slår opp på.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nøkkel</div></div></div>
+<div class="mcq" data-c="177631" data-ok="Riktig! Kolon står mellom nøkkel og verdi." data-no="Ikke helt. Komma står mellom parene. Se på {'203.0.113.45': 4}."><div class="mcq-q">Hvilket tegn står mellom nøkkel og verdi i en ordbok?</div><button class="mcq-opt">,</button><button class="mcq-opt">=</button><button class="mcq-opt">:</button><div class="mcq-fb"></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · TELL PER IP ═══════════════════════ -->
+<div class="lab-card" id="l17-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Tell per IP: tell.py blir smartere</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Ordbok som teller</div>
+<p class="e-hook">I L16 ga <code>tell.py</code> deg bare ett tall. Men <b>hvem</b> sto bak? Gi hver IP sin egen teller 🧮</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Bygg tell_ip.py" data-oppgave="Sett kodelinjene i riktig rekkefølge, fra øverst til nederst.">
+  <div class="rf-item" data-forklar="Tom ordbok før løkka. Ingen IP-er talt ennå."><code>teller = {}</code></div>
+  <div class="rf-item" data-forklar="Én runde per linje, som i L16."><code>for linje in open("auth.log"):</code></div>
+  <div class="rf-item" data-forklar="Bare feilede innlogginger slipper gjennom."><code>&nbsp;&nbsp;&nbsp;&nbsp;if "Failed password" in linje:</code></div>
+  <div class="rf-item" data-forklar="Plukk ut IP-en: ord nummer 10."><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ip = linje.split()[10]</code></div>
+  <div class="rf-item" data-forklar="Hent det gamle tallet (0 hvis IP-en er ny) og legg til 1."><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;teller[ip] = teller.get(ip, 0) + 1</code></div>
+  <div class="rf-item" data-forklar="Ny løkke, uten innrykk: går gjennom nøklene sortert, etter at loggen er lest."><code>for ip in sorted(teller):</code></div>
+  <div class="rf-item" data-forklar="Skriv nøkkel og verdi."><code>&nbsp;&nbsp;&nbsp;&nbsp;print(ip, teller[ip])</code></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>teller.get(ip, 0)</code> betyr: «gi meg tallet til denne IP-en, eller <b>0</b> hvis den ikke finnes ennå». Uten <code>get</code> krasjer første runde med <code>KeyError</code>.<br>
+<code>sorted(teller)</code> gir nøklene i sortert rekkefølge.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat tell_ip.py" data-mal="Se på programmet du bygde:"><template class="ut">teller = {}
+for linje in open("auth.log"):
+    if "Failed password" in linje:
+        ip = linje.split()[10]
+        <span class="h1">teller[ip] = teller.get(ip, 0) + 1</span>
+<span class="h2">for ip in sorted(teller):</span>
+    print(ip, teller[ip])</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>én linje gjør hele tellejobben</span></li><li><span class="m h2"></span><span>skriv ut, sortert på IP</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 tell_ip.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet. Husk understreken."><template class="ut">192.168.1.10 1
+198.51.100.7 2
+<span class="h1">203.0.113.45 4</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>verstingen 🦹</span></li></ul><p>1 + 2 + 4 = 7, samme som «Antall» i oppgave 1. Men nå vet du hvem.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="203.0.113.45"><span class="ans-q">Hvilken IP har flest feil passord?</span><input class="ans-in" placeholder="en IP"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule linja.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">203.0.113.45</div></div></div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvor mange feil passord kom fra 198.51.100.7?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tallet til høyre for IP-en.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv <code>nano tell_ip.py</code>, skriv inn koden med riktig innrykk (4 og 8 mellomrom), lagre og avslutt. Kjør <code>python3 tell_ip.py</code> 🎯 Legg så til en ny linje nederst i <code>auth.log</code>: kopier en Failed-linje fra 198.51.100.7. Kjør igjen og se tallet øke 🔁</div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="0|null"><span class="ans-q">En IP dukker opp for første gang. Hva gir teller.get(ip, 0)?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Reserven, tallet etter komma. Står i fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">0</div></div></div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Loggen får én ny Failed-linje fra 198.51.100.7. Hvilket tall står bak den IP-en nå?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den hadde 2 i øve-terminalen. <code>+ 1</code></div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+<div class="ans-row" data-p="1" data-a="keyerror|key error"><span class="ans-q">Du skriver teller[ip] + 1 i stedet for teller.get(ip, 0) + 1. Hvilken feil får du for en ny IP?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den du prøvde i Kali-boksen i oppgave 3. Nøkkelen finnes ikke.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">KeyError</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · VELG RIKTIG ═══════════════════════ -->
+<div class="lab-card" id="l17-5" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">Spørsmålet velger boksen</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Velg datastruktur</div>
+<p class="e-hook">Tre bokser 📋 🧺 📒. Hemmeligheten: Hør på <b>ordene</b> i spørsmålet. De sier hvilken boks du trenger.</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Liste, mengde eller ordbok?" data-knapper="📋 Liste|🧺 Mengde|📒 Ordbok">
+  <div class="ly-item" data-svar="1" data-hvorfor="«Hvilke?» = hver bare én gang. Mengde."><b>Hvilke</b> IP-er har prøvd å logge inn?</div>
+  <div class="ly-item" data-svar="2" data-hvorfor="«Hvor mange per …» = nøkkel → tall. Ordbok, som tell_ip.py."><b>Hvor mange</b> feil passord har <b>hver</b> IP?</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Alle, og rekkefølgen teller. Liste."><b>Alle</b> innloggingene, i den <b>rekkefølgen</b> de skjedde</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Raskt ja/nei-oppslag med in. Mengden er lynrask.">Står 203.0.113.45 på svartelista? Svar <b>fort</b>!</div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Slå opp IP, få et brukernavn. Nøkkel → verdi."><b>Hvilket brukernavn</b> hører til <b>hver</b> IP?</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="«De siste 10, i rekkefølge». Duplikater må få være med. Liste.">De 10 siste kommandoene du skrev, i <b>rekkefølge</b></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="«Hvilke?» igjen. Hver bruker bare én gang."><b>Hvilke</b> brukernavn prøvde angriperen?</div>
+  <div class="ly-item" data-svar="2" data-hvorfor="«Hvor mange ganger per bruker». Ordbok."><b>Hvor mange</b> ganger har <b>hver</b> bruker logget inn?</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Liste, mengde og ordbok er tre <b>datastrukturer</b> (data structures). Huskeregel:<br>
+«alle / i rekkefølge?» → 📋 liste <code>[]</code> · «hvilke?» → 🧺 mengde <code>set()</code> · «hvor mange per …?» → 📒 ordbok <code>{}</code>
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat velg.py" data-mal="Ett program, tre spørsmål, tre bokser:"><template class="ut"><span class="h1">ips = []</span>
+<span class="h2">unike = set()</span>
+<span class="h3">teller = {}</span>
+for linje in open("auth.log"):
+    if "Failed password" in linje:
+        ip = linje.split()[10]
+        <span class="h1">ips.append(ip)</span>
+        <span class="h2">unike.add(ip)</span>
+        <span class="h3">teller[ip] = teller.get(ip, 0) + 1</span>
+print("Alle:", len(ips))
+print("Hvilke:", sorted(unike))
+print("Per IP:", teller)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>📋 liste: alle funnene</span></li><li><span class="m h2"></span><span>🧺 mengde: hvilke</span></li><li><span class="m h3"></span><span>📒 ordbok: hvor mange per IP</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 velg.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet."><template class="ut">Alle: <span class="h1">7</span>
+Hvilke: <span class="h2">['192.168.1.10', '198.51.100.7', '203.0.113.45']</span>
+Per IP: <span class="h3">{'203.0.113.45': 4, '198.51.100.7': 2, '192.168.1.10': 1}</span></template><template class="forklar"><p>Samme logg, tre svar. Ordboka står i den rekkefølgen IP-ene dukket opp første gang 📒</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="hvilke"><span class="ans-q">Hvilken linje i utskriften kommer fra mengden? Skriv ordet foran kolon.</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå. Mengden svarer på «hvilke?».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Hvilke</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag <code>velg.py</code> med <code>nano velg.py</code> og kjør <code>python3 velg.py</code> 🎯 Utfordring: legg til <code>print(ips[-1])</code> nederst. Minus 1 betyr «den siste». Hvilken IP kommer ut?</div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="mengde|set|en mengde|mengden"><span class="ans-q">«Hvilke land kom angrepene fra?» Liste, mengde eller ordbok?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ordet «hvilke». Se huskeregelen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">mengde</div></div></div>
+<div class="ans-row" data-p="1" data-a="ordbok|dict|en ordbok|ordboka|dictionary"><span class="ans-q">«Hvor mange angrep kom fra hvert land?» Liste, mengde eller ordbok?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">«Hvor mange per …». Land → tall.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ordbok</div></div></div>
+<div class="ans-row" data-p="1" data-a="liste|list|en liste|lista"><span class="ans-q">«Vis alle feilede innlogginger, i den rekkefølgen de skjedde.» Liste, mengde eller ordbok?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">«Alle» og «rekkefølge». Hvilken boks husker rekkefølgen?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">liste</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-inner">
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+</div></div></footer>
+<script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
+</body>
+</html>

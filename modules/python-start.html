@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fra kommando til program — CyberLab</title>
+<link rel="stylesheet" href="../css/style.css?v=13">
+<link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+.x-linje{font-family:var(--mono);font-size:13px;color:var(--text2);margin:0 0 8px;word-break:break-all;white-space:pre-wrap}
+.x-biter{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.x-biter span{display:flex;flex-direction:column;align-items:center;background:#05070a;border:1px solid var(--border);border-radius:8px;padding:4px 8px;font-family:var(--mono);font-size:13.5px;color:var(--text)}
+.x-biter span i{font-style:normal;font-size:12px;font-weight:700;color:var(--amber);margin-top:2px}
+.x-biter span.x-ip{border-color:var(--blue)}
+.x-biter span.x-bruker{border-color:var(--purple)}
+.x-dim{color:var(--text3)}
+</style>
+</head>
+<body class="page enkel">
+<nav class="nav">
+  <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
+  <div class="nav-links">
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="nav-link">Hjem</a>
+    <a href="../emne1.html" class="nav-link">Emne 1</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne3.html" class="nav-link">Emne 3</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="nav-link on">Labber</a>
+    <a href="https://tk1104.timoamling.com/" target="_blank" rel="noopener" class="nav-link">Self check &nearr;</a>
+  </div>
+</nav>
+
+<div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
+
+<div class="mod-hero">
+  <div class="section-eyebrow">Emne 1 &middot; Leksjon 15</div>
+  <div class="section-title">Fra kommando til program</div>
+  <p class="section-desc">Ditt første Python-skript. Variabler, tekst mot tall, og hvordan du plukker IP-adressen ut av en logglinje. Seks små spill, og så noen spørsmål etter hvert.</p>
+</div>
+
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
+
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>Skript</dt><dd>En fil med kommandoer som datamaskinen gjør én etter én, ovenfra og ned.</dd>
+    <dt>Python</dt><dd>Programmeringsspråket. <code>python3 fil.py</code> kjører et skript.</dd>
+    <dt>print()</dt><dd>Skriver noe på skjermen.</dd>
+    <dt>nano</dt><dd>En enkel teksteditor i terminalen. Lagre: <b>Ctrl + O</b>, Enter. Avslutt: <b>Ctrl + X</b>.</dd>
+    <dt>Variabel</dt><dd>En boks med navnelapp. <code>ip = "10.0.0.5"</code></dd>
+    <dt>Streng (str)</dt><dd>Tekst. Står i anførselstegn: <code>"kali"</code>, <code>"22"</code></dd>
+    <dt>Heltall (int)</dt><dd>Et helt tall uten anførselstegn: <code>22</code></dd>
+    <dt>str() og int()</dt><dd>Gjør tall om til tekst, og tekst om til tall.</dd>
+    <dt>.split()</dt><dd>Kutter tekst i biter ved hvert mellomrom.</dd>
+    <dt>Liste</dt><dd>Mange ting i én boks, i rekkefølge. <code>['kali', 'admin', 'root']</code></dd>
+    <dt>Indeks</dt><dd>Nummeret til en bit i lista. Starter på 0.</dd>
+    <dt>Traceback</dt><dd>Feilmeldingen fra Python. Les den nedenfra: siste linje sier hva som gikk galt.</dd>
+    <dt>NameError</dt><dd>Python finner ikke navnet. Ofte en skrivefeil.</dd>
+    <dt>TypeError</dt><dd>Feil type, for eksempel tekst + tall.</dd>
+    <dt>IndexError</dt><dd>Du ba om en bit som ikke finnes i lista.</dd>
+  </dl>
+</details>
+
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
+
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · ET SKRIPT ═══════════════════════ -->
+<div class="lab-card" id="l15-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">Et skript er en oppskrift</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Ovenfra og ned</div>
+<p class="e-hook">Til nå har du skrevet én kommando om gangen. Hva om du skriver dem i en fil, og lar maskinen gjøre resten? 🐍 Se hvordan Python leser fila.</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Python leser hei.py">
+  <div class="ch-item" data-fra="sys">📄 Fila hei.py har tre linjer. Du skriver python3 hei.py og trykker Enter.</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🐍 Python">Linje 1: <code>print("Hei, Kali! 👋")</code>. Den skriver jeg ut.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🖥️ Skjermen">Hei, Kali! 👋</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🐍 Python">Linje 2: <code>print("Starter loggsjekk ...")</code>. Den også.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🖥️ Skjermen">Starter loggsjekk ...</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🐍 Python">Linje 3: <code>print("Ferdig ✅")</code>. Og så er det tomt. Jeg er ferdig 😴</div>
+  <div class="ch-item" data-fra="pc" data-navn="🖥️ Skjermen">Ferdig ✅</div>
+  <div class="ch-item" data-stopp="😈 Hva om linje 2 har en skrivefeil?"></div>
+  <div class="ch-item" data-fra="sys">Noen har skrevet <code>prnt</code> i stedet for <code>print</code> på linje 2.</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🐍 Python">Linje 1: <code>print("Hei, Kali! 👋")</code>. Lett!</div>
+  <div class="ch-item" data-fra="pc" data-navn="🖥️ Skjermen">Hei, Kali! 👋</div>
+  <div class="ch-item" data-fra="ond" data-navn="🐍 Python">Linje 2: <code>prnt</code>?! Det ordet kjenner jeg ikke 😵 Jeg stopper HER. NameError!</div>
+  <div class="ch-item" data-fra="sys">Linje 3 ble aldri lest. Python gjetter ikke. Den stopper ved første feil.</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+En fil med kommandoer heter et <b>skript</b> (script). Python leser det <b>ovenfra og ned</b>, én linje om gangen.<br>
+<code>print()</code> skriver det som står inni parentesen på skjermen. Python-filer slutter på <code>.py</code>.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat hei.py" data-mal="Se hva som står i skriptet:"><template class="ut"><span class="h2">print</span>("Hei, Kali! 👋")
+<span class="h2">print</span>("Starter loggsjekk ...")
+<span class="h2">print</span>("Ferdig ✅")</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>tre linjer, tre <code>print</code>. Akkurat som i chatten.</span></li></ul><p><code>cat</code> kjenner du fra L11. Den bare <b>viser</b> fila. Den kjører ingenting.</p></template></div>
+<div class="tm-o" data-cmd="python3 hei.py" data-mal="Kjør skriptet:"><template class="ut"><span class="h3">Hei, Kali! 👋
+Starter loggsjekk ...
+Ferdig ✅</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>det skriptet skrev ut, i samme rekkefølge som linjene i fila</span></li></ul><p><code>python3</code> = «Python, les denne fila og gjør det som står der».</p></template></div>
+<div class="tm-o" data-cmd="python3 feil.py" data-mal="Kjør feil.py, den med <code>prnt</code> på linje 2." data-skjult data-hint="Samme kommando som i stad. Bare filnavnet er nytt."><template class="ut">Hei, Kali! 👋
+Traceback (most recent call last):
+  File "/home/kali/feil.py", <span class="h1">line 2</span>, in &lt;module&gt;
+    prnt("Starter loggsjekk ...")
+    ^^^^
+<span class="h4">NameError</span>: name 'prnt' is not defined. Did you mean: 'print'?</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>her stoppet Python</span></li><li><span class="m h4"></span><span>hva som gikk galt. Python foreslår til og med riktig ord 😄</span></li></ul><p>Feilmeldingen heter en <b>traceback</b>. Les den <b>nedenfra</b>: siste linje er den viktigste.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hvor mange linjer skrev hei.py ut på skjermen?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de grønne linjene etter <code>python3 hei.py</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+<div class="ans-row" data-p="1" data-a="2|to|linje 2"><span class="ans-q">På hvilken linje stoppet feil.py?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se etter den gule biten <code>line …</code> i feilmeldingen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og lag fila selv: <code>nano hei.py</code><br>
+Skriv de tre linjene fra <code>cat hei.py</code> over. Så:<br>
+💾 <b>Ctrl + O</b> lagrer. 👉 <b>Enter</b> sier ja til filnavnet. 🚪 <b>Ctrl + X</b> lukker nano.<br>
+Kjør med <code>python3 hei.py</code>. Utskriften blir helt lik vår 🎯 Prøv så å skrive <code>prnt</code> på linje 2 og kjør igjen.<p class="e-win">Windows (med Python installert): lag fila i Notisblokk og kjør <code>python hei.py</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="python3 hei.py|python hei.py"><span class="ans-q">Hvilken kommando kjører skriptet hei.py?</span><input class="ans-in" placeholder="en kommando"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Du skrev den i oppdrag 2. Programmet først, så fila.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">python3 hei.py</div></div></div>
+<div class="ans-row" data-p="1" data-a="print|print()"><span class="ans-q">Hvilket ord i Python skriver tekst på skjermen?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det som var stavet feil i feil.py.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">print</div></div></div>
+<div class="ans-row" data-p="1" data-a="4|fire"><span class="ans-q">Et skript har 8 linjer. Linje 5 har en skrivefeil. Hvor mange linjer blir kjørt før det stopper?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">I chatten var feilen på linje 2. Hvor mange linjer kom på skjermen? Gjør det samme med linje 5.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · VARIABLER ═══════════════════════ -->
+<div class="lab-card" id="l15-2" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">En boks med navnelapp</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Variabler</div>
+<p class="e-hook">📦 Legg noe i en boks. 🏷️ Skriv et navn på lappen. Nå kan du hente det fram igjen med navnet. Gjett hva skjermen viser!</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Kode og skjerm" data-oppgave="Koble koden til det som kommer på skjermen.">
+  <div class="pr-par" data-forklar="Uten anførselstegn betyr «hent det som ligger i boksen bruker»."><span><code>bruker = "kali"<br>print(bruker)</code></span><span>kali</span></div>
+  <div class="pr-par" data-forklar="Med anførselstegn er det bare bokstavene b-r-u-k-e-r. Boksen blir ikke åpnet."><span><code>bruker = "kali"<br>print("bruker")</code></span><span>bruker</span></div>
+  <div class="pr-par" data-forklar="Ny ting i boksen? Da er den gamle borte. Bare den siste blir igjen."><span><code>ip = "10.0.0.5"<br>ip = "10.0.0.9"<br>print(ip)</code></span><span>10.0.0.9</span></div>
+  <div class="pr-par" data-forklar="Komma i print setter et mellomrom mellom bitene."><span><code>ip = "10.0.0.5"<br>print("Blokkerer", ip)</code></span><span>Blokkerer 10.0.0.5</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Boksen heter en <b>variabel</b> (variable). <code>=</code> betyr «legg i boksen», ikke «er lik».<br>
+Navn <b>uten</b> anførselstegn = innholdet i boksen. <b>Med</b> anførselstegn = bare de bokstavene.
+</div>
+<p class="e-sikker">🌙 Gi boksene navn som sier hva som er i dem: <code>ip</code> og <code>bruker</code>, ikke <code>x</code> og <code>ting</code>. Den som leser skriptet ditt under et angrep kl. 03 om natta, vil takke deg.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat vakt.py" data-mal="Se på skriptet vakt.py:"><template class="ut"><span class="h4">bruker</span> = <span class="h3">"kali"</span>
+<span class="h4">ip</span> = <span class="h3">"192.168.1.10"</span>
+print("Innlogget:", bruker)
+print("Fra:", ip)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h4"></span><span>navnelappene, altså variablene</span></li><li><span class="m h3"></span><span>det som legges i boksene</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 vakt.py" data-mal="Kjør det." data-skjult data-hint="Samme som i oppgave 1, men med det nye filnavnet."><template class="ut">Innlogget: kali
+Fra: <span class="h2">192.168.1.10</span></template><template class="forklar"><p>Linje 3 og 4 hentet fram innholdet fra boksene. Det står ikke <code>ip</code> på skjermen, men det som lå i <code>ip</code> 📦</p></template></div>
+<div class="tm-o" data-cmd="python3 skrivefeil.py" data-mal="Kjør skrivefeil.py. Der har noen skrevet <code>brukr</code> i stedet for <code>bruker</code>:"><template class="ut">Traceback (most recent call last):
+  File "/home/kali/skrivefeil.py", <span class="h1">line 2</span>, in &lt;module&gt;
+    print("Innlogget:", brukr)
+                        ^^^^^
+<span class="h4">NameError</span>: name 'brukr' is not defined. Did you mean: <span class="h3">'bruker'</span>?</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>linja med feilen</span></li><li><span class="m h4"></span><span>«finner ikke det navnet»: ingen boks heter <code>brukr</code></span></li><li><span class="m h3"></span><span>Python gjetter hva du mente</span></li></ul></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="192.168.1.10"><span class="ans-q">Hvilken IP-adresse skrev vakt.py ut?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå biten etter <code>Fra:</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">192.168.1.10</div></div></div>
+<div class="ans-row" data-p="1" data-a="bruker|'bruker'"><span class="ans-q">Hvilket navn foreslo Python i feilmeldingen?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se etter <code>Did you mean</code> helt til slutt.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">bruker</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag fila med <code>nano vakt.py</code> og skriv de fire linjene fra <code>cat vakt.py</code>. Lagre med <b>Ctrl + O</b>, <b>Enter</b>, og lukk med <b>Ctrl + X</b>. Kjør <code>python3 vakt.py</code>. Bytt så <code>"kali"</code> med ditt eget navn og kjør igjen 😄<p class="e-win">Windows: <code>python vakt.py</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="1.1.1.1"><span class="ans-q">Først <code>ip = "8.8.8.8"</code>, så <code>ip = "1.1.1.1"</code>, så <code>print(ip)</code>. Hva kommer på skjermen?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Husk paret med 10.0.0.9. Hva ligger i boksen til slutt?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1.1.1.1</div></div></div>
+<div class="ans-row" data-p="1" data-a="bruker"><span class="ans-q"><code>bruker = "root"</code> og så <code>print("bruker")</code>. Hva kommer på skjermen?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på anførselstegnene. Blir boksen åpnet?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">bruker</div></div></div>
+<div class="ans-row" data-p="1" data-a="nameerror|name error"><span class="ans-q">Hva heter feilen du får når du bruker et variabelnavn som ikke finnes?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Siste linje i feilmeldingen fra skrivefeil.py. Den lilla.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">NameError</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · TEKST ELLER TALL ═══════════════════════ -->
+<div class="lab-card" id="l15-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">Tekst eller tall?</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — To slags ting</div>
+<p class="e-hook">For Python er <code>22</code> og <code>"22"</code> to helt forskjellige ting. Anførselstegnene avslører det 🕵️ Hvor raskt ser du det?</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Tekst eller tall?" data-knapper="📝 Tekst|🔢 Tall">
+  <div class="ly-item" data-svar="0" data-hvorfor="Anførselstegn = tekst. Et brukernavn er alltid tekst."><code>"kali"</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Ingen anførselstegn, bare siffer. Et tall.">🔌 <code>22</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Lurt! Det ser ut som et tall, men anførselstegnene gjør det til tekst.">🔌 <code>"22"</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Fire tall med punktum er ikke ett tall. IP-adresser er tekst i Python."><code>"192.168.1.10"</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Et helt tall. HTTP-koden for «finnes ikke».">🚫 <code>404</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Enkle anførselstegn virker akkurat som doble. Fortsatt tekst."><code>'5'</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="int() gjør teksten «404» om til tallet 404. Mer om det i neste oppgave."><code>int("404")</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="str() gjør tallet 3 om til teksten «3»."><code>str(3)</code></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Tekst heter en <b>streng</b> (string, kort <code>str</code>). Hele tall heter <b>heltall</b> (integer, kort <code>int</code>).<br>
+<code>+</code> med to strenger <b>limer sammen</b>. <code>+</code> med to tall <b>regner</b>.
+</div>
+<p class="e-sikker">🔐 Alt Python leser fra en loggfil er tekst, også tallene. Porten i en logglinje er <code>"40122"</code>, ikke <code>40122</code>. Husk det når du skal regne!</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="python3 -c &quot;print('5' + '5')&quot;" data-alias="python3 -c &quot;print('5'+'5')&quot;|python3 -c 'print(&quot;5&quot; + &quot;5&quot;)'|python3 -c 'print(&quot;5&quot;+&quot;5&quot;)'" data-mal="Pluss to strenger:"><template class="ut"><span class="h1">55</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>«5» og «5» limt sammen. Ikke 10!</span></li></ul><p><code>-c</code> betyr «kjør denne ene linja». Da slipper du å lage en fil.</p></template></div>
+<div class="tm-o" data-cmd="python3 -c &quot;print(5 + 5)&quot;" data-alias="python3 -c &quot;print(5+5)&quot;|python3 -c 'print(5 + 5)'|python3 -c 'print(5+5)'" data-mal="Pluss to tall:"><template class="ut"><span class="h3">10</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>ekte matte, fordi det er tall</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 -c &quot;print(type('5'), type(5))&quot;" data-alias="python3 -c &quot;print(type('5'),type(5))&quot;|python3 -c 'print(type(&quot;5&quot;), type(5))'" data-mal="Spør Python hvilken type de er:"><template class="ut">&lt;class '<span class="h1">str</span>'&gt; &lt;class '<span class="h3">int</span>'&gt;</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span><code>'5'</code> er en streng</span></li><li><span class="m h3"></span><span><code>5</code> er et heltall</span></li></ul><p><code>type()</code> svarer på «hva slags ting er dette?». Nyttig når noe oppfører seg rart.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="55"><span class="ans-q">Hva ble <code>'5' + '5'</code>?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule utskriften fra første oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">55</div></div></div>
+<div class="ans-row" data-p="1" data-a="int|&lt;class 'int'&gt;"><span class="ans-q">Hvilken type sa Python at <code>5</code> er?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den grønne biten i siste utskrift.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">int</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme tre kommandoene i terminalen. Svarene blir helt like 🎯 Pass på å skrive <b>enkle</b> anførselstegn inni de doble.<p class="e-win">Windows: bytt <code>python3</code> med <code>python</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="12"><span class="ans-q">Hva skriver <code>print("1" + "2")</code>?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Anførselstegn = tekst. Tekst + tekst = limes sammen, som 55.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">12</div></div></div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hva skriver <code>print(1 + 2)</code>?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ingen anførselstegn. Da regner Python, som med 5 + 5.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+<div class="ans-row" data-p="1" data-a="tekst|str|streng|string"><span class="ans-q">Er <code>"443"</code> tekst eller tall?</span><input class="ans-in" placeholder="tekst / tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Samme felle som 🔌 <code>"22"</code> i lynrunden.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">tekst</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · TYPEERROR ═══════════════════════ -->
+<div class="lab-card" id="l15-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Når tekst og tall krasjer</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Gjør om</div>
+<p class="e-hook">Tekst + tekst går fint. Tall + tall går fint. Men tekst + tall? Da nekter Python 🙅 To av linjene under krasjer. Finn dem!</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🐞 Finn krasjene" data-oppgave="Klikk på de to linjene som krasjer. Sjekk hva som er tekst og hva som er tall.">
+<pre><span class="x-dim">bruker = "admin"   # tekst
+forsok = 3         # tall
+port = "22"        # tekst</span>
+
+<span class="kl" data-forklar="Tekst + tekst. Limes fint sammen: «Bruker: admin».">print("Bruker: " + bruker)</span>
+<span class="kl" data-rett data-forklar="Tekst + tall! forsok er 3 uten anførselstegn. TypeError 💥">print("Forsøk: " + forsok)</span>
+<span class="kl" data-forklar="port er «22» med anførselstegn. Tekst + tekst går fint.">print("Port: " + port)</span>
+<span class="kl" data-forklar="Tall + tall. Skriver 4.">print(forsok + 1)</span>
+<span class="kl" data-rett data-forklar="port er tekst, 1 er et tall. TypeError 💥">print(port + 1)</span></pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Krasjet heter <b>TypeError</b>: feil type. Fiks det ved å gjøre om:<br>
+<code>str(3)</code> → <code>"3"</code> gjør et tall om til tekst.<br>
+<code>int("22")</code> → <code>22</code> gjør tekst om til et tall.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat forsok.py" data-mal="Se på forsok.py:"><template class="ut">bruker = <span class="h3">"admin"</span>
+forsok = <span class="h1">3</span>
+print("Bruker: " + bruker)
+print("Mislykkede forsøk: " + forsok)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>tekst</span></li><li><span class="m h1"></span><span>tall</span></li></ul><p>Ser du linja som kommer til å krasje? 👀</p></template></div>
+<div class="tm-o" data-cmd="python3 forsok.py" data-mal="Kjør den." data-skjult data-hint="<code>python3</code> og filnavnet."><template class="ut">Bruker: admin
+Traceback (most recent call last):
+  File "/home/kali/forsok.py", <span class="h1">line 4</span>, in &lt;module&gt;
+    print("Mislykkede forsøk: " + forsok)
+          ~~~~~~~~~~~~~~~~~~~~~~<span class="h2">^</span>~~~~~~~~
+<span class="h4">TypeError</span>: can only concatenate str (not "int") to str</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>linja som krasjet</span></li><li><span class="m h2"></span><span>pila peker på <code>+</code>-tegnet som ikke gikk</span></li><li><span class="m h4"></span><span>feil type: «kan bare lime str til str, ikke int»</span></li></ul><p>Legg merke til at linje 3 rakk å kjøre først. Ovenfra og ned! ⬇️</p></template></div>
+<div class="tm-o" data-cmd="python3 -c &quot;print('Port ' + str(22))&quot;" data-alias="python3 -c &quot;print('Port '+str(22))&quot;|python3 -c 'print(&quot;Port &quot; + str(22))'" data-mal="Gjør tallet om til tekst med <code>str()</code>:"><template class="ut"><span class="h3">Port 22</span></template><template class="forklar"><p><code>str(22)</code> ble til <code>"22"</code>. Tekst + tekst = ingen krasj ✅</p></template></div>
+<div class="tm-o" data-cmd="python3 -c &quot;print(int('22') + 1)&quot;" data-alias="python3 -c &quot;print(int('22')+1)&quot;|python3 -c 'print(int(&quot;22&quot;) + 1)'" data-mal="Gjør tekst om til tall med <code>int()</code>, og regn:"><template class="ut"><span class="h3">23</span></template><template class="forklar"><p><code>int("22")</code> ble til <code>22</code>. Tall + tall = 23 ✅</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="4|fire|linje 4"><span class="ans-q">På hvilken linje krasjet forsok.py?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten <code>line …</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Kom «Bruker: admin» på skjermen før krasjet? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på aller første linje i utskriften.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag forsok.py med <code>nano forsok.py</code> og kjør den. Du får den samme feilen. Fiks så linje 4 til <code>print("Mislykkede forsøk: " + str(forsok))</code>, lagre og kjør igjen 🔧<p class="e-win">Windows: <code>python forsok.py</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="str(3)|str( 3 )"><span class="ans-q">Hvordan gjør du tallet 3 om til teksten <code>"3"</code>?</span><input class="ans-in" placeholder="kode"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Du brukte den med 22 i øve-terminalen. Tre bokstaver og en parentes.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">str(3)</div></div></div>
+<div class="ans-row" data-p="1" data-a="81"><span class="ans-q">Hva skriver <code>print(int("80") + 1)</code>?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Som siste oppdrag i øve-terminalen, bare med 80.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">81</div></div></div>
+<div class="ans-row" data-p="1" data-a="typeerror|type error"><span class="ans-q"><code>port = "443"</code> og så <code>print(port + 1)</code>. Hvilken feil får du?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Akkurat som den siste krasjen du fant i spillet 🐞</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">TypeError</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · SPLIT OG INDEKS ═══════════════════════ -->
+<div class="lab-card" id="l15-5" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">Kutt logglinja i biter</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Biter med nummer</div>
+<p class="e-hook">Husker du «Failed password»-linja du fant med <code>grep</code>? Nå kutter Python den ✂️ ved hvert mellomrom, og gir hver bit et nummer. Se nøye på det <b>første</b> nummeret 👀</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hvilken bit?" data-oppgave="Koble nummeret til biten. Bruk boksene over.">
+<p class="x-linje">Oct  7 09:11:03 server sshd[1931]: Failed password for admin from 203.0.113.45 port 40122 ssh2</p>
+<div class="x-biter"><span>Oct<i>0</i></span><span>7<i>1</i></span><span>09:11:03<i>2</i></span><span>server<i>3</i></span><span>sshd[1931]:<i>4</i></span><span>Failed<i>5</i></span><span>password<i>6</i></span><span>for<i>7</i></span><span class="x-bruker">admin<i>8</i></span><span>from<i>9</i></span><span class="x-ip">203.0.113.45<i>10</i></span><span>port<i>11</i></span><span>40122<i>12</i></span><span>ssh2<i>13</i></span></div>
+  <div class="pr-par" data-forklar="Python teller fra 0. Første bit er nummer 0, ikke 1!"><span><code>deler[0]</code></span><span>Oct</span></div>
+  <div class="pr-par" data-forklar="0 = Oct, 1 = 7, 2 = klokkeslettet."><span><code>deler[2]</code></span><span>09:11:03</span></div>
+  <div class="pr-par" data-forklar="Brukernavnet angriperen prøvde 🦹"><span><code>deler[8]</code></span><span>admin</span></div>
+  <div class="pr-par" data-forklar="IP-adressen til angriperen. Den vil du ha!"><span><code>deler[10]</code></span><span>203.0.113.45</span></div>
+  <div class="pr-par" data-forklar="14 biter, nummerert 0 til 13. Nummer 14 finnes ikke, så Python krasjer."><span><code>deler[14]</code></span><span>💥 IndexError</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>.split()</code> kutter tekst ved hvert mellomrom og gir deg en <b>liste</b> (list). Nummeret på hver bit heter <b>indeks</b> (index).<br>
+Python teller fra <b>0</b>. Første bit er <code>deler[0]</code>. Ber du om en bit som ikke finnes: <b>IndexError</b>.
+</div>
+<p class="e-sikker">🧹 Se på <code>Oct  7</code>: det er <b>to</b> mellomrom der. <code>.split()</code> uten noe i parentesen hopper over ekstra mellomrom, så du får ingen tomme biter.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="python3 -c &quot;print('kali admin root'.split())&quot;" data-alias="python3 -c 'print(&quot;kali admin root&quot;.split())'" data-mal="Kutt tre brukernavn i biter:"><template class="ut">[<span class="h1">'kali'</span>, <span class="h2">'admin'</span>, <span class="h3">'root'</span>]</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>bit 0</span></li><li><span class="m h2"></span><span>bit 1</span></li><li><span class="m h3"></span><span>bit 2</span></li></ul><p>Klammeparentesene <code>[ ]</code> betyr at det er en <b>liste</b>.</p></template></div>
+<div class="tm-o" data-cmd="python3 -c &quot;print('kali admin root'.split()[0])&quot;" data-alias="python3 -c 'print(&quot;kali admin root&quot;.split()[0])'" data-mal="Hent bit nummer 0:"><template class="ut"><span class="h1">kali</span></template><template class="forklar"><p><code>[0]</code> rett etter lista = «gi meg bit 0». Det er den første.</p></template></div>
+<div class="tm-o" data-cmd="python3 -c &quot;print('kali admin root'.split()[1])&quot;" data-alias="python3 -c 'print(&quot;kali admin root&quot;.split()[1])'" data-mal="Hent ut <code>admin</code>." data-skjult data-hint="Som forrige kommando, bare et annet nummer. Pil opp ⬆️ henter den fram."><template class="ut"><span class="h2">admin</span></template><template class="forklar"><p>admin er bit nummer <b>1</b>, selv om den er nummer to i rekka.</p></template></div>
+<div class="tm-o" data-cmd="python3 -c &quot;print('kali admin root'.split()[3])&quot;" data-alias="python3 -c 'print(&quot;kali admin root&quot;.split()[3])'" data-mal="Prøv bit nummer 3:"><template class="ut">Traceback (most recent call last):
+  File "&lt;string&gt;", line 1, in &lt;module&gt;
+    print('kali admin root'.split()[3])
+          ~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+<span class="h4">IndexError</span>: list index out of range</template><template class="forklar"><ul class="e-forklar"><li><span class="m h4"></span><span>«nummeret er utenfor lista». Tre biter = 0, 1 og 2. Ingen nummer 3.</span></li></ul><p><code>&lt;string&gt;</code> står der fordi koden kom fra <code>-c</code>, ikke fra en fil.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hvor mange biter ble det av <code>'kali admin root'</code>?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de fargede bitene i første utskrift.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvilket nummer har <code>root</code>?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">kali = 0, admin = 1, root = …</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme fire kommandoene. Tips: <b>pil opp</b> ⬆️ henter forrige kommando, så du bare trenger å bytte tallet. Prøv også <code>[-1]</code>: da får du den <b>siste</b> biten 😉<p class="e-win">Windows: bytt <code>python3</code> med <code>python</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="10|deler[10]|ti"><span class="ans-q">I «Failed password»-linja: hvilket nummer har IP-adressen?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på den blå boksen i spillet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">10</div></div></div>
+<div class="ans-row" data-p="1" data-a="203.0.113.45"><span class="ans-q">En linje fra webserveren: <code>203.0.113.45 - - [07/Oct/2026:09:12:44 +0200] "GET /admin HTTP/1.1" 404 196</code>. Hva er <code>deler[0]</code>?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Bit 0 er den aller første, helt til venstre.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">203.0.113.45</div></div></div>
+<div class="ans-row" data-p="1" data-a="4|fire"><span class="ans-q">En liste har 5 biter. Hvilket nummer har den siste?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tre biter hadde nummer 0, 1 og 2. Start på 0 og tell fem.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 6 · BYGG IP.PY ═══════════════════════ -->
+<div class="lab-card" id="l15-6" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">06</span>
+  <span class="lab-title">Ditt første loggverktøy</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Alt sammen</div>
+<p class="e-hook">Fire linjer, og du har et ekte verktøy som plukker IP-en til angriperen ut av loggen 🛠️ Men bare hvis linjene står i riktig rekkefølge.</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Bygg ip.py" data-oppgave="Sett linjene i den rekkefølgen Python må lese dem.">
+  <div class="rf-item" data-forklar="Først må logglinja ligge i en boks. (Forkortet her.)"><code>linja = "Oct  7 09:11:03 … from 203.0.113.45 port 40122 ssh2"</code></div>
+  <div class="rf-item" data-forklar="Så kutter vi den i biter ✂️. Du kan ikke kutte noe du ikke har."><code>deler = linja.split()</code></div>
+  <div class="rf-item" data-forklar="Plukk ut bit nummer 10. Talt fra 0!"><code>ip = deler[10]</code></div>
+  <div class="rf-item" data-forklar="Til slutt viser vi svaret. Før dette fantes ikke boksen ip."><code>print("Mistenkelig IP:", ip)</code></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Det du nettopp bygde, gjør analytikere i et SOC hele dagen: <b>henter ut et felt</b> (field) fra en logglinje.<br>
+Oppskriften er alltid den samme: <b>ta linja → kutt → plukk → vis</b>.
+</div>
+<p class="e-sikker">🔐 <code>grep</code> fant linja i L12. Python plukker ut akkurat det feltet du trenger. I L16 lærer du å gjøre det for hundre linjer på én gang 🚀</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat ip.py" data-mal="Se på det ferdige skriptet:"><template class="ut">linja = "Oct  7 09:11:03 server sshd[1931]: Failed password for admin from 203.0.113.45 port 40122 ssh2"
+deler = linja.split()
+ip = deler[<span class="h1">10</span>]
+print("Mistenkelig IP:", ip)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>bit nummer 10, den blå boksen fra forrige oppgave</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 ip.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet, som før."><template class="ut">Mistenkelig IP: <span class="h2">203.0.113.45</span></template><template class="forklar"><p>🎉 Ditt første loggverktøy virker!</p></template></div>
+<div class="tm-o" data-cmd="cat bruker.py" data-mal="Se på bruker.py. Hva er forskjellen?" data-skjult data-hint="Samme kommando som viste ip.py."><template class="ut">linja = "Oct  7 09:11:03 server sshd[1931]: Failed password for admin from 203.0.113.45 port 40122 ssh2"
+deler = linja.split()
+bruker = deler[<span class="h1">8</span>]
+print("Prøvde brukernavn:", bruker)</template><template class="forklar"><p>Bare to ting er byttet: nummeret (8 i stedet for 10) og navnet på boksen.</p></template></div>
+<div class="tm-o" data-cmd="python3 bruker.py" data-mal="Kjør den." data-skjult data-hint="Som da du kjørte ip.py."><template class="ut">Prøvde brukernavn: <span class="h4">admin</span></template><template class="forklar"><p>Samme linje, nytt felt. Bytt nummer, så får du noe annet ut 🔁</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="203.0.113.45"><span class="ans-q">Hvilken IP skrev ip.py ut?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå biten etter <code>Mistenkelig IP:</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">203.0.113.45</div></div></div>
+<div class="ans-row" data-p="1" data-a="8|åtte|deler[8]"><span class="ans-q">Hvilket nummer brukte bruker.py?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det gule tallet i <code>cat bruker.py</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">8</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag fila med <code>nano ip.py</code> og skriv de fire linjene fra <code>cat ip.py</code>. Lim inn i terminalen med <b>Ctrl + Shift + V</b>. Lagre med <b>Ctrl + O</b>, <b>Enter</b>, lukk med <b>Ctrl + X</b>, og kjør <code>python3 ip.py</code>. Svaret blir helt likt vårt 🎯 Klarer du å få ut porten også?<p class="e-win">Windows: <code>python ip.py</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="deler = linja.split()|deler=linja.split()"><span class="ans-q">Hvilken linje må komme rett etter <code>linja = "…"</code> i ip.py?</span><input class="ans-in" placeholder="kode"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Steg 2 i spillet: den med saksa ✂️</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">deler = linja.split()</div></div></div>
+<div class="ans-row" data-p="1" data-a="nameerror|name error"><span class="ans-q">Du bytter plass på linje 3 og 4 i ip.py, så <code>print</code> kommer før <code>ip = deler[10]</code>. Hvilken feil får du?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Boksen <code>ip</code> finnes ikke ennå. Samme feil som med <code>brukr</code> i oppgave 2.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">NameError</div></div></div>
+<div class="ans-row" data-p="1" data-a="12|tolv|deler[12]"><span class="ans-q">Hvilket nummer må du bruke for å hente porten <code>40122</code>?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på boksene i oppgave 5. IP-en var 10, så kommer <code>port</code>, så …</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">12</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-inner">
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+</div></div></footer>
+<script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
+</body>
+</html>

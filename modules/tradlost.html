@@ -6,17 +6,12 @@
 <title>Tr&aring;dl&oslash;se nettverk — CyberLab</title>
 <link rel="stylesheet" href="../css/style.css?v=13">
 <link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
-<style>
-.cmd{background:#05070a;border:1px solid var(--border);border-left:2px solid var(--blue);
-  border-radius:0 6px 6px 0;padding:11px 14px;font-family:var(--mono);font-size:11.5px;
-  color:var(--text2);overflow-x:auto;line-height:1.85;white-space:pre-wrap;word-break:break-word}
-.cmd .c{color:var(--text3)}
-</style>
 </head>
-<body class="page">
+<body class="page enkel">
 <nav class="nav">
   <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
   <div class="nav-links">
@@ -29,220 +24,532 @@
 </nav>
 
 <div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
-  <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
-  <div class="mod-hero">
-    <div class="section-eyebrow">Lab 16 &middot; Emne 1 &middot; Leksjon 10</div>
-    <div class="section-title">Tr&aring;dl&oslash;se nettverk</div>
-    <p class="section-desc">Luft i stedet for kabel. Hva det endrer, hvilke sikkerhetsl&oslash;sninger som finnes, og hvordan du kjenner igjen et falskt aksesspunkt.</p>
-  </div>
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
 
-  <div class="progress-wrap">
-    <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
-    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-  </div>
+<div class="mod-hero">
+  <div class="section-eyebrow">Lab 16 &middot; Emne 1 &middot; Leksjon 10</div>
+  <div class="section-title">Tr&aring;dl&oslash;se nettverk</div>
+  <p class="section-desc">Luft i stedet for kabel. Hvem kan høre deg, hvilke låser holder, og hvordan avslører du et falskt nett? Åtte små spill, og så noen spørsmål etter hvert.</p>
+</div>
 
-  <div class="filter-row">
-    <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
-    <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
-    <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
-    <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
-  </div>
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
 
-  <div class="tasks">
-  <div class="lab-card" id="n10-1" data-level="easy">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">01</span>
-      <span class="lab-title">Lufta er et delt medium</span>
-      <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-1">Niv&aring; 1 &mdash; Terskelen</div>
-        <div class="theory-block"><div class="theory-title">📡 Ingen trenger å koble til noe for å høre deg</div><div class="theory-text"><p>P&aring; kabel m&aring; en angriper fysisk koble seg til nettet. I lufta holder det &aring; v&aelig;re <strong>innenfor rekkevidde</strong>.</p><p>Signalet stopper ikke ved veggen. Et vanlig aksesspunkt n&aring;s fra gata, fra naboleiligheten og fra parkeringsplassen.</p><p>Radiospekteret er ogs&aring; <strong>delt</strong>: alle p&aring; samme kanal m&aring; bytte p&aring; &aring; sende. Flere enheter gir mindre kapasitet til hver, selv om ingen gj&oslash;r noe galt.</p><p>Kort sagt: samme pakke, samme protokoller, men <strong>terskelen for &aring; lytte er nesten borte</strong>. Det er derfor kryptering er obligatorisk i lufta og valgfritt p&aring; kabel.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Samme angriper, to milj&oslash;er.</p><ol class="wsteps"><li>Kabel: han m&aring; inn i bygget og finne en ledig port</li><li>Tr&aring;dl&oslash;st: han kan sitte i en bil p&aring; utsiden</li><li>Kabel: han ser bare trafikk p&aring; den porten han sitter p&aring;</li><li>Tr&aring;dl&oslash;st: han h&oslash;rer <strong>alt som sendes innenfor rekkevidde</strong></li><li>Derfor er ukryptert Wi-Fi noe helt annet enn et ukryptert kablet nett</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd"><span class='c'># se n&aelig;rliggende nett</span>
-nmcli dev wifi list
-iwlist scan 2&gt;/dev/null | grep -E 'ESSID|Quality'</div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Må en angriper koble til noe fysisk for å høre trådløs trafikk? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Signalet stopper ikke ved veggen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">To naboer bruker samme kanal. Får hver av dem full kapasitet? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kanalen er delt, og alle m&aring; bytte p&aring; &aring; sende.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-p="1" data-a="rekkevidde|terskelen|terskel|tilgang"><span class="ans-q">Hva er den viktigste forskjellen på kabel og luft, i ett ord?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Sp&oslash;r hva som skal til for &aring; <em>lytte</em>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">rekkevidde</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Sp&oslash;r hva som skal til for &aring; <em>lytte</em>, ikke for &aring; koble til.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n10-2" data-level="easy">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">02</span>
-      <span class="lab-title">WEP, WPA2 og WPA3</span>
-      <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-1">Niv&aring; 1 &mdash; Sikkerhetsmodus</div>
-        <div class="theory-block"><div class="theory-title">🔐 Fire generasjoner, og bare to du skal bruke</div><div class="theory-text"><p><strong>&Aring;pent</strong> nett: ingen kryptering. Alt kan leses av alle i n&aelig;rheten.</p><p><strong>WEP</strong>: fra 1999, knekkes p&aring; minutter med verkt&oslash;y som er fritt tilgjengelige. Skal aldri brukes.</p><p><strong>WPA2</strong>: dagens vanlige standard, bygget p&aring; AES. Trygt s&aring; lenge passordet er langt nok, fordi passordet kan angripes med ordliste offline.</p><p><strong>WPA3</strong>: nyeste. Gj&oslash;r offline ordlisteangrep upraktisk, og krypterer ogs&aring; p&aring; &aring;pne nett.</p><p>Valget er enkelt: <strong>WPA3 hvis alt utstyret st&oslash;tter det, ellers WPA2 med et langt passord</strong>.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Et gammelt nett bruker WEP med et 20 tegn langt passord.</p><ol class="wsteps"><li>Lang passordfrase hjelper ikke</li><li>Svakheten i WEP ligger i <strong>selve protokollen</strong>, ikke i passordlengden</li><li>Nok fanget trafikk gir n&oslash;kkelen uansett hvor langt passordet er</li><li>Det samme gjelder ikke WPA2, der lengden faktisk betyr noe</li><li>Derfor er r&aring;det ulikt: bytt ut WEP, men forleng passordet p&aring; WPA2</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">nmcli dev wifi list
-<span class='c'># kolonnen SECURITY viser modus</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="wep"><span class="ans-q">Hvilken sikkerhetsmodus skal aldri brukes?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den eldste av de fire, fra 1999.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">wep</div></div></div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Hjelper et langt passord mot svakheten i WEP? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Svakheten ligger i protokollen, ikke i n&oslash;kkellengden.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-p="1" data-a="wpa3"><span class="ans-q">Hvilken modus beskytter også på åpne nett?</span><input class="ans-in" placeholder="fire tegn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den nyeste av de fire.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">wpa3</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Sp&oslash;r om svakheten ligger i passordet eller i protokollen.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n10-3" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">03</span>
-      <span class="lab-title">Navnet er ikke identitet</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 2 &mdash; Evil Twin</div>
-        <div class="theory-block"><div class="theory-title">👯 Hvem som helst kan kalle nettet sitt hva de vil</div><div class="theory-text"><p>Nettverksnavnet, <strong>SSID-en</strong>, er bare en tekststreng som aksesspunktet kringkaster. Det er ingen identitet og ingen garanti.</p><p>En <strong>Evil Twin</strong> er et aksesspunkt satt opp med <em>samme navn</em> som et nett du stoler p&aring;. Enheten din ser kjent navn og kobler til, gjerne automatisk.</p><p>Et <strong>Rogue AP</strong> er noe annet: et uautorisert aksesspunkt koblet inn i bedriftens <em>eget</em> nett, ofte av en ansatt som ville ha bedre dekning. Det &aring;pner en vei utenom brannmuren.</p><p>Telefonen din gj&oslash;r dette verre ved &aring; rope etter nett den har brukt f&oslash;r. En angriper kan h&oslash;re hvilke navn du leter etter, og lage nettopp det.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Du &aring;pner PC-en p&aring; en kafe.</p><ol class="wsteps"><li>Den kobler automatisk til <code>Gjestenett</code>, som den brukte p&aring; skolen</li><li>Men dette aksesspunktet st&aring;r i sekken til en som sitter to bord unna</li><li>Alt du sender g&aring;r gjennom hans maskin f&oslash;rst</li><li>HTTPS beskytter fortsatt innholdet, men han ser <strong>hvilke</strong> tjenester du bruker</li><li>Og alt som ikke er kryptert, leser han rett av</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">nmcli dev wifi list
-<span class='c'># samme navn, to ulike BSSID?</span>
-<span class='c'># sl&aring; av automatisk tilkobling</span>
-nmcli con mod &lt;navn&gt; connection.autoconnect no</div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="evil twin|eviltwin"><span class="ans-q">To nett i lista har samme navn men ulik BSSID. Hva kan det være?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">SSID er bare en tekststreng. Hvem som helst kan velge den.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">evil twin</div></div></div><div class="ans-row" data-p="1" data-a="rogue ap|rogue"><span class="ans-q">Et uautorisert AP koblet inn i bedriftens eget nett, hva kalles det?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Skill mellom et falskt nett utenfor og et ulovlig punkt innenfor.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">rogue ap</div></div></div><div class="ans-row" data-p="1" data-a="automatisk tilkobling|auto-tilkobling|autoconnect"><span class="ans-q">Hvilken innstilling på klienten reduserer risikoen mest?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Maskinen kobler seg til kjente navn av seg selv.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">automatisk tilkobling</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Skill mellom et falskt nett <em>utenfor</em> og et ulovlig AP <em>innenfor</em>.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">Merk at to AP-er med samme navn ogs&aring; er helt normalt i store bygg, der flere aksesspunkt deler SSID med vilje. Funnet er alts&aring; ikke \u00absamme navn\u00bb alene, men samme navn der du <em>ikke</em> forventer det.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n10-4" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">04</span>
-      <span class="lab-title">Velg riktig oppsett</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 3 &mdash; Vurdering</div>
-        <div class="theory-block"><div class="theory-title">🏠 Fire spørsmål avgjør oppsettet</div><div class="theory-text"><p><strong>Hvem skal p&aring;?</strong> Ansatte, gjester og utstyr b&oslash;r ikke dele nett. Det er segmenteringen fra forrige leksjon, i tr&aring;dl&oslash;s utgave.</p><p><strong>Hvilken modus?</strong> WPA3 om mulig, ellers WPA2. Aldri WEP, aldri &aring;pent uten at du mener det.</p><p><strong>Hvor langt passord?</strong> P&aring; WPA2 er lengden det eneste som beskytter mot offline ordlisteangrep. Korte og vanlige passord knekkes.</p><p><strong>Skal gjester n&aring; noe internt?</strong> Nesten alltid nei. Gjestenettet skal ut mot internett og ingenting annet.</p><p>Og sl&aring; av WPS. Det er en snarvei som undergraver et godt passord.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En liten bedrift setter opp tr&aring;dl&oslash;st.</p><ol class="wsteps"><li>Ansatte: eget SSID, WPA3, tilgang til interne tjenester</li><li>Gjester: eget SSID, WPA2 eller WPA3, <strong>kun ut mot internett</strong></li><li>Skrivere og sensorer: eget SSID, ingen tilgang til hverandre eller til ansattnettet</li><li>WPS sl&aring;s av overalt</li><li>Tre nett p&aring; samme aksesspunkt, tre ulike sett med regler</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">nmcli dev wifi list
-<span class='c'># sjekk modus og signalstyrke</span>
-nmcli -f SSID,SECURITY,SIGNAL dev wifi</div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="wps"><span class="ans-q">Hva bør slås av fordi det undergraver et godt passord?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tre bokstaver, en snarvei for enkel tilkobling.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">wps</div></div></div><div class="ans-row" data-p="1" data-a="ingen ting|ingenting|ikke noe"><span class="ans-q">Gjestenettet skal nå internett og hva mer?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tenk p&aring; hva en gjest faktisk trenger.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ingenting</div></div></div><div class="ans-row" data-p="1" data-a="passordlengden|langt passord|passordet|lengden"><span class="ans-q">På WPA2, hva er det eneste som beskytter mot offline ordlisteangrep?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Angrepet pr&oslash;ver seg gjennom en ordliste. Hva gj&oslash;r det upraktisk?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">passordlengden</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Still de fire sp&oslash;rsm&aring;lene i rekkef&oslash;lge for hvert nett du setter opp.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n10-5" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">05</span>
-      <span class="lab-title">Kanaler og overlapping</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 2 &mdash; Spekteret</div>
-        <div class="theory-block"><div class="theory-title">📶 Tre kanaler i 2,4 GHz som ikke tråkker på hverandre</div><div class="theory-text"><p>2,4 GHz-b&aring;ndet har 13 kanaler i Europa, men de ligger bare <strong>5 MHz fra hverandre</strong>, mens hver kanal er <strong>20 MHz bred</strong>. Kanalene overlapper alts&aring; hverandre.</p><p>Kanal 1, 6 og 11 ligger 25 MHz fra hverandre, og er de eneste som ikke overlapper i det hele tatt. Derfor brukes de tre.</p><p>To aksesspunkt p&aring; <strong>samme</strong> kanal deler kapasiteten pent, fordi de h&oslash;rer hverandre og bytter p&aring;. To p&aring; <strong>delvis overlappende</strong> kanaler, for eksempel 1 og 3, h&oslash;rer hverandre som st&oslash;y og sender oppå hverandre. Det er verre.</p><p>5 GHz har mange flere kanaler som ikke overlapper, og kortere rekkevidde. Kortere rekkevidde er en fordel innend&oslash;rs: mindre st&oslash;y fra naboen, og mindre signal ut p&aring; gata.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Tre aksesspunkt i samme etasje.</p><ol class="wsteps"><li>AP 1 p&aring; kanal 1, AP 2 p&aring; kanal 6, AP 3 p&aring; kanal 11</li><li>Ingen av dem overlapper, og alle tre kan sende samtidig</li><li>Setter du i stedet AP 2 p&aring; kanal 3, overlapper den b&aring;de 1 og 6</li><li>De h&oslash;rer hverandre som st&oslash;y i stedet for som trafikk, og bytter derfor ikke p&aring;</li><li>Resultatet er d&aring;rligere for alle tre enn om de hadde delt &eacute;n kanal</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">nmcli -f SSID,CHAN,SIGNAL dev wifi
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>Wi-Fi</dt><dd>Nettverk over radiobølger i stedet for kabel.</dd>
+    <dt>Aksesspunkt (AP)</dt><dd>Boksen som sender ut det trådløse nettet.</dd>
+    <dt>SSID</dt><dd>Navnet på nettet. Bare en tekst, hvem som helst kan velge den.</dd>
+    <dt>BSSID</dt><dd>MAC-adressen til aksesspunktet. <code>3C:22:FB:7A:10:05</code></dd>
+    <dt>Kanal</dt><dd>Den biten av lufta et nett sender på. Alle på samme kanal bytter på.</dd>
+    <dt>2,4 / 5 GHz</dt><dd>De to vanligste båndene. 2,4 når lengst, 5 har flere kanaler.</dd>
+    <dt>WEP</dt><dd>Gammel lås fra 1999. Knust. Aldri bruk.</dd>
+    <dt>WPA2</dt><dd>Vanlig lås i dag. Trygg med langt passord.</dd>
+    <dt>WPA3</dt><dd>Nyeste lås. Stopper gjetting av passordet offline.</dd>
+    <dt>Firehåndstrykket</dt><dd>Fire meldinger når du kobler til WPA2. Passordet sendes ikke.</dd>
+    <dt>WPS</dt><dd>Snarvei med knapp eller PIN. Slå den av.</dd>
+    <dt>Evil Twin</dt><dd>Et falskt nett med samme navn som et ekte.</dd>
+    <dt>Rogue AP</dt><dd>Et uautorisert aksesspunkt inne i bedriftens eget nett.</dd>
+    <dt>Deauth</dt><dd>Meldingen «du er koblet fra». Kan forfalskes uten PMF.</dd>
+    <dt>PMF (802.11w)</dt><dd>Signerer slike meldinger, så falske kastes.</dd>
+    <dt>Klientisolasjon</dt><dd>Gjestene på samme nett når ikke hverandre.</dd>
+  </dl>
+</details>
 
-<span class='c'># senterfrekvens: 2412 + (kanal - 1) * 5 MHz</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="1, 6, 11|1 6 11|1,6,11"><span class="ans-q">Hvilke tre kanaler i 2,4 GHz overlapper ikke hverandre?</span><input class="ans-in" placeholder="tre tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">De m&aring; ligge minst 20 MHz fra hverandre, og avstanden er 5 MHz per kanal.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1 6 11</div></div></div><div class="ans-row" data-p="1" data-a="2437"><span class="ans-q">Hva er senterfrekvensen til kanal 6?</span><input class="ans-in" placeholder="et tall i MHz"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Regn: 2412 pluss fem MHz per kanal over kanal 1.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2437</div></div></div><div class="ans-row" data-p="1" data-a="verre"><span class="ans-q">To AP-er på kanal 1 og 3. Er det bedre eller verre enn begge på kanal 1?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">P&aring; samme kanal h&oslash;rer de hverandre og bytter p&aring;.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">verre</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Regn ut avstanden i MHz og sammenlign med kanalbredden p&aring; 20 MHz.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">Dette overrasker de fleste: <strong>delvis overlapp er verre enn full overlapp</strong>. Utstyr som h&oslash;rer hverandre samarbeider. Utstyr som bare h&oslash;rer st&oslash;y gj&oslash;r det ikke.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n10-6" data-level="hard">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">06</span>
-      <span class="lab-title">Det som fanges opp i lufta</span>
-      <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-5">Niv&aring; 3 &mdash; H&aring;ndtrykket</div>
-        <div class="theory-block"><div class="theory-title">🤝 Passordet sendes aldri, men noe som er avledet av det gjør</div><div class="theory-text"><p>N&aring;r en klient kobler til et WPA2-nett, utveksles fire meldinger som kalles <strong>firehåndstrykket</strong>. Passordet selv sendes aldri over lufta.</p><p>Men meldingene inneholder verdier som er <strong>regnet ut fra passordet</strong>. En angriper som fanger h&aring;ndtrykket kan gjette passord offline: for hvert gjett regner han ut hva h&aring;ndtrykket skulle sett ut som, og sammenligner.</p><p>Det betyr at han bare trenger &aring; v&aelig;re til stede i de sekundene en klient kobler til. Resten gj&oslash;r han hjemme, uten &aring; v&aelig;re i n&aelig;rheten.</p><p>Nettverksnavnet inng&aring;r i utregningen, og fungerer som et salt. Derfor er standardnavn som <code>NETGEAR</code> svakere: ferdig utregnede tabeller finnes for dem.</p><p>WPA3 endrer selve h&aring;ndtrykket slik at offline-gjetting ikke lenger er praktisk mulig.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En angriper sitter i bilen utenfor i ti minutter.</p><ol class="wsteps"><li>Han fanger ett h&aring;ndtrykk n&aring;r en ansatt kommer tilbake fra lunsj</li><li>Deretter kj&oslash;rer han av g&aring;rde. Han trenger ikke v&aelig;re der mer</li><li>Hjemme pr&oslash;ver han ordliste mot det fangede h&aring;ndtrykket</li><li>Er passordet <code>Sommer2026!</code>, tar det sekunder</li><li>Er det fire tilfeldige ord, kommer han ingen vei</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Til hjelp</div>
-          <div class="cmd"><span class='c'># dette gj&oslash;res ikke her, bare mot eget utstyr</span>
-<span class='c'># poenget er &aring; forst&aring; hva som fanges:</span>
-<span class='c'># fire meldinger, ikke passordet</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Sendes passordet selv over lufta i firehåndstrykket? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det som sendes er regnet ut fra passordet, ikke passordet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-p="1" data-a="til han fanger et håndtrykk|til en klient kobler til|noen sekunder|et håndtrykk"><span class="ans-q">Hvor lenge må angriperen være i nærheten?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Resten av arbeidet gj&oslash;r han et annet sted.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">til han fanger et håndtrykk</div></div></div><div class="ans-row" data-p="1" data-a="nettverksnavnet|navnet|ssid"><span class="ans-q">Hvilken egenskap ved nettet fungerer som et salt i utregningen?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Derfor er standardnavn svakere enn selvvalgte.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ssid</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Skill mellom hva som m&aring; gj&oslash;res p&aring; stedet og hva som kan gj&oslash;res etterp&aring;.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">Dette er grunnen til at <strong>passordlengde er det som betyr noe p&aring; WPA2</strong>. Angriperen har ubegrenset tid og ubegrenset antall fors&oslash;k, fordi han gjetter mot en kopi og ikke mot nettet.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n10-7" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">07</span>
-      <span class="lab-title">Å kaste noen av nettet</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 3 &mdash; Deautentisering</div>
-        <div class="theory-block"><div class="theory-title">📴 En melding som ikke trenger å bevise noe</div><div class="theory-text"><p>I gammel Wi-Fi er meldingen som sier «du er koblet fra» <strong>ikke beskyttet</strong>. Hvem som helst kan sende den, med en avsenderadresse de ikke eier.</p><p>Det brukes til to ting. &Aring; <strong>tvinge fram et nytt h&aring;ndtrykk</strong>, slik at angriperen slipper &aring; vente p&aring; at noen kobler til av seg selv. Og &aring; <strong>flytte klienter over</strong> til et falskt aksesspunkt med samme navn.</p><p>Tiltaket heter <strong>beskyttede administrasjonsrammer</strong>, 802.11w. Det signerer meldingen, slik at en forfalsket kopi forkastes. Det er <strong>påbudt i WPA3</strong> og valgfritt i WPA2.</p><p>Legg merke til hvordan dette henger sammen med forrige oppgave og med Evil Twin: deautentisering er ofte f&oslash;rste steg i begge.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Angriperen vil ikke vente p&aring; et h&aring;ndtrykk.</p><ol class="wsteps"><li>Han sender en deautentiseringsmelding til en klient, med aksesspunktets adresse som avsender</li><li>Klienten tror beskjeden kom fra nettet, og kobler fra</li><li>Den kobler automatisk til igjen med en gang</li><li>Da sendes et <strong>nytt firehåndstrykk</strong>, som angriperen fanger</li><li>Brukeren merker kanskje et lite hakk i videosamtalen, og ikke noe mer</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Til hjelp</div>
-          <div class="cmd"><span class='c'># sjekk om nettet ditt har 802.11w</span>
-<span class='c'># i klientens detaljer, se etter</span>
-<span class='c'># «Protected Management Frames» eller PMF</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Er meldingen som kobler deg fra beskyttet i gammel Wi-Fi? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Derfor kan hvem som helst sende den.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-p="1" data-a="firehåndstrykk|handtrykk|håndtrykk"><span class="ans-q">Hvorfor sender angriperen den? For å tvinge fram et nytt hva?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Han vil ikke vente p&aring; at noen kobler til av seg selv.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">håndtrykk</div></div></div><div class="ans-row" data-p="1" data-a="802.11w|80211w|pmf"><span class="ans-q">Hvilken standard signerer meldingen så forfalskninger forkastes?</span><input class="ans-in" placeholder="et nummer"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den er p&aring;budt i WPA3.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">802.11w</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Sp&oslash;r hva angriperen vinner p&aring; at noen kobler til <em>igjen</em>.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n10-8" data-level="hard">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">08</span>
-      <span class="lab-title">Gjestenett som faktisk skiller</span>
-      <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-5">Niv&aring; 4 &mdash; Klientisolasjon</div>
-        <div class="theory-block"><div class="theory-title">🚧 Eget passord er ikke det samme som eget nett</div><div class="theory-text"><p>Mange gjestenett har bare et eget navn og passord, men ender i <strong>samme nett</strong> som alt annet. Da har du delt ut n&oslash;kkelen til huset og h&aring;pet p&aring; det beste.</p><p>Tre ting skal v&aelig;re p&aring; plass. <strong>Eget VLAN og eget nett</strong>, slik at gjester ikke deler kringkastingsdomene med ansatte. <strong>Regel i ruteren</strong> som bare tillater ut mot internett. Og <strong>klientisolasjon</strong>, som hindrer at to gjester n&aring;r hverandre.</p><p>Det siste glemmes oftest. Uten det kan en gjest ARP-spoofe en annen gjest, akkurat som i oppgave 3, og det skjer p&aring; kafeer hele tiden.</p><p>Og gjestepassordet b&oslash;r roteres. Et passord som har st&aring;tt p&aring; en tavle i to &aring;r er ikke lenger en avgrensning.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>To gjester p&aring; samme gjestenett, uten klientisolasjon.</p><ol class="wsteps"><li>Begge har f&aring;tt adresse i samme nett, for eksempel 192.168.50.0/24</li><li>De deler alts&aring; kringkastingsdomene</li><li>Gjest A kan sende ARP-svar og utgi seg for &aring; v&aelig;re gatewayen</li><li>All trafikken til gjest B g&aring;r da gjennom gjest A f&oslash;rst</li><li>Regelen mot internett er fortsatt oppfylt. Den sa ingenting om trafikk <em>innad</em> i sonen</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd"><span class='c'># sjekk hvem du deler nett med</span>
-ip neigh
-arp -a
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
 
-<span class='c'># ser du andre klienter, mangler isolasjon</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="klientisolasjon|isolasjon"><span class="ans-q">To gjester ser hverandre i arp -a. Hvilket tiltak mangler?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tiltaket hindrer at klienter i samme sone n&aring;r hverandre.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">klientisolasjon</div></div></div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Er eget passord nok til å skille gjester fra ansatte? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Sp&oslash;r om de havner i samme nett etterp&aring;.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Regelen tillater bare ut mot internett. Stopper den gjest A fra å nå gjest B? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Regelen st&aring;r i ruteren. G&aring;r trafikk mellom to i samme nett innom den?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Skill mellom regler i overgangen ut, og hva som skjer innad i sonen.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">Det siste sp&oslash;rsm&aring;let er poenget. <strong>Brannmurregler gjelder trafikk som krysser en grense.</strong> To maskiner i samme nett snakker sammen uten &aring; passere ruteren i det hele tatt, og da har regelen ingenting den skulle ha sagt.</div></div>
-      </div>
-    </div>
-  </div>
-  </div>
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
 
-  <div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · DELT MEDIUM ═══════════════════════ -->
+<div class="lab-card" id="n10-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">Lufta er et delt medium</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Terskelen</div>
+<p class="e-hook">På kabel må skurken inn i bygget 🏢. På Wi-Fi holder det med en bil på parkeringsplassen 🚗. Hva mer endrer seg?</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Kabel eller luft?" data-knapper="🔌 Kabel|📡 Trådløst">
+  <div class="ly-item" data-svar="0" data-hvorfor="Kabel: uten en ledig port i veggen kommer han ikke inn.">🏢 Angriperen må inn i bygget og finne en ledig nettverksport</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Radiobølger stopper ikke ved veggen. Han trenger bare å være innenfor rekkevidde.">🚗 Angriperen sitter i en bil utenfor og hører alt</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Signalet går gjennom vegger, gulv og tak.">🧱 Signalet ditt når helt inn i stua til naboen</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Kabel: switchen gir ham bare trafikken til porten han sitter i.">🔍 Angriperen ser bare trafikken i den ene porten han sitter i</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Lufta er delt. Alle på samme kanal må vente på tur.">🚦 Alle på samme kanal må bytte på å sende</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Når hvem som helst kan lytte, er kryptering et must.">🔐 Uten kryptering kan alle i nærheten lese med</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Wi-Fi bruker radiobølger. Lufta er et <b>delt medium</b>: alle innenfor <b>rekkevidde</b> hører, og alle på samme <b>kanal</b> deler tiden.<br>
+Boksen som sender nettet heter <b>aksesspunkt</b> (access point, AP). Navnet på nettet heter <b>SSID</b>.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="iw dev" data-mal="Se det trådløse nettkortet ditt:"><template class="ut">phy#0
+	Interface <span class="h1">wlan0</span>
+		ifindex 3
+		wdev 0x1
+		addr <span class="h2">08:00:27:3c:7a:10</span>
+		ssid Hjemme
+		type <span class="h3">managed</span>
+		channel <span class="h4">6</span> (2437 MHz), width: 20 MHz, center1: 2437 MHz
+		txpower 20.00 dBm</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>navnet på Wi-Fi-kortet. På kabel het det eth0</span></li><li><span class="m h2"></span><span>MAC-adressen din, den samme som i leksjon 5</span></li><li><span class="m h3"></span><span>managed = vanlig klient som kobler seg til et nett</span></li><li><span class="m h4"></span><span>kanalen du sender på</span></li></ul></template></div>
+<div class="tm-o" data-cmd="nmcli -f SSID,SIGNAL,BARS dev wifi" data-mal="Se alle nettene du hører, og hvor sterkt:" data-alias="nmcli -f ssid,signal,bars dev wifi|nmcli -f SSID,SIGNAL,BARS dev wifi list|nmcli -f SSID,SIGNAL,BARS device wifi list"><template class="ut"><span class="h2">SSID</span>              <span class="h1">SIGNAL</span>  BARS
+Hjemme            <span class="h1">82</span>      ▂▄▆█
+Hjemme            <span class="h1">67</span>      ▂▄▆_
+Naboen            <span class="h1">54</span>      ▂▄__
+Leilighet_3B      <span class="h1">47</span>      ▂▄__
+Kaffebaren_Gjest  <span class="h1">41</span>      ▂▄__
+Frisoren          <span class="h1">36</span>      ▂▄__
+Gamle_Ruter       <span class="h1">30</span>      ▂___</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>navnet på nettet</span></li><li><span class="m h1"></span><span>signalstyrke fra 0 til 100</span></li></ul><p>Sju nett, og bare to av dem er dine. Alle de andre når inn til sofaen din. Og ditt nett når like langt ut til dem 📡</p><p><code>-f</code> = velg kolonner. <code>dev wifi</code> = vis Wi-Fi-nettene rundt deg.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="6|seks|kanal 6"><span class="ans-q">Hvilken kanal sender wlan0 på?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det lilla tallet i <code>iw dev</code>, etter <code>channel</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">6</div></div></div>
+<div class="ans-row" data-p="1" data-a="gamle_ruter|gamle ruter|gamleruter"><span class="ans-q">Hvilket nett har svakest signal, men når likevel helt inn til deg?</span><input class="ans-in" placeholder="et navn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Nederste linje. Lavest tall i SIGNAL.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Gamle_Ruter</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme kommandoene. Prøv også <code>nmcli dev wifi list</code>, som viser alle kolonnene. Lista hos deg blir annerledes. Det er helt riktig!<br>Kali i VirtualBox ser ikke Wi-Fi-kortet i PC-en din. Du trenger en USB-Wi-Fi-adapter koblet til den virtuelle maskinen. Uten den er lista tom.<p class="e-win">Windows: <code>netsh wlan show networks mode=bssid</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Må en angriper koble til noe fysisk for å høre trådløs trafikk? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvor satt angriperen på 🚗-kortet i lynrunden? Måtte han inn noe sted?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">To naboer bruker samme kanal. Får hver av dem full kapasitet? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Lynrunden, 🚦-kortet: hva må alle på samme kanal gjøre?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="rekkevidde|terskelen|terskel|tilgang"><span class="ans-q">Hva er den viktigste forskjellen på kabel og luft, i ett ord?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva trenger angriperen i lufta? Han må bare være innenfor … (se fagord-boksen).</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">rekkevidde</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · SIKKERHETSMODUS ═══════════════════════ -->
+<div class="lab-card" id="n10-2" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">WEP, WPA2 og WPA3</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Sikkerhetsmodus</div>
+<p class="e-hook">Sju nett i lufta rundt leiligheten din. To av dem skal du aldri koble deg til. Finner du dem? 🚫</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Hvilke nett er utrygge?" data-oppgave="Se på SECURITY-kolonnen. Klikk på de to nettene du aldri skal koble deg til.">
+<pre>IN-USE  BSSID              SSID              MODE   CHAN  RATE        SIGNAL  BARS  SECURITY
+*       3C:22:FB:7A:10:05  Hjemme            Infra  6     130 Mbit/s  82      ▂▄▆█  <span class="kl" data-forklar="WPA2 med AES. Trygt, så lenge passordet er langt.">WPA2</span>
+        3C:22:FB:7A:10:06  Hjemme            Infra  44    540 Mbit/s  67      ▂▄▆_  WPA2
+        A4:91:B1:22:7C:01  Naboen            Infra  6     130 Mbit/s  54      ▂▄__  <span class="kl" data-forklar="Naboen tilbyr både WPA2 og WPA3. Det beste av to verdener.">WPA2 WPA3</span>
+        5C:E9:31:08:6D:42  Leilighet_3B      Infra  3     130 Mbit/s  47      ▂▄__  WPA2
+        70:4F:57:0E:3B:9A  Kaffebaren_Gjest  Infra  11    130 Mbit/s  41      ▂▄__  <span class="kl" data-rett data-forklar="To streker = ingen lås i det hele tatt. Alle i nærheten kan lese alt.">--</span>
+        B0:BE:76:19:E2:57  Frisoren          Infra  9     65 Mbit/s   36      ▂▄__  <span class="kl" data-forklar="Gammel WPA1 er også slått på. Ikke pent, men PC-en din kobler til med WPA2.">WPA1 WPA2</span>
+        00:1E:58:A1:42:C3  Gamle_Ruter       Infra  1     54 Mbit/s   30      ▂___  <span class="kl" data-rett data-forklar="WEP fra 1999. Ser ut som en lås, men knekkes på minutter.">WEP</span></pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Låsen heter <b>sikkerhetsmodus</b>. Fire generasjoner:<br>
+<b>Åpent</b> (<code>--</code>): ingen kryptering.<br>
+<b>WEP</b> (1999): knust. Skal aldri brukes.<br>
+<b>WPA2</b>: vanlig i dag, bygget på AES. Trygt med langt passord.<br>
+<b>WPA3</b>: nyest. Har også en variant for åpne nett, <b>Enhanced Open</b> (OWE), som krypterer selv uten passord.
+</div>
+<p class="e-sikker">🔓 Lang nøkkel redder ikke WEP. Feilen ligger i <b>selve protokollen</b>: startverdien er bare 24 bit og gjentar seg. Med nok fanget trafikk regnes nøkkelen ut, uansett hvor lang den er.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="nmcli -f SSID,SECURITY dev wifi" data-mal="Vis bare navn og lås:" data-alias="nmcli -f ssid,security dev wifi|nmcli -f SSID,SECURITY dev wifi list|nmcli -f SSID,SECURITY device wifi list"><template class="ut"><span class="h2">SSID</span>              <span class="h1">SECURITY</span>
+Hjemme            <span class="h3">WPA2</span>
+Hjemme            <span class="h3">WPA2</span>
+Naboen            <span class="h3">WPA2 WPA3</span>
+Leilighet_3B      <span class="h3">WPA2</span>
+Kaffebaren_Gjest  <span class="h1">--</span>
+Frisoren          WPA1 WPA2
+Gamle_Ruter       <span class="h1">WEP</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>god lås</span></li><li><span class="m h1"></span><span>ingen lås, eller en knust lås</span></li></ul><p>Samme kommando som i oppgave 1, bare med andre kolonner etter <code>-f</code>.</p></template></div>
+<div class="tm-o" data-cmd="nmcli -f SSID,SECURITY dev wifi | grep -v WPA" data-mal="Vis bare nettene uten WPA:"><template class="ut">SSID              SECURITY
+<span class="h1">Kaffebaren_Gjest</span>  --
+<span class="h1">Gamle_Ruter</span>       WEP</template><template class="forklar"><p><code>|</code> sender lista videre til <code>grep</code>. <code>grep -v WPA</code> = vis linjene som <b>ikke</b> inneholder WPA. Igjen står de to du fant i spillet 🎯 (og overskriften, den har heller ikke WPA i seg).</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="kaffebaren_gjest|kaffebaren gjest|kaffebarengjest"><span class="ans-q">Hvilket nett er helt åpent, uten lås?</span><input class="ans-in" placeholder="et navn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Linja der SECURITY bare er to streker.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Kaffebaren_Gjest</div></div></div>
+<div class="ans-row" data-p="1" data-a="naboen"><span class="ans-q">Hvilket nett kan du koble til med WPA3?</span><input class="ans-in" placeholder="et navn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se etter WPA3 i SECURITY-kolonnen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Naboen</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme kommandoene. Ser du WEP eller et åpent nett hos deg? Da vet du hvilke du skal holde deg unna 😉<p class="e-win">Windows: <code>netsh wlan show networks</code> (se linja «Authentication»)</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="wep"><span class="ans-q">Hvilken sikkerhetsmodus skal aldri brukes?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilket av de to nettene du klikket på hadde en lås, men en knust en? Tre bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">wep</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Hjelper et langt passord mot svakheten i WEP? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Les den gule boksen 🔓. Ligger feilen i nøkkelen eller i protokollen?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="wpa3"><span class="ans-q">Hvilken modus beskytter også på åpne nett?</span><input class="ans-in" placeholder="fire tegn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se fagord-boksen: hvilken modus har en variant for åpne nett?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">wpa3</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · EVIL TWIN ═══════════════════════ -->
+<div class="lab-card" id="n10-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">Navnet er ikke identitet</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Evil Twin</div>
+<p class="e-hook">Du åpner PC-en på en kafé. Den kobler seg på et nett helt av seg selv. Kjent navn. Hva kan gå galt? ☕</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Kafé-chatten">
+  <div class="ch-item" data-fra="sys">📍 Kaffebaren. PC-en din har vært på «Gjestenett» på skolen før. To bord unna sitter en med en sekk 🎒</div>
+  <div class="ch-item" data-fra="pc" data-navn="Din PC">📣 Er «Gjestenett» her? Jeg har vært der før!</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Aksesspunkt i sekken">Ja da! Jeg er «Gjestenett» 😇</div>
+  <div class="ch-item" data-fra="pc" data-navn="Din PC">Kjent navn! Kobler til automatisk 🤝</div>
+  <div class="ch-item" data-fra="sys">Navnet er bare tekst. Hvem som helst kan kalle nettet sitt hva de vil.</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Aksesspunkt i sekken">Nå går alt du sender gjennom meg 😏 HTTPS kan jeg ikke lese, men jeg ser hvilke sider du besøker. Og alt som ikke er kryptert, leser jeg rett av.</div>
+  <div class="ch-item" data-stopp="🏢 Samtidig, på et kontor…"></div>
+  <div class="ch-item" data-fra="nabo" data-navn="👩‍💼 Ansatt">Elendig dekning her 😤 Jeg plugger min egen lille ruter inn i nettverksporten i veggen 📶</div>
+  <div class="ch-item" data-fra="sys">Nå står et trådløst nett rett inn i bedriftens eget nett. Utenom brannmuren. Uten at IT vet om det.</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 På parkeringsplassen">Takk for døra 🚪😈</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>SSID</b> = navnet på nettet. Bare tekst. <b>BSSID</b> = MAC-adressen til aksesspunktet. Den er ulik for hver radio.<br>
+🦹 i sekken var en <b>Evil Twin</b>: et falskt nett med samme navn som et du stoler på.<br>
+Ruteren til den ansatte var et <b>Rogue AP</b>: et uautorisert aksesspunkt <i>inne i</i> bedriftens eget nett.
+</div>
+<p class="e-sikker">🏢 Samme navn på flere BSSID-er er helt normalt i store bygg, og på ruteren din (Hjemme sto to ganger i oppgave 1: én for 2,4 GHz og én for 5 GHz). Mistenkelig blir det når du ser det der du <b>ikke</b> venter det.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="nmcli -f IN-USE,SSID,BSSID,SECURITY dev wifi" data-mal="På kafeen: vis navn og BSSID for nettene rundt deg:" data-alias="nmcli -f in-use,ssid,bssid,security dev wifi|nmcli -f IN-USE,SSID,BSSID,SECURITY dev wifi list|nmcli -f IN-USE,SSID,BSSID,SECURITY device wifi list"><template class="ut">IN-USE  SSID              BSSID              SECURITY
+<span class="h3">*</span>       Gjestenett        <span class="h1">02:1A:7B:44:C0:DE</span>  --
+        <span class="h2">Kaffebaren_Gjest</span>  <span class="h1">02:1A:7B:44:C0:DF</span>  --
+        <span class="h2">Kaffebaren_Gjest</span>  70:4F:57:0E:3B:9A  --
+        Kaffebaren_Kasse  E4:5F:01:AA:3D:72  WPA2</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>stjerna = nettet du er koblet til nå 😬</span></li><li><span class="m h2"></span><span>samme navn to ganger, med ulik BSSID</span></li><li><span class="m h1"></span><span>nesten like BSSID-er: samme boks sender begge de falske nettene. Den i sekken!</span></li></ul></template></div>
+<div class="tm-o" data-cmd="nmcli -f NAME,AUTOCONNECT connection show" data-mal="Vis de lagrede nettene dine, og om de kobler til av seg selv:" data-alias="nmcli -f name,autoconnect connection show|nmcli -f NAME,AUTOCONNECT con show|nmcli -f NAME,AUTOCONNECT c show|nmcli -f NAME,AUTOCONNECT con"><template class="ut">NAME                <span class="h1">AUTOCONNECT</span>
+<span class="h2">Gjestenett</span>          <span class="h1">yes</span>
+Hjemme              <span class="h1">yes</span>
+Wired connection 1  <span class="h1">yes</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>profilen fra skolen. Den var det 🦹 kopierte</span></li><li><span class="m h1"></span><span>yes = kobler til av seg selv når navnet dukker opp</span></li></ul></template></div>
+<div class="tm-o" data-cmd="nmcli connection modify Gjestenett connection.autoconnect no" data-mal="Slå av automatisk tilkobling for Gjestenett:" data-alias="nmcli con mod Gjestenett connection.autoconnect no|nmcli c mod Gjestenett connection.autoconnect no|nmcli con modify Gjestenett connection.autoconnect no|nmcli connection mod Gjestenett connection.autoconnect no"><template class="ut"></template><template class="forklar"><p>Ingen utskrift = det gikk bra ✅ Linux sier bare fra når noe går galt.</p></template></div>
+<div class="tm-o" data-cmd="nmcli -f NAME,AUTOCONNECT connection show" data-mal="Sjekk at det virket." data-alias="nmcli -f name,autoconnect connection show|nmcli -f NAME,AUTOCONNECT con show|nmcli -f NAME,AUTOCONNECT c show|nmcli -f NAME,AUTOCONNECT con" data-skjult data-hint="Samme kommando som i oppdrag 2."><template class="ut">NAME                AUTOCONNECT
+<span class="h2">Gjestenett</span>          <span class="h3">no</span>
+Hjemme              yes
+Wired connection 1  yes</template><template class="forklar"><p>Nå må <b>du</b> velge Gjestenett selv. En tvilling med samme navn får ikke lenger PC-en din gratis 🛡️</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvor mange ulike BSSID-er har navnet Kaffebaren_Gjest?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de blå navnene i første oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+<div class="ans-row" data-p="1" data-a="02:1a:7b:44:c0:de"><span class="ans-q">Hvilken BSSID har nettet du er koblet til?</span><input class="ans-in" placeholder="xx:xx:xx:xx:xx:xx"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Linja med stjerna i IN-USE.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">02:1A:7B:44:C0:DE</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme kommandoene, men bruk navnet på et av <b>dine</b> lagrede nett. Vil du skru det på igjen: bytt <code>no</code> med <code>yes</code>.<p class="e-win">Windows: <code>netsh wlan show profiles</code> og <code>netsh wlan set profileparameter name=Gjestenett connectionmode=manual</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="evil twin|eviltwin"><span class="ans-q">To nett i lista har samme navn men ulik BSSID. Hva kan det være?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Husk 🦹 i sekken i chatten. Han kopierte navnet, som en ond tvilling.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">evil twin</div></div></div>
+<div class="ans-row" data-p="1" data-a="rogue ap|rogue"><span class="ans-q">Et uautorisert AP koblet inn i bedriftens eget nett, hva kalles det?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva het den ansattes lille ruter i fagord-boksen? Den sto <em>inne i</em> bedriftens nett.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">rogue ap</div></div></div>
+<div class="ans-row" data-p="1" data-a="automatisk tilkobling|auto-tilkobling|autoconnect"><span class="ans-q">Hvilken innstilling på klienten reduserer risikoen mest?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva slo du av i øve-terminalen? <code>autoconnect</code> på norsk.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">automatisk tilkobling</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · VELG OPPSETT ═══════════════════════ -->
+<div class="lab-card" id="n10-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Velg riktig oppsett</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 3 — Vurdering</div>
+<p class="e-hook">Du skal sette opp Wi-Fi for en liten bedrift. Seks valg på menyen. Hva gjør hvert av dem egentlig? 🧑‍🔧</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Valg og konsekvens" data-oppgave="Koble valget til det det fører med seg.">
+  <div class="pr-par" data-forklar="Feilen ligger i protokollen. Et langt passord hjelper ikke."><span>🧓 WEP</span><span>Knekkes på minutter, uansett passord</span></div>
+  <div class="pr-par" data-forklar="Angriperen tar opp håndtrykket og gjetter hjemme, så mange ganger han vil. Mer i oppgave 6."><span>🔑 WPA2 med kort passord</span><span>Gjettes offline fra et fanget håndtrykk</span></div>
+  <div class="pr-par" data-forklar="WPA3 bruker et nytt håndtrykk (SAE). Et opptak av det hjelper ikke angriperen."><span>🆕 WPA3</span><span>Gjetting offline virker ikke</span></div>
+  <div class="pr-par" data-forklar="PIN-en på 8 siffer sjekkes i to halvdeler. Det gir bare rundt 11 000 forsøk."><span>📌 WPS</span><span>PIN-snarvei som kan gjettes og omgår passordet</span></div>
+  <div class="pr-par" data-forklar="Hver ansatt logger inn med sin egen bruker. Slutter noen, sperres bare den."><span>🏢 Enterprise (802.1X)</span><span>Egen innlogging for hver person</span></div>
+  <div class="pr-par" data-forklar="Eget nett, eget VLAN, og bare vei ut. Mer i oppgave 8."><span>☕ Gjestenett</span><span>Eget SSID, bare ut mot internett</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+WPA2 og WPA3 finnes i to utgaver. <b>Personal</b> (PSK): ett felles passord for alle. <b>Enterprise</b> (802.1X): hver person logger inn med sin egen bruker.<br>
+<b>WPS</b> (Wi-Fi Protected Setup) er en snarvei med knapp eller PIN. Den undergraver et godt passord.
+</div>
+<p class="e-sikker">✅ Oppskriften: WPA3 hvis alt utstyret støtter det, ellers WPA2 med et langt passord. Ansatte, gjester og skrivere på hvert sitt nett. WPS av overalt.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="nmcli -f SSID,SECURITY,SIGNAL dev wifi" data-mal="Sjekk lås og signal på nettene rundt deg:" data-alias="nmcli -f ssid,security,signal dev wifi|nmcli -f SSID,SECURITY,SIGNAL dev wifi list|nmcli -f SSID,SECURITY,SIGNAL device wifi list"><template class="ut">SSID              SECURITY   SIGNAL
+Hjemme            WPA2       82
+Hjemme            WPA2       67
+Naboen            <span class="h3">WPA2 WPA3</span>  54
+Leilighet_3B      WPA2       47
+Kaffebaren_Gjest  --         41
+Frisoren          WPA1 WPA2  36
+Gamle_Ruter       WEP        30</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>naboen har skrudd på WPA3 i tillegg 👏</span></li></ul><p>Ditt eget nett, Hjemme, bruker WPA2.</p></template></div>
+<div class="tm-o" data-cmd="nmcli connection show Hjemme | grep key-mgmt" data-mal="Hvilken type lås bruker PC-en din på Hjemme?"><template class="ut">802-11-wireless-security.<span class="h1">key-mgmt</span>:      <span class="h2">wpa-psk</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>key-mgmt = hvordan nøkkelen avtales</span></li><li><span class="m h2"></span><span>wpa-psk = WPA2-Personal, ett felles passord</span></li></ul><p>På et WPA3-nett står det <code>sae</code>. På Enterprise står det <code>wpa-eap</code>.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="wpa-psk|wpa psk|wpapsk"><span class="ans-q">Hvilken verdi har key-mgmt for Hjemme?</span><input class="ans-in" placeholder="et ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det blå ordet i siste oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">wpa-psk</div></div></div>
+<div class="ans-row" data-p="1" data-a="personal|wpa2-personal|psk"><span class="ans-q">wpa-psk betyr at Hjemme er satt opp som Personal eller Enterprise?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se forklaringen etter siste oppdrag. PSK = ett felles passord.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">personal</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme kommandoene, med navnet på ditt eget nett i stedet for Hjemme. WPS ser du ikke her. Det slår du av i innstillingene til ruteren din.<p class="e-win">Windows: <code>netsh wlan show interfaces</code> (se «Authentication», for eksempel WPA2-Personal)</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="wps"><span class="ans-q">Hva bør slås av fordi det undergraver et godt passord?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilket valg i par-spillet var en PIN-snarvei? Tre bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">wps</div></div></div>
+<div class="ans-row" data-p="1" data-a="ingen ting|ingenting|ikke noe"><span class="ans-q">Gjestenettet skal nå internett og hva mer?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva var paret til ☕ Gjestenett? Bare ut mot internett, og ellers …</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ingenting</div></div></div>
+<div class="ans-row" data-p="1" data-a="passordlengden|langt passord|passordet|lengden"><span class="ans-q">På WPA2, hva er det eneste som beskytter mot offline ordlisteangrep?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva var paret til 🔑 WPA2 med kort passord? Hva gjør gjettingen upraktisk?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">passordlengden</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · KANALER ═══════════════════════ -->
+<div class="lab-card" id="n10-5" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">Kanaler og overlapping</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Spekteret</div>
+<p class="e-hook">I 2,4 GHz finnes bare tre kanaler som ikke tråkker på hverandre: <b>1, 6 og 11</b>. Hvem i nabolaget har ikke fått med seg det? 🙈</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Hvem har valgt dårlig kanal?" data-oppgave="Klikk på de to kanalene som tråkker på naboene sine.">
+<pre>SSID              CHAN
+Hjemme            <span class="kl" data-forklar="Kanal 6 er en av de tre gode.">6</span>
+Hjemme            <span class="kl" data-forklar="44 er i 5 GHz-båndet. Der overlapper ikke kanalene hverandre.">44</span>
+Naboen            6
+Leilighet_3B      <span class="kl" data-rett data-forklar="Kanal 3 ligger midt mellom 1 og 6. Den overlapper begge, og hører dem bare som støy.">3</span>
+Kaffebaren_Gjest  <span class="kl" data-forklar="Kanal 11 er en av de tre gode.">11</span>
+Frisoren          <span class="kl" data-rett data-forklar="Kanal 9 overlapper både 6 og 11.">9</span>
+Gamle_Ruter       <span class="kl" data-forklar="Kanal 1 er en av de tre gode. (Men WEP, da 🙈)">1</span></pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+2,4 GHz har 13 <b>kanaler</b> i Europa. De ligger bare <b>5 MHz</b> fra hverandre, men hver kanal er <b>20 MHz</b> bred. Derfor overlapper naboene. Senterfrekvens: <code>2412 + (kanal − 1) × 5</code> MHz.<br>
+<b>5 GHz</b> har mange flere kanaler som ikke overlapper, men kortere rekkevidde.
+</div>
+<p class="e-sikker">🤯 Fun fact: nett på <b>samme</b> kanal hører hverandre og bytter pent på. Nett på kanaler som <b>delvis</b> overlapper, hører hverandre bare som støy og sender oppå hverandre. Det er verre for alle. Og kortere rekkevidde på 5 GHz er en fordel: mindre signal ut på gata.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="nmcli -f SSID,CHAN,FREQ dev wifi" data-mal="Vis kanal og frekvens for nettene rundt deg:" data-alias="nmcli -f ssid,chan,freq dev wifi|nmcli -f SSID,CHAN,FREQ dev wifi list|nmcli -f SSID,CHAN,FREQ device wifi list"><template class="ut">SSID              <span class="h2">CHAN</span>  <span class="h1">FREQ</span>
+Hjemme            <span class="h2">6</span>     <span class="h1">2437 MHz</span>
+Hjemme            <span class="h2">44</span>    <span class="h4">5220 MHz</span>
+Naboen            <span class="h2">6</span>     <span class="h1">2437 MHz</span>
+Leilighet_3B      <span class="h2">3</span>     <span class="h1">2422 MHz</span>
+Kaffebaren_Gjest  <span class="h2">11</span>    <span class="h1">2462 MHz</span>
+Frisoren          <span class="h2">9</span>     <span class="h1">2452 MHz</span>
+Gamle_Ruter       <span class="h2">1</span>     <span class="h1">2412 MHz</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>kanalen</span></li><li><span class="m h1"></span><span>senterfrekvensen i 2,4 GHz-båndet. 5 MHz mer per kanal</span></li><li><span class="m h4"></span><span>5 GHz-båndet</span></li></ul></template></div>
+<div class="tm-o" data-cmd="iwconfig wlan0" data-mal="Se hvilken frekvens og hvilket aksesspunkt du selv bruker:"><template class="ut">wlan0     IEEE 802.11  ESSID:"Hjemme"
+          Mode:Managed  <span class="h1">Frequency:2.437 GHz</span>  Access Point: <span class="h2">3C:22:FB:7A:10:05</span>
+          Bit Rate=130 Mb/s   Tx-Power=20 dBm
+          Retry short limit:7   RTS thr:off   Fragment thr:off
+          Power Management:off
+          Link Quality=70/70  Signal level=-33 dBm
+          Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
+          Tx excessive retries:0  Invalid misc:0   Missed beacon:0</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>2,437 GHz = 2437 MHz = kanal 6</span></li><li><span class="m h2"></span><span>BSSID-en til aksesspunktet ditt</span></li></ul><p><code>iwconfig</code> er gammel, men finnes fortsatt i Kali. Den nye heter <code>iw</code>, fra oppgave 1.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="2412"><span class="ans-q">Hvilken frekvens har kanal 1, i MHz?</span><input class="ans-in" placeholder="et tall i MHz"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Linja til Gamle_Ruter.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2412</div></div></div>
+<div class="ans-row" data-p="1" data-a="2.437|2,437|2.437 ghz|2437 mhz"><span class="ans-q">Hvilken frekvens viser iwconfig, i GHz?</span><input class="ans-in" placeholder="et tall i GHz"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det gule feltet etter <code>Frequency:</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2.437</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme kommandoene. Står ditt eget nett på 2,4 GHz og ikke på 1, 6 eller 11? Kanalen bytter du i innstillingene til ruteren.<p class="e-win">Windows: <code>netsh wlan show networks mode=bssid</code> (se «Channel» og «Band»)</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="1, 6, 11|1 6 11|1,6,11"><span class="ans-q">Hvilke tre kanaler i 2,4 GHz overlapper ikke hverandre?</span><input class="ans-in" placeholder="tre tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilke kanaler var <em>ikke</em> feller i klikkespillet? Står også i kroken.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1 6 11</div></div></div>
+<div class="ans-row" data-p="1" data-a="2437"><span class="ans-q">Hva er senterfrekvensen til kanal 6?</span><input class="ans-in" placeholder="et tall i MHz"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se FREQ-kolonnen i øve-terminalen. Eller regn: 2412 + 5 × 5.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2437</div></div></div>
+<div class="ans-row" data-p="1" data-a="verre"><span class="ans-q">To AP-er på kanal 1 og 3. Er det bedre eller verre enn begge på kanal 1?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Les den gule boksen 🤯. Hva skjer når de bare hører hverandre som støy?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">verre</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 6 · HÅNDTRYKKET ═══════════════════════ -->
+<div class="lab-card" id="n10-6" data-level="hard">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">06</span>
+  <span class="lab-title">Det som fanges opp i lufta</span>
+  <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-5">Nivå 3 — Håndtrykket</div>
+<p class="e-hook">Du trykker på «Hjemme» og skriver passordet. Et sekund senere er du på nett. Men hva skjedde egentlig i lufta? 🤝</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Fra «Hjemme» til på nett">
+  <div class="rf-item" data-forklar="Aksesspunktet roper navnet sitt mange ganger i sekundet. Ropet heter beacon.">📡 Skann: PC-en lytter etter nett som roper navnet sitt</div>
+  <div class="rf-item" data-forklar="Du velger navnet. Det var nettopp navnet som kunne lure deg i oppgave 3.">👆 Du velger SSID-en «Hjemme» og skriver passordet</div>
+  <div class="rf-item" data-forklar="Navnet lurer: i WPA2-Personal er dette bare et «hei». Passordet sjekkes ikke ennå.">🪪 Autentisering: et kort «hei» med aksesspunktet</div>
+  <div class="rf-item" data-forklar="PC-en får en plass hos aksesspunktet.">🔗 Assosiering: PC-en blir med i nettet</div>
+  <div class="rf-item" data-forklar="Fire meldinger. Begge viser at de kan passordet, uten å sende det. Ut kommer en fersk nøkkel som krypterer resten.">🤝 Firehåndstrykket: begge beviser at de kan passordet</div>
+  <div class="rf-item" data-forklar="Først nå kan PC-en snakke IP, rope ARP og spørre etter adresse.">🏷️ DHCP: PC-en får IP-adressen 192.168.1.10</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+De fire meldingene heter <b>firehåndstrykket</b> (4-way handshake). Passordet sendes aldri, men meldingene er <b>regnet ut fra</b> passordet og nettverksnavnet.<br>
+Den som tar opp håndtrykket, kan gjette passord hjemme: regne ut for hvert gjett og sammenligne. Det heter et <b>offline ordlisteangrep</b>.<br>
+WPA3 bytter ut starten med <b>SAE</b>. Da hjelper ikke et opptak.
+</div>
+<p class="e-sikker">⏱️ Angriperen trenger bare å være i nærheten de sekundene noen kobler til. Resten gjør han hjemme, med ubegrenset tid. Er passordet <code>Sommer2026!</code>, tar det sekunder. Er det fire tilfeldige ord, kommer han ingen vei.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="journalctl -u wpa_supplicant -n 5" data-mal="Se loggen fra forrige gang PC-en koblet til Hjemme:" data-alias="journalctl -n 5 -u wpa_supplicant|sudo journalctl -u wpa_supplicant -n 5|journalctl -u wpa_supplicant -n5"><template class="ut">Oct 07 10:21:14 kali wpa_supplicant[612]: wlan0: SME: <span class="h1">Trying to authenticate</span> with 3c:22:fb:7a:10:05 (SSID='Hjemme' freq=2437 MHz)
+Oct 07 10:21:14 kali wpa_supplicant[612]: wlan0: <span class="h2">Trying to associate</span> with 3c:22:fb:7a:10:05 (SSID='Hjemme' freq=2437 MHz)
+Oct 07 10:21:14 kali wpa_supplicant[612]: wlan0: <span class="h2">Associated</span> with 3c:22:fb:7a:10:05
+Oct 07 10:21:14 kali wpa_supplicant[612]: wlan0: WPA: <span class="h3">Key negotiation completed</span> with 3c:22:fb:7a:10:05 [PTK=CCMP GTK=CCMP]
+Oct 07 10:21:14 kali wpa_supplicant[612]: wlan0: CTRL-EVENT-CONNECTED - Connection to 3c:22:fb:7a:10:05 completed [id=0 id_str=]</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>autentisering, «hei»</span></li><li><span class="m h2"></span><span>assosiering</span></li><li><span class="m h3"></span><span>firehåndstrykket er ferdig. Nøkkelen er avtalt</span></li></ul><p>Samme rekkefølge som i spillet 🧩 Og alt skjedde på under ett sekund. <code>wpa_supplicant</code> er programmet som tar seg av Wi-Fi-låsen. <code>-n 5</code> = de siste 5 linjene.</p></template></div>
+<div class="tm-o" data-cmd="wpa_passphrase Hjemme sommer2026" data-mal="Regn ut nøkkelen som passordet «sommer2026» gir på nettet Hjemme:"><template class="ut">network={
+	ssid="<span class="h2">Hjemme</span>"
+	#psk="sommer2026"
+	psk=<span class="h1">b28c91df25e08dfc182781cb0bcc6b25a60261244a54f7ec9c70b0b4bf83d9fa</span>
+}</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>nettverksnavnet</span></li><li><span class="m h1"></span><span>nøkkelen som er regnet ut fra passord + navn. Det er den håndtrykket bygger på</span></li></ul><p>Passordet regnes om 4096 ganger. Det er med vilje: hvert gjett skal ta litt tid.</p></template></div>
+<div class="tm-o" data-cmd="wpa_passphrase Naboen sommer2026" data-mal="Samme passord, men nettet heter Naboen." data-skjult data-hint="Samme kommando som i stad. Bytt bare ut navnet på nettet."><template class="ut">network={
+	ssid="<span class="h2">Naboen</span>"
+	#psk="sommer2026"
+	psk=<span class="h1">a4e250d2e18b985ab9137ac71cad70fb608e6c19fc28f61468835359aeb758d0</span>
+}</template><template class="forklar"><p>Samme passord, helt annen nøkkel 🤯 Navnet blandes inn, som <b>salt</b>. Derfor kan ikke angriperen regne ut én ordliste for alle nett. Men for standardnavn som <code>NETGEAR</code> finnes slike lister ferdig.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Ble nøkkelen (psk) lik for Hjemme og Naboen med samme passord? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Sammenlign de gule linjene i oppdrag 2 og 3.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="ccmp"><span class="ans-q">Hvilken kryptering ble avtalt (står etter PTK= i loggen)?</span><input class="ans-in" placeholder="et ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se linja med <code>Key negotiation completed</code>. CCMP er AES-krypteringen i WPA2.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">CCMP</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme kommandoene. Prøv <code>wpa_passphrase</code> med ditt eget nettnavn og et passord du <b>ikke</b> bruker. Loggen finnes bare hvis Kali har koblet til Wi-Fi.<br>Å ta opp håndtrykk fra andres nett er ulovlig. Her ser vi bare på vårt eget.</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Sendes passordet selv over lufta i firehåndstrykket? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Steg 🤝 i rekkefølgespillet: begge beviser at de kan passordet, uten å …</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="til han fanger et håndtrykk|til en klient kobler til|noen sekunder|et håndtrykk"><span class="ans-q">Hvor lenge må angriperen være i nærheten?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Han trenger bare ett steg fra rekkefølgespillet, 🤝. Den gule boksen ⏱️ sier hvor lenge.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">til han fanger et håndtrykk</div></div></div>
+<div class="ans-row" data-p="1" data-a="nettverksnavnet|navnet|ssid"><span class="ans-q">Hvilken egenskap ved nettet fungerer som et salt i utregningen?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva var det eneste du byttet ut mellom de to <code>wpa_passphrase</code>-kommandoene?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ssid</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 7 · DEAUTH ═══════════════════════ -->
+<div class="lab-card" id="n10-7" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">07</span>
+  <span class="lab-title">Å kaste noen av nettet</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 3 — Deautentisering</div>
+<p class="e-hook">Én melding. Ingen passord. Og du er kastet av nettet 📴 Hvordan er det mulig?</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Hvem sa «koble fra»?">
+  <div class="ch-item" data-fra="sys">📍 Du ser en video på Hjemme (WPA2). 🦹 sitter i en bil utenfor og vil ha håndtrykket ditt. Han gidder ikke vente.</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 later som han er ruteren">📴 Du er koblet fra. Hilsen ruteren.</div>
+  <div class="ch-item" data-fra="pc" data-navn="Din PC">Å? Den kom jo fra ruterens adresse 🤷 Ok, jeg kobler fra.</div>
+  <div class="ch-item" data-fra="pc" data-navn="Din PC">…og kobler til igjen med en gang 🔄</div>
+  <div class="ch-item" data-fra="nabo" data-navn="📡 Ruteren">🤝 Hei igjen! Melding 1 av 4…</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 I bilen">Takk 😏 Alle fire meldingene er tatt opp. Nå gjetter jeg passordet ditt hjemme i stua.</div>
+  <div class="ch-item" data-fra="sys">Du merket bare et lite hakk i videoen.</div>
+  <div class="ch-item" data-stopp="⏪ Spol tilbake. Nå er PMF slått på…"></div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 later som han er ruteren">📴 Du er koblet fra. Hilsen ruteren.</div>
+  <div class="ch-item" data-fra="pc" data-navn="Din PC">Hmm. Meldingen er ikke signert med nøkkelen vår ✍️ Den kommer ikke fra ruteren. Kastes 🗑️</div>
+  <div class="ch-item" data-fra="sys">✅ Ingen frakobling. Intet nytt håndtrykk. 🦹 får ingenting.</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Meldingen heter <b>deautentisering</b> (deauth). I gammel Wi-Fi er den ikke beskyttet. Hvem som helst kan sende den, med en avsender de ikke eier.<br>
+Tiltaket heter <b>beskyttede administrasjonsrammer</b>, <b>PMF</b> (Protected Management Frames), standarden <b>802.11w</b>. Påbudt i WPA3, valgfritt i WPA2.
+</div>
+<p class="e-sikker">🔗 Deauth brukes til to ting: tvinge fram et nytt håndtrykk (oppgave 6), og dytte deg over til en Evil Twin (oppgave 3). Ofte er det første steg i begge.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="nmcli connection show Hjemme | grep pmf" data-mal="Sjekk PMF-innstillingen for Hjemme:"><template class="ut">802-11-wireless-security.<span class="h2">pmf</span>:           <span class="h1">0 (default)</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>PMF = 802.11w</span></li><li><span class="m h1"></span><span>0 = standard. NetworkManager bruker da PMF hvis ruteren støtter det, men godtar nett uten</span></li></ul><p>Tallene: 0 standard, 1 av, 2 valgfritt (optional), 3 påkrevd (required).</p></template></div>
+<div class="tm-o" data-cmd="nmcli connection modify Hjemme 802-11-wireless-security.pmf required" data-mal="Krev PMF på Hjemme:" data-alias="nmcli con mod Hjemme 802-11-wireless-security.pmf required|nmcli c mod Hjemme 802-11-wireless-security.pmf required|nmcli connection modify Hjemme wifi-sec.pmf required|nmcli con mod Hjemme wifi-sec.pmf required|nmcli connection modify Hjemme 802-11-wireless-security.pmf 3"><template class="ut"></template><template class="forklar"><p>Ingen utskrift = det gikk bra ✅ Samme verb, <code>modify</code>, som i oppgave 3.</p></template></div>
+<div class="tm-o" data-cmd="nmcli connection show Hjemme | grep pmf" data-mal="Sjekk at det virket." data-skjult data-hint="Samme kommando som i oppdrag 1."><template class="ut">802-11-wireless-security.pmf:           <span class="h3">3 (required)</span></template><template class="forklar"><p>Nå godtar PC-en bare Hjemme med PMF 🛡️</p></template></div>
+<div class="tm-o" data-cmd="nmcli connection up Hjemme" data-mal="Koble til på nytt, så den nye innstillingen gjelder:" data-alias="nmcli con up Hjemme|nmcli c up Hjemme"><template class="ut">Connection <span class="h3">successfully activated</span> (D-Bus active path: /org/freedesktop/NetworkManager/ActiveConnection/4)</template><template class="forklar"><p>✅ Ruteren støtter PMF. Falske «koble fra» blir nå kastet.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="0|null"><span class="ans-q">Hvilket tall sto i pmf-linja før du endret noe?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det gule tallet i første oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">0</div></div></div>
+<div class="ans-row" data-p="1" data-a="required|påkrevd|3"><span class="ans-q">Hvilket ord står etter tallet 3 til slutt?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det grønne i oppdrag 3, inni parentesen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">required</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme kommandoene, med navnet på ditt eget nett. Kommer du ikke på etterpå? Da støtter ikke ruteren PMF. Sett det tilbake med <code>optional</code> i stedet for <code>required</code>, og se etter PMF eller 802.11w i innstillingene til ruteren.</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Er meldingen som kobler deg fra beskyttet i gammel Wi-Fi? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Før spolingen i chatten: sjekket PC-en hvem som egentlig sendte meldingen?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="firehåndstrykk|handtrykk|håndtrykk"><span class="ans-q">Hvorfor sender angriperen den? For å tvinge fram et nytt hva?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva tok 🦹 opp i chatten etter at PC-en koblet til igjen? 🤝</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">håndtrykk</div></div></div>
+<div class="ans-row" data-p="1" data-a="802.11w|80211w|pmf"><span class="ans-q">Hvilken standard signerer meldingen så forfalskninger forkastes?</span><input class="ans-in" placeholder="et nummer"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva ble slått på etter spolingen? Se fagord-boksen: tallet som slutter på w.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">802.11w</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 8 · GJESTENETT ═══════════════════════ -->
+<div class="lab-card" id="n10-8" data-level="hard">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">08</span>
+  <span class="lab-title">Gjestenett som faktisk skiller</span>
+  <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-5">Nivå 4 — Klientisolasjon</div>
+<p class="e-hook">Gjest A og gjest B sitter på samme gjestenett. Gjest A er 🦹. Hvilke tiltak stopper ham fra å nå B?</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Når gjest A gjest B?" data-knapper="😬 Ja, A når B|🛡️ Nei, stoppet">
+  <div class="ly-item" data-svar="0" data-hvorfor="Eget navn og passord, men samme nett som før. A og B er naboer.">🔑 Gjestene har eget navn og passord. Ellers ingenting.</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="VLAN skiller gjester fra ansatte. Men A og B er i det samme gjeste-VLAN-et.">🏷️ Gjestene har sitt eget VLAN</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Regelen står i ruteren. Trafikk mellom A og B går aldri innom ruteren.">🧱 Brannmurregel: gjester får bare gå ut mot internett</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Aksesspunktet nekter å sende fra én gjest til en annen. Det er nettopp dette som mangler i de andre.">🚧 Klientisolasjon er slått på i aksesspunktet</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="WPA3 krypterer hver gjest for seg. Men A kan fortsatt sende til B, og ARP-spoofe ham.">🆕 WPA3 på gjestenettet, men ingen klientisolasjon</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Alle tre lagene er på plass. Slik skal det være.">✅ Eget VLAN, brannmurregel og klientisolasjon</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>Klientisolasjon</b> (client isolation, AP isolation): aksesspunktet slipper ikke trafikk mellom to klienter på samme nett.<br>
+Et godt gjestenett har tre lag: <b>eget VLAN</b> (leksjon 8), <b>brannmurregel</b> som bare slipper ut mot internett, og <b>klientisolasjon</b>.
+</div>
+<p class="e-sikker">🔥 Brannmurregler gjelder trafikk som krysser en grense. To maskiner i samme nett snakker sammen uten å passere ruteren. Og bytt gjestepassordet jevnlig: et passord som har hengt på en tavle i to år, stenger ingen ute.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ip -br addr show wlan0" data-mal="På kafeens gjestenett: hvilken adresse fikk du?" data-alias="ip -br a show wlan0|ip -br addr show dev wlan0|ip -br a s wlan0|ip -br address show wlan0"><template class="ut">wlan0            UP             <span class="h2">192.168.50.23</span>/<span class="h1">24</span> fe80::a00:27ff:fe3c:7a10/64</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>IP-adressen din på gjestenettet</span></li><li><span class="m h1"></span><span>/24: alle med 192.168.50.x er i samme nett som deg</span></li></ul><p><code>-br</code> = kort (brief). Én linje per nettkort.</p></template></div>
+<div class="tm-o" data-cmd="ip neigh" data-mal="Se hvem du deler nett med." data-alias="ip n|ip neighbour|ip neighbor|ip neighbors|ip neighbours" data-skjult data-hint="Notatboka fra leksjon 5. Den starter med <code>ip</code>."><template class="ut"><span class="h3">192.168.50.1</span> dev wlan0 lladdr 70:4f:57:0e:3b:98 REACHABLE
+<span class="h1">192.168.50.31</span> dev wlan0 lladdr 5a:1c:92:7e:04:b3 STALE
+<span class="h1">192.168.50.47</span> dev wlan0 lladdr d2:8e:41:6a:c9:10 STALE</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>gatewayen. Den skal du se</span></li><li><span class="m h1"></span><span>andre gjester. Dem skulle du ikke sett 😬</span></li></ul><p>Ser du andre klienter, mangler klientisolasjon.</p></template></div>
+<div class="tm-o" data-cmd="arp -a" data-mal="Samme notatbok, med den gamle kommandoen:"><template class="ut">? (192.168.50.1) at 70:4f:57:0e:3b:98 [ether] on wlan0
+? (<span class="h1">192.168.50.31</span>) at 5a:1c:92:7e:04:b3 [ether] on wlan0
+? (<span class="h1">192.168.50.47</span>) at d2:8e:41:6a:c9:10 [ether] on wlan0</template><template class="forklar"><p>Samme tre naboer. <code>arp -a</code> finnes også på Windows og Mac. <code>?</code> betyr at maskinen ikke har noe navn.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvor mange andre gjester (ikke gatewayen) ser du?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de gule adressene.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme kommandoene neste gang du er på et gjestenett. Ser du bare gatewayen? Da er isolasjonen trolig på 👍 Hjemme ser du familiens maskiner. Det er helt riktig.<p class="e-win">Windows: <code>ipconfig</code> og <code>arp -a</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="klientisolasjon|isolasjon"><span class="ans-q">To gjester ser hverandre i arp -a. Hvilket tiltak mangler?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilket tiltak alene ga 🛡️ i lynrunden?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">klientisolasjon</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Er eget passord nok til å skille gjester fra ansatte? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Første kort i lynrunden: eget navn og passord. Når A fortsatt B?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Regelen tillater bare ut mot internett. Stopper den gjest A fra å nå gjest B? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Lynrunden 🧱: går trafikk mellom A og B innom ruteren?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
 </div>
 
 <footer class="footer"><div class="container"><div class="footer-inner">
-<span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
 </div></div></footer>
 <script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
 </body>
 </html>

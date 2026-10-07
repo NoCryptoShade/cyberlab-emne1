@@ -6,17 +6,12 @@
 <title>Linux: filer, s&oslash;k og rettigheter — CyberLab</title>
 <link rel="stylesheet" href="../css/style.css?v=13">
 <link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
-<style>
-.cmd{background:#05070a;border:1px solid var(--border);border-left:2px solid var(--blue);
-  border-radius:0 6px 6px 0;padding:11px 14px;font-family:var(--mono);font-size:11.5px;
-  color:var(--text2);overflow-x:auto;line-height:1.85;white-space:pre-wrap;word-break:break-word}
-.cmd .c{color:var(--text3)}
-</style>
 </head>
-<body class="page">
+<body class="page enkel">
 <nav class="nav">
   <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
   <div class="nav-links">
@@ -29,183 +24,460 @@
 </nav>
 
 <div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
-  <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
-  <div class="mod-hero">
-    <div class="section-eyebrow">Lab 9 &middot; Emne 1 &middot; Leksjon 11-14</div>
-    <div class="section-title">Linux: filer, s&oslash;k og rettigheter</div>
-    <p class="section-desc">Kommandolinja er ikke vanskeligere enn et filutforskervindu, den er bare skriftlig. Her l&aelig;rer du &aring; finne fram, finne igjen, og lese hvem som f&aring;r gj&oslash;re hva.</p>
-  </div>
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
 
-  <div class="progress-wrap">
-    <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
-    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-  </div>
+<div class="mod-hero">
+  <div class="section-eyebrow">Lab 9 &middot; Emne 1 &middot; Leksjon 11&ndash;13</div>
+  <div class="section-title">Linux: filer, s&oslash;k og rettigheter</div>
+  <p class="section-desc">Terminalen er et filutforskervindu du skriver til. Seks små spill: finne fram (L11), finne den ene linja (L12) og hvem som får gjøre hva (L13).</p>
+</div>
 
-  <div class="filter-row">
-    <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
-    <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
-    <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
-    <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
-  </div>
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
 
-  <div class="tasks">
-  <div class="lab-card" id="lin-1" data-level="easy">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">01</span>
-      <span class="lab-title">Hvor er jeg?</span>
-      <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-1">Niv&aring; 1 &mdash; Finne fram</div>
-        <div class="theory-block"><div class="theory-title">📂 Alt henger under én rot</div><div class="theory-text"><p>Linux har ikke C: og D:. Alt henger under <strong>én rot</strong>, skrevet <code>/</code>.</p><p>En sti som begynner med <code>/</code> er <strong>absolutt</strong>: den peker på samme sted uansett hvor du står. En sti uten <code>/</code> foran er <strong>relativ</strong>: den regnes ut fra der du står nå.</p><p>To snarveier går igjen. <code>.</code> betyr her, og <code>..</code> betyr ett nivå opp. <code>~</code> betyr hjemmemappa di.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Du står i <code>/home/kari/dokumenter</code> og skriver <code>cd ../bilder</code>.</p><ol class="wsteps"><li><code>..</code> tar deg opp ett nivå, til <code>/home/kari</code></li><li><code>/bilder</code> tar deg ned i bilder derfra</li><li>Du havner i <code>/home/kari/bilder</code></li><li>Samme sted kunne du nådd med den absolutte stien <code>cd /home/kari/bilder</code></li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">pwd          <span class='c'># hvor er jeg</span>
-ls           <span class='c'># hva ligger her</span>
-ls -la       <span class='c'># alt, med detaljer</span>
-cd /etc      <span class='c'># absolutt sti</span>
-cd ..        <span class='c'># ett nivå opp</span>
-cd ~         <span class='c'># hjem</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="/var/tmp"><span class="ans-q">Du står i /var/log/nginx og skriver cd ../../tmp. Hvor havner du?</span><input class="ans-in" placeholder="en sti"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">To punktum betyr ett hakk opp. Tell deg gjennom stien ett hakk om gangen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">/var/tmp</div></div></div><div class="ans-row" data-p="1" data-a="relativ"><span class="ans-q">Er stien etc/passwd absolutt eller relativ?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">En absolutt sti starter alltid med skr&aring;strek.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">relativ</div></div></div><div class="ans-row" data-p="1" data-a="cd ../|cd .."><span class="ans-q">Du står i /home/ola. Skriv den korteste kommandoen som tar deg til /home</span><input class="ans-in" placeholder="en kommando"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Du skal bare ett hakk opp.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">cd ..</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Les <code>..</code> som «ett hakk opp» og tell deg gjennom stien ett hakk om gangen.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box"><code>/var/log/nginx</code>, ett opp er <code>/var/log</code>, to opp er <code>/var</code>, så ned i <code>tmp</code> gir <strong>/var/tmp</strong>. En sti er absolutt bare hvis den starter med <code>/</code>.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="lin-2" data-level="easy">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">02</span>
-      <span class="lab-title">Hva står i fila?</span>
-      <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-1">Niv&aring; 1 &mdash; Lese filer</div>
-        <div class="theory-block"><div class="theory-title">📄 Fire måter å lese en fil på</div><div class="theory-text"><p><code>cat</code> skriver ut hele fila på én gang. Fint til korte filer, ubrukelig til en logg på 40 000 linjer.</p><p><code>head</code> gir de <strong>første</strong> linjene, <code>tail</code> gir de <strong>siste</strong>. Begge tar <code>-n</code> for hvor mange. Standard er 10.</p><p><code>tail -f</code> blir stående og viser nye linjer etter hvert som de skrives. Det er sånn man følger en logg live.</p><p><code>wc -l</code> teller linjer i stedet for å vise dem.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En logg har 1 200 linjer. Du vil se linje 1 191 til 1 200.</p><ol class="wsteps"><li><code>cat</code> ville skrevet ut alle 1 200</li><li>De siste ti er standard for <code>tail</code></li><li>Altså holder <code>tail logg.txt</code></li><li>Ville du hatt de siste 50, skrev du <code>tail -n 50 logg.txt</code></li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">cat /etc/hostname
-head -n 5 /etc/passwd
-tail -n 20 /var/log/syslog
-wc -l /etc/passwd
-tail -f /var/log/syslog   <span class='c'># Ctrl-C for å avslutte</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="head -n 25|head -25"><span class="ans-q">En fil har 500 linjer. Hvilken kommando viser linje 1 til 25?</span><input class="ans-in" placeholder="en kommando"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">F&oslash;rste linjer og siste linjer er to ulike kommandoer.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">head -n 25</div></div></div><div class="ans-row" data-p="1" data-a="wc -l /etc/passwd|wc -l"><span class="ans-q">Du vil vite hvor mange brukere som står i /etc/passwd, ikke se dem. Hvilken kommando?</span><input class="ans-in" placeholder="en kommando"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Du skal telle linjer, ikke vise dem.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">wc -l /etc/passwd</div></div></div><div class="ans-row" data-p="1" data-a="-f"><span class="ans-q">Du skal følge en logg mens du tester noe. Hvilket flagg trenger du?</span><input class="ans-in" placeholder="et flagg"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kommandoen blir st&aring;ende og viser nye linjer etter hvert.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">-f</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Første linjer og siste linjer er to forskjellige kommandoer. Antall styres av <code>-n</code>.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="lin-3" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">03</span>
-      <span class="lab-title">Finn den ene linja</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 2 &mdash; grep og r&oslash;r</div>
-        <div class="theory-block"><div class="theory-title">🔎 grep filtrerer, røret kobler sammen</div><div class="theory-text"><p><code>grep m&oslash;nster fil</code> skriver ut bare de linjene som inneholder mønsteret.</p><p>Tre flagg du kommer til å bruke hele tiden: <code>-i</code> gjør søket <strong>ufølsomt for store og små bokstaver</strong>, <code>-v</code> snur søket og viser linjene som <strong>ikke</strong> passer, og <code>-c</code> teller treff i stedet for å vise dem.</p><p>Røret <code>|</code> sender utdata fra én kommando inn som inndata til den neste. Da kan du filtrere flere ganger etter hverandre.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Du vil telle hvor mange linjer i en logg som nevner «error», men ikke de som også nevner «test».</p><ol class="wsteps"><li><code>grep -i error logg.txt</code> gir alle linjer med error, uansett skrivemåte</li><li>Send det videre: <code>| grep -v test</code> fjerner linjene som også nevner test</li><li>Send det videre igjen: <code>| wc -l</code> teller det som er igjen</li><li>Hele kjeden: <code>grep -i error logg.txt | grep -v test | wc -l</code></li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">grep root /etc/passwd
-grep -i ERROR /var/log/syslog
-grep -c bash /etc/passwd
-grep -v nologin /etc/passwd
-cat /etc/passwd | grep bash | wc -l</div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="-v"><span class="ans-q">Hvilket flagg viser linjene som IKKE inneholder mønsteret?</span><input class="ans-in" placeholder="et flagg"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Flagget snur s&oslash;ket.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">-v</div></div></div><div class="ans-row" data-p="1" data-a="grep -ci|grep -ic|-ci|-ic"><span class="ans-q">Du vil telle linjer med «failed», uansett store bokstaver. Skriv flaggene du trenger, sammen</span><input class="ans-in" placeholder="flagg"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Du trenger to flagg: ett for &aring; telle, ett for &aring; ignorere store bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">-ic</div></div></div><div class="ans-row" data-p="1" data-a="10"><span class="ans-q">cat fil.txt | grep -v ssh | wc -l gir 90. Fila har 100 linjer. Hvor mange linjer nevner ssh?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">90 linjer nevner det ikke. Fila har 100.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">10</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Tenk på røret som et samlebånd: hver kommando får det forrige ledd sendte videre.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box"><code>-v</code> snur søket, <code>-c</code> teller. Siste oppgave: hvis 90 linjer <em>ikke</em> nevner ssh av 100, nevner <strong>10</strong> det.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="lin-4" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">04</span>
-      <span class="lab-title">Finn fila</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 2 &mdash; find</div>
-        <div class="theory-block"><div class="theory-title">🗂️ find leter i treet, ikke i innholdet</div><div class="theory-text"><p><code>find</code> tar først <strong>hvor</strong> den skal lete, så <strong>hva</strong> den skal se etter. <code>find /etc -name "*.conf"</code> betyr: let i /etc, finn alt som slutter på .conf.</p><p><code>-name</code> er følsom for store bokstaver, <code>-iname</code> er det ikke.</p><p>Andre nyttige: <code>-type f</code> for bare filer, <code>-type d</code> for bare mapper, og <code>-size +10M</code> for alt større enn ti megabyte.</p><p>Feilmeldinger om «Permission denied» er normale når du leter i hele treet som vanlig bruker. De skjules med <code>2&gt;/dev/null</code>.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Du leter etter alle mapper under /var som heter noe med «log».</p><ol class="wsteps"><li>Hvor: <code>/var</code></li><li>Hva slags: <code>-type d</code>, altså bare mapper</li><li>Navn: <code>-iname "*log*"</code>, altså log hvor som helst i navnet</li><li>Hele kommandoen: <code>find /var -type d -iname "*log*"</code></li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">find /etc -name "*.conf"
-find /home -type f -name "*.txt"
-find / -size +100M 2>/dev/null
-find /var -type d -iname "*log*"</div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="-iname"><span class="ans-q">Hvilket flagg bruker du hvis du ikke vet om filnavnet har store bokstaver?</span><input class="ans-in" placeholder="et flagg"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Samme flagg som for navn, men ufølsomt for store bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">-iname</div></div></div><div class="ans-row" data-p="1" data-a="-type d"><span class="ans-q">Du vil finne bare mapper. Hva skriver du?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">find skiller mellom filer og kataloger med et typeflagg.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">-type d</div></div></div><div class="ans-row" data-p="1" data-a="find /home -type f -size +50M|find /home -size +50M"><span class="ans-q">Skriv kommandoen som finner filer over 50 MB under /home</span><input class="ans-in" placeholder="en kommando"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Rekkef&oslash;lgen er find, s&aring; hvor, s&aring; kriteriene.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">find /home -size +50M</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Rekkefølgen er alltid <code>find</code>, så hvor, så kriteriene.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="lin-5" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">05</span>
-      <span class="lab-title">Hvem får gjøre hva</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 3 &mdash; Rettigheter</div>
-        <div class="theory-block"><div class="theory-title">🔐 Ni bokstaver, tre grupper</div><div class="theory-text"><p><code>ls -l</code> viser rettigheter som ti tegn. Det første sier om det er en fil (<code>-</code>) eller en mappe (<code>d</code>). De ni neste er <strong>tre grupper på tre</strong>: eier, gruppe, alle andre.</p><p>I hver gruppe står <code>r</code> for lese, <code>w</code> for skrive og <code>x</code> for kjøre. En bindestrek betyr at retten mangler.</p><p>Tallformen er den samme informasjonen: <strong>r=4, w=2, x=1</strong>, lagt sammen per gruppe. Derfor er <code>rwx</code> = 7, <code>rw-</code> = 6 og <code>r-x</code> = 5.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En fil vises som <code>-rwxr-x---</code>.</p><ol class="wsteps"><li>Første tegn er <code>-</code>, altså en vanlig fil</li><li>Eier har <code>rwx</code> = 4+2+1 = <strong>7</strong></li><li>Gruppa har <code>r-x</code> = 4+0+1 = <strong>5</strong></li><li>Andre har <code>---</code> = <strong>0</strong></li><li>Tallformen er altså <code>750</code></li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">ls -l /etc/passwd
-ls -l /etc/shadow
-ls -ld /tmp
-id            <span class='c'># hvem er jeg, hvilke grupper</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="644"><span class="ans-q">Skriv tallformen for -rw-r--r--</span><input class="ans-in" placeholder="tre siffer"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">r er 4, w er 2, x er 1. Regn ut &eacute;n gruppe om gangen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">644</div></div></div><div class="ans-row" data-p="1" data-a="rw-------"><span class="ans-q">Skriv bokstavformen for 600, uten det første tegnet</span><input class="ans-in" placeholder="ni tegn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Gj&oslash;r det motsatte: bryt hvert siffer ned i 4, 2 og 1.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">rw-------</div></div></div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">En fil er 604. Kan gruppa lese den? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Midterste siffer gjelder gruppa.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Regn ut én gruppe om gangen. r er 4, w er 2, x er 1, og du legger sammen.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box"><code>-rw-r--r--</code>: eier 4+2=6, gruppe 4, andre 4, altså <strong>644</strong>. <code>600</code>: eier 6=<code>rw-</code>, gruppe 0=<code>---</code>, andre 0=<code>---</code>. <code>604</code>: midterste siffer er 0, så <strong>nei</strong>, gruppa har ingenting.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="lin-6" data-level="hard">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">06</span>
-      <span class="lab-title">Fire spørsmål til en ukjent maskin</span>
-      <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-5">Niv&aring; 3 &mdash; Orientering</div>
-        <div class="theory-block"><div class="theory-title">🧭 Rekkefølgen er alltid den samme</div><div class="theory-text"><p>Står du på en maskin du ikke kjenner, er det fire spørsmål som kommer først, og de besvares med én kommando hver.</p><p><strong>Hvem er jeg?</strong> <code>id</code> gir brukernavn, bruker-ID og gruppene. UID 0 er root.</p><p><strong>Hva kjører?</strong> <code>ps aux</code> lister alle prosesser, med hvilken bruker som eier hver av dem.</p><p><strong>Hva lytter?</strong> <code>ss -tlnp</code> viser åpne porter. <code>t</code>=TCP, <code>l</code>=lyttende, <code>n</code>=tall i stedet for navn.</p><p><strong>Hvem er logget inn?</strong> <code>who</code> viser aktive økter.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p><code>id</code> svarer <code>uid=1000(kari) gid=1000(kari) groups=1000(kari),27(sudo)</code>.</p><ol class="wsteps"><li>UID er 1000, ikke 0, så kari er <strong>ikke root</strong></li><li>Men gruppa <code>27(sudo)</code> står i lista</li><li>Altså kan kari <strong>bli</strong> root ved å bruke <code>sudo</code></li><li>Praktisk forskjell: hun er ikke administrator nå, men hun har nøkkelen</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">id
-ps aux | head -20
-ss -tlnp
-who
-uname -a      <span class='c'># hvilket system og kjerne</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="root"><span class="ans-q">id gir uid=0(root). Hvilken bruker er dette?</span><input class="ans-in" placeholder="brukernavn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">UID null er reservert.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">root</div></div></div><div class="ans-row" data-p="1" data-a="-l|l"><span class="ans-q">Hvilket flagg i ss betyr «bare lyttende»?</span><input class="ans-in" placeholder="et flagg"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Flaggene er t for TCP, n for tall, og ett til.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">-l</div></div></div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">En bruker har uid=1001 og er ikke i sudo-gruppa. Kan hun lese /etc/shadow, som er 640 og eid av root? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hun er verken eier eller i gruppa. Hvilket siffer gjelder da?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Siste oppgave henger sammen med forrige tema. Regn ut hva 640 betyr for «andre».</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">640 gir eier <code>rw-</code>, gruppe <code>r--</code> og andre <code>---</code>. Hun er verken eier eller i gruppa, så hun havner i «andre» og har <strong>ingen rettigheter</strong>. Svaret er nei. Det er nettopp derfor /etc/shadow er trygg.</div></div>
-      </div>
-    </div>
-  </div>
-  </div>
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>Terminal</dt><dd>Vinduet der du skriver kommandoer.</dd>
+    <dt>Distribusjon</dt><dd>En «utgave» av Linux. Kali, Ubuntu og Debian er distribusjoner.</dd>
+    <dt>Sti (path)</dt><dd>Adressen til en fil eller mappe. <code>/home/kali/Dokumenter</code></dd>
+    <dt>Absolutt sti</dt><dd>Starter med <code>/</code>. Peker samme sted uansett hvor du står.</dd>
+    <dt>Relativ sti</dt><dd>Uten <code>/</code> foran. Regnes fra der du står.</dd>
+    <dt><code>..</code> og <code>~</code></dt><dd>Ett hakk opp, og hjemmemappa di.</dd>
+    <dt>Flagg</dt><dd>Et valg til en kommando, med bindestrek. <code>-l</code>, <code>-i</code></dd>
+    <dt>Pakke</dt><dd>Et program klart til å installeres med <code>apt</code>.</dd>
+    <dt>Logg</dt><dd>En fil der maskinen skriver ned hva som skjer.</dd>
+    <dt>Rør (pipe)</dt><dd><code>|</code> sender utskriften videre til neste kommando.</dd>
+    <dt>Omdirigering</dt><dd><code>&gt;</code> skriver utskriften til en fil. <code>&gt;&gt;</code> legger til nederst.</dd>
+    <dt>Rettigheter</dt><dd><code>r</code> lese, <code>w</code> skrive, <code>x</code> kjøre. For eier, gruppe og andre.</dd>
+    <dt>root</dt><dd>Superbrukeren. Alltid UID 0.</dd>
+    <dt>sudo</dt><dd>Kjør én kommando som root, med ditt eget passord.</dd>
+    <dt>SUID</dt><dd>Et program som kjører som eieren sin, ofte root.</dd>
+  </dl>
+</details>
 
-  <div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
+
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · HVOR ER JEG (L11) ═══════════════════════ -->
+<div class="lab-card" id="lin-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">Hvor er jeg?</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Finne fram · L11</div>
+<p class="e-hook">Linux har ingen C:. Alt henger i ett tre, med roten <code>/</code> på toppen 🌳 Hvor havner du når du klatrer?</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Hvor havner du?" data-knapper="/home/kali|/home|/etc|/home/kali/Bilder">
+  <div class="ly-fast">📍 Du står i <code>/home/kali/Dokumenter</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="To punktum = ett hakk opp. Fra Dokumenter til kali.">cd ..</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="To hakk opp: først kali, så home.">cd ../..</div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Starter med / = absolutt sti. Samme sted, uansett hvor du står.">cd /etc</div>
+  <div class="ly-item" data-svar="3" data-hvorfor="Ett hakk opp til kali, så ned i Bilder. En relativ sti.">cd ../Bilder</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="~ er snarveien til hjemmemappa di. Hos kali er det /home/kali.">cd ~</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Starter med /, så den er absolutt. Rett til /home.">cd /home</div>
+  <div class="ly-item" data-svar="3" data-hvorfor="Opp til kali, opp til home, ned i kali igjen, ned i Bilder. En omvei, men du kommer fram!">cd ../../kali/Bilder</div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Tre hakk opp er roten /. Så ned i etc.">cd ../../../etc</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Adressen heter en <b>sti</b> (path). Starter den med <code>/</code>, er den <b>absolutt</b>. Ellers er den <b>relativ</b>, regnet fra der du står.<br>
+<code>..</code> = ett hakk opp · <code>.</code> = her · <code>~</code> = hjemmemappa.<br>
+<code>cd</code> flytter deg (change directory). <code>pwd</code> sier hvor du er. <code>ls</code> viser hva som ligger der.<br>
+Kali er en <b>distribusjon</b> (distro) av Linux, som Ubuntu og Debian. Nye programmer installeres som <b>pakker</b> med <code>apt</code>. Det gjør du i oppgave 6.
+</div>
+<p class="e-sikker">🙈 Navn som starter med punktum er <b>skjulte</b>. Vanlig <code>ls</code> viser dem ikke, <code>ls -a</code> gjør. Angripere liker å gjemme ting der.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="pwd" data-mal="Hvor står du nå?"><template class="ut"><span class="h1">/home/kali</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>hjemmemappa til kali. Her starter terminalen alltid</span></li></ul><p><code>pwd</code> = print working directory. <code>~</code> i ledeteksten betyr akkurat denne mappa.</p></template></div>
+<div class="tm-o" data-cmd="ls -la /home/kali" data-mal="Vis alt i hjemmemappa, også det skjulte, med detaljer:" data-alias="ls -al /home/kali|ls -l -a /home/kali|ls -a -l /home/kali|ls -la ~|ls -al ~|ls -la|ls -al"><template class="ut">total 48
+<span class="h2">d</span>rwxr-x--- 7 kali kali 4096 Oct  7 18:08 <span class="dim">.</span>
+<span class="h2">d</span>rwxr-xr-x 6 root root 4096 Oct  7 18:08 <span class="dim">..</span>
+-rw------- 1 kali kali   17 Oct  7 18:08 <span class="h4">.bash_history</span>
+-rw-r--r-- 1 kali kali  220 Mar 31  2024 <span class="h4">.bash_logout</span>
+-rw-r--r-- 1 kali kali 3771 Mar 31  2024 <span class="h4">.bashrc</span>
+-rw-r--r-- 1 kali kali  807 Mar 31  2024 <span class="h4">.profile</span>
+<span class="h2">d</span>rwx------ 2 kali kali 4096 Oct  7 18:08 <span class="h4">.ssh</span>
+<span class="h2">d</span>rwxr-xr-x 2 kali kali 4096 Oct  7 18:08 Bilder
+<span class="h2">d</span>rwxr-xr-x 2 kali kali 4096 Oct  7 18:08 Dokumenter
+<span class="h2">d</span>rwxr-xr-x 2 kali kali 4096 Oct  7 18:08 Nedlastinger
+<span class="h2">d</span>rwxr-xr-x 2 kali kali 4096 Oct  7 18:08 Skrivebord
+-rwxr-xr-x 1 kali kali   36 Oct  7 18:08 <span class="h3">skann.sh</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span><code>d</code> først = en mappe (directory)</span></li><li><span class="m h4"></span><span>skjulte filer og mapper, med punktum foran</span></li><li><span class="m dim"></span><span><code>.</code> er mappa selv, <code>..</code> er mappa over</span></li><li><span class="m h3"></span><span>et skript. Bokstavene foran lærer du i oppgave 5</span></li></ul><p><code>-l</code> = lang liste med detaljer. <code>-a</code> = alt (all), også det skjulte.</p></template></div>
+<div class="tm-o" data-cmd="cd /var/log" data-mal="Gå til mappa der loggene bor, /var/log:"><template class="ut"></template><template class="forklar"><p>Ingen svar? Da gikk det bra 👍 Linux sier bare fra når noe er <b>galt</b>.</p><p>(Øve-terminalen flytter deg ikke på ordentlig. Derfor bruker vi hele stier i resten av labben.)</p></template></div>
+<div class="tm-o" data-cmd="man ls" data-mal="Åpne bruksanvisningen til ls." data-skjult data-hint="Kortversjonen av «manual», så navnet på kommandoen."><template class="ut"><span class="dim">LS(1)                            User Commands                           LS(1)</span>
+
+<span class="h1">NAME</span>
+       ls - list directory contents
+
+<span class="h1">SYNOPSIS</span>
+       ls [<span class="h2">OPTION</span>]... [<span class="h3">FILE</span>]...
+
+<span class="h1">DESCRIPTION</span>
+       List  information  about  the FILEs (the current directory by default).
+       Sort entries alphabetically if none of -cftuvSUX nor --sort  is  speci‐
+       fied.
+
+       Mandatory arguments to long options are mandatory for short options too.
+
+       <span class="h2">-a</span>, --all
+              do not ignore entries starting with .</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>overskriftene: navn, hvordan den brukes, hva den gjør</span></li><li><span class="m h2"></span><span>flaggene (options), som <code>-a</code></span></li><li><span class="m h3"></span><span>fila eller mappa du vil se på</span></li></ul><p>Bla med piltastene. Trykk <b>q</b> for å gå ut. Søk med <b>/</b> og et ord.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="/home/kali|home/kali"><span class="ans-q">Hva er hjemmemappa til kali?</span><input class="ans-in" placeholder="en sti"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Svaret på <code>pwd</code> i oppdrag 1.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">/home/kali</div></div></div>
+<div class="ans-row" data-p="1" data-a="5|fem"><span class="ans-q">Hvor mange skjulte filer og mapper ligger i hjemmemappa? Ikke tell . og ..</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de lilla navnene i oppdrag 2.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">5</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Hos deg heter mappene kanskje <code>Documents</code> og <code>Downloads</code>, og du ser flere skjulte filer, som <code>.zshrc</code>. Det er helt riktig! Etter <code>cd /var/log</code> viser ledeteksten <code>/var/log</code> i stedet for <code>~</code>.<p class="e-win">Windows (PowerShell): <code>pwd</code>, <code>ls</code> og <code>cd</code> virker der også. I cmd skriver du <code>cd</code> alene for å se hvor du er, og <code>dir</code> i stedet for <code>ls</code>.</p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="/var/tmp"><span class="ans-q">Du står i /var/log/nginx og skriver cd ../../tmp. Hvor havner du?</span><input class="ans-in" placeholder="en sti"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Som <code>cd ../..</code> i lynrunden: to hakk opp, men denne gangen fra /var/log/nginx. Så ned i tmp.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">/var/tmp</div></div></div>
+<div class="ans-row" data-p="1" data-a="relativ"><span class="ans-q">Er stien etc/passwd absolutt eller relativ?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Starter stien med <code>/</code>? Se fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">relativ</div></div></div>
+<div class="ans-row" data-p="1" data-a="cd ../|cd .."><span class="ans-q">Du står i /home/ola. Skriv den korteste kommandoen som tar deg til /home</span><input class="ans-in" placeholder="en kommando"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ett hakk opp. Det var det første kortet i lynrunden.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">cd ..</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · HVA STÅR I FILA (L11) ═══════════════════════ -->
+<div class="lab-card" id="lin-2" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">Hva står i fila?</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Lese filer · L11</div>
+<p class="e-hook">En logg på 40 000 linjer. Du vil bare se de siste. Hvilket verktøy tar du? 🧰</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hvilket verktøy gjør hva?" data-oppgave="Koble kommandoen til det den gjør.">
+  <div class="pr-par" data-forklar="cat skriver ut alt. Fint for korte filer, kaos for en lang logg."><span><code>cat</code></span><span>📜 Hele fila på én gang</span></div>
+  <div class="pr-par" data-forklar="head = hodet. Standard er 10 linjer."><span><code>head</code></span><span>⬆️ De første 10 linjene</span></div>
+  <div class="pr-par" data-forklar="tail = halen. Det nyeste i en logg står nederst."><span><code>tail</code></span><span>⬇️ De siste 10 linjene</span></div>
+  <div class="pr-par" data-forklar="-f = follow. Den blir stående. Stopp med Ctrl + C."><span><code>tail -f</code></span><span>📡 Viser nye linjer live</span></div>
+  <div class="pr-par" data-forklar="-n bestemmer antallet. Her 3 i stedet for 10."><span><code>head -n 3</code></span><span>3️⃣ Bare de 3 første</span></div>
+  <div class="pr-par" data-forklar="wc = word count. -l = bare linjene (lines)."><span><code>wc -l</code></span><span>🔢 Teller linjene</span></div>
+  <div class="pr-par" data-forklar="man = manual. Du prøvde den i oppgave 1."><span><code>man</code></span><span>📖 Bruksanvisningen til en kommando</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+En fil der maskinen skriver ned hva som skjer, heter en <b>logg</b>. Innlogginger havner i <code>/var/log/auth.log</code>. Det nyeste står alltid nederst.<br>
+<code>-n</code> = antall linjer (number). Uten <code>-n</code> får du 10.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat /home/kali/Dokumenter/notater.txt" data-mal="Les en kort fil:"><template class="ut">Huskeliste for labben:
+- oppdatere Kali (sudo apt update)
+- sjekke <span class="h1">auth.log</span> for rare innlogginger
+- spørre læreren om <span class="h2">SUID</span></template><template class="forklar"><p>Kort fil = <code>cat</code> er perfekt. <span class="h1">auth.log</span> ser du på nå. <span class="h2">SUID</span> kommer i oppgave 4 😉</p></template></div>
+<div class="tm-o" data-cmd="head -n 5 /var/log/auth.log" data-mal="Se de 5 første linjene i innloggingsloggen:" data-alias="head -5 /var/log/auth.log"><template class="ut"><span class="h1">Oct  7 08:55:12</span> <span class="h2">kali</span> <span class="h3">sshd[1123]</span>: Server listening on 0.0.0.0 port 22.
+<span class="h1">Oct  7 08:55:12</span> <span class="h2">kali</span> <span class="h3">sshd[1123]</span>: Server listening on :: port 22.
+<span class="h1">Oct  7 09:00:01</span> <span class="h2">kali</span> <span class="h3">CRON[1201]</span>: pam_unix(cron:session): session opened for user root(uid=0) by (uid=0)
+<span class="h1">Oct  7 09:00:01</span> <span class="h2">kali</span> <span class="h3">CRON[1201]</span>: pam_unix(cron:session): session closed for user root
+<span class="h1">Oct  7 09:12:44</span> <span class="h2">kali</span> <span class="h3">sshd[1250]</span>: <span class="h4">Failed password for root from 203.0.113.45</span> port 51122 ssh2</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>når det skjedde</span></li><li><span class="m h2"></span><span>maskinen som skrev linja</span></li><li><span class="m h3"></span><span>programmet, med prosessnummer i klammer</span></li><li><span class="m h4"></span><span>hva som skjedde. Her: noen bommet på passordet til root 👀</span></li></ul></template></div>
+<div class="tm-o" data-cmd="tail -n 3 /var/log/auth.log" data-mal="Se de 3 siste linjene i samme logg." data-alias="tail -3 /var/log/auth.log" data-skjult data-hint="Som i stad, men fra slutten av fila, og bare 3."><template class="ut">Oct  7 10:30:01 kali CRON[1420]: pam_unix(cron:session): session closed for user root
+Oct  7 10:41:19 kali sshd[1301]: pam_unix(sshd:session): session closed for user kali
+<span class="h1">Oct  7 10:41:19</span> kali systemd-logind[612]: Session 4 logged out. Waiting for processes to exit.</template><template class="forklar"><p>Det siste som skjedde står nederst. <span class="h1">10:41:19</span> er den nyeste hendelsen i loggen.</p></template></div>
+<div class="tm-o" data-cmd="wc -l /var/log/auth.log" data-mal="Hvor lang er loggen? Tell linjene." data-skjult data-hint="«word count», med flagget for linjer (lines)."><template class="ut"><span class="h1">32</span> /var/log/auth.log</template><template class="forklar"><p><span class="h1">32</span> linjer. Bare tallet, ingen innhold. Kjapt, selv om fila hadde hatt en million linjer ⚡</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="32"><span class="ans-q">Hvor mange linjer har auth.log?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tallet fra <code>wc -l</code> i siste oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">32</div></div></div>
+<div class="ans-row" data-p="1" data-a="sshd|ssh"><span class="ans-q">Hvilket program skrev den aller første linja i loggen?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det grønne ordet i første linje fra <code>head</code>, uten tallet i klammer.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">sshd</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Prøv <code>cat</code>, <code>head</code>, <code>tail</code> og <code>wc -l</code> på <code>/etc/passwd</code>. Finnes ikke <code>/var/log/auth.log</code> hos deg? Nyere Kali skriver loggen til <b>journalen</b>. Prøv <code>sudo journalctl -n 20</code> for de 20 siste linjene, og <code>sudo journalctl -f</code> for å følge den live.<p class="e-win">Windows (PowerShell): <code>Get-Content fil.txt -Head 5</code>, <code>Get-Content fil.txt -Tail 3</code> og <code>Get-Content fil.txt -Wait</code> (som <code>tail -f</code>).</p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="head -n 25|head -25"><span class="ans-q">En fil har 500 linjer. Hvilken kommando viser linje 1 til 25?</span><input class="ans-in" placeholder="en kommando"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilken kommando paret du med «de første linjene»? Antallet styres med <code>-n</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">head -n 25</div></div></div>
+<div class="ans-row" data-p="1" data-a="wc -l /etc/passwd|wc -l"><span class="ans-q">Du vil vite hvor mange brukere som står i /etc/passwd, ikke se dem. Hvilken kommando?</span><input class="ans-in" placeholder="en kommando"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilken kommando paret du med «teller linjene»? Du brukte den i siste oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">wc -l /etc/passwd</div></div></div>
+<div class="ans-row" data-p="1" data-a="-f"><span class="ans-q">Du skal følge en logg mens du tester noe. Hvilket flagg trenger du?</span><input class="ans-in" placeholder="et flagg"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Paret du med «viser nye linjer live» i spillet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">-f</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · FINN DEN ENE LINJA (L12) ═══════════════════════ -->
+<div class="lab-card" id="lin-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">Finn den ene linja</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — grep og rør · L12</div>
+<p class="e-hook">32 linjer logg. Én angriper gjemt der inne 🕵️ Du gidder ikke lese alt. Bygg et samlebånd som finner ham for deg.</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Bygg samlebåndet" data-oppgave="Hvem prøvde flest passord? Sett sammen kjeden, ett ledd om gangen.">
+  <div class="rf-item" data-forklar="Plukker ut bare linjene med mislykkede passord.">🔎 <code>grep "Failed password" /var/log/auth.log</code></div>
+  <div class="rf-item" data-forklar="-o = vis bare biten som passer. Nå er det bare «from IP» igjen.">✂️ <code>| grep -o "from [0-9.]*"</code></div>
+  <div class="rf-item" data-forklar="Legger like IP-er rett under hverandre.">🔤 <code>| sort</code></div>
+  <div class="rf-item" data-forklar="Teller like linjer som står etter hverandre. Derfor måtte sort komme først!">🔢 <code>| uniq -c</code></div>
+  <div class="rf-item" data-forklar="-n = som tall, -r = baklengs. Største tall øverst.">🏆 <code>| sort -nr</code></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>grep</code> viser bare linjene som passer med et ord (et <b>mønster</b>).<br>
+<code>-i</code> = bryr seg ikke om store og små bokstaver · <code>-v</code> = snu: vis linjene som <i>ikke</i> passer · <code>-c</code> = tell i stedet for å vise.<br>
+<code>|</code> heter <b>rør</b> (pipe). Utskriften fra én kommando blir det neste leddet jobber med.
+</div>
+<p class="e-sikker">🔥 Seks bom fra samme IP på 25 sekunder? Det er et <b>brute force</b>-angrep: noen prøver passord etter passord. Akkurat sånn finner forsvarere dem.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="grep -i failed /var/log/auth.log" data-mal="Finn alle linjer med «failed», store eller små bokstaver:"><template class="ut">Oct  7 09:12:44 kali sshd[1250]: <span class="h1">Failed</span> password for root from <span class="h2">203.0.113.45</span> port 51122 ssh2
+Oct  7 09:12:47 kali sshd[1250]: <span class="h1">Failed</span> password for root from <span class="h2">203.0.113.45</span> port 51122 ssh2
+Oct  7 09:12:54 kali sshd[1252]: <span class="h1">Failed</span> password for invalid user admin from <span class="h2">203.0.113.45</span> port 51130 ssh2
+Oct  7 09:13:00 kali sshd[1254]: <span class="h1">Failed</span> password for invalid user test from <span class="h2">203.0.113.45</span> port 51138 ssh2
+Oct  7 09:13:05 kali sshd[1256]: <span class="h1">Failed</span> password for root from <span class="h2">203.0.113.45</span> port 51144 ssh2
+Oct  7 09:13:09 kali sshd[1256]: <span class="h1">Failed</span> password for root from <span class="h2">203.0.113.45</span> port 51144 ssh2
+Oct  7 09:21:32 kali sshd[1288]: <span class="h1">Failed</span> password for invalid user ubuntu from 198.51.100.23 port 60210 ssh2
+Oct  7 09:21:36 kali sshd[1290]: <span class="h1">Failed</span> password for root from 198.51.100.23 port 60224 ssh2
+Oct  7 09:21:41 kali sshd[1292]: <span class="h1">Failed</span> password for kali from 198.51.100.23 port 60231 ssh2
+Oct  7 09:30:10 kali sshd[1301]: <span class="h1">Failed</span> password for kali from 192.168.1.25 port 40312 ssh2
+Oct  7 10:15:02 kali <span class="h4">su[1402]</span>: <span class="h4">FAILED</span> SU (to root) kali on pts/1</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>«Failed» med stor F: mislykket SSH-innlogging</span></li><li><span class="m h4"></span><span>«FAILED» med bare store bokstaver. Bare <code>-i</code> fanger begge!</span></li><li><span class="m h2"></span><span>samme IP, igjen og igjen 🤨</span></li></ul></template></div>
+<div class="tm-o" data-cmd="grep -c Failed /var/log/auth.log" data-mal="Tell linjene med «Failed», akkurat sånn skrevet (stor F)." data-alias="grep -c &quot;Failed&quot; /var/log/auth.log|grep -c 'Failed' /var/log/auth.log" data-skjult data-hint="Som i stad, men bytt <code>-i</code> med flagget som teller. Skriv <code>Failed</code> med stor F."><template class="ut"><span class="h1">10</span></template><template class="forklar"><p>Bare <span class="h1">10</span>, ikke 11. Uten <code>-i</code> er <code>FAILED</code> et annet ord, så su-linja kom ikke med.</p></template></div>
+<div class="tm-o" data-cmd="grep -v CRON /var/log/auth.log | wc -l" data-mal="Kast all CRON-støy og tell det som er igjen." data-alias="grep -v &quot;CRON&quot; /var/log/auth.log | wc -l|cat /var/log/auth.log | grep -v CRON | wc -l" data-skjult data-hint="Snu søket på <code>CRON</code> med flagget fra fagord-boksen. Send det i røret <code>|</code> til kommandoen som teller linjer (oppgave 2)."><template class="ut"><span class="h1">24</span></template><template class="forklar"><p>32 linjer minus 8 CRON-linjer = <span class="h1">24</span>. CRON er planlagte jobber som kjører hvert kvarter. Viktig, men kjedelig 😴 <code>-v</code> er støyfilteret ditt.</p></template></div>
+<div class="tm-o" data-cmd="grep &quot;Failed password&quot; /var/log/auth.log | grep -o &quot;from [0-9.]*&quot; | sort | uniq -c | sort -nr" data-mal="Kjør hele samlebåndet fra spillet." data-alias="grep 'Failed password' /var/log/auth.log | grep -o 'from [0-9.]*' | sort | uniq -c | sort -nr|grep Failed /var/log/auth.log | grep -o &quot;from [0-9.]*&quot; | sort | uniq -c | sort -nr|grep Failed /var/log/auth.log | grep -o 'from [0-9.]*' | sort | uniq -c | sort -nr" data-skjult data-hint="Kjeden du bygde i spillet, med mellomrom rundt hver <code>|</code>. Lim den gjerne inn."><template class="ut">      <span class="h1">6</span> from <span class="h2">203.0.113.45</span>
+      3 from 198.51.100.23
+      1 from 192.168.1.25</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>antall forsøk, størst øverst</span></li><li><span class="m h2"></span><span>angriperen 🦹</span></li></ul><p>192.168.1.25 bommet én gang og kom inn rett etterpå. Det er nok bare en skrivefeil fra en kollega.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="su|su[1402]"><span class="ans-q">grep -i fant 11 linjer, grep -c Failed bare 10. Hvilket program skrev den ekstra linja?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den lilla linja nederst i oppdrag 1.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">su</div></div></div>
+<div class="ans-row" data-p="1" data-a="203.0.113.45"><span class="ans-q">Hvilken IP prøvde flest passord?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Øverste linje fra samlebåndet i oppdrag 4.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">203.0.113.45</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Har du <code>/var/log/auth.log</code>, kan du kjøre kommandoene rett på den. Har du den ikke, send journalen i røret i stedet: <code>sudo journalctl | grep -i failed</code>. Prøv også <code>grep kali /etc/passwd</code> og <code>grep -c bash /etc/passwd</code>.<p class="e-win">Windows (PowerShell): <code>Select-String -Pattern failed fil.txt</code>. Den bryr seg ikke om store og små bokstaver, akkurat som <code>grep -i</code>. I cmd: <code>findstr /i failed fil.txt</code></p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="-v"><span class="ans-q">Hvilket flagg viser linjene som IKKE inneholder mønsteret?</span><input class="ans-in" placeholder="et flagg"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Flagget som snur søket. Du brukte det på CRON i oppdrag 3.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">-v</div></div></div>
+<div class="ans-row" data-p="1" data-a="grep -ci|grep -ic|-ci|-ic"><span class="ans-q">Du vil telle linjer med «failed», uansett store bokstaver. Skriv flaggene du trenger, sammen</span><input class="ans-in" placeholder="flagg"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ett flagg fra oppdrag 1 (store og små bokstaver) og ett fra oppdrag 2 (tell).</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">-ic</div></div></div>
+<div class="ans-row" data-p="1" data-a="10"><span class="ans-q">cat fil.txt | grep -v ssh | wc -l gir 90. Fila har 100 linjer. Hvor mange linjer nevner ssh?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">90 linjer nevner det ikke. Fila har 100. Som CRON-regnestykket i oppdrag 3.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">10</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · FINN FILA (L12) ═══════════════════════ -->
+<div class="lab-card" id="lin-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Finn fila</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — find og omdirigering · L12</div>
+<p class="e-hook"><code>grep</code> leter <i>inni</i> filene. Men hvor ligger fila? 🗂️ Det er jobben til <code>find</code>. Velg riktig flagg, kjapt!</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Hvilket flagg trenger du?" data-knapper="-name|-iname|-type d|-size">
+  <div class="ly-fast">find <b>HVOR</b> <b>HVA</b> &nbsp;·&nbsp; for eksempel <code>find /home -name "*.txt"</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Du vet nøyaktig hva den heter. -name passer.">Fila heter nøyaktig <b>rapport.txt</b></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="-iname bryr seg ikke om store og små bokstaver. i = ignore case, som grep -i.">Heter den <b>Rapport.TXT</b> eller <b>rapport.txt</b>? Du husker ikke</div>
+  <div class="ly-item" data-svar="2" data-hvorfor="-type d = directory. -type f ville gitt bare filer.">Bare <b>mapper</b>, ikke filer</div>
+  <div class="ly-item" data-svar="3" data-hvorfor="-size +50M = større enn 50 megabyte. Pluss betyr «over».">Filer <b>større enn 50 MB</b></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="-name &quot;*.log&quot;. Stjerna betyr «hva som helst» foran .log.">Alle filer som slutter på <b>.log</b></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Kamera skriver ofte .JPG, andre .jpg. -iname tar begge.">Bilder som kan slutte på <b>.JPG</b> eller <b>.jpg</b></div>
+  <div class="ly-item" data-svar="3" data-hvorfor="Den store filmen finner du på størrelsen.">Den <b>digre filmen</b> som fyller disken</div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Kataloger og mapper er det samme. -type d.">Alle <b>kataloger</b> under /var</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>find</code> leter i <b>filtreet</b>: først <b>hvor</b>, så <b>hva</b>. <code>*</code> er en <b>joker</b> (wildcard) som betyr «hva som helst».<br>
+<code>2&gt;/dev/null</code> kaster feilmeldingene i søpla. <code>&gt;</code> sender utskriften til en fil i stedet for skjermen (overskriver fila). <code>&gt;&gt;</code> legger til nederst. Dette heter <b>omdirigering</b> (redirection).
+</div>
+<p class="e-sikker">🦹 <code>-perm -4000</code> finner <b>SUID</b>-programmer. De kjører som eieren sin, ofte root, uansett hvem som starter dem. Har et sånt program en feil, kan en vanlig bruker bli root. Angripere sjekker denne lista tidlig.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="find . -name &quot;*.log&quot;" data-mal="Finn alle .log-filer her i hjemmemappa:" data-alias="find . -name '*.log'|find . -name *.log"><template class="ut"><span class="h1">.</span>/Dokumenter/<span class="h2">skann.log</span>
+<span class="h1">.</span>/Nedlastinger/<span class="h2">installasjon.log</span>
+<span class="h1">.</span>/Skrivebord/<span class="h2">lab.log</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span><code>.</code> = her, altså <code>/home/kali</code></span></li><li><span class="m h2"></span><span>alt som slutter på <code>.log</code>, i alle undermapper</span></li></ul><p>Anførselstegnene rundt <code>"*.log"</code> sørger for at stjerna når fram til <code>find</code>.</p></template></div>
+<div class="tm-o" data-cmd="find / -perm -4000 2&gt;/dev/null" data-mal="Finn alle SUID-programmer på hele maskinen, uten feilmeldinger:"><template class="ut">/usr/lib/polkit-1/polkit-agent-helper-1
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+<span class="h1">/usr/bin/sudo</span>
+/usr/bin/chfn
+/usr/bin/chsh
+/usr/bin/gpasswd
+/usr/bin/mount
+/usr/bin/newgrp
+<span class="h1">/usr/bin/passwd</span>
+<span class="h1">/usr/bin/su</span>
+/usr/bin/umount</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>kjente navn. <code>passwd</code> må kunne skrive i <code>/etc/shadow</code> når du bytter passord. Derfor kjører den som root</span></li></ul><p><code>/</code> = let i hele treet. Uten <code>2&gt;/dev/null</code> hadde du fått hundrevis av «Permission denied».</p></template></div>
+<div class="tm-o" data-cmd="find / -perm -4000 2&gt;/dev/null &gt; suid.txt" data-mal="Samme søk, men lagre svaret i fila suid.txt." data-alias="find / -perm -4000 2&gt;/dev/null &gt;suid.txt|find / -perm -4000 &gt; suid.txt 2&gt;/dev/null" data-skjult data-hint="Kommandoen fra oppdrag 2, pluss <code>&gt; suid.txt</code> på slutten."><template class="ut"></template><template class="forklar"><p>Stille igjen 🤫 Utskriften gikk til fila <code>suid.txt</code> i stedet for skjermen. Med <code>&gt;&gt;</code> hadde den blitt lagt til nederst i stedet for å overskrive.</p></template></div>
+<div class="tm-o" data-cmd="wc -l suid.txt" data-mal="Hvor mange SUID-programmer havnet i fila?" data-alias="cat suid.txt | wc -l|wc -l &lt; suid.txt" data-skjult data-hint="Tell linjene i fila. Samme kommando som i oppgave 2."><template class="ut"><span class="h1">11</span> suid.txt</template><template class="forklar"><p>11 linjer = 11 programmer. Nå har du lista lagret, og kan sammenligne med den om en uke 🔍</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hvor mange .log-filer fant find i hjemmemappa?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene i oppdrag 1.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+<div class="ans-row" data-p="1" data-a="Skrivebord|/home/kali/Skrivebord|./Skrivebord"><span class="ans-q">I hvilken mappe ligger lab.log?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Siste linje i oppdrag 1. Ordet mellom de to skråstrekene.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Skrivebord</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme kommandoene. Kali har flere SUID-programmer enn øve-terminalen, så tallet ditt blir høyere. Det er helt riktig! Prøv også <code>find /etc -name "*.conf"</code>.<p class="e-win">Windows (PowerShell): <code>Get-ChildItem -Recurse -Filter *.log</code>. I cmd: <code>dir /s *.log</code></p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="-iname"><span class="ans-q">Hvilket flagg bruker du hvis du ikke vet om filnavnet har store bokstaver?</span><input class="ans-in" placeholder="et flagg"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilken knapp trykket du for «Rapport.TXT eller rapport.txt»?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">-iname</div></div></div>
+<div class="ans-row" data-p="1" data-a="-type d"><span class="ans-q">Du vil finne bare mapper. Hva skriver du?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Knappen for «bare mapper» i lynrunden.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">-type d</div></div></div>
+<div class="ans-row" data-p="1" data-a="find /home -type f -size +50M|find /home -size +50M"><span class="ans-q">Skriv kommandoen som finner filer over 50 MB under /home</span><input class="ans-in" placeholder="en kommando"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Rekkefølgen er find, så hvor (/home), så hva. Knappen for store filer, med <code>+50M</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">find /home -size +50M</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · RETTIGHETER (L13) ═══════════════════════ -->
+<div class="lab-card" id="lin-5" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">Hvem får gjøre hva</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 3 — Rettigheter · L13</div>
+<p class="e-hook">Tre slags folk: eieren, gruppa og alle andre. Tre nøkler: lese, skrive, kjøre 🔑 Hvem har skrivenøkkelen?</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Hvem kan skrive?" data-oppgave="Klikk på de to linjene der ALLE brukere på maskinen kan skrive. Tips: de tre siste bokstavene i første kolonne gjelder «alle andre», og w = skrive.">
+<pre><span class="kl" data-forklar="Andre har r--. De kan lese, men bare eieren root har w.">-rw-r--r--  1 root root     3384 Oct  7 18:08 /etc/passwd</span>
+<span class="kl" data-forklar="Andre har ---. De kan ikke engang lese den. Bra, her ligger passord-hashene!">-rw-r-----  1 root shadow   1405 Oct  7 18:08 /etc/shadow</span>
+<span class="kl" data-rett data-forklar="rwt på slutten: alle kan skrive. Det er meningen med /tmp. t-en (sticky bit) gjør at du bare kan slette dine egne filer.">drwxrwxrwt 17 root root     4096 Oct  7 18:09 /tmp</span>
+<span class="kl" data-forklar="Lurt! Gruppa regnskap har rw-, men andre har bare r--.">-rw-rw-r--  1 kali regnskap   14 Oct  7 18:08 Dokumenter/budsjett.txt</span>
+<span class="kl" data-forklar="Bare eieren kali har noe som helst. Andre har ---.">-rw-------  1 kali kali       18 Oct  7 18:08 Dokumenter/hemmelig.txt</span>
+<span class="kl" data-rett data-forklar="rw- for alle andre. Hvem som helst kan endre fila. Farlig ⚠️">-rw-rw-rw-  1 kali kali       19 Oct  7 18:08 Skrivebord/delt-med-alle.txt</span>
+<span class="kl" data-forklar="Andre har r-x: de kan lese og kjøre, men ikke skrive.">-rwxr-xr-x  1 kali kali       36 Oct  7 18:08 skann.sh</span></pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Bokstavene heter <b>rettigheter</b> (permissions). <code>r</code> = lese, <code>w</code> = skrive, <code>x</code> = kjøre. Tre grupper på tre: <b>eier</b> (user), <b>gruppe</b> (group), <b>andre</b> (others). Første tegn: <code>-</code> = fil, <code>d</code> = mappe.<br>
+Som tall: <b>r = 4, w = 2, x = 1</b>, lagt sammen per gruppe. <code>rw-</code> = 6 · <code>r--</code> = 4 · <code>---</code> = 0.<br>
+<code>chmod</code> endrer rettighetene. <code>chown</code> endrer eier og gruppe.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ls -l /home/kali/Dokumenter" data-mal="Se rettighetene i Dokumenter:"><template class="ut">total 20
+-rw-rw-r-- 1 kali regnskap  14 Oct  7 18:08 budsjett.txt
+-rw------- 1 kali kali      18 Oct  7 18:08 hemmelig.txt
+-<span class="h1">rw-</span><span class="h2">r--</span><span class="h3">r--</span> 1 <span class="h1">kali</span> <span class="h2">kali</span>      32 Oct  7 18:08 <b>lonn.txt</b>
+-rw-r--r-- 1 kali kali     125 Oct  7 18:08 notater.txt
+-rw-r--r-- 1 kali kali      19 Oct  7 18:08 skann.log</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>eieren kali: lese og skrive</span></li><li><span class="m h2"></span><span>gruppa kali: bare lese</span></li><li><span class="m h3"></span><span>alle andre: bare lese 😬 Lønna til alle er åpen for hele maskinen!</span></li></ul></template></div>
+<div class="tm-o" data-cmd="chmod 640 /home/kali/Dokumenter/lonn.txt" data-mal="Steng ute «andre» fra lonn.txt:"><template class="ut"></template><template class="forklar"><p>Ingen svar = det gikk bra. <b>6</b> = rw- for eieren, <b>4</b> = r-- for gruppa, <b>0</b> = --- for andre.</p></template></div>
+<div class="tm-o" data-cmd="chown kali:regnskap /home/kali/Dokumenter/lonn.txt" data-mal="Gi gruppa regnskap lov til å lese lonn.txt." data-alias="sudo chown kali:regnskap /home/kali/Dokumenter/lonn.txt|chgrp regnskap /home/kali/Dokumenter/lonn.txt" data-skjult data-hint="Kommandoen som bytter eier, skrevet som <code>eier:gruppe</code>. Eieren skal fortsatt være kali."><template class="ut"></template><template class="forklar"><p>Stille igjen 👍 Du kan flytte en fil til en gruppe du selv er med i. Vil du gi fila til en <i>annen eier</i>, må du ha <code>sudo</code>.</p></template></div>
+<div class="tm-o" data-cmd="ls -l /home/kali/Dokumenter/lonn.txt" data-mal="Sjekk at det ble riktig." data-skjult data-hint="Samme kommando som i oppdrag 1, men bare for fila lonn.txt."><template class="ut">-<span class="h1">rw-</span><span class="h2">r--</span><span class="h3">---</span> 1 kali <span class="h2">regnskap</span> 32 Oct  7 18:08 /home/kali/Dokumenter/lonn.txt</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>eieren kali: fortsatt lese og skrive</span></li><li><span class="m h2"></span><span>gruppa er nå regnskap, og de kan lese</span></li><li><span class="m h3"></span><span>andre: ingenting 🔒</span></li></ul></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="regnskap"><span class="ans-q">Hvilken gruppe eier budsjett.txt?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Første fil i oppdrag 1. Gruppa står rett etter eieren.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">regnskap</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Kan «andre» lese lonn.txt etter chmod 640? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på de tre grønne tegnene i siste oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag en fil å øve på: <code>echo hei &gt; test.txt</code>. Så <code>ls -l test.txt</code>, <code>chmod 640 test.txt</code> og <code>ls -l test.txt</code> igjen. Se hvordan bokstavene endrer seg. Kjør også <code>ls -l /etc/shadow</code>.<p class="e-win">Windows: rettigheter heter ACL der. Se dem med <code>icacls test.txt</code></p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="644"><span class="ans-q">Skriv tallformen for -rw-r--r--</span><input class="ans-in" placeholder="tre siffer"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">r = 4, w = 2, x = 1. Regn én gruppe om gangen: rw- = 6. Hva blir r--?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">644</div></div></div>
+<div class="ans-row" data-p="1" data-a="rw-------"><span class="ans-q">Skriv bokstavformen for 600, uten det første tegnet</span><input class="ans-in" placeholder="ni tegn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Motsatt vei: 6 = 4 + 2 = rw-. Og 0 = ---.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">rw-------</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">En fil er 604. Kan gruppa lese den? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Midterste siffer gjelder gruppa. 0 = ---, som hemmelig.txt i spillet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 6 · FIRE SPØRSMÅL (L13) ═══════════════════════ -->
+<div class="lab-card" id="lin-6" data-level="hard">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">06</span>
+  <span class="lab-title">Fire spørsmål til en ukjent maskin</span>
+  <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-5">Nivå 3 — Brukere og sudo · L13</div>
+<p class="e-hook">Du er logget inn på en maskin du aldri har sett 🕶️ Fire spørsmål først. Så det store: er du sjefen, eller kan du <i>bli</i> det?</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Ny maskin, fire spørsmål">
+  <div class="ch-item" data-fra="sys">📍 Du er logget inn som <b>kali</b> på en ukjent maskin.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🧑‍💻 du · id">Hvem er jeg?</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🖥️ maskinen">uid=1000(kali) … 27(sudo). Ikke root, men du står i <b>sudo</b>-gruppa 👀</div>
+  <div class="ch-item" data-fra="pc" data-navn="🧑‍💻 du · ps aux">Hva kjører?</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🖥️ maskinen">Alle prosessene mine, med hvem som eier hver av dem 📋</div>
+  <div class="ch-item" data-fra="pc" data-navn="🧑‍💻 du · ss -tlnp">Hva lytter?</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🖥️ maskinen">t = TCP, <b>l = bare lyttende</b>, n = tall i stedet for navn, p = programmet. sshd lytter på 22 👂</div>
+  <div class="ch-item" data-fra="pc" data-navn="🧑‍💻 du · who">Hvem er logget inn?</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🖥️ maskinen">Bare kali. Bare deg 👋</div>
+  <div class="ch-item" data-stopp="🔑 Prøv å lese passordfila…"></div>
+  <div class="ch-item" data-fra="pc" data-navn="🧑‍💻 du">cat /etc/shadow</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🖥️ maskinen">cat: /etc/shadow: Permission denied 🚫</div>
+  <div class="ch-item" data-fra="sys">Fila er <code>-rw-r-----</code>, eid av root og gruppa shadow. Du er ingen av dem, så du er «andre»: <b>---</b>.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🧑‍💻 du">sudo cat /etc/shadow</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🖥️ maskinen">[sudo] password for kali: 🔒</div>
+  <div class="ch-item" data-fra="pc" data-navn="🧑‍💻 du">•••••• (ditt <b>eget</b> passord, ikke root sitt)</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🖥️ maskinen">root:$y$j9T$… ✅ Værsågod. Nå kjørte cat som root.</div>
+  <div class="ch-item" data-fra="sys">📝 Og auth.log skrev ned at kali brukte sudo. sudo etterlater alltid spor.</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>root</b> er superbrukeren, og har alltid <b>UID 0</b>. <code>id</code> viser UID og gruppene dine.<br>
+<code>sudo</code> (superuser do) kjører én kommando som root, med <i>ditt</i> passord. Det virker bare hvis du har lov, for eksempel ved å stå i gruppa <b>sudo</b>.<br>
+Brukerne står i <code>/etc/passwd</code>. Passord-hashene står i <code>/etc/shadow</code>, som bare root kan lese.
+</div>
+<p class="e-sikker">👑 Står det <code>(ALL : ALL) ALL</code> i <code>sudo -l</code>, kan du bli root med ett passord. Det er den første linja en angriper ser etter.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="id" data-mal="Hvem er du, og hvilke grupper er du med i?"><template class="ut">uid=<span class="h1">1000</span>(kali) gid=1000(kali) groups=1000(kali),<span class="h2">27(sudo)</span>,1001(regnskap)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>bruker-ID. Ikke 0, så du er ikke root</span></li><li><span class="m h2"></span><span>men du er i sudo-gruppa, så du kan <i>bli</i> root</span></li></ul><p>regnskap kjenner du fra oppgave 5.</p></template></div>
+<div class="tm-o" data-cmd="cat /etc/passwd | grep kali" data-mal="Finn linja til kali i brukerlista:" data-alias="grep kali /etc/passwd|grep &quot;kali&quot; /etc/passwd"><template class="ut">kali:<span class="dim">x</span>:<span class="h1">1000</span>:1000:Kali,,,:<span class="h2">/home/kali</span>:<span class="h3">/usr/bin/zsh</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m dim"></span><span><code>x</code> = passordet står ikke her, men i /etc/shadow</span></li><li><span class="m h1"></span><span>UID, samme som fra <code>id</code></span></li><li><span class="m h2"></span><span>hjemmemappa</span></li><li><span class="m h3"></span><span>skallet (shell), programmet som tolker kommandoene dine</span></li></ul><p>Feltene er skilt med kolon.</p></template></div>
+<div class="tm-o" data-cmd="sudo -l" data-mal="Spør: hva får jeg lov til med sudo?" data-skjult data-hint="<code>sudo</code> med flagget for liste (list)."><template class="ut">[sudo] password for kali:
+Matching Defaults entries for kali on kali:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin,
+    use_pty
+
+User kali may run the following commands on kali:
+    <span class="h1">(ALL : ALL) ALL</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>som hvilken som helst bruker og gruppe, alle kommandoer. Altså full makt 👑</span></li></ul><p>Passordet du skriver vises ikke, ikke engang som stjerner. Det er normalt.</p></template></div>
+<div class="tm-o" data-cmd="sudo apt install tree" data-mal="Installer pakken tree. Det krever root." data-alias="sudo apt-get install tree|sudo apt install -y tree" data-skjult data-hint="Pakkeverktøyet er <code>apt</code>, og du vil <code>install</code>. Start med det som gjør deg til root."><template class="ut">Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following NEW packages will be installed:
+  <span class="h1">tree</span>
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 47.4 kB of archives.
+After this operation, 108 kB of additional disk space will be used.
+Get:1 <span class="h2">http://http.kali.org/kali</span> kali-rolling/main amd64 tree amd64 2.2.1-1 [47.4 kB]
+Fetched 47.4 kB in 0s (152 kB/s)
+Selecting previously unselected package tree.
+(Reading database ... 412366 files and directories currently installed.)
+Preparing to unpack .../tree_2.2.1-1_amd64.deb ...
+Unpacking tree (2.2.1-1) ...
+<span class="h3">Setting up tree (2.2.1-1) ...</span>
+Processing triggers for man-db (2.13.0-1) ...</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>pakken som installeres</span></li><li><span class="m h2"></span><span>hvor den hentes fra: Kali sitt pakkelager</span></li><li><span class="m h3"></span><span>ferdig installert 🎉</span></li></ul><p>sudo husker passordet ditt noen minutter, så det spurte ikke på nytt. Prøv <code>tree /home/kali</code> på ekte Kali!</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="1000"><span class="ans-q">Hvilken UID har kali?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det gule tallet i oppdrag 1 og 2.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1000</div></div></div>
+<div class="ans-row" data-p="1" data-a="/usr/bin/zsh|zsh"><span class="ans-q">Hvilket skall (shell) bruker kali, ifølge /etc/passwd?</span><input class="ans-in" placeholder="en sti"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Siste felt i oppdrag 2, det grønne.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">/usr/bin/zsh</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme kommandoene. <code>id</code> viser mange flere grupper hos deg (adm, dialout, wireshark …). Det er normalt. Prøv også <code>groups</code>, <code>who</code> og <code>ls -l /etc/shadow</code>.<p class="e-win">Windows: <code>whoami /groups</code> viser gruppene dine. «Kjør som administrator» er Windows sin sudo.</p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="root"><span class="ans-q">id gir uid=0(root). Hvilken bruker er dette?</span><input class="ans-in" placeholder="brukernavn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">UID 0 står i fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">root</div></div></div>
+<div class="ans-row" data-p="1" data-a="-l|l"><span class="ans-q">Hvilket flagg i ss betyr «bare lyttende»?</span><input class="ans-in" placeholder="et flagg"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva sa maskinen i chatten om <code>ss -tlnp</code>? t, n, p og …</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">-l</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">En bruker har uid=1001 og er ikke i sudo-gruppa. Kan hun lese /etc/shadow, som er 640 og eid av root? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva skjedde da du prøvde <code>cat /etc/shadow</code> i chatten? Hun er «andre». Hvilket siffer i 640 gjelder da?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
 </div>
 
 <footer class="footer"><div class="container"><div class="footer-inner">
-<span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
 </div></div></footer>
 <script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
 </body>
 </html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Når verden ikke ser ut som du trodde — CyberLab</title>
+<link rel="stylesheet" href="../css/style.css?v=13">
+<link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+.x-kode{margin-bottom:12px !important;color:var(--text) !important}
+.x-kode .x-k{color:var(--blue)}
+.x-kode .x-t{color:var(--green)}
+.x-kode .x-r{color:var(--red)}
+.ly-fast .x-kode{background:transparent;border:0;padding:0;margin:0 !important;text-align:left;display:inline-block}
+.enkel code,.enkel pre,.enkel .ans-in,.enkel .tm-vindu{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+.rf-k code,.rf-svar code{font-size:14px;white-space:pre}
+</style>
+</head>
+<body class="page enkel">
+<nav class="nav">
+  <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
+  <div class="nav-links">
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="nav-link">Hjem</a>
+    <a href="../emne1.html" class="nav-link">Emne 1</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne3.html" class="nav-link">Emne 3</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="nav-link on">Labber</a>
+    <a href="https://tk1104.timoamling.com/" target="_blank" rel="noopener" class="nav-link">Self check &nearr;</a>
+  </div>
+</nav>
+
+<div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
+
+<div class="mod-hero">
+  <div class="section-eyebrow">Emne 1 &middot; Leksjon 20</div>
+  <div class="section-title">Når verden ikke ser ut som du trodde</div>
+  <p class="section-desc">Lese en Python-feil, håndtere forventede feil, og filstier som virker automatisk. Seks små spill, og så noen spørsmål etter hvert.</p>
+</div>
+
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
+
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>Traceback</dt><dd>Den røde feilmeldingen Python skriver når programmet krasjer. Les den nedenfra.</dd>
+    <dt>Feiltype</dt><dd>Navnet på feilen, for eksempel <code>ValueError</code>. Står nederst, foran kolon.</dd>
+    <dt>Unntak</dt><dd>Det Python kaller en feil mens programmet kjører. Exception på engelsk.</dd>
+    <dt>Bibliotek</dt><dd>Kode andre har skrevet, som du henter med <code>import</code>.</dd>
+    <dt>try</dt><dd>«Prøv dette». Koden som kanskje feiler.</dd>
+    <dt>except</dt><dd>«Hvis det feilet med denne typen, gjør dette i stedet».</dd>
+    <dt>Sti</dt><dd>Veien til en fil, for eksempel <code>/home/kali/logg/auth.log</code>. Path på engelsk.</dd>
+    <dt>Relativ sti</dt><dd>Starter <b>ikke</b> med <code>/</code>. Regnes fra mappa du står i.</dd>
+    <dt>Absolutt sti</dt><dd>Starter med <code>/</code>. Peker på samme fil uansett hvor du står.</dd>
+    <dt>Arbeidsmappe</dt><dd>Mappa du står i nå. <code>pwd</code> viser den.</dd>
+    <dt><code>__file__</code></dt><dd>Hvor selve Python-fila ligger.</dd>
+    <dt>pathlib</dt><dd>Biblioteket som gir deg <code>Path</code>, for å jobbe med stier.</dd>
+  </dl>
+</details>
+
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
+
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · LES EN TRACEBACK ═══════════════════════ -->
+<div class="lab-card" id="l20-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">Les feilen nedenfra og opp</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Traceback</div>
+<p class="e-hook">Rødt i terminalen 😱 Ser skummelt ut. Men det er bare et kart over hvor det gikk galt. Trikset: <b>start nederst</b>.</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Hvor smalt det?" data-oppgave="sjekk_ip.py leser en blokkliste og krasjer. Klikk på <b>feiltypen</b>, <b>verdien som var feil</b>, og <b>linjenummeret i din egen fil</b> som er nærmest krasjet.">
+<pre><span class="kl" data-forklar="Bare overskriften. «Most recent call last» betyr: det siste som skjedde, står nederst. Start der!">Traceback (most recent call last):</span>
+  File "/home/kali/sjekk_ip.py", <span class="kl" data-forklar="Din fil, ja. Men dette er lenger opp: herfra ble les_ip kalt. Se etter din egen linje lenger ned.">line 8</span>, in &lt;module&gt;
+    ip = les_ip(linje)
+  File "/home/kali/sjekk_ip.py", <span class="kl" data-rett data-forklar="Den nederste linja fra din egen fil. Her sendte koden din verdien videre til biblioteket.">line 4</span>, in les_ip
+    return ipaddress.ip_address(tekst.strip())
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<span class="kl" data-forklar="Dette er Python sin egen fil, et bibliotek. Feilen er nesten aldri der. Det var verdien du sendte inn som var rar.">/usr/lib/python3.13/ipaddress.py</span>", <span class="kl" data-forklar="Et linjenummer i biblioteket, ikke i din kode. Hopp over.">line 54</span>, in ip_address
+    raise ValueError(f'{address!r} does not appear to be an IPv4 or IPv6 address')
+<span class="kl" data-rett data-forklar="Feiltypen. Står alltid helt nederst, foran kolon.">ValueError</span>: <span class="kl" data-rett data-forklar="Synderen! 300 er for stort. Hvert tall i en IPv4-adresse går fra 0 til 255.">'203.0.113.300'</span> does not appear to be an IPv4 or IPv6 address</pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Den røde teksten heter en <b>traceback</b>. Nederste linje = <b>feiltypen</b> + en melding. Over den: hvilke <b>filer</b> og <b>linjer</b> Python var innom, den siste nederst. Filer i <code>/usr/lib/python3…</code> er <b>biblioteker</b>, ikke din kode.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat blokk.txt" data-mal="Se på blokklista du fikk av sjefen:"><template class="ut">203.0.113.45
+198.51.100.7
+<span class="h1">203.0.113.300</span>
+192.0.2.66</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>ser du skrivefeilen? 👀</span></li></ul></template></div>
+<div class="tm-o" data-cmd="cat sjekk_ip.py" data-mal="Se på programmet:"><template class="ut"><span class="h2">import ipaddress</span>
+
+def les_ip(tekst):
+    return <span class="h2">ipaddress.ip_address</span>(tekst.strip())
+
+with open("blokk.txt") as f:
+    for linje in f:
+        ip = les_ip(linje)
+        print("Blokkerer", ip)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>et bibliotek som følger med Python. Det sjekker at teksten er en ekte IP-adresse</span></li></ul><p><code>strip()</code> fjerner linjeskiftet på slutten av linja.</p></template></div>
+<div class="tm-o" data-cmd="python3 sjekk_ip.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet, som før."><template class="ut">Blokkerer 203.0.113.45
+Blokkerer 198.51.100.7
+<span style="color:var(--red)">Traceback (most recent call last):
+  File "/home/kali/sjekk_ip.py", line 8, in &lt;module&gt;
+    ip = les_ip(linje)
+  File "/home/kali/sjekk_ip.py", <span class="h2">line 4</span>, in les_ip
+    return ipaddress.ip_address(tekst.strip())
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/ipaddress.py", line 54, in ip_address
+    raise ValueError(f'{address!r} does not appear to be an IPv4 or IPv6 address')
+<span class="h1">ValueError</span>: '203.0.113.300' does not appear to be an IPv4 or IPv6 address</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>feiltypen, nederst</span></li><li><span class="m h2"></span><span>din egen linje, nærmest krasjet</span></li></ul><p>To IP-er ble blokkert. Så krasjet det, og <code>192.0.2.66</code> ble aldri sjekket 🛑</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="valueerror|value error"><span class="ans-q">Hvilken feiltype fikk sjekk_ip.py?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten på siste linje.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ValueError</div></div></div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvor mange IP-er ble blokkert før programmet krasjet?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene som starter med «Blokkerer».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag <code>blokk.txt</code> med <code>nano blokk.txt</code> og skriv inn de fire linjene. Lag så <code>sjekk_ip.py</code> med nano. Kjør <code>python3 sjekk_ip.py</code> og finn de tre bitene fra spillet i din egen traceback. Rett så 300 til 30 i blokk.txt og kjør igjen ✅<p class="e-win">Windows: kjør <code>python sjekk_ip.py</code>. Bibliotekstien blir en annen, for eksempel <code>C:\…\Lib\ipaddress.py</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="den nederste|nederste|den siste|siste|nederste linje|siste linje|den nederste linjen|den siste linjen|nederst"><span class="ans-q">Hvilken linje i en traceback leser du først?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvor sto feiltypen du klikket på?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">den nederste</div></div></div>
+<div class="ans-row" data-p="1" data-a="203.0.113.300"><span class="ans-q">Hvilken linje i blokk.txt var ikke en ekte IP-adresse?</span><input class="ans-in" placeholder="en IP"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den står i meldingen etter <code>ValueError:</code></div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">203.0.113.300</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Den nederste File-linja peker inn i /usr/lib/python3.13/. Er det mest sannsynlig Python som har en feil? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva sa spillet da du klikket på bibliotekstien?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · FEILTYPER ═══════════════════════ -->
+<div class="lab-card" id="l20-2" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">Seks feil du kommer til å møte</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Feiltyper</div>
+<p class="e-hook">Feilnavnet sier nesten alltid hva som er galt. Du må bare kunne språket 🗣️</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Feil og grunn" data-oppgave="Koble hver feiltype til koden som gir den.">
+  <div class="pr-par" data-forklar="Not found = ikke funnet. Fila finnes ikke, eller ikke der Python leter. Mer om det i oppgave 5."><span><code>FileNotFoundError</code></span><span><code>open("auth.logg")</code></span></div>
+  <div class="pr-par" data-forklar="Riktig type (tekst inn i int), men en verdi som ikke kan bli et tall."><span><code>ValueError</code></span><span><code>int("tre")</code></span></div>
+  <div class="pr-par" data-forklar="Index = plassnummer. Lista har ikke så mange plasser. Typisk for en kort eller ødelagt logglinje."><span><code>IndexError</code></span><span><code>deler[10]</code> på en linje med 9 ord</span></div>
+  <div class="pr-par" data-forklar="Key = nøkkel. Ordboka har ingen slik nøkkel. Derfor brukte du get() i L17."><span><code>KeyError</code></span><span><code>teller["10.0.0.99"]</code></span></div>
+  <div class="pr-par" data-forklar="Type = str og int, som i L15. Tekst + tall går ikke."><span><code>TypeError</code></span><span><code>"Antall: " + 5</code></span></div>
+  <div class="pr-par" data-forklar="Name = navn. Variabelen heter antall, ikke antal. En skrivefeil."><span><code>NameError</code></span><span><code>print(antal)</code></span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+En feil som skjer mens programmet kjører, heter et <b>unntak</b> (exception). Navnet ender nesten alltid på <code>Error</code>. Første del sier hva som er galt: <b>File</b>, <b>Value</b>, <b>Index</b>, <b>Key</b>, <b>Type</b>, <b>Name</b>.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat tall.py" data-mal="Se på et lite program:"><template class="ut">forsok = <span class="h1">"tre"</span>
+grense = int(forsok)
+print("Grensen er", grense)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>tekst, men ikke sifre</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 tall.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet."><template class="ut"><span style="color:var(--red)">Traceback (most recent call last):
+  File "/home/kali/tall.py", line 2, in &lt;module&gt;
+    grense = int(forsok)
+<span class="h1">ValueError</span>: invalid literal for int() with base 10: <span class="h2">'tre'</span></span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>feiltypen</span></li><li><span class="m h2"></span><span>verdien som ikke ble et tall</span></li></ul><p>«Invalid literal» betyr «ugyldig verdi». Python skjønner sifre, ikke ord.</p></template></div>
+<div class="tm-o" data-cmd="cat oppslag.py" data-mal="Se på et program som slår opp i en ordbok." data-skjult data-hint="Samme som første oppdrag, med <code>oppslag.py</code>."><template class="ut">teller = {"203.0.113.45": 4, "198.51.100.7": 2}
+print(teller["203.0.113.45"])
+print(teller[<span class="h1">"10.0.0.99"</span>])</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>finnes denne nøkkelen i ordboka? 🤔</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 oppslag.py" data-mal="Kjør den." data-skjult data-hint="Samme som andre oppdrag, med <code>oppslag.py</code>."><template class="ut"><span class="h3">4</span>
+<span style="color:var(--red)">Traceback (most recent call last):
+  File "/home/kali/oppslag.py", line 3, in &lt;module&gt;
+    print(teller["10.0.0.99"])
+          ~~~~~~^^^^^^^^^^^^^
+<span class="h1">KeyError</span>: '10.0.0.99'</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>linje 2 virket</span></li><li><span class="m h1"></span><span>linje 3: nøkkelen finnes ikke</span></li></ul><p>KeyError har ingen lang melding. Bare nøkkelen den ikke fant.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="10.0.0.99"><span class="ans-q">Hvilken nøkkel fant ikke oppslag.py?</span><input class="ans-in" placeholder="en IP"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står etter <code>KeyError:</code></div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">10.0.0.99</div></div></div>
+<div class="ans-row" data-p="1" data-a="4|fire"><span class="ans-q">Hva rakk oppslag.py å skrive ut før den krasjet?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den grønne linja, over det røde.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag <code>tall.py</code> og <code>oppslag.py</code> med nano, og kjør dem med <code>python3</code>. Prøv så å lage de fire andre feilene fra spillet selv. Hvor fort klarer du å få alle seks? 🏁</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="nameerror|name error"><span class="ans-q">Variabelen heter antall, men du skriver print(antal). Hvilken feiltype får du?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det er <b>navnet</b> som er feil. Navn heter name.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">NameError</div></div></div>
+<div class="ans-row" data-p="1" data-a="typeerror|type error"><span class="ans-q">Du prøver å legge tekst og tall sammen med +. Hvilken feiltype får du?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">str og int er to forskjellige <b>typer</b>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">TypeError</div></div></div>
+<div class="ans-row" data-p="1" data-a="indexerror|index error"><span class="ans-q">En logglinje ble kuttet av og har bare 9 ord. Koden tar deler[10]. Hvilken feiltype får du?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Plass nummer 10 finnes ikke. Plassnummer heter index.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">IndexError</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · TRY / EXCEPT ═══════════════════════ -->
+<div class="lab-card" id="l20-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">try og except: plan B</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Fang forventede feil</div>
+<p class="e-hook">Serveren gikk tom for disk midt i en logglinje. Nå har <code>auth.log</code> én halv linje på slutten. Skal hele verktøyet ditt dø av det? 🪦</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Hvor havner feilen?" data-oppgave="Løkka kommer til den halve linja. Sett det som skjer i riktig rekkefølge.">
+<pre class="x-kode"><span class="x-k">def</span> hent_ip(linje):
+    <span class="x-k">return</span> linje.split()[10]
+
+<span class="x-r"># … inni løkka:</span>
+        <span class="x-k">try</span>:
+            ip = hent_ip(linje)
+            teller[ip] = teller.get(ip, 0) + 1
+        <span class="x-k">except</span> IndexError:
+            hoppet += 1</pre>
+  <div class="rf-item" data-forklar="Vi er inni try. Funksjonen starter."><code>ip = hent_ip(linje)</code> kaller funksjonen</div>
+  <div class="rf-item" data-forklar="Den halve linja har bare 9 ord. Plass 10 finnes ikke."><code>linje.split()[10]</code> smeller: IndexError 💥</div>
+  <div class="rf-item" data-forklar="Ingen try inni funksjonen. Python går ett hakk opp, til linja som kalte den.">hent_ip avbrytes, og feilen sendes opp til den som kalte</div>
+  <div class="rf-item" data-forklar="Resten av try-blokken kjører ikke. Ingen IP blir talt for denne linja.">Linja med <code>teller[ip]</code> hoppes over</div>
+  <div class="rf-item" data-forklar="Python sjekker except-ene. Typen stemmer, så blokken under kjører.">Den passer med <code>except IndexError</code>: <code>hoppet += 1</code></div>
+  <div class="rf-item" data-forklar="Feilen er tatt hånd om. Programmet lever videre 🎉">Løkka fortsetter med neste linje 🔁</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>try:</code> = «prøv dette». <code>except IndexError:</code> = «hvis det smeller med akkurat denne feiltypen, gjør dette i stedet». Finnes ingen <code>try</code> der feilen skjer, leter Python oppover, til linja som kalte funksjonen. Finner den ingen passende <code>except</code> i det hele tatt, krasjer programmet. Det er derfor tracebacken viser flere linjer.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="tail -n 2 auth.log" data-mal="Se de to siste linjene i loggen:" data-alias="tail -2 auth.log|tail auth.log -n 2"><template class="ut">Oct  7 09:14:02 server sshd[1952]: Failed password for root from 203.0.113.45 port 40188 ssh2
+<span class="h1">Oct  7 09:14:05 server sshd[1955]: Failed password for ro</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>den halve linja. Bare 9 ord, og ingen IP</span></li></ul><p><code>tail</code> viser slutten av en fil. <code>-n 2</code> = to linjer.</p></template></div>
+<div class="tm-o" data-cmd="python3 tell_ip.py" data-mal="Kjør tell_ip.py fra L17. Nå er IP-en hentet med en funksjon:"><template class="ut"><span style="color:var(--red)">Traceback (most recent call last):
+  File "/home/kali/tell_ip.py", <span class="h2">line 8</span>, in &lt;module&gt;
+    ip = hent_ip(linje)
+  File "/home/kali/tell_ip.py", <span class="h2">line 2</span>, in hent_ip
+    return linje.split()[10]
+           ~~~~~~~~~~~~~^^^^
+<span class="h1">IndexError</span>: list index out of range</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>feiltypen</span></li><li><span class="m h2"></span><span>veien feilen gikk: fra hent_ip (linje 2) opp til kallet (linje 8)</span></li></ul><p>Ni gode linjer ble lest. Men utskriften kommer etter løkka, så du får <b>ingenting</b> 😩</p></template></div>
+<div class="tm-o" data-cmd="cat tell_ip2.py" data-mal="Se på versjonen med plan B:"><template class="ut">def hent_ip(linje):
+    return linje.split()[10]
+
+teller = {}
+<span class="h3">hoppet = 0</span>
+with open("auth.log") as f:
+    for linje in f:
+        if "Failed password" in linje:
+            <span class="h2">try:</span>
+                ip = hent_ip(linje)
+                teller[ip] = teller.get(ip, 0) + 1
+            <span class="h2">except IndexError:</span>
+                <span class="h3">hoppet += 1</span>
+for ip in sorted(teller):
+    print(ip, teller[ip])
+print("Hoppet over:", hoppet)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>prøv, og plan B for akkurat IndexError</span></li><li><span class="m h3"></span><span>en teller for ødelagte linjer, så du vet at de fantes</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 tell_ip2.py" data-mal="Kjør den." data-skjult data-hint="<code>python3</code> og filnavnet. Husk 2-tallet."><template class="ut">192.168.1.10 1
+198.51.100.7 2
+203.0.113.45 4
+<span class="h3">Hoppet over: 1</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>den halve linja, talt og hoppet over</span></li></ul><p>Samme tall som i L17 🎉 Den ødelagte linja stoppet ikke resten.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="indexerror|index error"><span class="ans-q">Hvilken feiltype krasjet tell_ip.py?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Nederste linje, den gule.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">IndexError</div></div></div>
+<div class="ans-row" data-p="1" data-a="1|en|én|ei"><span class="ans-q">Hvor mange linjer hoppet tell_ip2.py over?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Siste linje i utskriften.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lim inn en halv linje nederst i <code>auth.log</code>: <code>Oct  7 09:14:05 server sshd[1955]: Failed password for ro</code>. Lag <code>tell_ip.py</code> og <code>tell_ip2.py</code> med nano. Kjør begge med <code>python3</code>. Den ene krasjer, den andre teller videre 💪</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="try"><span class="ans-q">Hvilket ord starter blokken med kode som kanskje feiler?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">«Prøv» på engelsk. Blått i tell_ip2.py.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">try</div></div></div>
+<div class="ans-row" data-p="1" data-a="0|null|ingen"><span class="ans-q">Hvor mange IP-er rakk tell_ip.py å skrive ut før den krasjet?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Var det noe annet enn rødt under <code>python3 tell_ip.py</code>?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">0</div></div></div>
+<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Feilen skjedde inni hent_ip, men try sto rundt kallet i løkka. Ble feilen fanget? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Steg 3 i spillet: hvor ble feilen sendt?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · PRESIS EXCEPT ═══════════════════════ -->
+<div class="lab-card" id="l20-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Fang riktig feil, ikke alle</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Presis except</div>
+<p class="e-hook"><code>except ValueError:</code> er en hanske 🧤 som bare passer på én type feil. Hva slipper gjennom?</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Krasj eller fanget?" data-knapper="✅ Blir et tall|🧤 Fanget|💥 Krasj">
+  <div class="ly-fast"><pre class="x-kode"><span class="x-k">try</span>:
+    tall = int(tekst)
+    print(<span class="x-t">"Tall:"</span>, tall)
+<span class="x-k">except</span> ValueError:
+    print(<span class="x-t">"Hopper over"</span>)</pre></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Bare sifre. Ingen feil, så except blir aldri brukt."><code>tekst = "42"</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Bokstaver kan ikke bli et tall: ValueError. Hansken passer."><code>tekst = "abc"</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Tom tekst er heller ikke et tall. ValueError, fanget."><code>tekst = ""</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Lurt! int() tåler mellomrom foran og bak. Det blir 7."><code>tekst = " 7 "</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="int() vil ha et helt tall. 7.5 gir ValueError."><code>tekst = "7.5"</code></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="None betyr «ingenting». int(None) gir TypeError, og hansken passer bare ValueError."><code>tekst = None</code></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="En liste er feil type. TypeError slipper forbi except ValueError."><code>tekst = ["4"]</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Minustegn foran går fint. Det blir -3."><code>tekst = "-3"</code></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Skriv alltid <b>hvilken</b> feiltype du venter: <code>except ValueError:</code>. Bare <code>except:</code> uten navn fanger <b>alt</b>, også skrivefeil i din egen kode. Da krasjer programmet aldri, men det lyver.
+</div>
+<p class="e-sikker">🔐 Et sikkerhetsverktøy som tier om feil, er farlig. Det kan gi deg en tom rapport, og du tror alt er rolig 😱</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat slukt.py" data-mal="Se på et program med except uten navn:"><template class="ut">teller = {}
+hoppet = 0
+with open("auth.log") as f:
+    for linje in f:
+        if "Failed password" in linje:
+            try:
+                ip = linje.split()[10]
+                <span class="h1">teler</span>[ip] = teller.get(ip, 0) + 1
+            <span class="h2">except:</span>
+                hoppet += 1
+print("Fant:", teller)
+print("Hoppet over:", hoppet)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>en skrivefeil: én l for lite</span></li><li><span class="m h2"></span><span>except uten feiltype</span></li></ul><p>Gjett før du kjører: krasjer den? 🤔</p></template></div>
+<div class="tm-o" data-cmd="python3 slukt.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet."><template class="ut">Fant: <span class="h1">{}</span>
+Hoppet over: <span class="h1">8</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>tom rapport, og «alle» linjene ble hoppet over</span></li></ul><p>Ingen rød tekst. Men svaret er feil! Skrivefeilen ble slukt 8 ganger 🙈</p></template></div>
+<div class="tm-o" data-cmd="cat presis.py" data-mal="Se på versjonen der bare én linje er endret." data-skjult data-hint="Samme som første oppdrag, med <code>presis.py</code>."><template class="ut">teller = {}
+hoppet = 0
+with open("auth.log") as f:
+    for linje in f:
+        if "Failed password" in linje:
+            try:
+                ip = linje.split()[10]
+                teler[ip] = teller.get(ip, 0) + 1
+            <span class="h3">except IndexError:</span>
+                hoppet += 1
+print("Fant:", teller)
+print("Hoppet over:", hoppet)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>nå fanges bare den feilen du venter</span></li></ul><p>Skrivefeilen er der fortsatt. Hva skjer nå?</p></template></div>
+<div class="tm-o" data-cmd="python3 presis.py" data-mal="Kjør den." data-skjult data-hint="Samme som andre oppdrag, med <code>presis.py</code>."><template class="ut"><span style="color:var(--red)">Traceback (most recent call last):
+  File "/home/kali/presis.py", line 8, in &lt;module&gt;
+    teler[ip] = teller.get(ip, 0) + 1
+    ^^^^^
+<span class="h1">NameError</span>: name 'teler' is not defined. <span class="h3">Did you mean: 'teller'?</span></span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>den ekte feilen, endelig synlig</span></li><li><span class="m h3"></span><span>Python foreslår til og med fiksen 😄</span></li></ul><p>Et krasj her er <b>bra</b>. Nå vet du hva du skal rette.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="8|åtte"><span class="ans-q">Hvor mange linjer sa slukt.py at den hoppet over?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Siste linje under <code>python3 slukt.py</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">8</div></div></div>
+<div class="ans-row" data-p="1" data-a="teller"><span class="ans-q">Hvilket navn foreslo Python i stedet for teler?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den grønne biten: «Did you mean…»</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">teller</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Kopier tell_ip2.py: <code>cp tell_ip2.py slukt.py</code>. Åpne den med nano, lag en skrivefeil i et variabelnavn, og bytt <code>except IndexError:</code> med bare <code>except:</code>. Kjør den. Bytt tilbake og kjør igjen. Hvilken versjon forteller sannheten? 🕵️</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="fanget"><span class="ans-q">Samme kode som i spillet, med tekst = "0x1F". Blir det et tall, fanget eller krasj?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det er tekst, men med bokstaver i. Som «abc» i spillet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">fanget</div></div></div>
+<div class="ans-row" data-p="1" data-a="nameerror|name error"><span class="ans-q">Hvilken feiltype gjemte slukt.py?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">presis.py viste den med gult.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">NameError</div></div></div>
+<div class="mcq" data-c="2016447146" data-ok="Riktig! Fang feilen du venter, og la resten krasje så du ser dem." data-no="Ikke helt. Den fanger for mye. Hvilken sier nøyaktig hvilken feil du venter?"><div class="mcq-q">Loggen kan ha korte linjer. Hvilken linje er best i verktøyet ditt?</div><button class="mcq-opt">except:</button><button class="mcq-opt">except IndexError:</button><button class="mcq-opt">except Exception:</button><div class="mcq-fb"></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · RELATIV STI ═══════════════════════ -->
+<div class="lab-card" id="l20-5" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">Hvor leter Python?</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Relativ sti</div>
+<p class="e-hook">Du ryddet: <code>auth.log</code> og <code>tell.py</code> ligger nå sammen i mappa <code>logg</code>. Samme kode som før. Likevel: 💥 Hvorfor?</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 tell.py leter etter loggen">
+<pre class="x-kode">antall = 0
+<span class="x-k">with</span> open(<span class="x-t">"auth.log"</span>) <span class="x-k">as</span> f:
+    <span class="x-k">for</span> linje <span class="x-k">in</span> f:
+        <span class="x-k">if</span> <span class="x-t">"Failed password"</span> <span class="x-k">in</span> linje:
+            antall += 1
+print(<span class="x-t">"Feil passord:"</span>, antall)</pre>
+  <div class="ch-item" data-fra="sys">📍 Du står i <code>/home/kali</code> og skriver <code>python3 logg/tell.py</code></div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 tell.py">Hei Linux! Gi meg <code>auth.log</code>. Ingen mappe foran navnet, så den ligger der brukeren står.</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🐧 Linux">Brukeren står i <code>/home/kali</code>. Der har jeg mappa <code>logg</code> og… ingen <code>auth.log</code> 🤷</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 tell.py">Men den ligger jo rett ved siden av meg i <code>logg</code>?! 😩</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🐧 Linux">Hvor <b>du</b> ligger, bryr jeg meg ikke om. <code>auth.log</code> betyr «i mappa brukeren står i».</div>
+  <div class="ch-item" data-fra="sys">💥 FileNotFoundError: 'auth.log'</div>
+  <div class="ch-item" data-stopp="⏩ Prøv igjen, nå fra logg-mappa"></div>
+  <div class="ch-item" data-fra="sys">📍 Du skriver <code>cd logg</code>, så <code>python3 tell.py</code></div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 tell.py">Gi meg <code>auth.log</code>, der brukeren står!</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🐧 Linux">Brukeren står i <code>/home/kali/logg</code>. Jepp, her er den 📄</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 tell.py">Feil passord: 8 🎉 Samme kode. Bare et annet sted å stå.</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>"auth.log"</code> er en <b>relativ sti</b>: den regnes fra mappa du står i, <b>arbeidsmappa</b> (working directory). <code>pwd</code> viser hvilken det er.<br>
+<code>/home/kali/logg/auth.log</code> starter med <code>/</code>. Det er en <b>absolutt sti</b>: lik uansett hvor du står.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="pwd" data-mal="Hvor står du?"><template class="ut"><span class="h2">/home/kali</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>arbeidsmappa di. pwd = print working directory</span></li></ul></template></div>
+<div class="tm-o" data-cmd="ls logg" data-mal="Se hva som ligger i mappa logg:" data-alias="ls logg/|ls -l logg"><template class="ut">auth.log
+tell.py</template><template class="forklar"><p>Begge filene ligger sammen i <code>logg</code>. Ingen <code>auth.log</code> rett i <code>/home/kali</code>.</p></template></div>
+<div class="tm-o" data-cmd="python3 logg/tell.py" data-mal="Kjør tell.py herfra, der du står:"><template class="ut"><span style="color:var(--red)">Traceback (most recent call last):
+  File "/home/kali/logg/tell.py", line 2, in &lt;module&gt;
+    with open("auth.log") as f:
+         ~~~~^^^^^^^^^^^^
+<span class="h1">FileNotFoundError</span>: [Errno 2] No such file or directory: <span class="h2">'auth.log'</span></span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>fila ble ikke funnet</span></li><li><span class="m h2"></span><span>relativ sti: Python lette i <code>/home/kali</code>, der du står</span></li></ul></template></div>
+<div class="tm-o" data-cmd="cd logg &amp;&amp; python3 tell.py" data-mal="Gå inn i logg og kjør den derfra:" data-alias="cd logg/ &amp;&amp; python3 tell.py|cd logg; python3 tell.py"><template class="ut">Feil passord: <span class="h3">8</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>nå virket det</span></li></ul><p>Samme kode, to mapper, to forskjellige svar. Det er problemet du fikser i neste oppgave 🔧</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="/home/kali|home/kali"><span class="ans-q">Hvilken mappe sto du i, ifølge pwd?</span><input class="ans-in" placeholder="en sti"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå linja fra første oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">/home/kali</div></div></div>
+<div class="ans-row" data-p="1" data-a="8|åtte|feil passord: 8"><span class="ans-q">Hvor mange feil passord fant tell.py da du kjørte den inne i logg?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det grønne tallet i siste oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">8</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag mappa og flytt filene: <code>mkdir logg</code> og <code>mv auth.log tell.py logg/</code>. Kjør <code>pwd</code>, så <code>python3 logg/tell.py</code>. Få FileNotFoundError 💥 Gå så inn med <code>cd logg</code> og kjør <code>python3 tell.py</code>. Kom deg tilbake med <code>cd ..</code><p class="e-win">Windows (PowerShell): <code>pwd</code> virker også. Kjør <code>python logg\tell.py</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="relativ|en relativ sti|relativ sti"><span class="ans-q">Er "auth.log" en relativ eller absolutt sti?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Starter den med <code>/</code>?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">relativ</div></div></div>
+<div class="ans-row" data-p="1" data-a="/tmp/auth.log|tmp/auth.log"><span class="ans-q">Du står i /tmp og koden har open("auth.log"). Hvilken full sti leter Python etter?</span><input class="ans-in" placeholder="en sti"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Mappa du står i, så en <code>/</code>, så filnavnet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">/tmp/auth.log</div></div></div>
+<div class="ans-row" data-p="1" data-a="pwd"><span class="ans-q">Hvilken kommando viser mappa du står i?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Første oppdrag i øve-terminalen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">pwd</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 6 · PATHLIB ═══════════════════════ -->
+<div class="lab-card" id="l20-6" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">06</span>
+  <span class="lab-title">Stier som virker uansett</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — pathlib</div>
+<p class="e-hook">Hva om tell.py kunne spørre: «Hvor ligger <b>jeg</b>?» og lete der? Det kan den. Med tre linjer 🧭</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hva blir stien?" data-oppgave="Du står i <code>/tmp</code> og kjører <code>python3 /home/kali/logg/tell.py</code>. Koble hver bit til stien den blir.">
+  <div class="pr-par" data-forklar="__file__ er alltid hvor selve skriptet ligger. Uansett hvor du står."><span><code>__file__</code></span><span><code>/home/kali/logg/tell.py</code></span></div>
+  <div class="pr-par" data-forklar=".parent = mappa fila ligger i. Filnavnet faller bort."><span><code>Path(__file__).parent</code></span><span><code>/home/kali/logg</code></span></div>
+  <div class="pr-par" data-forklar="/ mellom en Path og et navn setter dem sammen til en ny sti."><span><code>MAPPE / "auth.log"</code></span><span><code>/home/kali/logg/auth.log</code></span></div>
+  <div class="pr-par" data-forklar="Relativ sti: den regnes fra der du står. Den fila finnes ikke 💥"><span><code>open("auth.log")</code></span><span><code>/tmp/auth.log</code></span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>from pathlib import Path</code> henter <b>Path</b>, en sti du kan regne med. <code>Path(__file__).parent</code> er mappa skriptet ligger i. <code>/</code> setter sammen biter av en sti. Det virker på Windows også.
+</div>
+<p class="e-sikker">🤖 Skript som starter av seg selv (med cron eller som tjeneste) står ofte i en helt annen mappe enn deg. En systemd-tjeneste starter for eksempel i <code>/</code> hvis ingen mappe er satt. Der redder <code>Path(__file__)</code> deg.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat logg/tell.py" data-mal="Se på den nye tell.py:"><template class="ut"><span class="h2">from pathlib import Path</span>
+
+<span class="h1">MAPPE = Path(__file__).parent</span>
+<span class="h1">LOGG = MAPPE / "auth.log"</span>
+
+antall = 0
+with open(<span class="h1">LOGG</span>) as f:
+    for linje in f:
+        if "Failed password" in linje:
+            antall += 1
+print("Leser:", LOGG)
+print("Feil passord:", antall)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>hent Path fra biblioteket pathlib</span></li><li><span class="m h1"></span><span>bygg en absolutt sti fra der skriptet ligger, og bruk den</span></li></ul><p>Store bokstaver i <code>MAPPE</code> og <code>LOGG</code> er vanlig for verdier som ikke skal endres.</p></template></div>
+<div class="tm-o" data-cmd="python3 logg/tell.py" data-mal="Kjør den fra /home/kali, der den krasjet i oppgave 5." data-skjult data-hint="Samme kommando som krasjet i oppgave 5."><template class="ut">Leser: <span class="h2">/home/kali/logg/auth.log</span>
+Feil passord: <span class="h3">8</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>en absolutt sti, laget av skriptet selv</span></li><li><span class="m h3"></span><span>ingen krasj 🎉</span></li></ul></template></div>
+<div class="tm-o" data-cmd="cd /tmp &amp;&amp; python3 /home/kali/logg/tell.py" data-mal="Gå helt andre steder, til /tmp, og kjør den derfra:" data-alias="cd /tmp &amp;&amp; python3 ~/logg/tell.py|cd /tmp; python3 /home/kali/logg/tell.py"><template class="ut">Leser: <span class="h2">/home/kali/logg/auth.log</span>
+Feil passord: <span class="h3">8</span></template><template class="forklar"><p>Samme svar fra en helt annen mappe. Verktøyet ditt finner loggen sin automatisk 🧭</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="/home/kali/logg/auth.log|home/kali/logg/auth.log"><span class="ans-q">Hvilken full sti leste tell.py?</span><input class="ans-in" placeholder="en sti"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå biten etter «Leser:».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">/home/kali/logg/auth.log</div></div></div>
+<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Ga kjøringen fra /tmp samme tall som fra /home/kali? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Sammenlign de to grønne tallene.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne <code>nano logg/tell.py</code> og legg til de tre linjene øverst. Bytt <code>"auth.log"</code> i <code>open()</code> med <code>LOGG</code>. Kjør <code>python3 logg/tell.py</code>, og så <code>cd /tmp &amp;&amp; python3 ~/logg/tell.py</code>. Begge skal virke ✅ Stien din viser ditt brukernavn.<p class="e-win">Windows: <code>python logg\tell.py</code>. Path skriver stien med <code>\</code>, men koden er helt lik.</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="/home/kali/logg|home/kali/logg"><span class="ans-q">Hva blir Path(__file__).parent når skriptet er /home/kali/logg/tell.py?</span><input class="ans-in" placeholder="en sti"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ta bort filnavnet, som i spillet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">/home/kali/logg</div></div></div>
+<div class="mcq" data-c="177620" data-ok="Riktig! MAPPE / &quot;auth.log&quot; setter sammen stien." data-no="Ikke helt. Se på linja LOGG = … i tell.py."><div class="mcq-q">Hvilket tegn setter sammen en Path og et filnavn?</div><button class="mcq-opt">+</button><button class="mcq-opt">/</button><button class="mcq-opt">,</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="pathlib"><span class="ans-q">Hvilket bibliotek henter du Path fra?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ordet etter <code>from</code> på første linje.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">pathlib</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-inner">
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+</div></div></footer>
+<script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kommandolinjen får sitt eget språk — CyberLab</title>
+<link rel="stylesheet" href="../css/style.css?v=13">
+<link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+.x-kode{margin-bottom:12px !important;color:var(--text) !important}
+.x-kode .x-k{color:var(--blue)}
+.x-kode .x-t{color:var(--green)}
+.enkel code,.enkel pre,.enkel .ans-in,.enkel .tm-vindu{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+.rf-k code,.rf-svar code{font-size:14px;white-space:pre}
+.x-feil{color:var(--red)}
+</style>
+</head>
+<body class="page enkel">
+<nav class="nav">
+  <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
+  <div class="nav-links">
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="nav-link">Hjem</a>
+    <a href="../emne1.html" class="nav-link">Emne 1</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne3.html" class="nav-link">Emne 3</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="nav-link on">Labber</a>
+    <a href="https://tk1104.timoamling.com/" target="_blank" rel="noopener" class="nav-link">Self check &nearr;</a>
+  </div>
+</nav>
+
+<div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
+
+<div class="mod-hero">
+  <div class="section-eyebrow">Emne 1 &middot; Leksjon 23</div>
+  <div class="section-title">Kommandolinjen får sitt eget språk</div>
+  <p class="section-desc">Bash-skript: kommandoene du allerede kan, lagret i en fil. Med variabler, valg, løkker og hermetegn. Fem små spill, og så noen spørsmål etter hvert.</p>
+</div>
+
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
+
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>Skript</dt><dd>En fil med kommandoer som kjøres ovenfra og ned. Script på engelsk.</dd>
+    <dt>Bash</dt><dd>Programmet som leser kommandoene dine, både i terminalen og i skript.</dd>
+    <dt><code>#!/bin/bash</code></dt><dd>Første linje i skriptet. Heter <b>shebang</b>. Sier hvilket program som skal lese fila.</dd>
+    <dt><code>chmod +x</code></dt><dd>Gir fila lov til å kjøres (execute).</dd>
+    <dt><code>./</code></dt><dd>«I mappa jeg står i.» <code>./hei.sh</code> kjører hei.sh herfra.</dd>
+    <dt>Variabel</dt><dd>Et navn med en verdi: <code>navn="kali"</code>. Ingen mellomrom rundt <code>=</code>.</dd>
+    <dt><code>$navn</code></dt><dd>Hent verdien i variabelen.</dd>
+    <dt><code>$(kommando)</code></dt><dd>Kjør kommandoen og bruk svaret. Command substitution.</dd>
+    <dt><code>$1</code></dt><dd>Det første ordet du skriver etter skriptnavnet (argument).</dd>
+    <dt><code>if … then … fi</code></dt><dd>Valg. <code>fi</code> er <code>if</code> baklengs og avslutter blokken.</dd>
+    <dt><code>for … do … done</code></dt><dd>Løkke. Én runde per ting i lista.</dd>
+    <dt>Hermetegn</dt><dd><code>"…"</code> slipper variabler gjennom. <code>'…'</code> tar alt bokstavelig.</dd>
+    <dt>nano</dt><dd>En enkel teksteditor i terminalen.</dd>
+  </dl>
+</details>
+
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
+
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · SKRIPT, SHEBANG, CHMOD ═══════════════════════ -->
+<div class="lab-card" id="l23-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">Kommandoene dine, lagret i en fil</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Ditt første skript</div>
+<p class="e-hook">Du skriver de samme kommandoene hver morgen? Lat er lurt 😴 La en fil skrive dem for deg.</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Du og Bash, mandag morgen">
+  <div class="ch-item" data-fra="sys">📍 Mandag. Du sjekker maskinen, som alltid.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🧑‍💻 Du"><code>whoami</code> … <code>pwd</code> … <code>ls</code> … Hver. Eneste. Dag. 😩</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🐚 Bash">Skriv dem i en fil, så kjører jeg dem for deg. Én linje om gangen, ovenfra og ned.</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🐚 Bash">Og start fila med <code>#!/bin/bash</code>. Da vet maskinen at det er <b>jeg</b> som skal lese den.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🧑‍💻 Du">Fikset! Lagret som <code>hei.sh</code>. Kjør: <code>./hei.sh</code></div>
+  <div class="ch-item" data-fra="ond" data-navn="🛑 Bash">bash: ./hei.sh: Permission denied</div>
+  <div class="ch-item" data-fra="pc" data-navn="🧑‍💻 Du">Hæ? Det er jo MIN fil! 😤</div>
+  <div class="ch-item" data-stopp="🔓 Gi fila lov til å kjøre"></div>
+  <div class="ch-item" data-fra="nabo" data-navn="🐚 Bash">En ny fil får lese og skrive, men ikke kjøre. Skriv <code>chmod +x hei.sh</code> først.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🧑‍💻 Du"><code>chmod +x hei.sh</code> … <code>./hei.sh</code></div>
+  <div class="ch-item" data-fra="nabo" data-navn="🐚 Bash">whoami ✅ pwd ✅ ls ✅ Ferdig!</div>
+  <div class="ch-item" data-fra="pc" data-navn="🧑‍💻 Du">Ett ord i stedet for tre 😎</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+En fil med kommandoer heter et <b>skript</b> (script). Første linje, <code>#!/bin/bash</code>, heter <b>shebang</b>.<br>
+<code>chmod +x</code> gir fila lov til å kjøres (execute). <code>./</code> betyr «fila ligger her, i mappa jeg står i».
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat hei.sh" data-mal="Se på skriptet:"><template class="ut"><span class="h1">#!/bin/bash</span>
+<span class="dim"># Morgensjekk: hvem, hvor og hva</span>
+echo "=== Morgensjekk ==="
+whoami
+pwd
+ls</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>shebang: «les meg med /bin/bash»</span></li><li><span class="m dim"></span><span>linjer som starter med <code>#</code> er kommentarer. Bash hopper over dem</span></li></ul><p>Resten er kommandoer du kan fra før 👍</p></template></div>
+<div class="tm-o" data-cmd="./hei.sh" data-mal="Kjør skriptet:"><template class="ut"><span class="x-feil">bash: ./hei.sh: <span class="h1">Permission denied</span></span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>«ingen tillatelse». Fila mangler <code>x</code>-retten</span></li></ul></template></div>
+<div class="tm-o" data-cmd="chmod +x hei.sh" data-alias="chmod u+x hei.sh|chmod a+x hei.sh|chmod 755 hei.sh|chmod 744 hei.sh|chmod 700 hei.sh" data-mal="Gi fila lov til å kjøres:"><template class="forklar"><p>Ingen utskrift. Det betyr at det gikk bra 🤫</p></template></div>
+<div class="tm-o" data-cmd="./hei.sh" data-mal="Kjør skriptet på nytt." data-skjult data-hint="Samme kommando som i oppdrag 2."><template class="ut">=== Morgensjekk ===
+<span class="h2">kali</span>
+<span class="h3">/home/kali</span>
+<span class="h4">auth.log  hei.sh  notater.txt</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>svaret fra <code>whoami</code></span></li><li><span class="m h3"></span><span>svaret fra <code>pwd</code></span></li><li><span class="m h4"></span><span>svaret fra <code>ls</code></span></li></ul><p>Kommentaren ble ikke skrevet ut. Bash hoppet over den 🎉</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="permission denied"><span class="ans-q">Hvilken feilmelding fikk du første gang du kjørte ./hei.sh?</span><input class="ans-in" placeholder="to ord på engelsk"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den røde linja, etter <code>./hei.sh:</code></div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Permission denied</div></div></div>
+<div class="ans-row" data-p="1" data-a="4|fire"><span class="ans-q">Hvor mange linjer skrev skriptet ut da det endelig kjørte?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene under den siste <code>./hei.sh</code>. <code>ls</code> skriver alle filene på én linje.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv <code>nano hei.sh</code>. Skriv inn de seks linjene fra <code>cat hei.sh</code>. Lagre med <b>Ctrl + O</b> og <b>Enter</b>, avslutt med <b>Ctrl + X</b>. Kjør <code>./hei.sh</code>, så <code>chmod +x hei.sh</code>, og så <code>./hei.sh</code> igjen. Lista fra <code>ls</code> blir din egen.<br>Kali-terminalen bruker ofte <b>zsh</b> i stedet for bash. Da står feilen som <code>zsh: permission denied: ./hei.sh</code>. Samme feil, bare annen skrivemåte 😉</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="mcq" data-c="5861097" data-ok="Riktig! #! og så stien til programmet: #!/bin/bash" data-no="Ikke helt. Se på den gule linja øverst i hei.sh."><div class="mcq-q">Hvilke to tegn starter første linje i et Bash-skript?</div><button class="mcq-opt">//</button><button class="mcq-opt">#!</button><button class="mcq-opt">$(</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="chmod +x skann.sh|chmod u+x skann.sh|chmod a+x skann.sh|chmod 755 skann.sh|chmod 744 skann.sh|chmod 700 skann.sh"><span class="ans-q">Du har laget skann.sh. Hvilken kommando gir den lov til å kjøres?</span><input class="ans-in" placeholder="chmod …"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Oppdrag 3 i øve-terminalen, med et annet filnavn.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">chmod +x skann.sh</div></div></div>
+<div class="ans-row" data-p="1" data-a="bash hei.sh|bash ./hei.sh"><span class="ans-q">Du kan også kjøre skriptet uten chmod, ved å gi fila rett til Bash. Hvordan?</span><input class="ans-in" placeholder="… hei.sh"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Som <code>python3 vakt.py</code> i L16, men med programmet som står i shebangen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">bash hei.sh</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · VARIABLER ═══════════════════════ -->
+<div class="lab-card" id="l23-2" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">Variabler: mellomrom er en felle</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Variabler og $</div>
+<p class="e-hook">I Python skrev du <code>navn = "kali"</code>, med mellomrom. Prøv det i Bash, og det smeller 💥 Hvorfor? Spill deg fram.</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Hva skriver echo ut?" data-knapper="kali|navn|(tom linje)|💥 Feilmelding">
+  <div class="ly-item" data-svar="0" data-hvorfor="Dollartegnet henter verdien i variabelen."><code>navn="kali"</code><br><code>echo $navn</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Uten $ er det bare ordet «navn». Bash henter ingenting."><code>navn="kali"</code><br><code>echo navn</code></div>
+  <div class="ly-item" data-svar="3" data-hvorfor="Mellomrom! Bash tror «navn» er en kommando, og sier «navn: command not found»."><code>navn = "kali"</code><br><code>echo $navn</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Hermetegn trengs ikke når verdien er ett ord uten mellomrom."><code>navn=kali</code><br><code>echo $navn</code></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Store og små bokstaver teller. NAVN finnes ikke, så Bash setter inn ingenting."><code>navn="kali"</code><br><code>echo $NAVN</code></div>
+  <div class="ly-item" data-svar="3" data-hvorfor="Lurt! Ett mellomrom etter = gjør at Bash prøver å kjøre «kali» som en kommando: «kali: command not found»."><code>navn= "kali"</code><br><code>echo $navn</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="$(whoami) kjører whoami og putter svaret inn i variabelen. Du er kali."><code>bruker=$(whoami)</code><br><code>echo $bruker</code></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>navn="kali"</code> lager en <b>variabel</b>. Ingen mellomrom rundt <code>=</code>!<br>
+<code>$navn</code> henter verdien. <code>$(whoami)</code> kjører en kommando og bruker svaret. Det heter <b>command substitution</b>.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat feil.sh" data-mal="Se på et skript med en feil:"><template class="ut">#!/bin/bash
+<span class="h1">navn = "Kari"</span>
+echo "Hei, $navn!"</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>Python-vane: mellomrom rundt <code>=</code></span></li></ul><p>Gjett hva Bash sier 🤔</p></template></div>
+<div class="tm-o" data-cmd="./feil.sh" data-alias="bash feil.sh" data-mal="Kjør det:"><template class="ut"><span class="x-feil">./feil.sh: line <span class="h2">2</span>: <span class="h1">navn</span>: command not found</span>
+Hei, !</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>linja der det gikk galt</span></li><li><span class="m h1"></span><span>Bash trodde «navn» var en kommando</span></li></ul><p>Variabelen ble aldri laget. Derfor står det bare «Hei, !» 🙈</p></template></div>
+<div class="tm-o" data-cmd="cat hilsen.sh" data-mal="Se på den fiksede versjonen." data-skjult data-hint="Samme som oppdrag 1, men fila heter <code>hilsen.sh</code>."><template class="ut">#!/bin/bash
+<span class="h3">navn="Kari"</span>
+<span class="h4">bruker=$(whoami)</span>
+echo "Hei, $navn!"
+echo "Du er logget inn som $bruker"</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>ingen mellomrom. Sånn skal det være</span></li><li><span class="m h4"></span><span>kjører <code>whoami</code> og lagrer svaret</span></li></ul></template></div>
+<div class="tm-o" data-cmd="./hilsen.sh" data-alias="bash hilsen.sh" data-mal="Kjør den." data-skjult data-hint="Samme som oppdrag 2, med <code>hilsen.sh</code>."><template class="ut">Hei, <span class="h3">Kari</span>!
+Du er logget inn som <span class="h4">kali</span></template><template class="forklar"><p>✅ Begge variablene ble byttet ut med verdiene sine.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">På hvilken linje fant Bash feilen i feil.sh?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå biten: <code>line …</code></div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+<div class="ans-row" data-p="1" data-a="navn"><span class="ans-q">Hvilket ord trodde Bash var en kommando?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten, rett før <code>command not found</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">navn</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag <code>feil.sh</code> med <code>nano feil.sh</code>, med mellomrommene. Kjør <code>chmod +x feil.sh</code> og <code>./feil.sh</code>. Fjern så mellomrommene rundt <code>=</code>, lagre og kjør igjen. Nå står det «Hei, Kari!» 🎯 Prøv også <code>echo $(whoami)</code> rett i terminalen.</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="mcq" data-c="-1772018529" data-ok="Riktig! Ingen mellomrom rundt =." data-no="Ikke helt. Husk kortet som ga 💥 i lynrunden. Hvilken linje har ingen mellomrom i det hele tatt?"><div class="mcq-q">Hvilken linje lager variabelen ip riktig?</div><button class="mcq-opt">ip = "10.0.0.5"</button><button class="mcq-opt">ip= "10.0.0.5"</button><button class="mcq-opt">ip="10.0.0.5"</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="kali"><span class="ans-q">Skriptet har linja bruker=$(whoami). Du er logget inn som kali. Hva skriver echo $bruker ut?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva svarer <code>whoami</code>? Se siste linje fra hilsen.sh.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">kali</div></div></div>
+<div class="ans-row" data-p="1" data-a="ingenting|tom linje|en tom linje|tomt|blank linje|ingen ting"><span class="ans-q">navn="kali". Hva skriver echo $Navn ut?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på den store N-en. Husk kortet med <code>$NAVN</code> i lynrunden.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">tom linje</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · HERMETEGN ═══════════════════════ -->
+<div class="lab-card" id="l23-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">To slags hermetegn</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Hermetegn</div>
+<p class="e-hook">Ett lite tegn avgjør om Bash ser inn i variabelen eller ikke 🔍 Finn mønsteret.</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hva kommer ut?" data-oppgave="Koble hver <code>echo</code>-linje til det den skriver ut.">
+<pre class="x-kode"><span class="x-k">navn</span>=<span class="x-t">"kali"</span>     <span style="color:var(--text3)"># og du er logget inn som kali</span></pre>
+  <div class="pr-par" data-forklar="Uten hermetegn henter $ verdien. Her er den ett ord, så det går fint."><span><code>echo $navn</code></span><span>kali</span></div>
+  <div class="pr-par" data-forklar="Doble hermetegn slipper $ gjennom. Variabelen byttes ut."><span><code>echo "Hei $navn"</code></span><span>Hei kali</span></div>
+  <div class="pr-par" data-forklar="Enkle hermetegn stenger døra. Alt står nøyaktig som skrevet."><span><code>echo 'Hei $navn'</code></span><span>Hei $navn</span></div>
+  <div class="pr-par" data-forklar="Enkle hermetegn igjen: $navn er bare tekst."><span><code>echo '$navn'</code></span><span>$navn</span></div>
+  <div class="pr-par" data-forklar="$(whoami) virker også inni doble hermetegn."><span><code>echo "Jeg er $(whoami)"</code></span><span>Jeg er kali</span></div>
+  <div class="pr-par" data-forklar="Inni enkle hermetegn blir ikke kommandoen kjørt."><span><code>echo 'Jeg er $(whoami)'</code></span><span>Jeg er $(whoami)</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>Doble hermetegn</b> <code>"…"</code>: <code>$navn</code> og <code>$(…)</code> byttes ut.<br>
+<b>Enkle hermetegn</b> <code>'…'</code>: alt står bokstavelig.<br>
+<b>Ingen hermetegn</b>: Bash deler verdien på mellomrom, til flere ord. Det heter <b>word splitting</b>. Se hva det gjør under 👇
+</div>
+<p class="e-sikker">🔐 Gullregel: skriv alltid <code>"$variabel"</code>. Uten hermetegn kan et filnavn med mellomrom eller <code>*</code> få skriptet til å treffe helt andre filer enn du tror.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat rapport.sh" data-mal="Se på skriptet:"><template class="ut">#!/bin/bash
+fil="<span class="h2">min rapport.txt</span>"
+echo "--- uten hermetegn ---"
+cat <span class="h1">$fil</span>
+echo "--- med hermetegn ---"
+cat <span class="h3">"$fil"</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>filnavnet har et mellomrom</span></li><li><span class="m h1"></span><span>variabelen uten hermetegn</span></li><li><span class="m h3"></span><span>variabelen med hermetegn</span></li></ul></template></div>
+<div class="tm-o" data-cmd="./rapport.sh" data-alias="bash rapport.sh" data-mal="Kjør det:"><template class="ut">--- uten hermetegn ---
+<span class="x-feil">cat: <span class="h1">min</span>: No such file or directory</span>
+<span class="x-feil">cat: <span class="h1">rapport.txt</span>: No such file or directory</span>
+--- med hermetegn ---
+<span class="h3">Funnet: 2 ukjente IP-er i auth.log</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>uten hermetegn ble ett filnavn til <b>to</b> ord. <code>cat</code> lette etter to filer som ikke finnes</span></li><li><span class="m h3"></span><span>med hermetegn: ett filnavn, og innholdet kom ut ✅</span></li></ul></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvor mange «No such file»-feil fikk cat $fil?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de røde linjene.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+<div class="ans-row" data-p="1" data-a="min"><span class="ans-q">Hvilket filnavn lette cat etter først?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten på første røde linje.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">min</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag en fil med mellomrom i navnet: <code>echo "Hemmelig funn" &gt; "min rapport.txt"</code>. Lag <code>rapport.sh</code> med nano, kjør <code>chmod +x rapport.sh</code> og <code>./rapport.sh</code>. Du får de samme to feilene, og så innholdet 🎯 Prøv også <code>echo '$HOME'</code> og <code>echo "$HOME"</code> rett i terminalen.</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="mcq" data-c="177607" data-ok="Riktig! Doble hermetegn slipper $ gjennom." data-no="Ikke helt. Hvilke ga «Hei kali» i spillet?"><div class="mcq-q">Hvilke hermetegn slipper variabler gjennom?</div><button class="mcq-opt">'</button><button class="mcq-opt">"</button><div class="mcq-fb"></div></div>
+<div class="mcq" data-c="1521803058" data-ok="Riktig! Enkle hermetegn tar alt bokstavelig." data-no="Ikke helt. Se på hermetegnene: er de enkle eller doble?"><div class="mcq-q">navn="kali". Hva skriver echo 'Hei $navn' ut?</div><button class="mcq-opt">Hei kali</button><button class="mcq-opt">Hei $navn</button><button class="mcq-opt">Hei</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="4|fire"><span class="ans-q">fil="logg fra i dag.txt". Hvor mange filnavn tror cat det får, hvis du skriver cat $fil uten hermetegn?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Bash deler på hvert mellomrom. «min rapport.txt» ble til 2. Tell ordene.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · IF OG $1 ═══════════════════════ -->
+<div class="lab-card" id="l23-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Valg: if, then og fi</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — if [ … ]</div>
+<p class="e-hook">Kollegaen din skrev et skript. Det kjører ikke 🐛 Tre feil gjemmer seg. Klarer du å finne dem?</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🐛 Finn de tre feilene" data-oppgave="Klikk på de tre bitene som får skriptet til å feile.">
+<pre><span class="kl" data-forklar="Shebangen er helt riktig.">#!/bin/bash</span>
+<span class="kl" data-rett data-forklar="Mellomrom rundt =. Bash sier «fil: command not found». Riktig: fil=&quot;auth.log&quot;">fil = "auth.log"</span>
+<span class="kl" data-rett data-forklar="Mangler «; then» på slutten. Riktig: if [ -f &quot;$fil&quot; ]; then">if [ -f "$fil" ]</span>
+    <span class="kl" data-forklar="Helt riktig. Denne kjører hvis fila finnes.">echo "Fila finnes"</span>
+<span class="kl" data-forklar="else er riktig. Det betyr «ellers», som i Python.">else</span>
+    <span class="kl" data-forklar="Riktig. Doble hermetegn, så $fil byttes ut.">echo "Fant ikke $fil"</span>
+<span class="kl" data-rett data-forklar="done avslutter en løkke. En if avsluttes med fi, som er if baklengs.">done</span></pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>if [ betingelse ]; then</code> … <code>else</code> … <code>fi</code>. Husk mellomrom inni <code>[ ]</code>.<br>
+<code>-f fil</code> = fila finnes · <code>-gt</code> = større enn (greater than) · <code>-lt</code> = mindre enn · <code>=</code> og <code>!=</code> for tekst<br>
+<code>$1</code> er det første ordet du skriver etter skriptnavnet. Det heter et <b>argument</b>.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat sjekk.sh" data-mal="Se på et skript som sjekker en logg:"><template class="ut">#!/bin/bash
+fil=<span class="h4">$1</span>
+<span class="h2">if [ -f "$fil" ]; then</span>
+    antall=$(grep -c "Failed password" "$fil")
+    echo "$fil: $antall feilede innlogginger"
+    <span class="h1">if [ "$antall" -gt 3 ]; then</span>
+        echo "ALARM: mulig brute force!"
+    fi
+else
+    echo "Fant ikke $fil"
+fi</template><template class="forklar"><ul class="e-forklar"><li><span class="m h4"></span><span>filnavnet du skriver etter skriptet</span></li><li><span class="m h2"></span><span>finnes fila?</span></li><li><span class="m h1"></span><span>er antallet større enn 3?</span></li></ul><p><code>grep -c</code> kjenner du fra L12. Her havner svaret i en variabel.</p></template></div>
+<div class="tm-o" data-cmd="./sjekk.sh auth.log" data-alias="bash sjekk.sh auth.log" data-mal="Sjekk auth.log:"><template class="ut">auth.log: <span class="h1">5</span> feilede innlogginger
+<span class="x-feil">ALARM: mulig brute force!</span></template><template class="forklar"><p><code>$1</code> ble <code>auth.log</code>. Fila finnes, og 5 er større enn 3 🚨</p></template></div>
+<div class="tm-o" data-cmd="./sjekk.sh hemmelig.log" data-alias="bash sjekk.sh hemmelig.log" data-mal="Sjekk en fil som ikke finnes: hemmelig.log" data-skjult data-hint="Som oppdrag 2, men bytt ut filnavnet."><template class="ut"><span class="h2">Fant ikke hemmelig.log</span></template><template class="forklar"><p><code>-f</code> svarte nei, så <code>else</code> tok over.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="5|fem"><span class="ans-q">Hvor mange feilede innlogginger fant sjekk.sh i auth.log?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det gule tallet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">5</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Kom ALARM-linja for hemmelig.log? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se utskriften fra oppdrag 3. Én linje.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Du trenger <code>auth.log</code> fra L16. Lag <code>sjekk.sh</code> med nano, kjør <code>chmod +x sjekk.sh</code>, og så <code>./sjekk.sh auth.log</code> og <code>./sjekk.sh hemmelig.log</code>. Bytt <code>3</code> til <code>10</code> i skriptet og kjør igjen. Forsvant alarmen? 🔕</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="fi"><span class="ans-q">Hvilket ord avslutter en if-blokk i Bash?</span><input class="ans-in" placeholder="ett kort ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den siste feilen i spillet. <code>if</code> baklengs.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">fi</div></div></div>
+<div class="ans-row" data-p="1" data-a="større enn|storre enn|greater than|er større enn"><span class="ans-q">Hva betyr -gt i [ "$antall" -gt 3 ]?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">g-t: <b>g</b>reater <b>t</b>han. Står i fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">større enn</div></div></div>
+<div class="ans-row" data-p="1" data-a="kern.log|kern log"><span class="ans-q">Du kjører ./sjekk.sh kern.log. Hva er $1 inni skriptet?</span><input class="ans-in" placeholder="et filnavn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det første ordet etter skriptnavnet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">kern.log</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · FOR-LØKKE ═══════════════════════ -->
+<div class="lab-card" id="l23-5" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">Alle loggene på én gang: for</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Løkka</div>
+<p class="e-hook">Tre loggfiler. Eller tre hundre. Samme fem linjer 🔁 Bygg skriptet som teller angrep i alle sammen.</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Bygg tell.sh" data-oppgave="Sett linjene i riktig rekkefølge, fra øverst til nederst.">
+  <div class="rf-item" data-forklar="Shebangen står alltid først."><code>#!/bin/bash</code></div>
+  <div class="rf-item" data-forklar="Løkka: én runde per fil som slutter på .log. Hver runde heter fila $fil."><code>for fil in *.log; do</code></div>
+  <div class="rf-item" data-forklar="Tell feilede innlogginger i denne fila. Svaret havner i antall."><code>    antall=$(grep -c "Failed password" "$fil")</code></div>
+  <div class="rf-item" data-forklar="Skriv ut filnavn og antall. Før done, så det skjer hver runde."><code>    echo "$fil: $antall"</code></div>
+  <div class="rf-item" data-forklar="done lukker løkka."><code>done</code></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>for fil in *.log; do</code> … <code>done</code> er en <b>løkke</b> (loop). <code>*.log</code> blir til alle filnavn som slutter på <code>.log</code>.<br>
+Du kan også skrive lista selv: <code>for ip in 192.168.1.1 192.168.1.20; do</code>
+</div>
+<p class="e-sikker">🔐 Bytt <code>echo</code> med <code>ping -c 1 "$ip"</code>, og du har en enkel <b>ping-sveip</b>: sjekk hvilke maskiner i nettet som svarer. Gjør det bare i nett du har lov til å skanne!</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ls" data-mal="Se hva som ligger i mappa:"><template class="ut"><span class="h1">auth.log</span>  tell.sh  <span class="h1">vpn.log</span>  <span class="h1">web.log</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>filene som <code>*.log</code> treffer</span></li></ul></template></div>
+<div class="tm-o" data-cmd="cat tell.sh" data-mal="Se på skriptet du nettopp bygde:"><template class="ut">#!/bin/bash
+<span class="h2">for fil in *.log; do</span>
+    antall=$(grep -c "Failed password" "$fil")
+    echo "$fil: $antall"
+<span class="h2">done</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>start og slutt på løkka</span></li></ul><p>Hvor mange runder blir det? Tell de gule filene over 🤔</p></template></div>
+<div class="tm-o" data-cmd="./tell.sh" data-alias="bash tell.sh" data-mal="Kjør det." data-skjult data-hint="Punktum, skråstrek og filnavnet."><template class="ut">auth.log: 5
+<span class="h1">vpn.log: 12</span>
+web.log: 0</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>flest feilede innlogginger. Her bør du se nærmere 👀</span></li></ul><p>Tre filer, tre runder, én linje per runde.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="vpn.log|vpn log|vpn"><span class="ans-q">Hvilken logg har flest feilede innlogginger?</span><input class="ans-in" placeholder="et filnavn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule linja fra <code>./tell.sh</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">vpn.log</div></div></div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hvor mange runder gikk løkka?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Én linje i utskriften per runde.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Gå til mappa med <code>auth.log</code> fra L16. Lag en ekstra logg: <code>cp auth.log kopi.log</code>. Lag <code>tell.sh</code> med nano, kjør <code>chmod +x tell.sh</code> og <code>./tell.sh</code>. Du får én linje per <code>.log</code>-fil i mappa 🎯</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="done"><span class="ans-q">Hvilket ord avslutter en for-løkke i Bash?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Siste linje i spillet. Også feilen i oppgave 4.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">done</div></div></div>
+<div class="ans-row" data-p="1" data-a="4|fire"><span class="ans-q">Du legger til kern.log i mappa. Hvor mange linjer skriver tell.sh ut nå?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Én linje per .log-fil. Hvor mange var det før?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">for ip in 10.0.0.1 10.0.0.2 10.0.0.3; do echo "Sjekker $ip"; done. Hvor mange ganger kjører echo?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Én runde per IP-adresse i lista. Tell dem.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-inner">
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+</div></div></footer>
+<script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
+</body>
+</html>

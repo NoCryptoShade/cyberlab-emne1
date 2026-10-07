@@ -15,10 +15,10 @@
   function knapp(tekst, cls){ var b = el('button', 'sp-k' + (cls ? ' ' + cls : ''), tekst); b.type = 'button'; return b; }
   function vent(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
   function animer(node, cls){ node.classList.remove(cls); void node.offsetWidth; node.classList.add(cls); }
-  function ramme(spill, tittel){
+  function ramme(spill, tittel, type){
     var topp = el('div', 'sp-topp');
     topp.appendChild(el('span', 'sp-tittel', tittel));
-    var merke = el('span', 'sp-merke', '🎮 spill');
+    var merke = el('span', 'sp-merke', type || '🎮 spill');
     topp.appendChild(merke);
     spill.insertBefore(topp, spill.firstChild);
     return function ferdig(){ spill.classList.add('ferdig'); merke.textContent = '✅ klart!'; };
@@ -306,6 +306,119 @@
     };
   }
 
+  /* ── Oeve-terminal ─────────────────────────────────────────
+     Ser ut som terminalen i Kali og svarer med faste utskrifter, saa
+     spoersmaalene om utskriften kan rettes. Oppdragene tas i rekkefoelge.
+       <div class="e-spill" data-spill="terminal">
+         <div class="tm-o" data-cmd="ip addr" data-alias="ip a" data-mal="Vis adressene dine" data-skjult>
+           <template class="ut">…utskrift…</template>
+           <template class="forklar">…forklaring som vises etterpaa…</template>
+         </div>
+       </div>
+     data-skjult: kommandoen vises ikke, bare maalet. Studenten kan be om den.
+     Den samme kommandoen kan staa i flere oppdrag med ulik utskrift, for
+     eksempel ip neigh foer og etter at tabellen er toemt. */
+  function norm(s){ return String(s).trim().toLowerCase().replace(/\s+/g, ' ').replace(/(^| )-([a-z])(\d)/g, '$1-$2 $3'); }
+  function avstand(a, b){
+    var d = []; for (var i = 0; i <= a.length; i++) { d[i] = [i]; }
+    for (var j = 1; j <= b.length; j++) d[0][j] = j;
+    for (i = 1; i <= a.length; i++) for (j = 1; j <= b.length; j++)
+      d[i][j] = Math.min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + (a[i-1] === b[j-1] ? 0 : 1));
+    return d[a.length][b.length];
+  }
+  function lesTerm(){ try { return JSON.parse(localStorage.getItem('enkel_term') || '{}'); } catch(e){ return {}; } }
+  function lagreTerm(id, n){ try { var s = lesTerm(); s[id] = n; localStorage.setItem('enkel_term', JSON.stringify(s)); } catch(e){} }
+
+  function terminal(sp){
+    var ferdig = ramme(sp, sp.dataset.tittel || '💻 Øve-terminal', '💻 øving');
+    var card = sp.closest('.lab-card'), id = card ? card.id : 'x';
+    var opp = [].slice.call(sp.querySelectorAll('.tm-o')).map(function(n){
+      var ut = n.querySelector('template.ut'), fk = n.querySelector('template.forklar');
+      var o = { cmd: n.dataset.cmd, alle: [n.dataset.cmd].concat((n.dataset.alias || '').split('|').filter(Boolean)).map(norm),
+        mal: n.dataset.mal || '', skjult: n.hasAttribute('data-skjult'), hint: n.dataset.hint || '',
+        ut: ut ? ut.innerHTML.replace(/^\n/, '').replace(/\s+$/, '') : '', forklar: fk ? fk.innerHTML : '' };
+      n.remove(); return o;
+    });
+    var kjente = ['clear', 'help'];
+    opp.forEach(function(o){ o.alle.forEach(function(c){ var f = c.split(' ')[0]; if (kjente.indexOf(f) === -1) kjente.push(f); }); });
+
+    sp.appendChild(el('p', 'tm-intro', 'Dette er en øve-terminal. Den oppfører seg som den ekte i Kali, men her kan ingenting gå i stykker. Skriv kommandoen og trykk <b>Enter</b>.'));
+    var liste = el('ol', 'tm-liste'); sp.appendChild(liste);
+    var forklar = el('div', 'tm-forklar'); forklar.hidden = true; sp.appendChild(forklar);
+    var vindu = el('div', 'tm-vindu');
+    vindu.appendChild(el('div', 'tm-bar', '<i></i><i></i><i></i><span>kali@kali: ~</span>'));
+    var ut = el('div', 'tm-ut'); vindu.appendChild(ut);
+    var linje = el('label', 'tm-linje', '<span class="tm-ps">kali@kali:~$</span>');
+    var inp = el('input', 'tm-in'); inp.setAttribute('autocomplete', 'off'); inp.setAttribute('autocapitalize', 'off');
+    inp.setAttribute('spellcheck', 'false'); inp.setAttribute('aria-label', 'Skriv en kommando');
+    linje.appendChild(inp); vindu.appendChild(linje); sp.appendChild(vindu);
+    vindu.addEventListener('click', function(){ inp.focus(); });
+
+    var naa = Math.min(lesTerm()[id] || 0, opp.length), vist = {}, hist = [], hpos = 0;
+
+    function tegnListe(){
+      liste.innerHTML = '';
+      opp.forEach(function(o, i){
+        var li = el('li', i < naa ? 'gjort' : i === naa ? 'naa' : 'senere');
+        var ikon = i < naa ? '✅' : i === naa ? '👉' : '🔒';
+        var vis = !o.skjult || i < naa || vist[i];
+        li.innerHTML = '<span class="ik">' + ikon + '</span><span class="tx">' + o.mal +
+          (vis && i <= naa ? ' <code>' + esc(o.cmd) + '</code>' : '') + '</span>';
+        if (i === naa && o.skjult && !vist[i]) {
+          var hk = knapp('💡 Vis kommandoen'); hk.classList.add('tm-hint');
+          if (o.hint) li.querySelector('.tx').insertAdjacentHTML('beforeend', '<span class="tm-tips">' + o.hint + '</span>');
+          hk.onclick = function(){ vist[i] = true; tegnListe(); inp.focus(); };
+          li.appendChild(hk);
+        }
+        liste.appendChild(li);
+      });
+      if (naa >= opp.length) {
+        liste.appendChild(el('li', 'alle', '🎉 Alle oppdrag klare! Svar på spørsmålene under, og prøv det samme på ekte Kali.'));
+        ferdig();
+      }
+    }
+    function skriv(html, cls){ var d = el('div', 'tm-l' + (cls ? ' ' + cls : ''), html); ut.appendChild(d); }
+    function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+    function treff(o, c){ return o.alle.indexOf(c) !== -1; }
+
+    function kjor(raa){
+      var c = norm(raa);
+      skriv('<span class="tm-ps">kali@kali:~$</span> ' + esc(raa));
+      if (!c) return;
+      if (c === 'clear') { ut.innerHTML = ''; return; }
+      if (c === 'help') {
+        var lart = opp.slice(0, Math.max(naa, 1)).map(function(o){ return o.cmd; });
+        skriv('Kommandoer du har møtt her: ' + lart.map(function(x){ return '<b>' + esc(x) + '</b>'; }).join(', '), 'tm-info');
+        return;
+      }
+      var o = opp[naa];
+      if (o && treff(o, c)) {
+        if (o.ut) skriv(o.ut);
+        if (o.forklar) { forklar.innerHTML = '<span class="t">Hva betyr dette?</span>' + o.forklar; forklar.hidden = false; }
+        naa++; lagreTerm(id, naa); tegnListe(); return;
+      }
+      for (var i = naa - 1; i >= 0; i--) if (treff(opp[i], c)) { if (opp[i].ut) skriv(opp[i].ut); return; }
+      for (i = naa + 1; i < opp.length; i++) if (treff(opp[i], c)) { skriv('Riktig kommando, men ta oppdragene i rekkefølge 😉 Se 👉 over.', 'tm-info'); return; }
+      var forste = c.split(' ')[0];
+      if (o && forste === o.alle[0].split(' ')[0]) {
+        skriv(o.skjult && !vist[naa] ? 'Nesten! 👀 Starten er riktig, men noe i resten er feil. Prøv igjen, eller trykk 💡.'
+          : 'Nesten! 👀 Sammenlign med <b>' + esc(o.cmd) + '</b>. Mellomrom teller.', 'tm-info');
+        return;
+      }
+      if (kjente.indexOf(forste) !== -1) { skriv('Den kommandoen finnes, men ikke akkurat sånn her. Se 👉 oppdraget over.', 'tm-info'); return; }
+      skriv('bash: ' + esc(forste) + ': command not found', 'tm-feil');
+      var naer = kjente.filter(function(k){ return avstand(forste, k) <= 2 && k !== forste; })[0];
+      skriv(naer ? 'Skrivefeil? Mente du <b>' + esc(naer) + '</b>? 😉' : 'Skriv <b>help</b> for å se kommandoene du har møtt.', 'tm-info');
+    }
+
+    inp.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') { e.preventDefault(); var v = inp.value; inp.value = ''; if (v.trim()) { hist.push(v); hpos = hist.length; } kjor(v); ut.scrollTop = ut.scrollHeight; }
+      else if (e.key === 'ArrowUp' && hist.length) { e.preventDefault(); hpos = Math.max(0, hpos - 1); inp.value = hist[hpos]; }
+      else if (e.key === 'ArrowDown' && hist.length) { e.preventDefault(); hpos = Math.min(hist.length, hpos + 1); inp.value = hist[hpos] || ''; }
+    });
+    tegnListe();
+  }
+
   /* ── Feiring naar en oppgave blir ferdig ───────────────── */
   var JUBEL = ['🎉 Rått! Oppgave ferdig.', '🔥 Den satt!', '⭐ Én ned!', '🚀 Ferdig! Ta en pause hvis du vil ☕', '💪 Sterkt jobba!'];
   function toast(tekst){
@@ -328,7 +441,7 @@
     kort.forEach(function(k){ obs.observe(k, { attributes: true, attributeFilter: ['class'], attributeOldValue: true }); });
   }
 
-  var MOTORER = { pakker: pakker, reise: reise, lyn: lyn, chat: chat, rop: rop };
+  var MOTORER = { pakker: pakker, reise: reise, lyn: lyn, chat: chat, rop: rop, terminal: terminal };
   document.addEventListener('DOMContentLoaded', function(){
     document.querySelectorAll('.enkel .e-spill[data-spill]').forEach(function(sp){
       var f = MOTORER[sp.dataset.spill]; if (f) f(sp);

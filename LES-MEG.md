@@ -33,8 +33,11 @@ Hver oppgave er bygd slik, og hver idé forklares bare én gang:
 1. En kort krok (én–to linjer)
 2. Et lite spill, forskjellig fra oppgave til oppgave
 3. En blå «Fagord»-boks som gir det du lekte med riktig navn
-4. «Prøv i terminalen», felt sammen og valgfri
-5. De opprinnelige spørsmålene
+4. En øve-terminal med oppdrag: skriv kommandoene og se utskriften. Tidlige oppdrag viser kommandoen,
+   senere oppdrag gir bare målet og et hint, så studenten må huske selv
+5. «Les av øve-terminalen»: spørsmål som besvares fra utskriften, og som teller i fremdriften
+6. «Nå på ekte Kali»: de samme kommandoene på egen maskin
+7. De opprinnelige spørsmålene
 
 Spilltypene ligger i `js/enkel.js` og styres fra HTML-en:
 
@@ -45,6 +48,7 @@ Spilltypene ligger i `js/enkel.js` og styres fra HTML-en:
 | `lyn` | Lynrunde med rekke-teller. Feil kort kommer igjen | `.ly-item` med `data-svar` (0-basert) og `data-hvorfor`; knappene i `data-knapper="A\|B"` |
 | `chat` | Meldinger som dukker opp én etter én | `.ch-item` med `data-fra` (pc, nabo, ond, sys), `data-navn`, eller `data-stopp` for en pause-knapp |
 | `rop` | Et ARP-rop som stopper ved ruteren, og en pakke som hopper | ingen |
+| `terminal` | Øve-terminal med oppdrag i rekkefølge | `.tm-o` med `data-cmd`, `data-mal`, `data-alias` (flere skrivemåter, skilt med \|), `data-skjult` og `data-hint`; utskriften i `<template class="ut">`, forklaringen i `<template class="forklar">` |
 
 `css/enkel.css` har stilene, og siden må ha `<body class="page enkel">`. Spillene teller
 ikke i fremdriften. Det gjør svarfeltene, som før. Når en oppgave blir ferdig, dukker det opp

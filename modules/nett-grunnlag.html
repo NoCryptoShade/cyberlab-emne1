@@ -6,7 +6,7 @@
 <title>Hva et nettverk er — CyberLab</title>
 <link rel="stylesheet" href="../css/style.css?v=13">
 <link rel="stylesheet" href="../css/lab-shared.css?v=13">
-<link rel="stylesheet" href="../css/enkel.css?v=3">
+<link rel="stylesheet" href="../css/enkel.css?v=4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
@@ -33,7 +33,7 @@
 </div>
 
 <div class="e-strip">
-  <span>🎮 Lek først</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
 </div>
 
 <details class="e-ordliste">
@@ -85,29 +85,30 @@
 Bitene heter <b>pakker</b>. Hver pakke har en adresselapp, <b>headeren</b> (fra hvem, til hvem), og innholdet, <b>nyttelasten</b>. En pakke er ca. 1500 byte.
 </div>
 
-<details class="e-terminal"><summary>💻 Prøv i terminalen <small>valgfritt · 5 min</small></summary><div>
-<ol class="e-term-steg">
-  <li>Åpne terminalen: <b>Ctrl + Alt + T</b> i Kali.</li>
-  <li>Skriv og trykk Enter:
-    <span class="e-kode">ping -c 4 8.8.8.8</span>
-    <div class="e-deler"><span><code>ping</code>rop «hallo?»</span><span><code>-c 4</code>4 ganger</span><span><code>8.8.8.8</code>en maskin hos Google</span></div>
-  </li>
-  <li>Du får noe sånt:
-<div class="e-ut"><span class="h1">64 bytes</span> from 8.8.8.8: <span class="h2">icmp_seq=1</span> ttl=117 <span class="h4">time=12.4 ms</span>
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ping -c 4 8.8.8.8" data-mal="Send 4 «hallo» til Google:" data-alias="ping 8.8.8.8 -c 4"><template class="ut">PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+<span class="h1">64 bytes</span> from 8.8.8.8: <span class="h2">icmp_seq=1</span> ttl=117 <span class="h4">time=12.4 ms</span>
 <span class="h1">64 bytes</span> from 8.8.8.8: <span class="h2">icmp_seq=2</span> ttl=117 <span class="h4">time=11.9 ms</span>
-<span class="dim">…</span>
-4 packets transmitted, 4 received, <span class="h3">0% packet loss</span></div>
-    <ul class="e-forklar">
-      <li><span class="m h1"></span><span>størrelsen på pakken</span></li>
-      <li><span class="m h2"></span><span>pakkenummeret, som i spillet</span></li>
-      <li><span class="m h4"></span><span>hvor lang tid turen tok (ms = tusendels sekund)</span></li>
-      <li><span class="m h3"></span><span>ingen pakker ble borte 👍</span></li>
-    </ul>
-  </li>
-  <li>Større pakker: <span class="e-kode">ping -s 1000 -c 2 8.8.8.8</span> Nå står det et større tall foran «bytes». (Noen maskiner svarer med en mindre pakke. Helt greit.)</li>
-</ol>
-<p class="e-win">Windows: <code>ping -n 4 8.8.8.8</code></p>
-</div></details>
+<span class="h1">64 bytes</span> from 8.8.8.8: <span class="h2">icmp_seq=3</span> ttl=117 <span class="h4">time=12.1 ms</span>
+<span class="h1">64 bytes</span> from 8.8.8.8: <span class="h2">icmp_seq=4</span> ttl=117 <span class="h4">time=12.0 ms</span>
+
+--- 8.8.8.8 ping statistics ---
+4 packets transmitted, 4 received, <span class="h3">0% packet loss</span>, time 3005ms</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>størrelsen på svarpakken</span></li><li><span class="m h2"></span><span>pakkenummeret, som i spillet</span></li><li><span class="m h4"></span><span>hvor lang tid turen tok (ms = tusendels sekund)</span></li><li><span class="m h3"></span><span>ingen pakker ble borte 👍</span></li></ul><p><code>-c 4</code> betyr «4 ganger». Uten den fortsetter ping for alltid. Stopp med <b>Ctrl + C</b>.</p></template></div>
+<div class="tm-o" data-cmd="ping -s 1000 -c 2 8.8.8.8" data-mal="Send 2 store pakker, 1000 byte hver:" data-alias="ping -c 2 -s 1000 8.8.8.8|ping 8.8.8.8 -s 1000 -c 2|ping 8.8.8.8 -c 2 -s 1000"><template class="ut">PING 8.8.8.8 (8.8.8.8) 1000(1028) bytes of data.
+<span class="h1">1008 bytes</span> from 8.8.8.8: icmp_seq=1 ttl=117 time=13.0 ms
+<span class="h1">1008 bytes</span> from 8.8.8.8: icmp_seq=2 ttl=117 time=12.7 ms
+
+--- 8.8.8.8 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1002ms</template><template class="forklar"><p><code>-s 1000</code> betyr «størrelse 1000». Men det står <b>1008</b>? De 8 ekstra er headeren, adresselappen 🏷️</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="0|0%|null|ingen"><span class="ans-q">Hvor mange prosent av pakkene ble borte i den første pingen?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på den grønne biten på siste linje.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">0</div></div></div>
+<div class="ans-row" data-p="1" data-a="8|åtte"><span class="ans-q">I den andre pingen står det 1008 bytes. Hvor mange av dem er headeren?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">1008 minus 1000.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">8</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Tallene dine blir litt annerledes enn her. Det er helt riktig!<p class="e-win">Windows: <code>ping -n 4 8.8.8.8</code> (Windows bruker <code>-n</code> i stedet for <code>-c</code>)</p></div>
+
 
 <div class="ans-block"><div class="obj-title">✍️ Din tur</div>
 <div class="ans-row" data-p="1" data-a="2000|2100"><span class="ans-q">En fil på 3 MB deles i pakker på 1500 byte. Omtrent hvor mange pakker blir det?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">3 MB = 3 000 000 byte. Del på 1500. Snarvei: 1500 går 2 ganger i 3000.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2000</div></div></div>
@@ -136,26 +137,22 @@ Bitene heter <b>pakker</b>. Hver pakke har en adresselapp, <b>headeren</b> (fra 
 Huskeregel: <b>IP = hele reisen. MAC = neste stopp.</b>
 </div>
 
-<details class="e-terminal"><summary>💻 Finn dine egne to adresser <small>valgfritt · 5 min</small></summary><div>
-<ol class="e-term-steg">
-  <li>Skriv: <span class="e-kode">ip addr</span>
-    Hopp over <code>lo</code> (det er maskinen som snakker med seg selv). Se på <code>eth0</code>:
-<div class="e-ut">2: eth0: &lt;BROADCAST,MULTICAST,UP&gt; <span class="h3">mtu 1500</span> ...
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ip addr" data-mal="Vis adressene dine:" data-alias="ip a|ip address|ip ad"><template class="ut">1: <span class="dim">lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 ...</span>
+    <span class="dim">inet 127.0.0.1/8 scope host lo</span>
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; <span class="h3">mtu 1500</span> qdisc fq_codel state UP
     link/ether <span class="h1">08:00:27:3c:7a:10</span> brd ff:ff:ff:ff:ff:ff
-    inet <span class="h2">192.168.1.10</span>/24 brd 192.168.1.255 scope global eth0</div>
-    <ul class="e-forklar">
-      <li><span class="m h1"></span><span>din MAC 🟨</span></li>
-      <li><span class="m h2"></span><span>din IP 🏷️</span></li>
-      <li><span class="m h3"></span><span>største pakke: 1500 byte. Kjent tall? 😉</span></li>
-    </ul>
-  </li>
-  <li>Se naboene: <span class="e-kode">ip neigh</span>
-<div class="e-ut"><span class="h2">192.168.1.1</span> dev eth0 lladdr <span class="h1">3c:22:fb:7a:10:05</span> REACHABLE</div>
-    Naboens IP, så naboens MAC.
-  </li>
-</ol>
-<p class="e-win">Windows: <code>ipconfig /all</code> og <code>arp -a</code></p>
-</div></details>
+    inet <span class="h2">192.168.1.10</span>/24 brd 192.168.1.255 scope global dynamic eth0</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>din MAC 🟨 (står etter <code>link/ether</code>)</span></li><li><span class="m h2"></span><span>din IP 🏷️ (står etter <code>inet</code>)</span></li><li><span class="m h3"></span><span>største pakke: 1500 byte. Kjent tall? 😉</span></li></ul><p><code>lo</code> er maskinen som snakker med seg selv. Den hopper du over.</p></template></div>
+<div class="tm-o" data-cmd="ip neigh" data-mal="Vis naboene dine." data-alias="ip n|ip neighbour|ip neighbor|ip neighbors|ip neighbours" data-skjult data-hint="Den starter også med <code>ip</code>. «Nabo» heter neighbour på engelsk."><template class="ut"><span class="h2">192.168.1.1</span> dev eth0 lladdr <span class="h1">3c:22:fb:7a:10:05</span> <span class="h3">REACHABLE</span></template><template class="forklar"><p>Hver linje er én nabo: først IP 🏷️, så MAC 🟨 (etter <code>lladdr</code>).</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="08:00:27:3c:7a:10"><span class="ans-q">Hva er MAC-adressen til eth0?</span><input class="ans-in" placeholder="xx:xx:xx:xx:xx:xx"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står etter <code>link/ether</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">08:00:27:3c:7a:10</div></div></div>
+<div class="ans-row" data-p="1" data-a="192.168.1.10|192.168.1.10/24"><span class="ans-q">Hva er IP-adressen til eth0?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står etter <code>inet</code>. Ikke ta med 127.0.0.1, det er <code>lo</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">192.168.1.10</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Tallene dine blir litt annerledes enn her. Det er helt riktig! Grensesnittet ditt kan hete <code>eth0</code>, <code>ens33</code> eller <code>wlan0</code>.<p class="e-win">Windows: <code>ipconfig /all</code> og <code>arp -a</code></p></div>
+
 
 <div class="ans-block"><div class="obj-title">✍️ Din tur</div>
 <div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Du sender til en server i USA. Endrer avsender-IP seg underveis? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">IP er 🏷️-lappen. Fikk den 🔒 i spillet?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
@@ -192,27 +189,24 @@ Huskeregel: <b>IP = hele reisen. MAC = neste stopp.</b>
 
 <p class="e-sikker">🏠 Fun fact: Boksen du har hjemme fra internettleverandøren er ofte <b>alle tre i én</b>.</p>
 
-<details class="e-terminal"><summary>💻 Se ruteren din og veien ut <small>valgfritt · 5 min</small></summary><div>
-<ol class="e-term-steg">
-  <li>Skriv: <span class="e-kode">ip route</span>
-<div class="e-ut"><span class="h1">default via 192.168.1.1</span> dev eth0
-<span class="h2">192.168.1.0/24</span> dev eth0 scope link src 192.168.1.10</div>
-    <ul class="e-forklar">
-      <li><span class="m h1"></span><span>«Alt som skal ut, går til ruteren på 192.168.1.1.»</span></li>
-      <li><span class="m h2"></span><span>ditt eget nett. Dit går det rett via switchen.</span></li>
-    </ul>
-  </li>
-  <li>Se alle ruterne på veien til Google: <span class="e-kode">traceroute 8.8.8.8</span>
-<div class="e-ut"> 1  192.168.1.1    1.2 ms   <span class="dim">← din ruter</span>
- 2  10.20.0.1      8.5 ms
- 3  * * *                <span class="dim">← vil ikke svare, helt vanlig</span>
- 4  8.8.8.8       12.3 ms   <span class="dim">← framme</span></div>
-    Én linje = én ruter.
-  </li>
-</ol>
-<div class="e-merk">«command not found»? Kjør <code>sudo apt install traceroute</code> først.</div>
-<p class="e-win">Windows: <code>route print</code> og <code>tracert 8.8.8.8</code></p>
-</div></details>
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ip route" data-mal="Finn veien ut av nettet ditt:" data-alias="ip r|ip ro"><template class="ut"><span class="h1">default via 192.168.1.1</span> dev eth0 proto dhcp metric 100
+<span class="h2">192.168.1.0/24</span> dev eth0 proto kernel scope link src 192.168.1.10</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>«Alt som skal ut, går til ruteren på 192.168.1.1»</span></li><li><span class="m h2"></span><span>ditt eget nett. Dit går det rett via switchen</span></li></ul></template></div>
+<div class="tm-o" data-cmd="traceroute 8.8.8.8" data-mal="Se alle ruterne på veien til Google:" data-alias="traceroute -n 8.8.8.8"><template class="ut">traceroute to 8.8.8.8 (8.8.8.8), 30 hops max, 60 byte packets
+ <span class="h1">1</span>  192.168.1.1 (192.168.1.1)  1.2 ms  1.1 ms  1.3 ms
+ <span class="h1">2</span>  10.20.0.1 (10.20.0.1)  8.5 ms  8.2 ms  8.9 ms
+ <span class="h1">3</span>  * * *
+ <span class="h1">4</span>  72.14.209.81 (72.14.209.81)  12.0 ms  11.8 ms  12.2 ms
+ <span class="h1">5</span>  8.8.8.8 (8.8.8.8)  12.3 ms  12.1 ms  12.4 ms</template><template class="forklar"><p>Én linje = én ruter = ett hopp. Tre tider per linje, fordi den prøver tre ganger. <code>* * *</code> betyr at den ruteren ikke vil svare. Helt vanlig.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="192.168.1.1"><span class="ans-q">Hva er IP-adressen til ruteren din?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står etter <code>default via</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">192.168.1.1</div></div></div>
+<div class="ans-row" data-p="1" data-a="5|fem"><span class="ans-q">Hvor mange hopp tok det å komme fram til 8.8.8.8?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene med nummer foran.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">5</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Tallene dine blir litt annerledes enn her. Det er helt riktig!<br>Står det «command not found»? Kjør <code>sudo apt install traceroute</code> først.<p class="e-win">Windows: <code>route print</code> og <code>tracert 8.8.8.8</code></p></div>
+
 
 <div class="ans-block"><div class="obj-title">✍️ Din tur</div>
 <div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">To maskiner på samme nettverk snakker sammen. Er ruteren involvert? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Samme nett = innenfor. Hvem flytter innenfor?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
@@ -252,24 +246,25 @@ Huskeregel: <b>IP = hele reisen. MAC = neste stopp.</b>
 Ropet heter <b>ARP</b>. Notatboka heter <b>ARP-tabellen</b>. Skurkens falske svar heter <b>ARP-spoofing</b>.
 </div>
 
-<details class="e-terminal"><summary>💻 Se notatboka til din egen maskin <small>valgfritt · 5 min</small></summary><div>
-<ol class="e-term-steg">
-  <li>Se ARP-tabellen: <span class="e-kode">ip neigh</span>
-<div class="e-ut"><span class="h2">192.168.1.1</span> dev eth0 lladdr <span class="h1">3c:22:fb:7a:10:05</span> <span class="h3">REACHABLE</span></div>
-    <ul class="e-forklar">
-      <li><span class="m h2"></span><span>naboens IP</span></li>
-      <li><span class="m h1"></span><span>MAC-en naboen svarte med</span></li>
-      <li><span class="m h3"></span><span>ferskt svar (STALE = litt gammelt)</span></li>
-    </ul>
-  </li>
-  <li>Tøm notatboka: <span class="e-kode">sudo ip neigh flush all</span>
-    Den spør kanskje om passord. Bokstavene vises ikke mens du skriver. Normalt!</li>
-  <li>Rop igjen, og se: <span class="e-kode">ping -c 1 192.168.1.1 &amp;&amp; ip neigh</span>
-    <code>&amp;&amp;</code> betyr «og så». Ruteren står i notatboka igjen.</li>
-</ol>
-<div class="e-merk">Har ruteren din en annen adresse? Skriv <code>ip route</code> og bruk tallet etter «default via».</div>
-<p class="e-win">Windows: <code>arp -a</code></p>
-</div></details>
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ip neigh" data-mal="Se ARP-tabellen, notatboka." data-alias="ip n|ip neighbour|ip neighbor|ip neighbors|ip neighbours" data-skjult data-hint="Samme kommando som viste naboene i oppgave 2."><template class="ut"><span class="h2">192.168.1.1</span> dev eth0 lladdr <span class="h1">3c:22:fb:7a:10:05</span> <span class="h3">REACHABLE</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>naboens IP</span></li><li><span class="m h1"></span><span>MAC-en naboen svarte med</span></li><li><span class="m h3"></span><span>ferskt svar (STALE = litt gammelt)</span></li></ul></template></div>
+<div class="tm-o" data-cmd="sudo ip neigh flush all" data-mal="Tøm notatboka:" data-alias="sudo ip n flush all|sudo ip neighbour flush all|sudo ip neighbor flush all"><template class="ut">[sudo] password for kali: <span class="dim">(passordet vises ikke mens du skriver. Normalt!)</span></template><template class="forklar"><p><code>sudo</code> = «gjør dette som sjef» (administrator). <code>flush all</code> = «slett alt».</p></template></div>
+<div class="tm-o" data-cmd="ip neigh" data-mal="Sjekk at notatboka er tom." data-alias="ip n|ip neighbour|ip neighbor|ip neighbors|ip neighbours" data-skjult data-hint="Samme kommando som i første oppdrag."><template class="ut"><span class="dim">(ingen linjer, notatboka er tom 📓)</span></template><template class="forklar"><p>Ingen linjer = tom tabell. PC-en har glemt alle naboene.</p></template></div>
+<div class="tm-o" data-cmd="ping -c 1 192.168.1.1 &amp;&amp; ip neigh" data-mal="Send én pakke til ruteren, og se notatboka igjen:" data-alias="ping -c1 192.168.1.1 &amp;&amp; ip neigh|ping 192.168.1.1 -c 1 &amp;&amp; ip neigh"><template class="ut">PING 192.168.1.1 (192.168.1.1) 56(84) bytes of data.
+64 bytes from 192.168.1.1: icmp_seq=1 ttl=64 time=1.4 ms
+
+--- 192.168.1.1 ping statistics ---
+1 packets transmitted, <span class="h3">1 received</span>, 0% packet loss, time 0ms
+<span class="h2">192.168.1.1</span> dev eth0 lladdr <span class="h1">3c:22:fb:7a:10:05</span> <span class="h3">REACHABLE</span></template><template class="forklar"><p><code>&amp;&amp;</code> betyr «og så». For å sende pakken måtte PC-en rope ARP, og svaret havnet i notatboka igjen 📣📓</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="3c:22:fb:7a:10:05"><span class="ans-q">Hvilken MAC-adresse har ruteren 192.168.1.1?</span><input class="ans-in" placeholder="xx:xx:xx:xx:xx:xx"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står etter <code>lladdr</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3c:22:fb:7a:10:05</div></div></div>
+<div class="ans-row" data-p="1" data-a="flush all|flush"><span class="ans-q">Hvilke ord i kommandoen betyr «slett alt»?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det kom etter <code>ip neigh</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">flush all</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Tallene dine blir litt annerledes enn her. Det er helt riktig!<br>Har ruteren din en annen adresse enn 192.168.1.1? Bruk tallet etter «default via» fra <code>ip route</code>.<p class="e-win">Windows: <code>arp -a</code></p></div>
+
 
 <div class="ans-block"><div class="obj-title">✍️ Din tur</div>
 <div class="ans-row" data-p="1" data-a="arp"><span class="ans-q">Du kjenner IP-en men ikke MAC-en. Hvilken protokoll finner MAC-en?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva het ropet? Tre bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">arp</div></div></div>
@@ -305,20 +300,28 @@ Ropet heter <b>ARP</b>. Notatboka heter <b>ARP-tabellen</b>. Skurkens falske sva
 Ruteren du gir pakken til når målet er i en annen gate, heter <b>standard gateway</b>. Uten gateway når du naboene, men ikke resten av verden.
 </div>
 
-<details class="e-terminal"><summary>💻 Finn feilen med fire kommandoer <small>valgfritt · 5 min</small></summary><div>
-<ol class="e-term-steg">
-  <li>Finn gatewayen: <span class="e-kode">ip route</span> Tallet etter <code>default via</code>.</li>
-  <li>Når du gatewayen? <span class="e-kode">ping -c 1 192.168.1.1</span></li>
-  <li>Når du internett? <span class="e-kode">ping -c 1 8.8.8.8</span></li>
-  <li>Virker navn? <span class="e-kode">ping -c 1 vg.no</span></li>
-</ol>
-<p>Det første som feiler, viser hvor feilen er:</p>
-<table class="e-feil">
-  <tr><td>❌ gatewayen</td><td>feil i ditt eget nett</td></tr>
-  <tr><td>✅ gateway · ❌ 8.8.8.8</td><td>feil ut mot internett</td></tr>
-  <tr><td>✅ 8.8.8.8 · ❌ vg.no</td><td>feil i navneoppslag (DNS)</td></tr>
-</table>
-</div></details>
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ip route" data-mal="Finn gatewayen din." data-alias="ip r|ip ro" data-skjult data-hint="Samme kommando som i oppgave 3."><template class="ut"><span class="h1">default via 192.168.1.1</span> dev eth0 proto dhcp metric 100
+<span class="h2">192.168.1.0/24</span> dev eth0 proto kernel scope link src 192.168.1.10</template><template class="forklar"><p>Gatewayen er tallet etter <code>default via</code>: <b>192.168.1.1</b>.</p></template></div>
+<div class="tm-o" data-cmd="ping -c 1 192.168.1.1" data-mal="Når du gatewayen?" data-alias="ping 192.168.1.1 -c 1|ping -c1 192.168.1.1"><template class="ut">PING 192.168.1.1 (192.168.1.1) 56(84) bytes of data.
+64 bytes from 192.168.1.1: icmp_seq=1 ttl=64 time=1.3 ms
+
+--- 192.168.1.1 ping statistics ---
+1 packets transmitted, <span class="h3">1 received</span>, 0% packet loss, time 0ms</template><template class="forklar"><p>✅ Gatewayen svarer. Ditt eget nett virker.</p></template></div>
+<div class="tm-o" data-cmd="ping -c 1 8.8.8.8" data-mal="Når du internett?" data-alias="ping 8.8.8.8 -c 1|ping -c1 8.8.8.8"><template class="ut">PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=12.2 ms
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, <span class="h3">1 received</span>, 0% packet loss, time 0ms</template><template class="forklar"><p>✅ Google svarer. Veien ut virker.</p></template></div>
+<div class="tm-o" data-cmd="ping -c 1 vg.no" data-mal="Virker navn?" data-alias="ping vg.no -c 1|ping -c1 vg.no"><template class="ut"><span style="color:var(--red)">ping: vg.no: Temporary failure in name resolution</span></template><template class="forklar"><p>Aha! 🕵️ Gatewayen ✅ og 8.8.8.8 ✅, men <b>navnet</b> feiler. Da er det navneoppslaget, <b>DNS</b>, som er problemet. Ikke nettet.</p><table class="e-feil"><tr><td>❌ gatewayen</td><td>feil i ditt eget nett</td></tr><tr><td>✅ gateway · ❌ 8.8.8.8</td><td>feil ut mot internett</td></tr><tr><td>✅ 8.8.8.8 · ❌ vg.no</td><td>feil i navneoppslag (DNS)</td></tr></table></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="dns|navneoppslag|navneoppslaget|navneoppslaget dns"><span class="ans-q">Gatewayen og 8.8.8.8 svarer, men vg.no feiler. Hva er det som ikke virker?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se forklaringen etter siste oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">DNS</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Tallene dine blir litt annerledes enn her. Det er helt riktig! Hos deg virker sikkert alle fire. Det er bra! 😄</div>
+
 
 <div class="ans-block"><div class="obj-title">✍️ Din tur</div>
 <div class="ans-row" data-p="1" data-a="direkte"><span class="ans-q">Du er 10.0.5.7/24. Sender du direkte eller via gateway til 10.0.5.99?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">10.0.5 og 10.0.5. Samme gate?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">direkte</div></div></div>
@@ -346,13 +349,24 @@ Huset ditt er <b>lokalnettet</b>. Alt bak ruteren er <b>fjernnett</b>. Hver rute
 </div>
 <p class="e-sikker">🔐 Alle i lokalnettet ditt hører ARP-ropene dine, også en skurk 🦹. Derfor lærer du om <b>VLAN</b> i leksjon 8: det deler ett nett i flere «hus».</p>
 
-<details class="e-terminal"><summary>💻 Tell dine egne hopp <small>valgfritt · 3 min</small></summary><div>
-<ol class="e-term-steg">
-  <li>Tell linjene: <span class="e-kode">traceroute 8.8.8.8</span> Én linje = ett hopp.</li>
-  <li>Hopp nummer 1 er tallet etter <code>default via</code> i: <span class="e-kode">ip route</span></li>
-  <li>Hvem er i huset ditt? <span class="e-kode">ip neigh</span></li>
-</ol>
-</div></details>
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="traceroute 8.8.8.8" data-mal="Tell hoppene til Google." data-alias="traceroute -n 8.8.8.8" data-skjult data-hint="Kommandoen som viste veien i oppgave 3. Den starter med <code>trace…</code>"><template class="ut">traceroute to 8.8.8.8 (8.8.8.8), 30 hops max, 60 byte packets
+ <span class="h1">1</span>  192.168.1.1 (192.168.1.1)  1.2 ms  1.1 ms  1.3 ms
+ <span class="h1">2</span>  10.20.0.1 (10.20.0.1)  8.5 ms  8.2 ms  8.9 ms
+ <span class="h1">3</span>  * * *
+ <span class="h1">4</span>  72.14.209.81 (72.14.209.81)  12.0 ms  11.8 ms  12.2 ms
+ <span class="h1">5</span>  8.8.8.8 (8.8.8.8)  12.3 ms  12.1 ms  12.4 ms</template><template class="forklar"><p>Én linje = ett hopp = én grense mellom to nett.</p></template></div>
+<div class="tm-o" data-cmd="ip neigh" data-mal="Se hvem som deler lokalnett med deg." data-alias="ip n|ip neighbour|ip neighbor|ip neighbors|ip neighbours" data-skjult data-hint="Hvem står i notatboka? Samme kommando som i oppgave 4."><template class="ut"><span class="h2">192.168.1.1</span> dev eth0 lladdr <span class="h1">3c:22:fb:7a:10:05</span> <span class="h3">REACHABLE</span>
+<span class="h2">192.168.1.20</span> dev eth0 lladdr <span class="h1">a4:5e:60:12:34:20</span> STALE
+<span class="h2">192.168.1.30</span> dev eth0 lladdr <span class="h1">b8:27:eb:9c:41:30</span> STALE</template><template class="forklar"><p>Alle disse hører ARP-ropene dine. Er én av dem en skurk 🦹, kan den lure deg.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hvor mange naboer står i lokalnettet ditt?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene fra <code>ip neigh</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Tallene dine blir litt annerledes enn her. Det er helt riktig!</div>
+
 
 <div class="ans-block"><div class="obj-title">✍️ Din tur</div>
 <div class="ans-row" data-p="1" data-a="sju|syv|7"><span class="ans-q">Traceroute viser 7 hopp til målet. Hvor mange nettverksgrenser passerte pakken?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">I spillet: 4 hopp = 4 grenser.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">7</div></div></div>
@@ -371,6 +385,6 @@ Huset ditt er <b>lokalnettet</b>. Alt bak ruteren er <b>fjernnett</b>. Hver rute
   <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
 </div></div></footer>
 <script src="../js/cyberlab.js?v=13"></script>
-<script src="../js/enkel.js?v=3"></script>
+<script src="../js/enkel.js?v=4"></script>
 </body>
 </html>

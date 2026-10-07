@@ -6,17 +6,12 @@
 <title>Switching, VLAN og segmentering — CyberLab</title>
 <link rel="stylesheet" href="../css/style.css?v=13">
 <link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
-<style>
-.cmd{background:#05070a;border:1px solid var(--border);border-left:2px solid var(--blue);
-  border-radius:0 6px 6px 0;padding:11px 14px;font-family:var(--mono);font-size:11.5px;
-  color:var(--text2);overflow-x:auto;line-height:1.85;white-space:pre-wrap;word-break:break-word}
-.cmd .c{color:var(--text3)}
-</style>
 </head>
-<body class="page">
+<body class="page enkel">
 <nav class="nav">
   <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
   <div class="nav-links">
@@ -29,254 +24,566 @@
 </nav>
 
 <div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
-  <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
-  <div class="mod-hero">
-    <div class="section-eyebrow">Lab 15 &middot; Emne 1 &middot; Leksjon 8</div>
-    <div class="section-title">Switching, VLAN og segmentering</div>
-    <p class="section-desc">Hvorfor et stort, flatt nett gj&oslash;r det lett for et angrep &aring; spre seg, og hva som skal til for &aring; dele det opp.</p>
-  </div>
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
 
-  <div class="progress-wrap">
-    <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
-    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-  </div>
+<div class="mod-hero">
+  <div class="section-eyebrow">Lab 15 &middot; Emne 1 &middot; Leksjon 8</div>
+  <div class="section-title">Switching, VLAN og segmentering</div>
+  <p class="section-desc">Hvordan en switch lærer hvor alle er, og hvorfor ett stort, flatt nett er en gave til en angriper 🦹. Ni små spill, og så noen spørsmål etter hvert.</p>
+</div>
 
-  <div class="filter-row">
-    <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
-    <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
-    <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
-    <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
-  </div>
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
 
-  <div class="tasks">
-  <div class="lab-card" id="n8-1" data-level="easy">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">01</span>
-      <span class="lab-title">Switchen lærer selv</span>
-      <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-1">Niv&aring; 1 &mdash; MAC-tabellen</div>
-        <div class="theory-block"><div class="theory-title">🔀 Ingen konfigurerer switchen, den ser etter selv</div><div class="theory-text"><p>En switch f&oslash;rer en <strong>MAC-tabell</strong> over hvilken port hver enhet sitter p&aring;. Den fylles ut helt av seg selv.</p><p>N&aring;r en ramme kommer inn, noterer switchen <strong>avsenderens MAC</strong> og hvilken port den kom fra. S&aring;nn l&aelig;rer den hvor alle er.</p><p>Kjenner den ikke mottakeren enn&aring;, sender den rammen ut p&aring; <strong>alle porter</strong> unntatt den den kom fra. Det kalles flooding. N&aring;r svaret kommer, har den l&aelig;rt begge.</p><p>Konsekvens: de f&oslash;rste sekundene etter oppstart sender switchen mye ut overalt, fordi tabellen er tom.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>PC A sender til PC B p&aring; en nettopp startet switch.</p><ol class="wsteps"><li>Tabellen er tom. Switchen ser ramma komme inn p&aring; port 1</li><li>Den noterer: <strong>MAC til A sitter p&aring; port 1</strong></li><li>Den vet ikke hvor B er, s&aring; den sender ut p&aring; <strong>alle andre porter</strong></li><li>B svarer, og svaret kommer inn p&aring; port 5</li><li>N&aring; vet switchen begge, og neste ramme g&aring;r bare port 1 til port 5</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">ip neigh
-arp -a
-<span class='c'># din maskins egen tabell over naboer</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="avsenderens|avsender"><span class="ans-q">Hva noterer switchen når en ramme kommer inn: avsenderens eller mottakerens MAC?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Switchen kan bare l&aelig;re av det som kommer inn, ikke av det den sender ut.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">avsenderens</div></div></div><div class="ans-row" data-p="1" data-a="alle andre|alle"><span class="ans-q">Switchen kjenner ikke mottakeren. Hvor mange porter sender den ut på?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den vet ikke hvor mottakeren er, s&aring; den pr&oslash;ver overalt.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">alle</div></div></div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Må noen konfigurere MAC-tabellen manuelt? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tabellen fylles ut av trafikken selv.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Switchen kan bare l&aelig;re av det som kommer <em>inn</em>, ikke av det den sender ut.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n8-2" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">02</span>
-      <span class="lab-title">Kringkastingsdomenet</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 2 &mdash; Hvem h&oslash;rer ropet</div>
-        <div class="theory-block"><div class="theory-title">📣 Alt i samme domene hører alt som ropes ut</div><div class="theory-text"><p>Noen meldinger m&aring; n&aring; alle, for eksempel ARP-sp&oslash;rsm&aring;l og DHCP-Discover. De sendes som <strong>kringkasting</strong>, og en switch sender dem ut p&aring; alle porter.</p><p>Alle maskinene som h&oslash;rer hverandres kringkasting er i samme <strong>kringkastingsdomene</strong>. En ruter stopper kringkasting, en switch gj&oslash;r det ikke.</p><p>To problemer f&oslash;lger av store domener. Det ene er <strong>st&oslash;y</strong>: jo flere maskiner, jo mer trafikk alle m&aring; h&oslash;re p&aring;. Det andre er <strong>sikkerhet</strong>: alle kan svare p&aring; hverandres ARP, alts&aring; kan hvem som helst lyve.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Et kontor med 400 maskiner p&aring; ett flatt nett.</p><ol class="wsteps"><li>Hver eneste ARP-sp&oslash;rring h&oslash;res av alle 400</li><li>Med 400 maskiner blir det mange sp&oslash;rringer i sekundet</li><li>Verre: <strong>alle 400 kan svare</strong> p&aring; hverandres ARP</li><li>En kompromittert PC kan da avlytte trafikken til hvem som helst av de andre</li><li>Deler du opp i fire nett med 100 hver, kan en angriper bare n&aring; sine egne 99 naboer</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">ip neigh
-<span class='c'># hvor mange naboer har du</span>
-ip neigh | wc -l</div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Stopper en switch kringkasting? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">En switch sender kringkasting videre p&aring; alle porter.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Stopper en ruter kringkasting? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kringkasting gjelder innenfor ett nett.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div><div class="ans-row" data-p="1" data-a="99"><span class="ans-q">400 maskiner deles i fire like nett. Hvor mange naboer kan en angriper nå direkte nå?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Del p&aring; fire, og husk at angriperen ikke teller seg selv.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">99</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Tell hvor mange som er igjen i <em>ditt</em> nett, ikke deg selv medregnet.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">Dette er hele argumentet for segmentering. Du fjerner ikke angriperen, men du <strong>krymper hva han n&aring;r</strong> fra 399 til 99.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n8-3" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">03</span>
-      <span class="lab-title">ARP kan lyve</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 2 &mdash; ARP-spoofing</div>
-        <div class="theory-block"><div class="theory-title">🎭 Den som svarer først blir trodd</div><div class="theory-text"><p>ARP har ingen kontroll av hvem som svarer. Roper du «hvem har 192.168.1.1?», tror du p&aring; det f&oslash;rste svaret du f&aring;r.</p><p>En angriper p&aring; samme nett kan svare <strong>f&oslash;r</strong> ruteren og si at han har adressen. Da sender du all trafikk ut mot internett til ham i stedet.</p><p>Han sender den som regel videre til den ekte ruteren, s&aring; alt fungerer som normalt. Det er derfor angrepet er vanskelig &aring; oppdage for brukeren: <strong>ingenting slutter &aring; virke</strong>.</p><p>Merk at dette bare virker <strong>innenfor samme kringkastingsdomene</strong>. Det er derfor VLAN er et mottiltak.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Du sjekker ARP-tabellen og ser noe rart.</p><ol class="wsteps"><li>Gateway <code>192.168.1.1</code> har MAC <code>aa:bb:cc:11:22:33</code></li><li>En annen maskin, <code>192.168.1.77</code>, har <strong>samme MAC</strong></li><li>To IP-adresser kan godt dele MAC hvis det er samme maskin</li><li>Men her skal de v&aelig;re to ulike enheter</li><li>Alts&aring; utgir 192.168.1.77 seg for &aring; v&aelig;re gatewayen</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">arp -a
-ip neigh
-<span class='c'># se etter samme MAC p&aring; to adresser</span>
-ip neigh | awk '{print $5}' | sort | uniq -d</div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="arp spoofing|arp-spoofing|spoofing"><span class="ans-q">To ulike IP-adresser viser samme MAC i ARP-tabellen din. Hva tyder det på?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">&Eacute;n maskin utgir seg for &aring; v&aelig;re en annen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">arp-spoofing</div></div></div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Kan en angriper på et annet VLAN utføre ARP-spoofing mot deg? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">ARP h&oslash;res bare innenfor eget kringkastingsdomene.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Merker brukeren vanligvis at trafikken går via angriperen? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Angriperen sender trafikken videre, s&aring; alt fungerer som f&oslash;r.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Sp&oslash;r om angriperen h&oslash;rer ARP-ropene dine i det hele tatt.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n8-4" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">04</span>
-      <span class="lab-title">VLAN deler én switch i flere nett</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 3 &mdash; VLAN</div>
-        <div class="theory-block"><div class="theory-title">🧱 Samme fysiske switch, flere logiske nett</div><div class="theory-text"><p>Et <strong>VLAN</strong> deler &eacute;n fysisk switch i flere separate nettverk. Hver port tilordnes et VLAN-nummer, og porter i ulike VLAN <strong>n&aring;r ikke hverandre</strong>, selv om de sitter i samme boks.</p><p>Hvert VLAN blir sitt eget <strong>kringkastingsdomene</strong>. ARP fra VLAN 10 h&oslash;res ikke i VLAN 20.</p><p>Skal trafikk mellom VLAN, m&aring; den gjennom en <strong>ruter</strong> eller en lag 3-switch, og <strong>der</strong> kan du sette regler.</p><p>Det er poenget: VLAN alene deler opp, men det er kontrollen i overgangen som gir sikkerhet.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Ett kontor, &eacute;n switch, tre VLAN.</p><ol class="wsteps"><li>VLAN 10: ansatte. VLAN 20: gjester. VLAN 30: servere</li><li>En gjest i VLAN 20 h&oslash;rer ikke ARP fra VLAN 10</li><li>Gjesten kan alts&aring; ikke ARP-spoofe en ansatt</li><li>Vil gjesten n&aring; en server, m&aring; trafikken via ruteren</li><li>Der st&aring;r regelen: <strong>VLAN 20 f&aring;r bare ut mot internett</strong>, ikke inn til VLAN 30</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd"><span class='c'># p&aring; din maskin</span>
-ip addr
-ip route
-<span class='c'># VLAN settes p&aring; switchen, ikke p&aring; PC-en</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">To porter på samme switch, ulike VLAN. Når de hverandre direkte? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvert VLAN oppf&oslash;rer seg som en egen switch.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-p="1" data-a="ruteren|router|ruter"><span class="ans-q">Hva må trafikk mellom to VLAN gjennom?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">VLAN er egne nett, og trafikk mellom nett trenger noe som velger vei.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ruter</div></div></div><div class="ans-row" data-p="1" data-a="tre|3"><span class="ans-q">Hvor mange kringkastingsdomener lager tre VLAN?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvert VLAN blir sitt eget.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Hvert VLAN oppf&oslash;rer seg som om det var en helt egen switch.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n8-5" data-level="hard">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">05</span>
-      <span class="lab-title">Soner: gjest, ansatt og server</span>
-      <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-5">Niv&aring; 3 &mdash; Segmentering</div>
-        <div class="theory-block"><div class="theory-title">🗺️ Del etter hvem som skal nå hva, ikke etter hvor folk sitter</div><div class="theory-text"><p>En enkel og vanlig inndeling har tre soner.</p><p><strong>Gjestenett:</strong> bare ut mot internett. Ingen tilgang til noe internt.</p><p><strong>Ansattnett:</strong> ut mot internett, og inn til de tjenestene folk faktisk trenger.</p><p><strong>Serversone:</strong> tar imot forespørsler fra ansattnettet, men skal normalt ikke kunne <strong>starte</strong> forbindelser ut selv.</p><p>Den siste regelen er den folk glemmer. En server som ikke kan ringe ut, kan heller ikke hente ned neste steg i et angrep eller sende data ut.</p><p>Og administrasjonsgrensesnitt h&oslash;rer i en egen sone som bare n&aring;s fra bestemte maskiner.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En angriper f&aring;r kj&oslash;rt kode p&aring; en webserver i serversonen.</p><ol class="wsteps"><li>Han pr&oslash;ver &aring; laste ned et verkt&oslash;y fra internett: <strong>blokkert</strong>, sonen kan ikke starte forbindelser ut</li><li>Han pr&oslash;ver &aring; sende databasen ut til sin egen server: <strong>blokkert</strong>, samme grunn</li><li>Han pr&oslash;ver &aring; n&aring; administrasjonsnettet: <strong>blokkert</strong>, egen sone</li><li>Han har fortsatt kodekj&oslash;ring, men nesten ingen steder &aring; g&aring;</li><li>Segmenteringen stoppet ikke innbruddet, den stoppet <strong>spredningen</strong></li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd"><span class='c'># test om en sone n&aring;r ut</span>
-curl -m 5 -sI https://example.com
-ping -c 2 8.8.8.8
-<span class='c'># og om den n&aring;r andre soner</span>
-nc -vz &lt;server-i-annen-sone&gt; 22</div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="serversonen|serversone|server"><span class="ans-q">Hvilken sone skal normalt ikke kunne starte forbindelser ut mot internett?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den som bare skal svare p&aring; foresp&oslash;rsler, aldri ringe ut selv.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">serversonen</div></div></div><div class="ans-row" data-p="1" data-a="interne tjenester|interne nett|interne|internt"><span class="ans-q">Gjestenettet skal nå internett, men ikke hva?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Gjester har ingen grunn til &aring; n&aring; noe p&aring; innsiden.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">interne tjenester</div></div></div><div class="ans-row" data-p="1" data-a="lateral bevegelse|spredningen|spredning"><span class="ans-q">Segmentering stoppet ikke innbruddet. Hva stoppet den?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Angriperen kom inn, men kom ikke videre.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">spredningen</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Sp&oslash;r for hver sone: hvem skal n&aring; inn hit, og hvor skal denne sonen f&aring; lov &aring; n&aring; ut.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">Dette er <strong>Target-angrepet</strong> i et n&oslash;tteskall. Angriperne kom inn via en leverand&oslash;r med tilgang til varme- og ventilasjonssystemet, og n&aring;dde derfra kassasystemet fordi nettet ikke var delt. Inndelingen ville ikke stoppet innbruddet, men den ville stoppet veien videre.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n8-6" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">06</span>
-      <span class="lab-title">Én kabel, mange VLAN</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 3 &mdash; Trunk og tagging</div>
-        <div class="theory-block"><div class="theory-title">🏷️ Rammen får en lapp som sier hvilket VLAN den hører til</div><div class="theory-text"><p>En port som h&oslash;rer til <strong>ett</strong> VLAN kalles en aksessport. Der er det enheten som sitter, og den vet ingenting om VLAN i det hele tatt.</p><p>Men mellom to switcher m&aring; &eacute;n kabel b&aelig;re <strong>alle</strong> VLAN-ene. Den porten kalles en <strong>trunk</strong>.</p><p>For at den andre switchen skal vite hvilket VLAN en ramme kom fra, limes det p&aring; en lapp i rammen med VLAN-nummeret. Standarden heter <strong>802.1Q</strong>, og lappen kalles en <strong>tag</strong>. Den legges p&aring; n&aring;r rammen g&aring;r inn p&aring; trunken, og fjernes n&aring;r den g&aring;r ut p&aring; en aksessport.</p><p>Derfor ser PC-en aldri en tag. Taggen finnes bare mellom nettverksutstyret.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En ramme fra VLAN 10 skal til en PC p&aring; nabo-switchen.</p><ol class="wsteps"><li>PC-en sender en helt vanlig ramme, uten tag</li><li>Aksessporten vet at den h&oslash;rer til VLAN 10, og legger p&aring; taggen n&aring;r rammen g&aring;r ut p&aring; trunken</li><li>Nabo-switchen leser taggen og vet at dette er VLAN 10</li><li>Den fjerner taggen og sender rammen ut p&aring; en aksessport i VLAN 10</li><li>Mottaker-PC-en f&aring;r en ramme som ser helt ordin&aelig;r ut</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Til hjelp</div>
-          <div class="cmd"><span class='c'># typisk p&aring; en switch</span>
-<span class='c'># interface Gi0/1</span>
-<span class='c'>#   switchport mode access</span>
-<span class='c'>#   switchport access vlan 10</span>
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>Ramme</dt><dd>En pakke slik switchen ser den, med MAC-adresser utenpå (frame).</dd>
+    <dt>MAC-tabell</dt><dd>Switchens liste over hvilken port hver MAC sitter på.</dd>
+    <dt>Flooding</dt><dd>Ukjent mottaker: switchen sender ut på alle andre porter.</dd>
+    <dt>Kringkasting</dt><dd>Et rop til alle (broadcast). Mottaker <code>ff:ff:ff:ff:ff:ff</code>.</dd>
+    <dt>Kringkastingsdomene</dt><dd>Alle som hører hverandres rop.</dd>
+    <dt>ARP-spoofing</dt><dd>Et falskt svar på ARP-ropet. Kjent fra L05 🦹</dd>
+    <dt>VLAN</dt><dd>Et eget, logisk nett inni én switch.</dd>
+    <dt>Aksessport</dt><dd>En switchport i ett VLAN. Her sitter PC-en.</dd>
+    <dt>Trunk</dt><dd>En port som bærer mange VLAN. Mellom switcher.</dd>
+    <dt>Tag / 802.1Q</dt><dd>Lappen med VLAN-nummeret som limes på rammen i en trunk.</dd>
+    <dt>Native VLAN</dt><dd>Det ene VLAN-et på en trunk som går uten tag.</dd>
+    <dt>Sone</dt><dd>En gruppe maskiner med samme regler. Gjest, ansatt, server …</dd>
+    <dt>Segmentering</dt><dd>Å dele nettet i soner.</dd>
+    <dt>Port security</dt><dd>Switchen godtar bare bestemte MAC-er på en port.</dd>
+    <dt>802.1X</dt><dd>Porten krever innlogging før den slipper trafikk gjennom.</dd>
+  </dl>
+</details>
 
-<span class='c'># interface Gi0/24</span>
-<span class='c'>#   switchport mode trunk</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="trunkport|trunk"><span class="ans-q">Hva kalles en port som bærer flere VLAN?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det motsatte av en aksessport, som bare b&aelig;rer ett.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">trunk</div></div></div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Ser PC-en taggen som ble lagt på? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Taggen fjernes f&oslash;r rammen g&aring;r ut p&aring; aksessporten.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-p="1" data-a="802.1q|8021q"><span class="ans-q">Hva heter standarden som definerer taggen?</span><input class="ans-in" placeholder="et nummer"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den st&aring;r i fakta-boksen, og begynner p&aring; 802.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">802.1q</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Skill mellom porter der enheter sitter, og porter mellom switcher.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">Poenget for feils&oslash;king: mangler en trunk, n&aring;r VLAN-et bare den ene switchen. Alt ser riktig ut p&aring; hver switch for seg, og likevel n&aring;r ikke maskinene hverandre.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n8-7" data-level="hard">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">07</span>
-      <span class="lab-title">VLAN hopping</span>
-      <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-5">Niv&aring; 4 &mdash; Angrep p&aring; taggingen</div>
-        <div class="theory-block"><div class="theory-title">🦘 To måter å få rammen inn i et VLAN du ikke tilhører</div><div class="theory-text"><p>VLAN skiller trafikk, men skillet hviler p&aring; at taggingen er riktig satt opp. To angrep utnytter at den ikke alltid er det.</p><p><strong>Dobbel tagging</strong>: angriperen legger p&aring; to tagger. Den f&oslash;rste switchen fjerner den ytterste og sender rammen videre, og neste switch leser den indre taggen og leverer i et annet VLAN. Dette virker bare &eacute;n vei, og bare hvis angriperen sitter i <strong>native VLAN</strong> p&aring; trunken.</p><p><strong>Switch spoofing</strong>: angriperen later som om maskinen hans er en switch, og f&aring;r porten til &aring; bli en trunk automatisk. Da f&aring;r han alle VLAN-ene servert.</p><p>Tre tiltak lukker begge: sl&aring; av automatisk trunk-forhandling, sett native VLAN til et ubrukt nummer, og la aldri aksessporter st&aring; i standardoppsett.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Angriperen sitter p&aring; en aksessport i VLAN 1, som ogs&aring; er native VLAN.</p><ol class="wsteps"><li>Han sender en ramme med to tagger: ytterst VLAN 1, innerst VLAN 30</li><li>F&oslash;rste switch ser at ytterste tag er native, og <strong>fjerner den</strong></li><li>Rammen g&aring;r ut p&aring; trunken med bare VLAN 30-taggen igjen</li><li>Neste switch leser VLAN 30 og leverer rammen der</li><li>Angriperen har sendt inn i et VLAN han ikke tilh&oslash;rer, uten &aring; r&oslash;re en ruter</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Til hjelp</div>
-          <div class="cmd"><span class='c'># tiltakene, i praksis</span>
-<span class='c'># switchport mode access</span>
-<span class='c'># switchport nonegotiate</span>
-<span class='c'># switchport trunk native vlan 999</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="bare en vei|en vei|én vei"><span class="ans-q">Virker dobbel tagging begge veier, eller bare én vei?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Svaret m&aring; tilbake samme vei. Har det en dobbel tag &aring; bruke?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">en vei</div></div></div><div class="ans-row" data-p="1" data-a="native vlan|native"><span class="ans-q">Hvilket VLAN må angriperen sitte i for at dobbel tagging skal virke?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det er det ene VLAN-et hvis tag fjernes p&aring; trunken.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">native</div></div></div><div class="ans-row" data-p="1" data-a="switch spoofing|spoofing"><span class="ans-q">Angriperen later som maskinen hans er en switch. Hva heter det?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Han utgir seg for &aring; v&aelig;re noe annet enn han er.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">switch spoofing</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Sp&oslash;r hvilken tag som fjernes hvor, og hvem som leser hva.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">Merk at begge angrepene forutsetter <strong>slapp konfigurasjon</strong>, ikke en feil i VLAN som idé. Et VLAN med native satt til et ubrukt nummer og forhandling av er ikke s&aring;rbart for noen av dem.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n8-8" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">08</span>
-      <span class="lab-title">Port security</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 3 &mdash; L&aring;s til porten</div>
-        <div class="theory-block"><div class="theory-title">🔐 Én port, ett bestemt nettverkskort</div><div class="theory-text"><p><strong>Port security</strong> begrenser hvilke MAC-adresser som f&aring;r bruke en port, og hvor mange. Setter du grensa til &eacute;n, kan bare den maskinen som allerede sitter der sende noe.</p><p>Tre reaksjoner finnes n&aring;r grensa brytes. <code>protect</code> forkaster stille. <code>restrict</code> forkaster og logger. <code>shutdown</code> sl&aring;r av porten helt, og den m&aring; &aring;pnes manuelt.</p><p>Det stopper at noen kobler en egen switch eller laptop inn i m&oslash;terommets veggkontakt.</p><p>Men en MAC-adresse kan <strong>endres i programvare</strong>. Port security er derfor et hinder, ikke en autentisering. Det ekte svaret er <strong>802.1X</strong>, der porten krever innlogging f&oslash;r den slipper trafikk gjennom.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Grensa er satt til &eacute;n MAC per port, med <code>shutdown</code>.</p><ol class="wsteps"><li>Den faste PC-en p&aring; kontoret virker som normalt</li><li>En gjest kobler laptopen sin i samme kontakt</li><li>Switchen ser en ny MAC og sl&aring;r av porten</li><li>Det stopper den tilfeldige gjesten</li><li>En angriper som leser MAC-en av klistremerket og setter samme adresse selv, kommer rett inn</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd"><span class='c'># sett og les MAC i Linux</span>
-ip link show eth0
-sudo ip link set eth0 address 00:11:22:33:44:55
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
 
-<span class='c'># derfor er 802.1X svaret n&aring;r det betyr noe</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="shutdown"><span class="ans-q">Hvilken reaksjon slår av porten helt?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">De tre heter protect, restrict og en til.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">shutdown</div></div></div><div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Kan en MAC-adresse endres i programvare? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Pr&oslash;v kommandoen i boksen over.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div><div class="ans-row" data-p="1" data-a="802.1x|8021x"><span class="ans-q">Hva heter løsningen som krever innlogging på selve porten?</span><input class="ans-in" placeholder="et nummer"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den ligner p&aring; 802.1Q i navn, men gj&oslash;r noe helt annet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">802.1x</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Sp&oslash;r om tiltaket kontrollerer <em>hvem</em> du er, eller bare hva kortet ditt kaller seg.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="n8-9" data-level="hard">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">09</span>
-      <span class="lab-title">Tegn nettet til et lite kontor</span>
-      <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-5">Niv&aring; 4 &mdash; Sammensatt</div>
-        <div class="theory-block"><div class="theory-title">📐 Alt fra denne leksjonen, satt sammen</div><div class="theory-text"><p>Et kontor med 30 ansatte, en gjestesone, tre skrivere, fire IP-kameraer og en filserver. &Eacute;n switch, &eacute;n ruter med brannmur.</p><p>Framgangsm&aring;ten er alltid den samme. <strong>Grupper etter hvem som skal n&aring; hva</strong>, ikke etter hvor folk sitter. Gi hver gruppe sitt VLAN og sitt nett. Skriv deretter reglene i overgangen, der trafikken uansett m&aring; innom ruteren.</p><p>Standardsvaret i hver regel er <strong>nekt</strong>. Du &aring;pner det som trengs, og bare det.</p><p>Legg merke til kameraene. De skal aldri n&aring; internett, og ingen andre enn overv&aring;kingsserveren skal n&aring; dem. De er blant de mest angrepne enhetene som finnes, og de blir sjelden oppdatert.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En mulig inndeling.</p><ol class="wsteps"><li>VLAN 10 ansatte: ut mot internett, inn til filserver</li><li>VLAN 20 gjester: <strong>kun</strong> ut mot internett</li><li>VLAN 30 skrivere: tar imot utskrift fra VLAN 10, starter ingenting selv</li><li>VLAN 40 kameraer: snakker bare med overv&aring;kingsserveren, <strong>ingen vei ut</strong></li><li>VLAN 50 servere: tar imot fra VLAN 10, ringer aldri ut</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Til hjelp</div>
-          <div class="cmd"><span class='c'># sp&oslash;rsm&aring;lene, i rekkef&oslash;lge</span>
-<span class='c'># 1. hvem er dette</span>
-<span class='c'># 2. hva trenger de &aring; n&aring;</span>
-<span class='c'># 3. hva skal n&aring; dem</span>
-<span class='c'># 4. skal de kunne starte trafikk ut</span></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="kameraene|kameraer|kamera"><span class="ans-q">Hvilken sone skal aldri ha vei ut mot internett?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tenk p&aring; hvilke enheter som aldri oppdateres, og aldri trenger &aring; ringe ut.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">kameraer</div></div></div><div class="ans-row" data-p="1" data-a="nekte|deny|nekt"><span class="ans-q">Hva skal standardsvaret i en regel være når ingenting sier noe?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Et system som tillater alt det ikke har en regel for, glemmer alltid en regel.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nekt</div></div></div><div class="ans-row" data-p="1" data-a="hvor folk sitter|hvor de sitter|plassering"><span class="ans-q">Du grupperer etter hvem som skal nå hva. Hva grupperer du IKKE etter?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">To personer p&aring; samme kontor kan trenge helt ulik tilgang.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">hvor de sitter</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">G&aring; gjennom de fire sp&oslash;rsm&aring;lene for &eacute;n gruppe om gangen.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">Dette er hele leksjonen i praksis. Legg merke til at <strong>ingen av gruppene trenger &aring; n&aring; hverandre</strong> bortsett fra der en tjeneste faktisk krever det. Det er utgangspunktet, ikke unntaket.</div></div>
-      </div>
-    </div>
-  </div>
-  </div>
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
 
-  <div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · MAC-TABELLEN ═══════════════════════ -->
+<div class="lab-card" id="n8-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">Switchen lærer selv</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — MAC-tabellen</div>
+<p class="e-hook">En switch kommer rett ut av esken. Ingen har fortalt den noe. Likevel vet den snart hvor alle sitter. Hvordan? 🔀</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Switchen lærer, steg for steg" data-oppgave="PC A sender til PC B på en helt ny switch. Sett stegene i riktig rekkefølge.">
+  <div class="rf-item" data-forklar="Alt starter med at noe kommer inn.">📨 En ramme fra A kommer inn på port 1</div>
+  <div class="rf-item" data-forklar="Switchen lærer av avsenderen. Det er den eneste den vet noe om.">📝 Switchen skriver ned: «MAC til A sitter på port 1»</div>
+  <div class="rf-item" data-forklar="Nå leter den etter mottakeren.">🔎 Den slår opp B i tabellen. Ikke der!</div>
+  <div class="rf-item" data-forklar="Ukjent mottaker? Send overalt og håp det beste.">📢 Rammen sendes ut på alle andre porter</div>
+  <div class="rf-item" data-forklar="Svaret har B som avsender. Nå lærer switchen B også.">👋 B svarer på port 5. Switchen skriver: «B = port 5»</div>
+  <div class="rf-item" data-forklar="Begge er kjent. Ingen flere rop.">🎯 Neste ramme fra A til B går bare ut på port 5</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Lista heter <b>MAC-tabellen</b> (MAC address table). Å sende ut på alle porter når mottakeren er ukjent heter <b>flooding</b>.<br>
+Huskeregel: <b>lær av avsenderen, slå opp mottakeren.</b>
+</div>
+<p class="e-sikker">🧠 Ikke bland notatbøkene! ARP-tabellen fra L05 ligger på PC-en: <b>IP → MAC</b>. MAC-tabellen ligger i switchen: <b>MAC → port</b>.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ip -br link" data-mal="Se MAC-adressen som switchen skriver ned om deg:" data-alias="ip -brief link|ip -br l|ip -br link show"><template class="ut">lo               UNKNOWN        00:00:00:00:00:00 &lt;LOOPBACK,UP,LOWER_UP&gt;
+eth0             <span class="h3">UP</span>             <span class="h1">08:00:27:3c:7a:10</span> &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; </template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>din MAC. Den står som avsender i hver ramme du sender</span></li><li><span class="m h3"></span><span>kortet er på</span></li></ul><p><code>-br</code> = brief, kort og oversiktlig. Én linje per nettkort.</p></template></div>
+<div class="tm-o" data-cmd="sudo arping -c 2 192.168.1.20" data-mal="Send to rammer til naboen på .20:" data-alias="sudo arping 192.168.1.20 -c 2"><template class="ut">[sudo] password for kali: <span class="dim">(passordet vises ikke mens du skriver)</span>
+ARPING 192.168.1.20
+42 bytes from <span class="h1">a4:5e:60:12:34:20</span> (192.168.1.20): <span class="h2">index=0</span> time=1.214 msec
+42 bytes from <span class="h1">a4:5e:60:12:34:20</span> (192.168.1.20): <span class="h2">index=1</span> time=1.087 msec
+
+--- 192.168.1.20 statistics ---
+2 packets transmitted, <span class="h3">2 packets received</span>,   0% unanswered (0 extra)
+rtt min/avg/max/std-dev = 1.087/1.150/1.214/0.064 ms</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>MAC-en til .20. Den sto som avsender i svaret</span></li><li><span class="m h2"></span><span>svar nummer 0 og 1</span></li><li><span class="m h3"></span><span>begge kom fram</span></li></ul><p><code>arping</code> sender rene ARP-rammer. Nå har switchen sett deg og .20, og lært hvor begge sitter, akkurat som i spillet 🎯</p></template></div>
+<div class="tm-o" data-cmd="sudo arping -c 2 192.168.1.30" data-mal="Gjør det samme mot .30." data-alias="sudo arping 192.168.1.30 -c 2" data-skjult data-hint="Samme som i stad, bare et annet tall på slutten."><template class="ut">ARPING 192.168.1.30
+42 bytes from <span class="h1">b8:27:eb:9c:41:30</span> (192.168.1.30): index=0 time=1.342 msec
+42 bytes from <span class="h1">b8:27:eb:9c:41:30</span> (192.168.1.30): index=1 time=1.156 msec
+
+--- 192.168.1.30 statistics ---
+2 packets transmitted, 2 packets received,   0% unanswered (0 extra)
+rtt min/avg/max/std-dev = 1.156/1.249/1.342/0.093 ms</template><template class="forklar"><p>Ingen passord denne gangen. <code>sudo</code> husker deg en liten stund. Én MAC til i switchens tabell ✅</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="a4:5e:60:12:34:20|a4-5e-60-12-34-20"><span class="ans-q">Hvilken MAC-adresse svarte for 192.168.1.20?</span><input class="ans-in" placeholder="xx:xx:xx:xx:xx:xx"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten i den første arping-utskriften.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">a4:5e:60:12:34:20</div></div></div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvor mange svar fikk du fra .20?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se den grønne biten: «… packets received».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Bruk adresser som finnes hjemme hos deg, for eksempel ruteren fra <code>ip route</code>. Tallene dine blir annerledes. Det er helt riktig!<p class="e-win">Windows: <code>getmac</code> viser MAC-en din, og <code>arp -a</code> viser naboene.</p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="avsenderens|avsender"><span class="ans-q">Hva noterer switchen når en ramme kommer inn: avsenderens eller mottakerens MAC?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se steg 2 i spillet. Hvem skrev switchen ned?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">avsenderens</div></div></div>
+<div class="ans-row" data-p="1" data-a="alle andre|alle"><span class="ans-q">Switchen kjenner ikke mottakeren. Hvor mange porter sender den ut på?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Steg 4 i spillet: hva gjør switchen når mottakeren er ukjent?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">alle</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Må noen konfigurere MAC-tabellen manuelt? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Var det noen som fylte ut tabellen for hånd i spillet?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · KRINGKASTING ═══════════════════════ -->
+<div class="lab-card" id="n8-2" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">Kringkastingsdomenet</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Hvem hører ropet</div>
+<p class="e-hook">Noen meldinger er hvisking til én. Andre er rop til <b>alle</b> 📣. Kan du se forskjell på dem i en ekte fangst?</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Hvem roper til alle?" data-oppgave="Dette fanget Kali på eth0. Mottakeren står etter pila. Klikk på mottakeren i de to rammene som alle på switchen får.">
+<pre>08:00:27:3c:7a:10 &gt; <span class="kl" data-rett data-forklar="ff:ff:ff:ff:ff:ff = alle. ARP-ropet «hvem har .30?» fra L05.">ff:ff:ff:ff:ff:ff</span>, ethertype ARP (0x0806), length 42: Request who-has 192.168.1.30 tell 192.168.1.10, length 28
+b8:27:eb:9c:41:30 &gt; <span class="kl" data-forklar="Svaret går bare til deg. Én mottaker, ingen rop.">08:00:27:3c:7a:10</span>, ethertype ARP (0x0806), length 42: Reply 192.168.1.30 is-at b8:27:eb:9c:41:30, length 28
+08:00:27:3c:7a:10 &gt; <span class="kl" data-forklar="En ping til én bestemt MAC. Switchen sender den bare ut på én port.">b8:27:eb:9c:41:30</span>, ethertype IPv4 (0x0800), length 98: 192.168.1.10 &gt; 192.168.1.30: ICMP echo request, id 7206, seq 1, length 64
+b8:27:eb:9c:41:30 &gt; <span class="kl" data-forklar="Lurt! Det står Request, men den er sendt rett til din MAC. .30 sjekker bare at du fortsatt er der.">08:00:27:3c:7a:10</span>, ethertype ARP (0x0806), length 42: Request who-has 192.168.1.10 tell 192.168.1.30, length 28
+08:00:27:3c:7a:10 &gt; <span class="kl" data-rett data-forklar="DHCP-Discover fra L06: «Finnes det en DHCP-server her?» Sendt til alle.">ff:ff:ff:ff:ff:ff</span>, ethertype IPv4 (0x0800), length 342: 0.0.0.0.68 &gt; 255.255.255.255.67: BOOTP/DHCP, Request from 08:00:27:3c:7a:10, length 300</pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Et rop til alle heter <b>kringkasting</b> (broadcast). Mottaker-MAC er alltid <code>ff:ff:ff:ff:ff:ff</code>. En switch sender det ut på <b>alle</b> porter.<br>
+Alle som hører hverandres rop, er i samme <b>kringkastingsdomene</b> (broadcast domain). Ropet stopper ved ruteren, som du så i L05.
+</div>
+<p class="e-sikker">🔐 Stort domene = to problemer. <b>Støy</b>: 400 maskiner betyr 400 som roper. <b>Sikkerhet</b>: alle 400 kan svare på hverandres ARP 🦹</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ip addr show eth0" data-mal="Finn adressen for «til alle» på kortet ditt:" data-alias="ip a show eth0|ip addr show dev eth0|ip a s eth0|ip address show eth0"><template class="ut">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:3c:7a:10 brd <span class="h1">ff:ff:ff:ff:ff:ff</span>
+    inet 192.168.1.10/24 brd <span class="h2">192.168.1.255</span> scope global dynamic noprefixroute eth0
+       valid_lft 86321sec preferred_lft 86321sec
+    <span class="dim">inet6 fe80::a00:27ff:fe3c:7a10/64 scope link noprefixroute</span>
+       <span class="dim">valid_lft forever preferred_lft forever</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>kringkasting-MAC: rammer til alle</span></li><li><span class="m h2"></span><span>kringkasting-IP: det siste nummeret i nettet ditt</span></li></ul><p><code>brd</code> = broadcast.</p></template></div>
+<div class="tm-o" data-cmd="sudo tcpdump -e -n -c 1 broadcast" data-mal="Lytt etter ett rop fra noen andre:" data-alias="sudo tcpdump -n -e -c 1 broadcast|sudo tcpdump -en -c 1 broadcast|sudo tcpdump -ne -c 1 broadcast"><template class="ut">[sudo] password for kali: <span class="dim">(passordet vises ikke mens du skriver)</span>
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+18:11:22.703243 b8:27:eb:9c:41:30 &gt; <span class="h1">ff:ff:ff:ff:ff:ff</span>, ethertype ARP (0x0806), length 42: Request <span class="h2">who-has 192.168.1.20</span> <span class="h3">tell 192.168.1.30</span>, length 28
+1 packet captured
+1 packet received by filter
+0 packets dropped by kernel</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>sendt til alle</span></li><li><span class="m h2"></span><span>hvem det spørres etter</span></li><li><span class="m h3"></span><span>hvem som spør</span></li></ul><p>Ropet var ikke til deg, men du hørte det likevel 👂 Det er et kringkastingsdomene.<br><code>-e</code> = vis MAC-adressene. <code>-n</code> = ikke slå opp navn. <code>-c 1</code> = stopp etter én ramme.</p></template></div>
+<div class="tm-o" data-cmd="ip neigh | wc -l" data-mal="Tell hvor mange naboer du har hørt fra:" data-alias="ip n | wc -l|ip neighbour | wc -l|ip neighbor | wc -l"><template class="ut"><span class="h1">3</span></template><template class="forklar"><p><code>|</code> sender utskriften videre. <code>wc -l</code> teller linjene. Tre naboer i notatboka. Alle tre hører ropene dine, og du hører deres.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="192.168.1.30|.30|30"><span class="ans-q">Hvilken IP-adresse ropte i fangsten fra tcpdump?</span><input class="ans-in" placeholder="en IP-adresse"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den grønne biten: «tell …».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">192.168.1.30</div></div></div>
+<div class="ans-row" data-p="1" data-a="192.168.1.255"><span class="ans-q">Hva er kringkasting-IP-en i nettet ditt?</span><input class="ans-in" placeholder="en IP-adresse"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå biten etter <code>brd</code> i første utskrift.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">192.168.1.255</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme kommandoene. Er nettet hjemme stille? Da venter <code>tcpdump</code>. Åpne en ny terminal og kjør <code>sudo arping -c 1 192.168.1.1</code> (bruk ruteradressen din), eller stopp med <b>Ctrl + C</b>.<p class="e-win">Windows: <code>ipconfig /all</code>. For å fange trafikk bruker du Wireshark.</p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Stopper en switch kringkasting? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">I fangsten hørte du et rop fra .30 som ikke var til deg. Hvem sendte det videre til deg?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Stopper en ruter kringkasting? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Husk L05: «ropet stopper ved ruteren».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
+<div class="ans-row" data-p="1" data-a="99"><span class="ans-q">400 maskiner deles i fire like nett. Hvor mange naboer kan en angriper nå direkte nå?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Del 400 på fire, og husk at angriperen ikke teller seg selv.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">99</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · ARP KAN LYVE ═══════════════════════ -->
+<div class="lab-card" id="n8-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">ARP kan lyve</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — ARP-spoofing</div>
+<p class="e-hook">Skurken fra L05 er tilbake 🦹 Samme triks, to forskjellige nett. Hvor slipper han unna med det?</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Skurken prøver igjen">
+  <div class="ch-item" data-fra="sys">📍 Runde 1: ett stort, flatt nett. Alle på samme switch, ingen VLAN.</div>
+  <div class="ch-item" data-fra="pc" data-navn="Din PC · 192.168.1.10">📣 HALLO ALLE! Hvem har 192.168.1.1? Jeg skal ut på nettet.</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 192.168.1.66">Meg, meg! MAC: 66:66:66:66:66:66 😈</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🧭 Ruteren · 192.168.1.1">Det er meg, 3c:22:fb:7a:10:05 …</div>
+  <div class="ch-item" data-fra="pc" data-navn="Din PC">Første svar vinner 🤝 Alt mitt går til 66:66 nå.</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 192.168.1.66">Jeg leser alt og sender det videre til ruteren. Nettet virker helt normalt 😏</div>
+  <div class="ch-item" data-stopp="🧱 Runde 2: Del nettet i VLAN"></div>
+  <div class="ch-item" data-fra="sys">📍 Samme switch, men nå med VLAN. Du er i VLAN 10. Skurken havnet i VLAN 20.</div>
+  <div class="ch-item" data-fra="pc" data-navn="Din PC · VLAN 10">📣 HALLO ALLE! Hvem har 192.168.1.1?</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🧭 Ruteren · VLAN 10">Meg! 3c:22:fb:7a:10:05 👋</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 VLAN 20">… hallo? Roper noen? Jeg hører ingenting 🦗</div>
+  <div class="ch-item" data-fra="sys">😤 Han kan ikke svare på et rop han aldri hører. Ropet ditt stoppet ved kanten av VLAN 10.</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Det falske svaret heter <b>ARP-spoofing</b> (eller ARP-forgiftning). Skurken blir en <b>mann i midten</b> (man-in-the-middle): all trafikken din går via ham.<br>
+Avsløringen: to ulike IP-er med <b>samme MAC</b> i ARP-tabellen din.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ip neigh" data-mal="Se ARP-tabellen etter runde 1:" data-alias="ip n|ip neighbour|ip neighbor|ip neighbors|ip neighbours"><template class="ut"><span class="h2">192.168.1.1</span> dev eth0 lladdr <span class="h1">66:66:66:66:66:66</span> REACHABLE
+192.168.1.20 dev eth0 lladdr a4:5e:60:12:34:20 STALE
+<span class="h4">192.168.1.66</span> dev eth0 lladdr <span class="h1">66:66:66:66:66:66</span> REACHABLE
+192.168.1.30 dev eth0 lladdr b8:27:eb:9c:41:30 STALE </template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>gatewayen din …</span></li><li><span class="m h1"></span><span>… har fått skurkens MAC! Den ekte er 3c:22:fb:7a:10:05</span></li><li><span class="m h4"></span><span>skurken selv, med samme MAC 🦹</span></li></ul></template></div>
+<div class="tm-o" data-cmd="ip neigh | awk '{print $5}' | sort | uniq -d" data-mal="La Kali finne MAC-er som står mer enn én gang (lim gjerne inn):" data-alias="ip n | awk '{print $5}' | sort | uniq -d"><template class="ut"><span class="h1">66:66:66:66:66:66</span></template><template class="forklar"><p>Steg for steg: <code>awk '{print $5}'</code> plukker ut ord nummer 5, MAC-en. <code>sort</code> legger like ved siden av hverandre. <code>uniq -d</code> viser bare dem som står flere ganger (d = duplicate). Én treff = én skurk 🚨</p></template></div>
+<div class="tm-o" data-cmd="ip neigh | grep 66:66:66:66:66:66" data-mal="Vis bare linjene med den MAC-en." data-alias="ip n | grep 66:66:66:66:66:66" data-skjult data-hint="Start med <code>ip neigh</code>, og send det videre til <code>grep</code> med <code>|</code>."><template class="ut"><span class="h2">192.168.1.1</span> dev eth0 lladdr <span class="h1">66:66:66:66:66:66</span> REACHABLE
+<span class="h4">192.168.1.66</span> dev eth0 lladdr <span class="h1">66:66:66:66:66:66</span> REACHABLE </template><template class="forklar"><p>To IP-er, ett nettkort. 192.168.1.66 utgir seg for å være gatewayen.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="192.168.1.66|.66|66"><span class="ans-q">Hvilken IP-adresse utgir seg for å være gatewayen?</span><input class="ans-in" placeholder="en IP-adresse"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den lilla adressen, med samme MAC som 192.168.1.1.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">192.168.1.66</div></div></div>
+<div class="ans-row" data-p="1" data-a="3c:22:fb:7a:10:05|3c-22-fb-7a-10-05"><span class="ans-q">Hvilken MAC skulle gatewayen egentlig hatt?</span><input class="ans-in" placeholder="xx:xx:xx:xx:xx:xx"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ruteren sa det selv i chatten. Står også i forklaringen under terminalen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3c:22:fb:7a:10:05</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme kommandoene hjemme. Får du <b>ingen</b> linjer fra <code>uniq -d</code>? Bra! Da lyver ingen på nettet ditt akkurat nå ✅<p class="e-win">Windows: <code>arp -a</code>, og se etter samme «Physical Address» på to linjer.</p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="arp spoofing|arp-spoofing|spoofing"><span class="ans-q">To ulike IP-adresser viser samme MAC i ARP-tabellen din. Hva tyder det på?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det 🦹 gjorde i runde 1 i chatten. Står i fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">arp-spoofing</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Kan en angriper på et annet VLAN utføre ARP-spoofing mot deg? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hørte 🦹 i VLAN 20 ropet ditt i runde 2?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Merker brukeren vanligvis at trafikken går via angriperen? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva sa 🦹 om nettet i runde 1? «Nettet virker helt normalt …»</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · VLAN ═══════════════════════ -->
+<div class="lab-card" id="n8-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">VLAN deler én switch i flere nett</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 3 — VLAN</div>
+<p class="e-hook">Én boks, 24 kontakter. Men kontaktene 1–8 og 9–16 later som om de ikke kjenner hverandre 🙈</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Når de hverandre direkte?" data-knapper="🔀 Direkte|🧭 Via ruteren">
+  <div class="ly-fast">🔀 Port 1–8 = <b>VLAN 10</b> &nbsp;·&nbsp; Port 9–16 = <b>VLAN 20</b> &nbsp;·&nbsp; Port 24 = trunk til nabo-switchen</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Port 2 og 5 er begge VLAN 10. Samme nett.">💻 PC på port 2 skriver ut på 🖨️ skriveren på port 5</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Port 3 er VLAN 10, port 12 er VLAN 20. To nett, så ruteren må hjelpe.">💻 PC på port 3 vil nå 🗄️ serveren på port 12</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="10 og 15 er begge VLAN 20.">📱 Telefon på port 10 sender til 💻 PC på port 15</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Lurt! Side om side i boksen, men 8 er VLAN 10 og 9 er VLAN 20.">💻 Port 8 vil nå 💻 port 9. De sitter rett ved siden av hverandre!</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Trunken bærer VLAN 10 over til nabo-switchen. Samme VLAN = direkte, selv over to bokser.">💻 Port 4 vil nå en PC i VLAN 10 på nabo-switchen</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Gjest og server i hvert sitt VLAN. Gjennom ruteren, der reglene står.">🧳 Gjest i VLAN 20 vil nå 🗄️ filserveren i VLAN 30</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Et <b>VLAN</b> (virtuelt LAN) er et eget nett inni switchen. Hvert VLAN er sitt eget <b>kringkastingsdomene</b>.<br>
+Mellom VLAN må trafikken gjennom en <b>ruter</b> eller en <b>lag 3-switch</b> (en switch som også kan rute).
+</div>
+<p class="e-sikker">🔐 VLAN alene deler bare opp. Sikkerheten kommer fra <b>reglene i overgangen</b>, der trafikken uansett må innom ruteren.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ip route get 192.168.1.20" data-mal="Nettet ditt, 192.168.1.0/24, er VLAN 10. Spør Kali hvordan den når .20:" data-alias="ip r g 192.168.1.20|ip ro get 192.168.1.20"><template class="ut">192.168.1.20 <span class="h3">dev eth0</span> src 192.168.1.10 uid 1000
+    cache </template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>rett ut på kortet. Ingen ruter. Samme VLAN = direkte</span></li></ul><p><code>ip route get</code> = «hvilken vei ville du sendt en pakke hit?». Den sender ingenting.</p></template></div>
+<div class="tm-o" data-cmd="ip route get 192.168.20.30" data-mal="VLAN 20 har nettet 192.168.20.0/24. Spør om veien til 192.168.20.30." data-alias="ip r g 192.168.20.30|ip ro get 192.168.20.30" data-skjult data-hint="Samme kommando, bare en annen adresse."><template class="ut">192.168.20.30 <span class="h1">via 192.168.1.1</span> dev eth0 src 192.168.1.10 uid 1000
+    cache </template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>via ruteren! Annet VLAN = annet nett = gjennom gatewayen</span></li></ul></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="192.168.1.1"><span class="ans-q">Hvilken adresse går trafikken til VLAN 20 via?</span><input class="ans-in" placeholder="en IP-adresse"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten i andre utskrift.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">192.168.1.1</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Står det «via» i svaret for 192.168.1.20? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se den første utskriften. Står det noe mellom adressen og <code>dev</code>?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme kommandoene. Hjemme har du nok ikke 192.168.20.0, men det gjør ingenting: alt utenfor ditt eget nett går «via» ruteren din. VLAN settes opp på switchen, ikke på PC-en.<p class="e-win">Windows (PowerShell): <code>Find-NetRoute -RemoteIPAddress 192.168.20.30</code></p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">To porter på samme switch, ulike VLAN. Når de hverandre direkte? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Port 8 og port 9 i lynrunden. Hvilken knapp var riktig?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="ruteren|router|ruter"><span class="ans-q">Hva må trafikk mellom to VLAN gjennom?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den andre knappen i lynrunden. Eller: hva sto etter «via» i ip route get?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ruter</div></div></div>
+<div class="ans-row" data-p="1" data-a="tre|3"><span class="ans-q">Hvor mange kringkastingsdomener lager tre VLAN?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ett VLAN = ett kringkastingsdomene. Se fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · SONER ═══════════════════════ -->
+<div class="lab-card" id="n8-5" data-level="hard">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">Soner: gjest, ansatt og server</span>
+  <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-5">Nivå 3 — Segmentering</div>
+<p class="e-hook">Skurken 🦹 har kommet seg inn på webserveren. Gratulerer til ham. Men hvor kommer han <b>videre</b>?</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Fanget i serversonen">
+  <div class="ch-item" data-fra="sys">📍 Tre soner: 🧳 gjest, 💼 ansatt og 🗄️ server. Skurken har kodekjøring på webserveren i serversonen.</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 på webserveren">Først laster jeg ned verktøyene mine fra internett 😎</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🛡️ Brannmuren">Nei. Serversonen får ikke <b>starte</b> forbindelser ut. Bare svare.</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 på webserveren">Ok … da sender jeg databasen hjem til min egen server!</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🛡️ Brannmuren">Samme regel. Ingen vei ut 🚫</div>
+  <div class="ch-item" data-stopp="🦹 Han prøver én vei til …"></div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 på webserveren">Da går jeg inn på administrasjonsnettet og tar over switchene!</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🛡️ Brannmuren">Egen sone. Bare to bestemte admin-PC-er slipper inn. Du er ikke én av dem.</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 på webserveren">Jeg er jo inne! Men … jeg kommer ingen steder 😩</div>
+  <div class="ch-item" data-fra="sys">🎯 Segmenteringen stoppet ikke innbruddet. Den stoppet <b>spredningen</b>.</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Å dele nettet i soner heter <b>segmentering</b>. En enkel modell:<br>
+🧳 <b>Gjestenett</b>: bare ut mot internett. Ingenting internt.<br>
+💼 <b>Ansattnett</b>: internett, pluss tjenestene folk trenger.<br>
+🗄️ <b>Serversone</b>: tar imot, men starter ikke forbindelser ut.<br>
+At en angriper hopper fra maskin til maskin innenfor nettet, heter <b>lateral bevegelse</b> (lateral movement).
+</div>
+<p class="e-sikker">🎯 Fun fact: Target-innbruddet i 2013 startet hos en leverandør av ventilasjon. Fordi nettet ikke var delt opp, nådde angriperne derfra kassasystemene.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="curl -m 5 -sI https://example.com" data-mal="Nettet ditt er gjestenettet. Test at internett virker:" data-alias="curl -sI -m 5 https://example.com|curl -m 5 -s -I https://example.com"><template class="ut"><span class="h3">HTTP/2 200</span>
+content-type: text/html
+last-modified: Mon, 13 Jan 2025 20:11:20 GMT
+cache-control: max-age=3086
+date: Wed, 07 Oct 2026 10:15:02 GMT</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>200 = OK. Gjestene når internett ✅</span></li></ul><p><code>-m 5</code> = gi opp etter 5 sekunder. <code>-s</code> = stille. <code>-I</code> = bare hent toppen (headerne), ikke hele siden.</p></template></div>
+<div class="tm-o" data-cmd="nc -zv -w 3 192.168.50.10 445" data-mal="Bank på filserveren i serversonen, port 445:" data-alias="nc -vz -w 3 192.168.50.10 445|nc -zv 192.168.50.10 445 -w 3"><template class="ut">nc: connect to 192.168.50.10 port 445 (tcp) <span class="h1">timed out</span>: Operation now in progress</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>ingen svar i det hele tatt. Brannmuren kastet pakken stille 🛡️</span></li></ul><p><code>-w 3</code> = vent maks 3 sekunder. Husker du «Connection refused» fra L07? Det var et tydelig nei fra maskinen. Her kommer pakken aldri fram.</p></template></div>
+<div class="tm-o" data-cmd="ping -c 2 192.168.50.10" data-mal="Prøv med ping også." data-alias="ping 192.168.50.10 -c 2" data-skjult data-hint="Send 2 ping, som i L05. <code>-c</code> betyr antall."><template class="ut">PING 192.168.50.10 (192.168.50.10) 56(84) bytes of data.
+
+--- 192.168.50.10 ping statistics ---
+2 packets transmitted, 0 received, <span class="h1">100% packet loss</span>, time 1007ms</template><template class="forklar"><p>Alt ble borte. Gjestenettet når ikke serversonen. Akkurat som planlagt ✅</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="200"><span class="ans-q">Hvilken statuskode fikk curl fra example.com?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tallet etter HTTP/2 på første linje.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">200</div></div></div>
+<div class="ans-row" data-p="1" data-a="100|100%"><span class="ans-q">Hvor mange prosent av pingene til serversonen ble borte?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten på siste linje.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">100</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Kjør <code>curl</code>-kommandoen hjemme. Den virker sikkert. Har du ingen serversone, vil <code>nc</code> mot 192.168.50.10 også gi «timed out», fordi ingen maskin finnes der. Samme svar som når en brannmur kaster pakken. Derfor tester du alltid begge veier!<p class="e-win">Windows (PowerShell): <code>Test-NetConnection 192.168.50.10 -Port 445</code></p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="serversonen|serversone|server"><span class="ans-q">Hvilken sone skal normalt ikke kunne starte forbindelser ut mot internett?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvor satt 🦹 i chatten da brannmuren sa «ingen vei ut»?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">serversonen</div></div></div>
+<div class="ans-row" data-p="1" data-a="interne tjenester|interne nett|interne|internt"><span class="ans-q">Gjestenettet skal nå internett, men ikke hva?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Gjestenettet ditt i terminalen nådde example.com, men ikke filserveren.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">interne tjenester</div></div></div>
+<div class="ans-row" data-p="1" data-a="lateral bevegelse|spredningen|spredning"><span class="ans-q">Segmentering stoppet ikke innbruddet. Hva stoppet den?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Les siste linje i chatten.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">spredningen</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 6 · TRUNK OG TAG ═══════════════════════ -->
+<div class="lab-card" id="n8-6" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">06</span>
+  <span class="lab-title">Én kabel, mange VLAN</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 3 — Trunk og tagging</div>
+<p class="e-hook">Én kabel mellom to switcher. Ti VLAN skal gjennom den. Hvordan vet switchen i andre enden hvem som er hvem? 🏷️</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Rammens reise over trunken" data-oppgave="En ramme fra VLAN 10 skal til en PC på nabo-switchen. Sett stegene i riktig rekkefølge.">
+  <div class="rf-item" data-forklar="PC-en vet ingenting om VLAN.">💻 PC-en sender en helt vanlig ramme, uten lapp</div>
+  <div class="rf-item" data-forklar="Aksessporten vet hvilket VLAN den hører til.">🔌 Switch 1 vet: «denne porten er VLAN 10»</div>
+  <div class="rf-item" data-forklar="Lappen limes på før rammen går ut på trunken.">🏷️ Lappen «VLAN 10» limes på, og rammen går ut på trunken</div>
+  <div class="rf-item" data-forklar="Lappen sier hvilket VLAN rammen hører til.">🔎 Switch 2 leser lappen: «Aha, VLAN 10»</div>
+  <div class="rf-item" data-forklar="Lappen fjernes før rammen går ut til en PC.">✂️ Switch 2 river av lappen og sender ut på en port i VLAN 10</div>
+  <div class="rf-item" data-forklar="Mottakeren ser aldri lappen.">📬 Mottaker-PC-en får en helt vanlig ramme</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+En port i <b>ett</b> VLAN, der en PC sitter, heter en <b>aksessport</b> (access port).<br>
+En port som bærer <b>mange</b> VLAN, mellom switcher, heter en <b>trunk</b>.<br>
+Lappen heter en <b>tag</b>. Standarden heter <b>802.1Q</b>. Taggen er bare 4 byte og har plass til VLAN 1–4094.
+</div>
+<p class="e-sikker">🛠️ Feilsøkingstips: mangler VLAN-et på trunken, når VLAN-et bare den ene switchen. Alt ser riktig ut på hver boks, og likevel når ikke maskinene hverandre.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sudo ip link add link eth0 name eth0.10 type vlan id 10" data-mal="Linux kan også sette tag. Lag et VLAN 10-kort oppå eth0 (lim gjerne inn):"><template class="ut">[sudo] password for kali: <span class="dim">(passordet vises ikke mens du skriver)</span></template><template class="forklar"><p>Ingen melding = det gikk bra. Les den som en setning: «legg til et kort <b>oppå</b> eth0, kall det eth0.10, type vlan, nummer 10».</p></template></div>
+<div class="tm-o" data-cmd="ip -d link show eth0.10" data-mal="Se detaljene til det nye kortet:" data-alias="ip -d link show dev eth0.10|ip -details link show eth0.10|ip -d l show eth0.10"><template class="ut">3: <span class="h2">eth0.10@eth0</span>: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/ether 08:00:27:3c:7a:10 brd ff:ff:ff:ff:ff:ff promiscuity 0  allmulti 0 minmtu 0 maxmtu 65535
+    vlan protocol <span class="h1">802.1Q</span> id <span class="h3">10</span> &lt;REORDER_HDR&gt; <span class="dim">addrgenmode eui64 numtxqueues 1 numrxqueues 1 ...</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>eth0.10 bor oppå eth0</span></li><li><span class="m h1"></span><span>standarden for taggen</span></li><li><span class="m h3"></span><span>VLAN-nummeret i taggen</span></li></ul><p><code>-d</code> = detaljer. Alt eth0.10 sender, får lappen «VLAN 10» før det går ut på eth0.</p></template></div>
+<div class="tm-o" data-cmd="cat /proc/net/vlan/config" data-mal="Se lista over alle VLAN-kort på maskinen:"><template class="ut">VLAN Dev name	 | VLAN ID
+Name-Type: VLAN_NAME_TYPE_RAW_PLUS_VID_NO_PAD
+<span class="h2">eth0.10</span>        | <span class="h3">10</span>  | <span class="h4">eth0</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>VLAN-kortet</span></li><li><span class="m h3"></span><span>VLAN-nummeret</span></li><li><span class="m h4"></span><span>det ekte kortet under</span></li></ul></template></div>
+<div class="tm-o" data-cmd="ip -br link" data-mal="Se alle kortene kort og greit." data-alias="ip -brief link|ip -br l|ip -br link show" data-skjult data-hint="Samme kommando som i oppgave 1."><template class="ut">lo               UNKNOWN        00:00:00:00:00:00 &lt;LOOPBACK,UP,LOWER_UP&gt;
+eth0             UP             08:00:27:3c:7a:10 &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;
+<span class="h2">eth0.10@eth0</span>     <span class="h1">DOWN</span>           08:00:27:3c:7a:10 &lt;BROADCAST,MULTICAST&gt; </template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>det nye kortet</span></li><li><span class="m h1"></span><span>ikke slått på ennå</span></li></ul><p>Merk: et kort som sender med tag, må sitte på en <b>trunkport</b>. På en vanlig aksessport kastes rammene.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="10|ti"><span class="ans-q">Hvilket VLAN-nummer står etter «id» i detaljene?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den grønne biten i andre utskrift.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">10</div></div></div>
+<div class="ans-row" data-p="1" data-a="eth0"><span class="ans-q">Hvilket ekte kort ligger under eth0.10?</span><input class="ans-in" placeholder="et kortnavn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det som står etter <code>@</code>, eller den lilla biten i <code>/proc/net/vlan/config</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">eth0</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme kommandoene. Rydd opp etterpå med <code>sudo ip link del eth0.10</code>. Det nye kortet forsvinner uansett når du starter maskinen på nytt.<p class="e-win">Windows: VLAN settes i innstillingene til nettkortet (Enhetsbehandling → nettkortet → Avansert → «VLAN ID»), hvis driveren støtter det.</p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="trunkport|trunk"><span class="ans-q">Hva kalles en port som bærer flere VLAN?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kabelen mellom de to switchene. Står i fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">trunk</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Ser PC-en taggen som ble lagt på? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se siste steg i spillet. Hva slags ramme får mottaker-PC-en?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="802.1q|8021q"><span class="ans-q">Hva heter standarden som definerer taggen?</span><input class="ans-in" placeholder="et nummer"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står i utskriften fra <code>ip -d link</code>, etter «vlan protocol».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">802.1q</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 7 · VLAN HOPPING ═══════════════════════ -->
+<div class="lab-card" id="n8-7" data-level="hard">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">07</span>
+  <span class="lab-title">VLAN hopping</span>
+  <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-5">Niv&aring; 4 &mdash; Angrep p&aring; taggingen</div>
+<p class="e-hook">VLAN er en vegg 🧱 Men veggen er bare så god som oppsettet. Finn hullene før skurken gjør det 🦘</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Finn hullene i oppsettet" data-oppgave="Et utdrag fra oppsettet på en switch. Klikk på de tre linjene som åpner for VLAN hopping.">
+<pre>interface Gi0/5
+ <span class="kl" data-rett data-forklar="Porten forhandler om å bli trunk med den som spør. En PC som later som den er en switch, får alle VLAN. Det er switch spoofing.">switchport mode dynamic desirable</span>
+ <span class="kl" data-forklar="Helt greit. Porten hører til VLAN 10.">switchport access vlan 10</span>
+!
+interface Gi0/7
+ <span class="kl" data-forklar="Bra! Porten er låst som aksessport.">switchport mode access</span>
+ <span class="kl" data-rett data-forklar="VLAN 1 er native på trunken under. En PC her kan sende dobbel tag.">switchport access vlan 1</span>
+ <span class="kl" data-forklar="Bra! Ingen forhandling om trunk.">switchport nonegotiate</span>
+!
+interface Gi0/24
+ <span class="kl" data-forklar="Normalt. Kabelen til nabo-switchen skal være trunk.">switchport mode trunk</span>
+ <span class="kl" data-rett data-forklar="Native VLAN er 1, og vanlige brukere sitter i VLAN 1. Da virker dobbel tagging.">switchport trunk native vlan 1</span></pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Å komme inn i et VLAN du ikke hører til, heter <b>VLAN hopping</b>. To måter:<br>
+🎭 <b>Switch spoofing</b>: PC-en later som den er en switch, og porten blir trunk.<br>
+🏷️🏷️ <b>Dobbel tagging</b>: to tagger. Første switch river av den ytterste, neste switch leser den innerste. Virker bare én vei, og bare fra <b>native VLAN</b>, det ene VLAN-et på trunken som går uten tag.<br>
+Tiltak: slå av forhandling, sett native VLAN til et ubrukt nummer (f.eks. 999), lås aksessporter.
+</div>
+<p class="e-sikker">💡 Begge angrepene krever slapt oppsett. Feilen er ikke i VLAN som idé.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sudo ip link add link eth0 name eth0.1 type vlan id 1" data-mal="I egen lab: lag den ytterste taggen, VLAN 1 (lim gjerne inn):"><template class="ut">[sudo] password for kali: <span class="dim">(passordet vises ikke mens du skriver)</span></template><template class="forklar"><p>Samme kommando som i oppgave 6, men nå VLAN 1, native VLAN.</p></template></div>
+<div class="tm-o" data-cmd="sudo ip link add link eth0.1 name eth0.1.30 type vlan id 30" data-mal="Lag den innerste taggen, VLAN 30, oppå eth0.1:"><template class="ut"></template><template class="forklar"><p>Ser du? <code>link eth0.1</code>: det nye kortet bor oppå VLAN 1-kortet, ikke rett på eth0. Alt det sender, får to lapper 🏷️🏷️</p></template></div>
+<div class="tm-o" data-cmd="cat /proc/net/vlan/config" data-mal="Se lista over VLAN-kort." data-skjult data-hint="Samme kommando som i oppgave 6. Den leser en fil under <code>/proc/net/vlan</code>."><template class="ut">VLAN Dev name	 | VLAN ID
+Name-Type: VLAN_NAME_TYPE_RAW_PLUS_VID_NO_PAD
+<span class="h2">eth0.1</span>         | <span class="h1">1</span>  | eth0
+<span class="h3">eth0.1.30</span>      | <span class="h4">30</span>  | <span class="h2">eth0.1</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>ytterst: VLAN 1. Første switch river av denne</span></li><li><span class="m h4"></span><span>innerst: VLAN 30. Neste switch leser denne</span></li><li><span class="m h2"></span><span>eth0.1.30 bor oppå eth0.1</span></li></ul></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="1|en|én|vlan 1"><span class="ans-q">Hvilket VLAN er den ytterste taggen?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kortet som ligger rett på eth0. Den gule biten.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1</div></div></div>
+<div class="ans-row" data-p="1" data-a="30|vlan 30"><span class="ans-q">Hvilket VLAN prøver angriperen å komme inn i?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den innerste taggen. Den lilla biten.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">30</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Bare i din egen lab, aldri på et nett du ikke eier! Hjemme skjer det ingenting, fordi hjemmeruteren ikke bruker VLAN. Rydd opp med <code>sudo ip link del eth0.1</code>. Da forsvinner eth0.1.30 også.</div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="bare en vei|en vei|én vei"><span class="ans-q">Virker dobbel tagging begge veier, eller bare én vei?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Svaret fra VLAN 30 må tilbake samme vei. Har det en dobbel tag med seg?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">en vei</div></div></div>
+<div class="ans-row" data-p="1" data-a="native vlan|native"><span class="ans-q">Hvilket VLAN må angriperen sitte i for at dobbel tagging skal virke?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Linja «switchport trunk native vlan 1» i klikk-spillet. Fagord-boksen har navnet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">native</div></div></div>
+<div class="ans-row" data-p="1" data-a="switch spoofing|spoofing"><span class="ans-q">Angriperen later som maskinen hans er en switch. Hva heter det?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Linja «dynamic desirable» i klikk-spillet. Han later som han er en switch.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">switch spoofing</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 8 · PORT SECURITY ═══════════════════════ -->
+<div class="lab-card" id="n8-8" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">08</span>
+  <span class="lab-title">Port security</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 3 — Lås til porten</div>
+<p class="e-hook">Veggkontakten i møterommet godtar nå bare én bestemt MAC 🔐 Hvem kommer inn, og hvem blir stoppet?</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Kommer de inn?" data-knapper="✅ Slipper inn|🛑 Stoppet">
+  <div class="ly-fast">🔌 Port 7: bare MAC-en til kontor-PC-en. Brytes regelen: <b>shutdown</b>.</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Riktig MAC. Den er jo den porten ble låst til.">💻 Kontor-PC-en starter på nytt og kobler seg til igjen</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Ny MAC på porten. Porten slås av.">🧳 En gjest plugger laptopen sin i kontakten</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Flere MAC-er på én port. Porten slås av.">🔀 Noen kobler en liten switch med tre PC-er i kontakten</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Au! Han leste MAC-en av klistremerket og satte den på laptopen. Switchen ser ingen forskjell.">🦹 Skurken kopierer MAC-en fra klistremerket på kontor-PC-en</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="En tilfeldig MAC er fortsatt feil MAC.">🎲 Skurken setter en tilfeldig MAC på laptopen</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Med 802.1X holder ikke riktig MAC. Porten krever innlogging først.">🔑 Porten bruker nå 802.1X. Skurken har kopiert MAC-en, men ikke passordet</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Lås mellom port og MAC heter <b>port security</b>. Tre reaksjoner når regelen brytes:<br>
+🔇 <code>protect</code>: forkast stille. 📝 <code>restrict</code>: forkast og logg. ⛔ <code>shutdown</code>: slå av porten helt.<br>
+Det ekte svaret er <b>802.1X</b>: porten krever innlogging før den slipper noe gjennom.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ip -br link show eth0" data-mal="Se MAC-en din nå:" data-alias="ip -br link show dev eth0|ip -br l show eth0|ip -brief link show eth0"><template class="ut">eth0             UP             <span class="h1">08:00:27:3c:7a:10</span> &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; </template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>MAC-en fra fabrikken (her: fra VirtualBox)</span></li></ul></template></div>
+<div class="tm-o" data-cmd="sudo ip link set eth0 down" data-mal="Slå av kortet:" data-alias="sudo ip link set dev eth0 down"><template class="ut">[sudo] password for kali: <span class="dim">(passordet vises ikke mens du skriver)</span></template><template class="forklar"><p>De fleste nettkort må være av mens du bytter MAC.</p></template></div>
+<div class="tm-o" data-cmd="sudo ip link set eth0 address 00:11:22:33:44:55 up" data-mal="Gi kortet en ny MAC og slå det på igjen (lim gjerne inn):" data-alias="sudo ip link set dev eth0 address 00:11:22:33:44:55 up"><template class="ut"></template><template class="forklar"><p>Ingen melding = det gikk bra. To ting i én kommando: ny <code>address</code>, og <code>up</code>.</p></template></div>
+<div class="tm-o" data-cmd="ip -br link show eth0" data-mal="Sjekk MAC-en igjen." data-alias="ip -br link show dev eth0|ip -br l show eth0|ip -brief link show eth0" data-skjult data-hint="Samme kommando som i første oppdrag."><template class="ut">eth0             <span class="h3">UP</span>             <span class="h1">00:11:22:33:44:55</span> &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; </template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>ny MAC, på tre kommandoer 😮</span></li><li><span class="m h3"></span><span>kortet er på igjen</span></li></ul><p>Derfor er port security et hinder, ikke en innlogging.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="00:11:22:33:44:55|00-11-22-33-44-55"><span class="ans-q">Hvilken MAC har eth0 til slutt?</span><input class="ans-in" placeholder="xx:xx:xx:xx:xx:xx"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten i siste utskrift.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">00:11:22:33:44:55</div></div></div>
+<div class="ans-row" data-p="1" data-a="up|oppe|på"><span class="ans-q">Står eth0 som UP eller DOWN til slutt?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den grønne biten i siste utskrift.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">UP</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme kommandoene. Nettet kan falle ut et øyeblikk. Den gamle MAC-en kommer tilbake når du starter maskinen på nytt. Kali har også verktøyet <code>macchanger</code>: <code>sudo macchanger -p eth0</code> setter tilbake fabrikk-MAC-en.<p class="e-win">Windows: Enhetsbehandling → nettkortet → Avansert → «Network Address».</p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="shutdown"><span class="ans-q">Hvilken reaksjon slår av porten helt?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Fagord-boksen har tre ord: protect, restrict og …</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">shutdown</div></div></div>
+<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Kan en MAC-adresse endres i programvare? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det gjorde du nettopp i øve-terminalen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
+<div class="ans-row" data-p="1" data-a="802.1x|8021x"><span class="ans-q">Hva heter løsningen som krever innlogging på selve porten?</span><input class="ans-in" placeholder="et nummer"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det siste kortet i lynrunden. Navnet ligner på 802.1Q.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">802.1x</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 9 · KONTORET ═══════════════════════ -->
+<div class="lab-card" id="n8-9" data-level="hard">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">09</span>
+  <span class="lab-title">Tegn nettet til et lite kontor</span>
+  <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-5">Nivå 4 — Sammensatt</div>
+<p class="e-hook">Du er nettverkssjef for en dag 😎 30 ansatte, gjester, skrivere, kameraer og servere. Del etter <b>hvem som skal nå hva</b>, ikke etter hvor folk sitter.</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hvem får hva?" data-oppgave="Koble gruppen til VLAN-et og regelen sin.">
+  <div class="pr-par" data-forklar="Ansatte trenger internett og filserveren. Ikke mer."><span>💼 30 ansatte</span><span>VLAN 10 · internett + filserver</span></div>
+  <div class="pr-par" data-forklar="Gjester har ingen grunn til å nå noe på innsiden."><span>🧳 Gjester</span><span>VLAN 20 · bare internett</span></div>
+  <div class="pr-par" data-forklar="Skrivere tar imot utskrift, men starter ingenting selv."><span>🖨️ Tre skrivere</span><span>VLAN 30 · tar imot fra VLAN 10</span></div>
+  <div class="pr-par" data-forklar="Kameraer oppdateres sjelden og angripes ofte. Ingen vei ut!"><span>📹 Fire IP-kameraer</span><span>VLAN 40 · bare overvåkingsserveren</span></div>
+  <div class="pr-par" data-forklar="Servere svarer, men ringer aldri ut selv."><span>🗄️ Filserveren</span><span>VLAN 50 · tar imot, ringer aldri ut</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Reglene i overgangen står i ruteren eller <b>brannmuren</b>. Standardsvaret er alltid <b>nekt</b> (deny): du åpner bare det som trengs.<br>
+Fire spørsmål for hver gruppe: 1. Hvem er dette? 2. Hva trenger de å nå? 3. Hva skal nå dem? 4. Skal de kunne starte trafikk ut?
+</div>
+<p class="e-sikker">📹 Kameraene er blant de mest angrepne enhetene som finnes. Mange av dem får aldri en oppdatering.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sudo nmap -sn 192.168.1.0/24" data-mal="Steg 1, «hvem er dette?»: finn alt som er på nettet (lim gjerne inn):"><template class="ut">[sudo] password for kali: <span class="dim">(passordet vises ikke mens du skriver)</span>
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-10-07 10:20 CEST
+Nmap scan report for <span class="h2">192.168.1.1</span>
+Host is up (0.0012s latency).
+MAC Address: 3C:22:FB:7A:10:05 <span class="h1">(Apple)</span>
+Nmap scan report for <span class="h2">192.168.1.20</span>
+Host is up (0.0010s latency).
+MAC Address: A4:5E:60:12:34:20 <span class="h1">(Apple)</span>
+Nmap scan report for <span class="h2">192.168.1.30</span>
+Host is up (0.0011s latency).
+MAC Address: B8:27:EB:9C:41:30 <span class="h1">(Raspberry Pi Foundation)</span>
+Nmap scan report for <span class="h2">192.168.1.10</span>
+Host is up.
+Nmap done: 256 IP addresses (<span class="h3">4 hosts up</span>) scanned in 2.14 seconds</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>en maskin som svarte</span></li><li><span class="m h1"></span><span>produsenten, gjettet ut fra de tre første delene av MAC-en</span></li><li><span class="m h3"></span><span>antall maskiner som er oppe</span></li></ul><p><code>-sn</code> = bare finn maskinene, ikke skann porter. Den siste, .10, er deg selv.</p></template></div>
+<div class="tm-o" data-cmd="sudo nmap -sn 192.168.1.0/24 | grep -c &quot;Host is up&quot;" data-mal="Tell maskinene med grep (lim gjerne inn):" data-alias="sudo nmap -sn 192.168.1.0/24 | grep -c 'Host is up'"><template class="ut"><span class="h3">4</span></template><template class="forklar"><p><code>grep -c</code> teller linjene som inneholder teksten. Fire maskiner som hver trenger en plass i en sone.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="192.168.1.30|.30|30"><span class="ans-q">Hvilken IP har maskinen fra Raspberry Pi Foundation?</span><input class="ans-in" placeholder="en IP-adresse"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se linja over «MAC Address: B8:27:EB…».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">192.168.1.30</div></div></div>
+<div class="ans-row" data-p="1" data-a="4|fire"><span class="ans-q">Hvor mange maskiner er oppe, deg selv medregnet?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den grønne biten, eller tallet fra <code>grep -c</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skann bare ditt eget nett! Bytt <code>192.168.1.0/24</code> med nettet ditt fra <code>ip route</code>. Skriv så ned hver maskin du finner, og svar på de fire spørsmålene for den. Gratulerer, nå har du tegnet nettet ditt 🎉</div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="kameraene|kameraer|kamera"><span class="ans-q">Hvilken sone skal aldri ha vei ut mot internett?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvem fikk «bare overvåkingsserveren» i par-spillet?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">kameraer</div></div></div>
+<div class="ans-row" data-p="1" data-a="nekte|deny|nekt"><span class="ans-q">Hva skal standardsvaret i en regel være når ingenting sier noe?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se fagord-boksen: standardsvaret.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nekt</div></div></div>
+<div class="ans-row" data-p="1" data-a="hvor folk sitter|hvor de sitter|plassering"><span class="ans-q">Du grupperer etter hvem som skal nå hva. Hva grupperer du IKKE etter?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Les kroken øverst i oppgaven.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">hvor de sitter</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
 </div>
 
 <footer class="footer"><div class="container"><div class="footer-inner">
-<span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
 </div></div></footer>
 <script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
 </body>
 </html>

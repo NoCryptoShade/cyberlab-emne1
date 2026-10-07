@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabellen noen andre passer på — CyberLab</title>
+<link rel="stylesheet" href="../css/style.css?v=13">
+<link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+.enkel code,.enkel pre,.enkel .ans-in,.enkel .tm-vindu{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+.rf-k code,.rf-svar code{font-size:14px;white-space:pre}
+.x-sql{background:#05070a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin:8px 0;
+  font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--green);white-space:pre;overflow-x:auto}
+.tm-liste code{white-space:normal !important;overflow-wrap:anywhere}
+.x-tabell{white-space:pre !important;overflow-x:auto}
+.ly-fast .x-q{display:block;margin:3px 0}
+.ly-fast .x-q b{display:inline-block;width:1.6em;color:var(--text)}
+</style>
+</head>
+<body class="page enkel">
+<nav class="nav">
+  <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
+  <div class="nav-links">
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="nav-link">Hjem</a>
+    <a href="../emne1.html" class="nav-link">Emne 1</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne3.html" class="nav-link">Emne 3</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="nav-link on">Labber</a>
+    <a href="https://tk1104.timoamling.com/" target="_blank" rel="noopener" class="nav-link">Self check &nearr;</a>
+  </div>
+</nav>
+
+<div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
+
+<div class="mod-hero">
+  <div class="section-eyebrow">Emne 1 &middot; Leksjon 21</div>
+  <div class="section-title">Tabellen noen andre passer på</div>
+  <p class="section-desc">Hvordan en database organiserer data, og enkle spørringer med SQL. Seks små spill, og så noen spørsmål etter hvert.</p>
+</div>
+
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
+
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>Database</dt><dd>Data i tabeller, passet på av en databasemotor.</dd>
+    <dt>Databasemotor</dt><dd>Programmet som lagrer, følger reglene og svarer på spørsmål. Database engine på engelsk.</dd>
+    <dt>SQLite / sqlite3</dt><dd>En liten databasemotor der hele databasen er én fil. <code>sqlite3</code> er kommandoen i terminalen.</dd>
+    <dt>SQL</dt><dd>Språket du spør databasen med. Structured Query Language.</dd>
+    <dt>Spørring</dt><dd>Ett spørsmål til databasen, for eksempel <code>SELECT * FROM brukere;</code> Query på engelsk.</dd>
+    <dt>Tabell, rad, kolonne</dt><dd>Regnearket, én linje i det, og én egenskap (loddrett). Table, row, column.</dd>
+    <dt>Primærnøkkel</dt><dd>Kolonnen som er unik for hver rad, ofte <code>id</code>. Primary key.</dd>
+    <dt><code>WHERE</code></dt><dd>«Bare radene der …»</dd>
+    <dt><code>LIKE</code> og <code>%</code></dt><dd>«Ligner på». <code>%</code> betyr «hva som helst».</dd>
+    <dt><code>ORDER BY</code> / <code>DESC</code></dt><dd>Sorter / snu sorteringen, størst først.</dd>
+    <dt><code>LIMIT</code></dt><dd>Bare de første radene.</dd>
+    <dt><code>COUNT(*)</code></dt><dd>Tell radene.</dd>
+    <dt><code>GROUP BY</code></dt><dd>Samle radene i bunker, én per verdi.</dd>
+    <dt><code>INSERT</code> / <code>UPDATE</code> / <code>DELETE</code></dt><dd>Legg til / endre / slett rader.</dd>
+  </dl>
+</details>
+
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
+
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · CSV ELLER DATABASE ═══════════════════════ -->
+<div class="lab-card" id="l21-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">Hvem passer på tabellen?</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Fil eller database?</div>
+<p class="e-hook">I L19 lagde du en CSV-rapport. Den er bare en fil, og alle kan rote i den. Hva om noen <b>passet på</b> tabellen for deg? 🛡️</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ CSV-fil eller database?" data-knapper="📄 CSV-fil|🗄️ Database">
+  <div class="ly-item" data-svar="0" data-hvorfor="En CSV-fil er ren tekst. Notisblokk viser alt.">Du åpner den i Notisblokk og leser alt som vanlig tekst.</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="En SQLite-database er én fil, men i et eget format. Den er laget for motoren, ikke for øynene dine.">Du åpner den i Notisblokk og ser bare rare tegn 🤯</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Det er en regel databasen passer på: Hver rad har sin egen id.">Den nekter å lagre to rader med samme id.</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Comma-separated values: én rad per linje, komma mellom.">Hver linje er én rad. Verdiene står skilt med komma.</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Du spør, motoren leter og sorterer for deg.">Du spør «bare de feilede, nyeste først», og får akkurat det.</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Som tell.py i L16: Programmet ditt gjør all lesingen selv.">Programmet ditt må lese hele fila, linje for linje, for å finne noe.</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Motoren lar dem ta tur. Det er en del av å «passe på».">To programmer skriver samtidig. Motoren lar dem ta tur, så ingenting blandes.</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+En <b>database</b> er data i tabeller. En <b>databasemotor</b> (database engine) passer på dem: følger reglene, lar mange bruke dataene og svarer på spørsmål.<br>
+Spørsmålene skrives i <b>SQL</b> (Structured Query Language). Ett spørsmål heter en <b>spørring</b> (query).<br>
+Vi bruker <b>SQLite</b>: Hele databasen er én fil, <code>logg.db</code>. Kommandoen heter <code>sqlite3</code>.
+</div>
+<p class="e-sikker">🏢 Store databaser som MySQL og PostgreSQL kjører som en egen server, med brukere, passord og rettigheter. SQLite har ikke brukere: Den som kan lese fila, kan lese alt.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sqlite3 logg.db &quot;.tables&quot;" data-alias="sqlite3 logg.db '.tables'|sqlite3 logg.db .tables" data-mal="Hvilke tabeller finnes i logg.db?"><template class="ut"><span class="h2">brukere</span>       <span class="h2">innlogginger</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>navnene på tabellene i databasen</span></li></ul><p>Kommandoer som starter med punktum, er sqlite3 sine egne hjelpere. De er ikke SQL.</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 logg.db &quot;.schema innlogginger&quot;" data-alias="sqlite3 logg.db '.schema innlogginger'" data-mal="Se oppskriften på tabellen innlogginger." data-skjult data-hint="Som forrige, men <code>.schema</code> og navnet på tabellen."><template class="ut">CREATE TABLE innlogginger (<span class="h2">id</span> INTEGER <span class="h1">PRIMARY KEY</span>, <span class="h2">tid</span> TEXT, <span class="h2">bruker</span> TEXT, <span class="h2">ip</span> TEXT, <span class="h2">resultat</span> TEXT);</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>kolonnene: navnet først, så typen (<code>INTEGER</code> = heltall, <code>TEXT</code> = tekst)</span></li><li><span class="m h1"></span><span>en regel motoren passer på. Mer om den i neste oppgave</span></li></ul><p><code>CREATE TABLE</code> er oppskriften motoren fikk da tabellen ble laget.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvor mange tabeller har logg.db?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de blå navnene etter <code>.tables</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+<div class="ans-row" data-p="1" data-a="5|fem"><span class="ans-q">Hvor mange kolonner har innlogginger?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de blå ordene i <code>.schema</code>-utskriften.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">5</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Mangler <code>sqlite3</code>? Installer med <code>sudo apt update &amp;&amp; sudo apt install sqlite3</code>. Lag så øvedatabasen: Skriv <code>nano lag.sql</code>, lim inn dette, lagre (<b>Ctrl + O</b>, <b>Enter</b>) og avslutt (<b>Ctrl + X</b>):
+<pre class="x-sql">CREATE TABLE brukere (id INTEGER PRIMARY KEY, navn TEXT, rolle TEXT);
+INSERT INTO brukere (navn, rolle) VALUES
+  ('kari', 'admin'), ('ola', 'bruker'), ('petter', 'bruker'), ('test', 'bruker');
+CREATE TABLE innlogginger (id INTEGER PRIMARY KEY, tid TEXT, bruker TEXT, ip TEXT, resultat TEXT);
+INSERT INTO innlogginger (tid, bruker, ip, resultat) VALUES
+  ('09:10:58', 'kari', '192.168.1.10', 'OK'),
+  ('09:11:03', 'admin', '203.0.113.45', 'FEIL'),
+  ('09:11:06', 'admin', '203.0.113.45', 'FEIL'),
+  ('09:11:20', 'root', '198.51.100.7', 'FEIL'),
+  ('09:11:24', 'root', '203.0.113.45', 'FEIL'),
+  ('09:12:30', 'kari', '192.168.1.10', 'FEIL'),
+  ('09:12:41', 'kari', '192.168.1.10', 'OK'),
+  ('09:13:15', 'test', '198.51.100.7', 'FEIL'),
+  ('09:14:02', 'root', '203.0.113.45', 'FEIL');</pre>
+Kjør <code>sqlite3 logg.db ".read lag.sql"</code> <b>én gang</b>. Fila <code>logg.db</code> lages av seg selv. Så <code>sqlite3 logg.db ".tables"</code> 🎯 Kjørte du lag.sql to ganger? Da får du «already exists» og doble rader. Skriv <code>rm logg.db</code> og kjør den på nytt.<p class="e-win">Windows: last ned «sqlite-tools» for Windows fra sqlite.org, pakk ut, og legg <code>sqlite3.exe</code> i samme mappe som lag.sql. Kommandoene er de samme.</p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="database|en database|databasen"><span class="ans-q">Fem kolleger skal skrive i den samme oversikten samtidig. CSV-fil eller database?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det siste kortet i lynrunden: Hvem lar dem ta tur?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">database</div></div></div>
+<div class="ans-row" data-p="1" data-a="sqlite3|sqlite"><span class="ans-q">Hva heter kommandoen du snakker med databasen gjennom?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det første ordet i øve-terminalen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">sqlite3</div></div></div>
+<div class="ans-row" data-p="1" data-a="spørring|en spørring|query|sporring"><span class="ans-q">Hva kaller vi ett spørsmål til databasen på norsk?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står i fagord-boksen. Query på engelsk.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">spørring</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · RAD, KOLONNE, NØKKEL ═══════════════════════ -->
+<div class="lab-card" id="l21-2" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">Rad, kolonne og nøkkel</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Et regneark med regler</div>
+<p class="e-hook">En tabell er et regneark med strenge regler 📊 Her er tabellen <code>brukere</code>. Finn tre ting i den.</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Finn rad, kolonne og nøkkel" data-oppgave="Klikk på <b>hele raden</b> til ola, <b>kolonnen</b> med rollene og <b>primærnøkkelen</b>: kolonnen som er unik for hver rad.">
+<pre class="x-tabell"><span class="kl" data-rett data-forklar="Kolonnen id: 1, 2, 3, 4. Aldri to like. Det er primærnøkkelen 🔑">id</span>  <span class="kl" data-forklar="Kolonnen med navn. To personer kan godt hete det samme, så den er ikke nøkkelen.">navn</span>    <span class="kl" data-rett data-forklar="Kolonnen rolle: én egenskap for alle brukerne, loddrett nedover.">rolle</span>
+--  ------  ------
+<span class="kl" data-forklar="Det er raden til kari, ikke ola.">1   kari    admin</span>
+<span class="kl" data-rett data-forklar="Hele raden til ola: id, navn og rolle. Én ting, vannrett.">2   ola     bruker</span>
+3   <span class="kl" data-forklar="Bare ett felt: navnet til petter. Ikke en hel rad.">petter</span>  bruker
+4   test    <span class="kl" data-forklar="Bare én verdi, rollen til test. En kolonne er hele søylen.">bruker</span></pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>Tabell</b> (table) = ett regneark. <b>Rad</b> (row) = én ting, her én bruker. <b>Kolonne</b> (column) = én egenskap, som <code>rolle</code>.<br>
+<b>Primærnøkkel</b> (primary key) = kolonnen som er unik for hver rad, oftest <code>id</code>. Motoren nekter to like.<br>
+<code>SELECT * FROM brukere;</code> = «vis alle kolonner (<code>*</code>) fra tabellen brukere». <code>;</code> avslutter setningen.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sqlite3 logg.db &quot;SELECT * FROM brukere;&quot;" data-alias="sqlite3 logg.db &quot;SELECT * FROM brukere&quot;" data-mal="Vis hele tabellen brukere:"><template class="ut">1|kari|admin
+<span class="h1">2|ola|bruker</span>
+3|petter|bruker
+4|test|bruker</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>raden du klikket på i spillet</span></li></ul><p>Én rad per linje, kolonnene skilt med <code>|</code>. Ingen overskrifter. Litt naken 🙈</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 -header -column logg.db &quot;SELECT * FROM brukere;&quot;" data-alias="sqlite3 -column -header logg.db &quot;SELECT * FROM brukere&quot;|sqlite3 -column -header logg.db &quot;SELECT * FROM brukere;&quot;|sqlite3 -header -column logg.db &quot;SELECT * FROM brukere&quot;" data-mal="Samme spørring, men med overskrifter og pene kolonner:"><template class="ut"><span class="h2">id  navn    rolle </span>
+--  ------  ------
+<span class="h1">1</span>   kari    admin
+<span class="h1">2</span>   ola     bruker
+<span class="h1">3</span>   petter  bruker
+<span class="h1">4</span>   test    bruker</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span><code>-header</code>: kolonnenavnene øverst</span></li><li><span class="m h1"></span><span>primærnøkkelen: unik for hver rad</span></li></ul><p><code>-column</code> stiller opp kolonnene. Nå ser det ut som tabellen i spillet.</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 -header -column logg.db &quot;SELECT navn, rolle FROM brukere;&quot;" data-alias="sqlite3 -column -header logg.db &quot;SELECT navn, rolle FROM brukere&quot;|sqlite3 -column -header logg.db &quot;SELECT navn, rolle FROM brukere;&quot;|sqlite3 -column -header logg.db &quot;SELECT navn,rolle FROM brukere&quot;|sqlite3 -column -header logg.db &quot;SELECT navn,rolle FROM brukere;&quot;|sqlite3 -header -column logg.db &quot;SELECT navn, rolle FROM brukere&quot;|sqlite3 -header -column logg.db &quot;SELECT navn,rolle FROM brukere&quot;|sqlite3 -header -column logg.db &quot;SELECT navn,rolle FROM brukere;&quot;" data-mal="Vis bare kolonnene navn og rolle." data-skjult data-hint="Som forrige, men bytt <code>*</code> med <code>navn, rolle</code>."><template class="ut"><span class="h2">navn    rolle </span>
+------  ------
+kari    admin
+ola     bruker
+petter  bruker
+test    bruker</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>bare de to kolonnene du ba om, med komma mellom</span></li></ul></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="bruker"><span class="ans-q">Hvilken rolle har petter?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Finn raden til petter. Se i kolonnen <code>rolle</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">bruker</div></div></div>
+<div class="ans-row" data-p="1" data-a="4|fire"><span class="ans-q">Hvor mange rader har tabellen brukere?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene i den første utskriften.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Kjør de tre kommandoene fra øve-terminalen på din egen <code>logg.db</code> 🎯 Prøv så å skrive bare <code>sqlite3 logg.db</code>. Da får du ledeteksten <code>sqlite&gt;</code>, og kan skrive SQL rett inn, med <code>;</code> til slutt. <code>.headers on</code> og <code>.mode column</code> gir pen utskrift. <code>.quit</code> avslutter.</div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="rad|en rad|row|raden"><span class="ans-q">Hva heter én vannrett linje i en tabell, på norsk?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det du klikket på for ola.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">rad</div></div></div>
+<div class="mcq" data-c="177615" data-ok="Riktig! * betyr «alle kolonner»." data-no="Ikke helt. Se på SELECT … FROM brukere; i fagord-boksen."><div class="mcq-q">Hvilket tegn betyr «alle kolonner» i SELECT?</div><button class="mcq-opt">%</button><button class="mcq-opt">*</button><button class="mcq-opt">#</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="id|primærnøkkelen|primærnøkkel|primary key"><span class="ans-q">To nye brukere heter begge «ola». Hvilken kolonne skiller dem fra hverandre?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Nøkkelen 🔑 du klikket på i spillet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">id</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · WHERE ═══════════════════════ -->
+<div class="lab-card" id="l21-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">Bare radene der …: WHERE</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Spør presist</div>
+<p class="e-hook">Databasen er et orakel 🔮 Den svarer på akkurat det du spør om, verken mer eller mindre. Hvilken spørring passer til spørsmålet?</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Hvilken spørring svarer?" data-knapper="A|B|C|D">
+  <div class="ly-fast">Alle starter med <code>SELECT * FROM innlogginger</code> og slutter med:
+    <span class="x-q"><b>A</b><code>WHERE resultat = 'FEIL';</code></span>
+    <span class="x-q"><b>B</b><code>WHERE bruker = 'root';</code></span>
+    <span class="x-q"><b>C</b><code>WHERE ip LIKE '192.168.%';</code></span>
+    <span class="x-q"><b>D</b><code>WHERE tid &gt; '09:13:00';</code></span>
+  </div>
+  <div class="ly-item" data-svar="0" data-hvorfor="resultat er kolonnen, 'FEIL' er verdien. = betyr helt lik.">Vis alle innloggingene som feilet.</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Bare radene der bruker er nøyaktig root.">Hva har skjedd med kontoen root?</div>
+  <div class="ly-item" data-svar="2" data-hvorfor="LIKE = «ligner på». % betyr «hva som helst», så alt som starter med 192.168. passer.">Hvem logget inn fra vårt eget nett, 192.168.noe?</div>
+  <div class="ly-item" data-svar="3" data-hvorfor="&gt; betyr «større enn». Klokkeslett skrevet likt sorteres riktig: 09:14:02 er større enn 09:13:00.">Hva skjedde etter klokka 09:13?</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Superbrukeren på Linux heter root. Samme spørring som i stad.">Angriperen gikk etter superbrukeren. Finn de radene.</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>WHERE</code> = «bare radene der …». Sammenlign med <code>=</code> (helt lik), <code>&gt;</code> (større enn) eller <code>LIKE</code> (ligner på). I <code>LIKE</code> betyr <code>%</code> «hva som helst».<br>
+<code>AND</code> = begge må stemme. Tekst står i <b>enkle</b> anførselstegn: <code>'FEIL'</code>
+</div>
+<p class="e-sikker">🦹 Se på de enkle anførselstegnene rundt <code>'root'</code>. Hva om en angriper skriver sin egen <code>'</code> i et søkefelt? Det heter SQL-injeksjon (SQL injection), og kommer i L22.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sqlite3 logg.db &quot;SELECT * FROM innlogginger WHERE resultat = 'FEIL';&quot;" data-alias="sqlite3 logg.db &quot;SELECT * FROM innlogginger WHERE resultat = 'FEIL'&quot;|sqlite3 logg.db &quot;SELECT * FROM innlogginger WHERE resultat='FEIL'&quot;|sqlite3 logg.db &quot;SELECT * FROM innlogginger WHERE resultat='FEIL';&quot;" data-mal="Spørring A: alle som feilet."><template class="ut">2|09:11:03|admin|203.0.113.45|<span class="h1">FEIL</span>
+3|09:11:06|admin|203.0.113.45|<span class="h1">FEIL</span>
+4|09:11:20|root|198.51.100.7|<span class="h1">FEIL</span>
+5|09:11:24|root|203.0.113.45|<span class="h1">FEIL</span>
+6|09:12:30|kari|192.168.1.10|<span class="h1">FEIL</span>
+8|09:13:15|test|198.51.100.7|<span class="h1">FEIL</span>
+9|09:14:02|root|203.0.113.45|<span class="h1">FEIL</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>bare rader der resultat er FEIL</span></li></ul><p>Ser du at id 1 og 7 mangler? De var OK. Kolonnene er id, tid, bruker, ip og resultat, i den rekkefølgen.</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 logg.db &quot;SELECT bruker, ip FROM innlogginger WHERE tid &gt; '09:13:00';&quot;" data-alias="sqlite3 logg.db &quot;SELECT bruker, ip FROM innlogginger WHERE tid &gt; '09:13:00'&quot;|sqlite3 logg.db &quot;SELECT bruker, ip FROM innlogginger WHERE tid&gt;'09:13:00'&quot;|sqlite3 logg.db &quot;SELECT bruker, ip FROM innlogginger WHERE tid&gt;'09:13:00';&quot;|sqlite3 logg.db &quot;SELECT bruker,ip FROM innlogginger WHERE tid &gt; '09:13:00'&quot;|sqlite3 logg.db &quot;SELECT bruker,ip FROM innlogginger WHERE tid &gt; '09:13:00';&quot;|sqlite3 logg.db &quot;SELECT bruker,ip FROM innlogginger WHERE tid&gt;'09:13:00'&quot;|sqlite3 logg.db &quot;SELECT bruker,ip FROM innlogginger WHERE tid&gt;'09:13:00';&quot;" data-mal="Vis bruker og ip for alt etter 09:13:00." data-skjult data-hint="Velg kolonnene <code>bruker, ip</code> i stedet for <code>*</code>, og bruk spørring D."><template class="ut"><span class="h2">test</span>|198.51.100.7
+<span class="h2">root</span>|203.0.113.45</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>brukerne angriperne prøvde etter 09:13</span></li></ul><p>Bare to kolonner, fordi du valgte <code>bruker, ip</code>.</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 logg.db &quot;SELECT * FROM innlogginger WHERE ip LIKE '192.168.%' AND resultat = 'FEIL';&quot;" data-alias="sqlite3 logg.db &quot;SELECT * FROM innlogginger WHERE ip LIKE '192.168.%' AND resultat = 'FEIL'&quot;|sqlite3 logg.db &quot;SELECT * FROM innlogginger WHERE ip LIKE '192.168.%' AND resultat='FEIL'&quot;|sqlite3 logg.db &quot;SELECT * FROM innlogginger WHERE ip LIKE '192.168.%' AND resultat='FEIL';&quot;" data-mal="To krav på én gang: fra vårt eget nett <b>og</b> feilet:"><template class="ut">6|09:12:30|<span class="h3">kari</span>|192.168.1.10|FEIL</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>bare én rad klarte begge kravene. Kari bommet på passordet én gang 🙃</span></li></ul></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="7|sju|syv"><span class="ans-q">Hvor mange rader ga spørring A?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de gule FEIL.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">7</div></div></div>
+<div class="ans-row" data-p="1" data-a="test"><span class="ans-q">Hvilken bruker ble prøvd fra 198.51.100.7 etter 09:13?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Andre oppdrag. Ordet til venstre for <code>|</code> på linja med 198.51.100.7.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">test</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Kjør de tre spørringene på din egen <code>logg.db</code>. Legg gjerne til <code>-header -column</code> for pen utskrift. Prøv så <code>sqlite3 logg.db "SELECT * FROM innlogginger WHERE bruker = 'Root';"</code> med stor R. Hva skjer? 🤔</div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="where"><span class="ans-q">Hvilket ord i SQL betyr «bare radene der …»?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Alle fire spørringene i lynrunden slutter med det.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">WHERE</div></div></div>
+<div class="mcq" data-c="177610" data-ok="Riktig! % betyr «hva som helst» i LIKE." data-no="Ikke helt. Se på spørring C i lynrunden."><div class="mcq-q">Hvilket tegn betyr «hva som helst» i LIKE?</div><button class="mcq-opt">*</button><button class="mcq-opt">#</button><button class="mcq-opt">%</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="0|null|ingen"><span class="ans-q">Du skriver WHERE bruker = 'Root' med stor R. Hvor mange rader får du?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Husker du «Root» i L16? <code>=</code> betyr <b>helt</b> lik, også store og små bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">0</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · SORTER, BEGRENS, TELL ═══════════════════════ -->
+<div class="lab-card" id="l21-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Sorter, begrens og tell</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — ORDER BY, LIMIT og COUNT</div>
+<p class="e-hook">Sjefen gidder ikke lese hele loggen: «Gi meg de tre nyeste. Og hvor mange feilet?» ⏱️ Hvilken bit gjør hva?</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hva gjør biten?" data-oppgave="Koble hver SQL-bit til det den gjør.">
+  <div class="pr-par" data-forklar="Du velger kolonnene selv, med komma mellom."><span><code>SELECT tid, ip</code></span><span>Vis bare disse kolonnene</span></div>
+  <div class="pr-par" data-forklar="ORDER BY sorterer. Uten noe mer: minst først. For klokkeslett er det eldst først."><span><code>ORDER BY tid</code></span><span>Sorter, eldst først</span></div>
+  <div class="pr-par" data-forklar="DESC (descending, synkende) snur sorteringen."><span><code>ORDER BY tid DESC</code></span><span>Sorter, nyest først</span></div>
+  <div class="pr-par" data-forklar="LIMIT kutter etter så mange rader. Står alltid helt til slutt."><span><code>LIMIT 3</code></span><span>Bare de tre første radene</span></div>
+  <div class="pr-par" data-forklar="Du får ett tall i stedet for radene."><span><code>COUNT(*)</code></span><span>Tell radene</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>ORDER BY</code> sorterer. <code>DESC</code> (descending) = synkende, størst eller nyest først. <code>LIMIT</code> begrenser antall rader. <code>COUNT(*)</code> teller.<br>
+De kan kombineres med <code>WHERE</code>: <code>WHERE</code> først, så <code>ORDER BY</code>, og <code>LIMIT</code> helt til slutt.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sqlite3 -header -column logg.db &quot;SELECT tid, bruker, ip FROM innlogginger ORDER BY tid DESC LIMIT 3;&quot;" data-alias="sqlite3 -column -header logg.db &quot;SELECT tid, bruker, ip FROM innlogginger ORDER BY tid DESC LIMIT 3&quot;|sqlite3 -column -header logg.db &quot;SELECT tid, bruker, ip FROM innlogginger ORDER BY tid DESC LIMIT 3;&quot;|sqlite3 -column -header logg.db &quot;SELECT tid,bruker,ip FROM innlogginger ORDER BY tid DESC LIMIT 3&quot;|sqlite3 -column -header logg.db &quot;SELECT tid,bruker,ip FROM innlogginger ORDER BY tid DESC LIMIT 3;&quot;|sqlite3 -header -column logg.db &quot;SELECT tid, bruker, ip FROM innlogginger ORDER BY tid DESC LIMIT 3&quot;|sqlite3 -header -column logg.db &quot;SELECT tid,bruker,ip FROM innlogginger ORDER BY tid DESC LIMIT 3&quot;|sqlite3 -header -column logg.db &quot;SELECT tid,bruker,ip FROM innlogginger ORDER BY tid DESC LIMIT 3;&quot;" data-mal="De tre nyeste innloggingene:"><template class="ut">tid       bruker  ip
+--------  ------  ------------
+<span class="h1">09:14:02</span>  root    203.0.113.45
+<span class="h1">09:13:15</span>  test    198.51.100.7
+<span class="h1">09:12:41</span>  kari    192.168.1.10</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>nyeste øverst, takket være <code>DESC</code></span></li></ul><p>Tabellen har 9 rader, men <code>LIMIT 3</code> ga bare 3.</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 logg.db &quot;SELECT COUNT(*) FROM innlogginger WHERE resultat = 'FEIL';&quot;" data-alias="sqlite3 logg.db &quot;SELECT COUNT(*) FROM innlogginger WHERE resultat = 'FEIL'&quot;|sqlite3 logg.db &quot;SELECT COUNT(*) FROM innlogginger WHERE resultat='FEIL'&quot;|sqlite3 logg.db &quot;SELECT COUNT(*) FROM innlogginger WHERE resultat='FEIL';&quot;" data-mal="Tell de feilede:"><template class="ut"><span class="h1">7</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>antall rader der resultat er FEIL</span></li></ul><p>Samme tall som Python-programmet ditt fant i L17 🎯 Men nå gjorde motoren jobben.</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 logg.db &quot;SELECT COUNT(*) FROM innlogginger WHERE bruker = 'kari';&quot;" data-alias="sqlite3 logg.db &quot;SELECT COUNT(*) FROM innlogginger WHERE bruker = 'kari'&quot;|sqlite3 logg.db &quot;SELECT COUNT(*) FROM innlogginger WHERE bruker='kari'&quot;|sqlite3 logg.db &quot;SELECT COUNT(*) FROM innlogginger WHERE bruker='kari';&quot;" data-mal="Hvor mange rader har brukeren kari?" data-skjult data-hint="Som forrige, men bytt WHERE til <code>bruker = 'kari'</code>."><template class="ut"><span class="h1">3</span></template><template class="forklar"><p>To vellykkede og én feilet. <code>COUNT(*)</code> teller alle radene som slipper gjennom <code>WHERE</code>.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="root"><span class="ans-q">Hvilken bruker står øverst når du sorterer med ORDER BY tid DESC?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Første rad under strekene i det første oppdraget.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">root</div></div></div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hvor mange rader har brukeren kari?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tallet etter det siste oppdraget.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Kjør de tre spørringene på din egen <code>logg.db</code> 🎯 Bytt så <code>DESC</code> med <code>ASC</code> (ascending, stigende) i den første, og se rekkefølgen snu. <code>ASC</code> er det du får når du ikke skriver noe.</div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="desc|descending"><span class="ans-q">Hvilket ord snur sorteringen, så det største eller nyeste kommer først?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det som skilte de to <code>ORDER BY</code>-bitene i spillet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">DESC</div></div></div>
+<div class="ans-row" data-p="1" data-a="limit 5|limit5"><span class="ans-q">Du vil bare ha de 5 første radene. Hva skriver du på slutten av spørringen?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">I spillet var det <code>LIMIT 3</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">LIMIT 5</div></div></div>
+<div class="ans-row" data-p="1" data-a="4|fire"><span class="ans-q">Hva svarer SELECT COUNT(*) FROM brukere; ?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ingen WHERE, så alle radene telles. Hvor mange brukere så du i oppgave 2?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · GROUP BY ═══════════════════════ -->
+<div class="lab-card" id="l21-5" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">Verstingen på én linje: GROUP BY</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Telle per IP</div>
+<p class="e-hook">Husker du <code>tell_ip.py</code> fra L17? Sju linjer Python for å telle feil per IP. Databasen klarer det med én spørring 😎</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Bygg spørringen som finner verstingen" data-oppgave="Klikk bitene i den rekkefølgen SQL krever, fra først til sist.">
+  <div class="rf-item" data-forklar="Hva du vil se: IP-en og antallet."><code>SELECT ip, COUNT(*)</code></div>
+  <div class="rf-item" data-forklar="Fra hvilken tabell."><code>FROM innlogginger</code></div>
+  <div class="rf-item" data-forklar="Sil bort det som gikk bra, før radene samles."><code>WHERE resultat = 'FEIL'</code></div>
+  <div class="rf-item" data-forklar="Én bunke per IP. COUNT(*) teller hver bunke for seg."><code>GROUP BY ip</code></div>
+  <div class="rf-item" data-forklar="Største bunke øverst."><code>ORDER BY COUNT(*) DESC</code></div>
+  <div class="rf-item" data-forklar="Bare verstingen. LIMIT står alltid sist."><code>LIMIT 1</code></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>GROUP BY ip</code> samler radene i grupper, én per IP. <code>COUNT(*)</code> teller da hver gruppe for seg.<br>
+Rekkefølgen er fast: <code>SELECT</code> · <code>FROM</code> · <code>WHERE</code> · <code>GROUP BY</code> · <code>ORDER BY</code> · <code>LIMIT</code>
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sqlite3 -header -column logg.db &quot;SELECT ip, COUNT(*) FROM innlogginger WHERE resultat = 'FEIL' GROUP BY ip;&quot;" data-alias="sqlite3 -column -header logg.db &quot;SELECT ip, COUNT(*) FROM innlogginger WHERE resultat = 'FEIL' GROUP BY ip&quot;|sqlite3 -column -header logg.db &quot;SELECT ip, COUNT(*) FROM innlogginger WHERE resultat = 'FEIL' GROUP BY ip;&quot;|sqlite3 -column -header logg.db &quot;SELECT ip, COUNT(*) FROM innlogginger WHERE resultat='FEIL' GROUP BY ip&quot;|sqlite3 -column -header logg.db &quot;SELECT ip, COUNT(*) FROM innlogginger WHERE resultat='FEIL' GROUP BY ip;&quot;|sqlite3 -column -header logg.db &quot;SELECT ip,COUNT(*) FROM innlogginger WHERE resultat = 'FEIL' GROUP BY ip&quot;|sqlite3 -column -header logg.db &quot;SELECT ip,COUNT(*) FROM innlogginger WHERE resultat = 'FEIL' GROUP BY ip;&quot;|sqlite3 -column -header logg.db &quot;SELECT ip,COUNT(*) FROM innlogginger WHERE resultat='FEIL' GROUP BY ip&quot;|sqlite3 -column -header logg.db &quot;SELECT ip,COUNT(*) FROM innlogginger WHERE resultat='FEIL' GROUP BY ip;&quot;|sqlite3 -header -column logg.db &quot;SELECT ip, COUNT(*) FROM innlogginger WHERE resultat = 'FEIL' GROUP BY ip&quot;|sqlite3 -header -column logg.db &quot;SELECT ip, COUNT(*) FROM innlogginger WHERE resultat='FEIL' GROUP BY ip&quot;|sqlite3 -header -column logg.db &quot;SELECT ip, COUNT(*) FROM innlogginger WHERE resultat='FEIL' GROUP BY ip;&quot;|sqlite3 -header -column logg.db &quot;SELECT ip,COUNT(*) FROM innlogginger WHERE resultat = 'FEIL' GROUP BY ip&quot;|sqlite3 -header -column logg.db &quot;SELECT ip,COUNT(*) FROM innlogginger WHERE resultat = 'FEIL' GROUP BY ip;&quot;|sqlite3 -header -column logg.db &quot;SELECT ip,COUNT(*) FROM innlogginger WHERE resultat='FEIL' GROUP BY ip&quot;|sqlite3 -header -column logg.db &quot;SELECT ip,COUNT(*) FROM innlogginger WHERE resultat='FEIL' GROUP BY ip;&quot;" data-mal="Tell feilede innlogginger per IP:"><template class="ut">ip            COUNT(*)
+------------  --------
+192.168.1.10  1
+198.51.100.7  2
+<span class="h1">203.0.113.45  4</span>       </template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>verstingen 🦹</span></li></ul><p>Akkurat samme svar som <code>tell_ip.py</code> ga i L17. 1 + 2 + 4 = 7.</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 -header -column logg.db &quot;SELECT ip, COUNT(*) FROM innlogginger WHERE resultat = 'FEIL' GROUP BY ip ORDER BY COUNT(*) DESC LIMIT 1;&quot;" data-alias="sqlite3 -column -header logg.db &quot;SELECT ip, COUNT(*) FROM innlogginger WHERE resultat = 'FEIL' GROUP BY ip ORDER BY COUNT(*) DESC LIMIT 1&quot;|sqlite3 -column -header logg.db &quot;SELECT ip, COUNT(*) FROM innlogginger WHERE resultat = 'FEIL' GROUP BY ip ORDER BY COUNT(*) DESC LIMIT 1;&quot;|sqlite3 -column -header logg.db &quot;SELECT ip, COUNT(*) FROM innlogginger WHERE resultat='FEIL' GROUP BY ip ORDER BY COUNT(*) DESC LIMIT 1&quot;|sqlite3 -column -header logg.db &quot;SELECT ip, COUNT(*) FROM innlogginger WHERE resultat='FEIL' GROUP BY ip ORDER BY COUNT(*) DESC LIMIT 1;&quot;|sqlite3 -column -header logg.db &quot;SELECT ip,COUNT(*) FROM innlogginger WHERE resultat = 'FEIL' GROUP BY ip ORDER BY COUNT(*) DESC LIMIT 1&quot;|sqlite3 -column -header logg.db &quot;SELECT ip,COUNT(*) FROM innlogginger WHERE resultat = 'FEIL' GROUP BY ip ORDER BY COUNT(*) DESC LIMIT 1;&quot;|sqlite3 -column -header logg.db &quot;SELECT ip,COUNT(*) FROM innlogginger WHERE resultat='FEIL' GROUP BY ip ORDER BY COUNT(*) DESC LIMIT 1&quot;|sqlite3 -column -header logg.db &quot;SELECT ip,COUNT(*) FROM innlogginger WHERE resultat='FEIL' GROUP BY ip ORDER BY COUNT(*) DESC LIMIT 1;&quot;|sqlite3 -header -column logg.db &quot;SELECT ip, COUNT(*) FROM innlogginger WHERE resultat = 'FEIL' GROUP BY ip ORDER BY COUNT(*) DESC LIMIT 1&quot;|sqlite3 -header -column logg.db &quot;SELECT ip, COUNT(*) FROM innlogginger WHERE resultat='FEIL' GROUP BY ip ORDER BY COUNT(*) DESC LIMIT 1&quot;|sqlite3 -header -column logg.db &quot;SELECT ip, COUNT(*) FROM innlogginger WHERE resultat='FEIL' GROUP BY ip ORDER BY COUNT(*) DESC LIMIT 1;&quot;|sqlite3 -header -column logg.db &quot;SELECT ip,COUNT(*) FROM innlogginger WHERE resultat = 'FEIL' GROUP BY ip ORDER BY COUNT(*) DESC LIMIT 1&quot;|sqlite3 -header -column logg.db &quot;SELECT ip,COUNT(*) FROM innlogginger WHERE resultat = 'FEIL' GROUP BY ip ORDER BY COUNT(*) DESC LIMIT 1;&quot;|sqlite3 -header -column logg.db &quot;SELECT ip,COUNT(*) FROM innlogginger WHERE resultat='FEIL' GROUP BY ip ORDER BY COUNT(*) DESC LIMIT 1&quot;|sqlite3 -header -column logg.db &quot;SELECT ip,COUNT(*) FROM innlogginger WHERE resultat='FEIL' GROUP BY ip ORDER BY COUNT(*) DESC LIMIT 1;&quot;" data-mal="Kjør hele spørringen du bygde i spillet:"><template class="ut">ip            COUNT(*)
+------------  --------
+<span class="h1">203.0.113.45  4</span>       </template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>bare verstingen igjen</span></li></ul><p>Sortert med flest først, og så kuttet etter én rad.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvor mange feilede innlogginger kom fra 198.51.100.7?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tallet til høyre for IP-en, under <code>COUNT(*)</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+<div class="ans-row" data-p="1" data-a="203.0.113.45"><span class="ans-q">Hvilken IP er verstingen?</span><input class="ans-in" placeholder="en IP"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule raden.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">203.0.113.45</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Kjør begge spørringene på din egen <code>logg.db</code> 🎯 Bytt så <code>ip</code> med <code>bruker</code> begge steder (i SELECT og i GROUP BY). Hvilket brukernavn prøvde angriperne oftest?</div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="group by|groupby"><span class="ans-q">Hvilke to ord samler radene i grupper, én per verdi?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den fjerde biten i spillet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">GROUP BY</div></div></div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Du grupperer på bruker i stedet for ip. Hvilket tall står ved root?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell radene med root i utskriften av spørring A i oppgave 3. Eller prøv i Kali.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+<div class="ans-row" data-p="1" data-a="where"><span class="ans-q">Hva må stå først i spørringen: WHERE eller GROUP BY?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Først silen, så bunkene. Se rekkefølgen i fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">WHERE</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 6 · INSERT, UPDATE, DELETE ═══════════════════════ -->
+<div class="lab-card" id="l21-6" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">06</span>
+  <span class="lab-title">Praktikanten som glemte WHERE</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Endre data</div>
+<p class="e-hook">Til nå har du bare lest. Nå skal du endre. Og her biter det 🔥</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Fredag ettermiddag">
+  <div class="ch-item" data-fra="sys">📍 Fredag kl. 15.52. Kontoret er nesten tomt.</div>
+  <div class="ch-item" data-fra="nabo" data-navn="👩‍💼 Kari">Petter, kan du gjøre testbrukeren til <b>gjest</b> før helga?</div>
+  <div class="ch-item" data-fra="pc" data-navn="🧑‍💻 Petter (praktikant)">Klart! Én linje: <code>UPDATE brukere SET rolle = 'gjest';</code> ⏎</div>
+  <div class="ch-item" data-fra="sys">sqlite3 svarer ingenting. Ingen feil, ingen «Er du sikker?»</div>
+  <div class="ch-item" data-fra="pc" data-navn="🧑‍💻 Petter (praktikant)">Stille betyr at det gikk bra. God helg! 🏃</div>
+  <div class="ch-item" data-stopp="☕ Spol fram til mandag"></div>
+  <div class="ch-item" data-fra="ond" data-navn="🗄️ Tabellen brukere">kari <b>gjest</b> · ola <b>gjest</b> · petter <b>gjest</b> · test <b>gjest</b></div>
+  <div class="ch-item" data-fra="nabo" data-navn="👩‍💼 Kari">Hvorfor er JEG gjest?! Jeg kommer ikke inn i adminpanelet 😱</div>
+  <div class="ch-item" data-fra="pc" data-navn="🧑‍💻 Petter (praktikant)">Øh … jeg glemte <code>WHERE</code>. Da gjaldt den <b>alle</b> fire radene.</div>
+  <div class="ch-item" data-fra="nabo" data-navn="👩‍💼 Kari">Heldigvis har vi backup fra torsdag 😮‍💨 Riktig linje var <code>UPDATE brukere SET rolle = 'gjest' WHERE navn = 'test';</code></div>
+  <div class="ch-item" data-fra="pc" data-navn="🧑‍💻 Petter (praktikant)">Ny lapp over skjermen min: 📝 «WHERE først!»</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>INSERT INTO</code> legger til en rad. <code>UPDATE … SET</code> endrer rader. <code>DELETE FROM</code> sletter rader.<br>
+Uten <code>WHERE</code> treffer <code>UPDATE</code> og <code>DELETE</code> <b>hver eneste rad</b> i tabellen.
+</div>
+<p class="e-sikker">✅ Proff-vane: Kjør <code>SELECT *</code> med samme WHERE først. Er det de riktige radene? Først da bytter du til <code>UPDATE</code> eller <code>DELETE</code>.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sqlite3 logg.db &quot;SELECT * FROM brukere WHERE navn = 'test';&quot;" data-alias="sqlite3 logg.db &quot;SELECT * FROM brukere WHERE navn = 'test'&quot;|sqlite3 logg.db &quot;SELECT * FROM brukere WHERE navn='test'&quot;|sqlite3 logg.db &quot;SELECT * FROM brukere WHERE navn='test';&quot;" data-mal="Proff-vanen: sjekk hvilke rader WHERE treffer:"><template class="ut"><span class="h3">4|test|bruker</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>én rad, og det er den riktige. Trygt å endre</span></li></ul></template></div>
+<div class="tm-o" data-cmd="sqlite3 logg.db &quot;UPDATE brukere SET rolle = 'gjest' WHERE navn = 'test';&quot;" data-alias="sqlite3 logg.db &quot;UPDATE brukere SET rolle = 'gjest' WHERE navn = 'test'&quot;|sqlite3 logg.db &quot;UPDATE brukere SET rolle='gjest' WHERE navn='test'&quot;|sqlite3 logg.db &quot;UPDATE brukere SET rolle='gjest' WHERE navn='test';&quot;" data-mal="Gjør jobben Petter skulle gjort:"><template class="ut"></template><template class="forklar"><p>Ingen utskrift. sqlite3 er stille når det går bra, som Petter sa. Men denne gangen var WHERE med 😉</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 logg.db &quot;INSERT INTO brukere (navn, rolle) VALUES ('nina', 'bruker');&quot;" data-alias="sqlite3 logg.db &quot;INSERT INTO brukere (navn, rolle) VALUES ('nina', 'bruker')&quot;|sqlite3 logg.db &quot;INSERT INTO brukere (navn,rolle) VALUES ('nina','bruker')&quot;|sqlite3 logg.db &quot;INSERT INTO brukere (navn,rolle) VALUES ('nina','bruker');&quot;" data-mal="Ny kollega! Legg til nina:"><template class="ut"></template><template class="forklar"><p>Først kolonnene, så verdiene i samme rekkefølge. <code>id</code> trengte du ikke: Motoren velger neste ledige selv.</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 -header -column logg.db &quot;SELECT * FROM brukere;&quot;" data-alias="sqlite3 -column -header logg.db &quot;SELECT * FROM brukere&quot;|sqlite3 -column -header logg.db &quot;SELECT * FROM brukere;&quot;|sqlite3 -header -column logg.db &quot;SELECT * FROM brukere&quot;" data-mal="Se resultatet, pent med overskrifter." data-skjult data-hint="Samme som andre oppdrag i oppgave 2."><template class="ut">id  navn    rolle
+--  ------  ------
+1   kari    admin
+2   ola     bruker
+3   petter  bruker
+<span class="h1">4   test    gjest </span>
+<span class="h3">5   nina    bruker</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>bare test ble endret. Kari er fortsatt admin 🎉</span></li><li><span class="m h3"></span><span>den nye raden, med id fra motoren</span></li></ul></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="5|fem"><span class="ans-q">Hvilken id fikk nina?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den grønne raden, første kolonne.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">5</div></div></div>
+<div class="ans-row" data-p="1" data-a="admin"><span class="ans-q">Hvilken rolle har kari etter UPDATE med WHERE?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Første rad i den siste utskriften.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">admin</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Ta en backup først, som en proff: <code>cp logg.db backup.db</code>. Kjør så de fire kommandoene på din egen <code>logg.db</code> 🎯 Vil du starte helt på nytt? <code>rm logg.db</code> og <code>sqlite3 logg.db ".read lag.sql"</code> fra oppgave 1.</div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="4|fire|alle|alle 4"><span class="ans-q">Tabellen brukere fra oppgave 2 har 4 rader. Hvor mange endrer UPDATE brukere SET rolle = 'gjest'; uten WHERE?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva skjedde med Kari i chatten?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+<div class="ans-row" data-p="1" data-a="delete|delete from"><span class="ans-q">Hvilken SQL-kommando sletter rader?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står i fagord-boksen. Engelsk for «slett».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">DELETE</div></div></div>
+<div class="mcq" data-c="177632" data-ok="Riktig! ; avslutter en SQL-setning." data-no="Ikke helt. Se helt til høyre i spørringene i øve-terminalen."><div class="mcq-q">Hvilket tegn avslutter en SQL-setning?</div><button class="mcq-opt">:</button><button class="mcq-opt">.</button><button class="mcq-opt">;</button><div class="mcq-fb"></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-inner">
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+</div></div></footer>
+<script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
+</body>
+</html>

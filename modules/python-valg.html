@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Én regel, mange linjer — CyberLab</title>
+<link rel="stylesheet" href="../css/style.css?v=13">
+<link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+.x-kode{margin-bottom:12px !important;color:var(--text) !important}
+.x-kode .x-k{color:var(--blue)}
+.x-kode .x-t{color:var(--green)}
+.enkel code,.enkel pre,.enkel .ans-in,.enkel .tm-vindu{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+.rf-k code,.rf-svar code{font-size:14px;white-space:pre}
+</style>
+</head>
+<body class="page enkel">
+<nav class="nav">
+  <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
+  <div class="nav-links">
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="nav-link">Hjem</a>
+    <a href="../emne1.html" class="nav-link">Emne 1</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne3.html" class="nav-link">Emne 3</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="nav-link on">Labber</a>
+    <a href="https://tk1104.timoamling.com/" target="_blank" rel="noopener" class="nav-link">Self check &nearr;</a>
+  </div>
+</nav>
+
+<div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
+
+<div class="mod-hero">
+  <div class="section-eyebrow">Emne 1 &middot; Leksjon 16</div>
+  <div class="section-title">Én regel, mange linjer</div>
+  <p class="section-desc">La programmet velge mellom handlinger, og gjenta kode for flere linjer. Fem små spill, og så noen spørsmål etter hvert.</p>
+</div>
+
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
+
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>if</dt><dd>«Hvis». Kjør de innrykkede linjene bare hvis betingelsen er sann.</dd>
+    <dt>elif</dt><dd>«Ellers, hvis». Neste sjekk, når den forrige var usann.</dd>
+    <dt>else</dt><dd>«Ellers». Kjører når ingen av sjekkene over var sanne.</dd>
+    <dt>Betingelse</dt><dd>Det som sjekkes, for eksempel <code>forsok &gt; 3</code>. Blir <code>True</code> eller <code>False</code>.</dd>
+    <dt><code>==</code> og <code>!=</code></dt><dd>Er lik / er ikke lik.</dd>
+    <dt><code>in</code></dt><dd>Finnes teksten inni den andre teksten?</dd>
+    <dt>Innrykk</dt><dd>Mellomrommene foran en linje. Viser hvilken blokk linja hører til.</dd>
+    <dt>IndentationError</dt><dd>Python-feilen du får når innrykket er feil.</dd>
+    <dt>Løkke</dt><dd>Kode som gjentas, én runde per ting. <code>for</code> på Python. Loop på engelsk.</dd>
+    <dt>Teller</dt><dd>En variabel som starter på 0 og øker med 1: <code>antall += 1</code></dd>
+    <dt>break</dt><dd>Hopp ut av løkka med en gang.</dd>
+    <dt>nano</dt><dd>En enkel teksteditor i terminalen.</dd>
+  </dl>
+</details>
+
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
+
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · IF ═══════════════════════ -->
+<div class="lab-card" id="l16-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">Dørvakta: if og sammenligninger</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Kjører den eller ikke?</div>
+<p class="e-hook">Programmet ditt har fått en dørvakt 🕴️. Den ser på hver linje og spør: «Stemmer dette?» Ja = linja under kjører. Nei = den hoppes over.</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Kjører linja eller ikke?" data-knapper="▶️ Kjører|⏭️ Hoppes over">
+  <div class="ly-fast">Variablene er satt: <code>bruker = "root"</code> og <code>forsok = 5</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="5 er større enn 3. Sant, så linja under kjører."><code>if forsok &gt; 3:</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="5 er ikke lik 3. Usant, så den hoppes over."><code>if forsok == 3:</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Helt lik tekst. Sant!"><code>if bruker == "root":</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Store og små bokstaver teller. «Root» er ikke «root»."><code>if bruker == "Root":</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Lurt! 5 er ikke større enn 5. De er like store."><code>if forsok &gt; 5:</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="!= betyr «ikke lik». «root» er ikke «admin», så det er sant."><code>if bruker != "admin":</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="in sjekker om teksten finnes inni. «root» inneholder «oo»."><code>if "oo" in bruker:</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Husker du L15? &quot;5&quot; er tekst (str), 5 er et tall (int). Tekst er aldri lik et tall."><code>if forsok == "5":</code></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>if</code> er dørvakta. Det den sjekker, heter en <b>betingelse</b> (condition). Svaret er alltid <code>True</code> eller <code>False</code>.<br>
+<code>==</code> er lik · <code>!=</code> ikke lik · <code>&gt;</code> større enn · <code>in</code> finnes inni<br>
+Ett <code>=</code> gir en variabel en verdi. To <code>==</code> spør om noe er likt.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat vakt.py" data-mal="Se på dørvakt-programmet:"><template class="ut">bruker = "root"
+forsok = 5
+
+<span class="h1">if forsok &gt; 3:</span>
+    print("For mange forsøk!")
+<span class="h2">if bruker == "admin":</span>
+    print("Hei, sjef")
+print("Vakta er ferdig")</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>første dørvakt: er forsøkene flere enn 3?</span></li><li><span class="m h2"></span><span>andre dørvakt: er brukeren «admin»?</span></li></ul><p>Gjett før du kjører: hvor mange linjer blir skrevet ut? 🤔</p></template></div>
+<div class="tm-o" data-cmd="python3 vakt.py" data-mal="Kjør det:"><template class="ut"><span class="h1">For mange forsøk!</span>
+Vakta er ferdig</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>5 &gt; 3 er sant, så denne kjørte</span></li></ul><p>«Hei, sjef» kom aldri. Brukeren er jo <code>root</code>, ikke <code>admin</code> ⏭️ Siste linje har ikke innrykk. Den kjører uansett.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvor mange linjer skrev vakt.py ut?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene under <code>python3 vakt.py</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+<div class="ans-row" data-p="1" data-a="hei, sjef|hei sjef"><span class="ans-q">Hvilken tekst ble hoppet over?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den står i koden, men ikke i utskriften.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Hei, sjef</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv <code>nano vakt.py</code>. Skriv inn koden fra øve-terminalen. Bruk <b>4 mellomrom</b> foran de innrykkede linjene. Lagre med <b>Ctrl + O</b> og <b>Enter</b>, avslutt med <b>Ctrl + X</b>. Kjør <code>python3 vakt.py</code>. Utskriften blir helt lik vår 🎯 Bytt så <code>"root"</code> til <code>"admin"</code> og kjør igjen.<p class="e-win">Windows: skriv koden i Notisblokk, lagre som <code>vakt.py</code> og kjør <code>python vakt.py</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">forsok = 2. Kjører linja under if forsok &gt; 3:? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Er 2 større enn 3?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="mcq" data-c="5861059" data-ok="Riktig! != betyr «ikke lik»." data-no="Ikke helt. = gir en verdi til en variabel, == spør om noe er likt. Hvilken sier «ikke»?"><div class="mcq-q">Hvilke to tegn betyr «ikke lik» i Python?</div><button class="mcq-opt">==</button><button class="mcq-opt">!=</button><button class="mcq-opt">=</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="false"><span class="ans-q">Hva blir 5 == "5"? True eller False</span><input class="ans-in" placeholder="True / False"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det siste kortet i lynrunden. Tall og tekst, som i L15.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">False</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · ELIF OG ELSE ═══════════════════════ -->
+<div class="lab-card" id="l16-2" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">Fire dører: if, elif og else</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Bare én dør åpnes</div>
+<p class="e-hook">Ny jobb for dørvakta: Ikke bare ja eller nei, men <b>fire</b> svar, fra 🟢 til 🔴. Hvem havner bak hvilken dør?</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hvilken dør?" data-oppgave="Koble hver verdi av <code>forsok</code> til det programmet skriver ut.">
+<pre class="x-kode">forsok = <b>?</b>
+
+<span class="x-k">if</span> forsok &gt; 20:
+    print(<span class="x-t">"🔴 Blokker IP-en"</span>)
+<span class="x-k">elif</span> forsok &gt; 5:
+    print(<span class="x-t">"🟠 Varsle SOC"</span>)
+<span class="x-k">elif</span> forsok &gt; 0:
+    print(<span class="x-t">"🟡 Følg med"</span>)
+<span class="x-k">else</span>:
+    print(<span class="x-t">"🟢 Alt rolig"</span>)</pre>
+  <div class="pr-par" data-forklar="0 er ikke større enn noe av det. Ingen sjekk stemmer, så else tar den."><span><code>forsok = 0</code></span><span>🟢 Alt rolig</span></div>
+  <div class="pr-par" data-forklar="3 &gt; 20? Nei. 3 &gt; 5? Nei. 3 &gt; 0? Ja! Stopp der."><span><code>forsok = 3</code></span><span>🟡 Følg med</span></div>
+  <div class="pr-par" data-forklar="6 &gt; 5 er sant. Akkurat over grensen."><span><code>forsok = 6</code></span><span>🟠 Varsle SOC</span></div>
+  <div class="pr-par" data-forklar="50 &gt; 20 stemmer med en gang. Resten sjekkes aldri."><span><code>forsok = 50</code></span><span>🔴 Blokker IP-en</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>elif</code> = «ellers, hvis». <code>else</code> = «ellers», den siste døra. Python sjekker ovenfra og ned, og <b>bare den første som stemmer</b> kjører. Så hopper den forbi hele blokken.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat vakt2.py" data-mal="Se på programmet. Her er forsok satt til 50:"><template class="ut">forsok = <span class="h1">50</span>
+
+if forsok &gt; 20:
+    print("🔴 Blokker IP-en")
+elif forsok &gt; 5:
+    print("🟠 Varsle SOC")
+elif forsok &gt; 0:
+    print("🟡 Følg med")
+else:
+    print("🟢 Alt rolig")</template><template class="forklar"><p>50 er større enn 20, <b>og</b> større enn 5, <b>og</b> større enn 0. Tre sjekker stemmer. Hvor mange linjer tror du kommer ut? 🤔</p></template></div>
+<div class="tm-o" data-cmd="python3 vakt2.py" data-mal="Kjør det." data-skjult data-hint="Samme som i oppgave 1, men med <code>vakt2.py</code>."><template class="ut"><span class="h1">🔴 Blokker IP-en</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>bare én linje! Første sjekk stemte, resten ble aldri spurt</span></li></ul></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="1|en|én|ei"><span class="ans-q">Tre av sjekkene stemte for 50. Hvor mange linjer ble skrevet ut?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene under <code>python3 vakt2.py</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag <code>vakt2.py</code> med <code>nano vakt2.py</code>, akkurat som i oppgave 1. Kjør <code>python3 vakt2.py</code>. Endre så tallet på første linje til 0, 3 og 6, og kjør etter hver endring. Får du det samme som i spillet? 🎯</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="følg med|🟡 følg med|folg med|gul"><span class="ans-q">forsok = 5. Hva skriver vakt2.py ut?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Er 5 større enn 5? Husk det lure kortet i oppgave 1.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Følg med</div></div></div>
+<div class="ans-row" data-p="1" data-a="blokker ip-en|blokker ip en|blokker ipen|blokker ip|blokker|🔴 blokker ip-en|rød"><span class="ans-q">forsok = 21. Hva skriver vakt2.py ut?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Er 21 større enn 20?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Blokker IP-en</div></div></div>
+<div class="ans-row" data-p="1" data-a="else"><span class="ans-q">Hvilket ord fanger opp alt som ingen av sjekkene over stemte for?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den siste døra, der <code>forsok = 0</code> havnet i spillet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">else</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · INNRYKK ═══════════════════════ -->
+<div class="lab-card" id="l16-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">Mellomrom som betyr noe</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Innrykk</div>
+<p class="e-hook">I Python er fire mellomrom ikke pynt. De bestemmer hva dørvakta passer på 👀</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Hva hopper Python over?" data-oppgave="<code>forsok</code> er 2. Klikk på linjene som <b>ikke</b> kjører.">
+<pre>forsok = <span class="kl" data-forklar="Denne kjører alltid. Det er den som gir forsok verdien 2.">2</span>
+<span class="kl" data-forklar="Selve sjekken kjører. Det er linjene under den som kan bli hoppet over.">if forsok &gt; 3:</span>
+    <span class="kl" data-rett data-forklar="2 &gt; 3 er usant, og linja har innrykk under if-en. Hoppes over.">print("For mange forsøk!")</span>
+    <span class="kl" data-rett data-forklar="Samme innrykk, samme blokk. Hoppes også over.">print("Sjekk IP-en")</span>
+<span class="kl" data-forklar="Ingen innrykk! Den hører ikke til if-en, og kjører uansett.">print("Ferdig")</span></pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Mellomrommene foran heter <b>innrykk</b> (indentation). Linjene med samme innrykk under <code>if</code> er en <b>blokk</b>. Linja med <code>if</code> slutter alltid med kolon <code>:</code> Vanlig innrykk er 4 mellomrom.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat feil.py" data-mal="Se på et program med en feil:"><template class="ut">forsok = 7
+if forsok &gt; 3:
+<span class="h1">print("For mange forsøk!")</span>
+print("Ferdig")</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>mangler innrykk. Hva skal if-en passe på nå?</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 feil.py" data-mal="Kjør det og se hva som skjer." data-skjult data-hint="<code>python3</code> og filnavnet."><template class="ut"><span style="color:var(--red)">  File "/home/kali/feil.py", line <span class="h2">3</span>
+    print("For mange forsøk!")
+    ^^^^^
+<span class="h1">IndentationError</span>: expected an indented block after 'if' statement on line 2</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>feiltypen: noe er galt med innrykket</span></li><li><span class="m h2"></span><span>linja der Python oppdaget det</span></li></ul><p>Siste linje forteller hva som er galt: «forventet en innrykket blokk etter if på linje 2». Python kjørte <b>ingenting</b> 🛑</p></template></div>
+<div class="tm-o" data-cmd="cat riktig.py" data-mal="Se på den fiksede versjonen." data-skjult data-hint="Samme som første oppdrag, men fila heter <code>riktig.py</code>."><template class="ut">forsok = 7
+if forsok &gt; 3:
+<span class="h3">    </span>print("For mange forsøk!")
+print("Ferdig")</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>fire mellomrom. Det er hele fiksen.</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 riktig.py" data-mal="Kjør den." data-skjult data-hint="Samme som andre oppdrag, med <code>riktig.py</code>."><template class="ut">For mange forsøk!
+Ferdig</template><template class="forklar"><p>✅ Virker. 7 &gt; 3, så begge linjene kom ut.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="indentationerror|indentation error"><span class="ans-q">Hva heter feiltypen Python ga for feil.py?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten på siste linje av feilmeldingen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">IndentationError</div></div></div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">På hvilken linje oppdaget Python feilen?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå biten på første linje: <code>line …</code></div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag <code>feil.py</code> med <code>nano feil.py</code>, uten innrykk på linje 3. Kjør <code>python3 feil.py</code> og les feilen. Åpne fila igjen, sett inn 4 mellomrom, og kjør på nytt. Har du en annen mappe enn <code>/home/kali</code>, står stien din i feilmeldingen. Det er helt riktig!<br>Tips: Bland aldri Tab og mellomrom i samme fil. Det gir også feil.</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="4|fire"><span class="ans-q">Hvor mange mellomrom er vanlig for ett innrykk i Python?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se den grønne biten i <code>riktig.py</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+<div class="ans-row" data-p="1" data-a="kolon|et kolon"><span class="ans-q">Hvilket tegn må linja med if slutte med?</span><input class="ans-in" placeholder="navnet på tegnet"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se helt til høyre på <code>if forsok &gt; 3:</code></div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">kolon</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">I spillet: du gir print("Ferdig") 4 mellomrom foran. forsok er fortsatt 2. Blir «Ferdig» skrevet ut? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Med innrykk havner den i blokken under if-en. Kjørte de andre linjene i den blokken?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · FOR-LØKKE ═══════════════════════ -->
+<div class="lab-card" id="l16-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Én linje om gangen: for</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Løkka</div>
+<p class="e-hook">En logg kan ha en million linjer. Du skriver koden <b>én</b> gang. Hvordan? Se programmet jobbe 🐍</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Programmet møter loggen">
+  <div class="ch-item" data-fra="sys">📍 les.py åpner auth.log. Linjene står i kø.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 les.py">Første linje, kom fram! Du heter <code>linje</code> nå.</div>
+  <div class="ch-item" data-fra="nabo" data-navn="📄 linje 1">Oct  7 09:10:58 server sshd[1928]: Accepted password for kari …</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 les.py"><code>split()</code>, ord nummer 5: <b>Accepted</b>. Skriver det ut ✍️ Neste!</div>
+  <div class="ch-item" data-fra="ond" data-navn="📄 linje 2">Oct  7 09:11:03 server sshd[1931]: Failed password for admin from 203.0.113.45 …</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 les.py">Nå heter <b>du</b> <code>linje</code>. Ord nummer 5: <b>Failed</b>. Skriver ut. Neste!</div>
+  <div class="ch-item" data-stopp="⏩ Spol fram til siste linje"></div>
+  <div class="ch-item" data-fra="sys">…linje 3, 4, 5, 6 og 7 får samme behandling…</div>
+  <div class="ch-item" data-fra="nabo" data-navn="📄 linje 8">Oct  7 09:14:05 server sshd[1952]: Connection closed by 203.0.113.45 …</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 les.py">Ord nummer 5: <b>Connection</b>. Skriver ut. Neste?</div>
+  <div class="ch-item" data-fra="sys">Køen er tom. Løkka er ferdig 🏁</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 les.py">8 linjer, 8 runder. De samme to kodelinjene hver gang 😎</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>for linje in open("auth.log"):</code> er en <b>løkke</b> (loop). Hver runde får <code>linje</code> neste linje fra fila. De innrykkede linjene under kjører én gang per runde. (<code>open()</code> åpner fila. Mer om den i L18.)
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat auth.log" data-mal="Se på loggen:"><template class="ut">Oct  7 09:10:58 server sshd[1928]: <span class="h3">Accepted</span> password for kari from 192.168.1.10 port 51022 ssh2
+Oct  7 09:11:03 server sshd[1931]: <span class="h1">Failed</span> password for admin from 203.0.113.45 port 40122 ssh2
+Oct  7 09:11:06 server sshd[1931]: <span class="h1">Failed</span> password for admin from 203.0.113.45 port 40122 ssh2
+Oct  7 09:11:09 server sshd[1931]: <span class="h1">Failed</span> password for root from 203.0.113.45 port 40122 ssh2
+Oct  7 09:12:30 server sshd[1940]: <span class="h1">Failed</span> password for kari from 192.168.1.10 port 51040 ssh2
+Oct  7 09:12:41 server sshd[1940]: <span class="h3">Accepted</span> password for kari from 192.168.1.10 port 51040 ssh2
+Oct  7 09:14:02 server sshd[1952]: <span class="h1">Failed</span> password for root from 203.0.113.45 port 40188 ssh2
+Oct  7 09:14:05 server sshd[1952]: Connection closed by 203.0.113.45 port 40188 [preauth]</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>innlogging som lyktes</span></li><li><span class="m h1"></span><span>feil passord</span></li></ul></template></div>
+<div class="tm-o" data-cmd="cat les.py" data-mal="Se på programmet:"><template class="ut"><span class="h2">for linje in open("auth.log"):</span>
+    deler = linje.split()
+    print(deler[5])</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>løkka: «for hver linje i fila…»</span></li></ul><p>De to linjene med innrykk er det som gjentas. <code>split()</code> og <code>[5]</code> kjenner du fra L15.</p></template></div>
+<div class="tm-o" data-cmd="python3 les.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet, som før."><template class="ut">Accepted
+<span class="h1">Failed</span>
+<span class="h1">Failed</span>
+<span class="h1">Failed</span>
+<span class="h1">Failed</span>
+Accepted
+<span class="h1">Failed</span>
+Connection</template><template class="forklar"><p>Én utskrift per linje i loggen. Ord nummer 5 (vi teller fra 0) fra hver av dem.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="8|åtte"><span class="ans-q">Hvor mange runder gikk løkka i les.py?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Én runde per linje. Tell linjene i utskriften.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">8</div></div></div>
+<div class="ans-row" data-p="1" data-a="5|fem"><span class="ans-q">Hvor mange ganger står Failed i utskriften?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de gule.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">5</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag loggen først: <code>nano auth.log</code>, og lim inn de åtte linjene fra <code>cat auth.log</code> over. Lagre og avslutt (<b>Ctrl + O</b>, <b>Enter</b>, <b>Ctrl + X</b>). Lag så <code>les.py</code> med nano, og kjør <code>python3 les.py</code>. Begge filene må ligge i samme mappe. Utskriften blir lik vår 🎯</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="1000|tusen|1 000"><span class="ans-q">En logg har 1000 linjer. Hvor mange ganger kjører print i les.py?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">8 linjer ga 8 utskrifter i øve-terminalen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1000</div></div></div>
+<div class="ans-row" data-p="1" data-a="linje"><span class="ans-q">Hva heter variabelen som får en ny logglinje hver runde?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ordet rett etter <code>for</code>. Programmet sa det i chatten.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">linje</div></div></div>
+<div class="ans-row" data-p="1" data-a="admin"><span class="ans-q">Du bytter til print(deler[8]). Hva skrives ut for linje 2?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">[5] var Failed. Tell videre: password er 6, for er 7…</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">admin</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · TELLER = GREP -C ═══════════════════════ -->
+<div class="lab-card" id="l16-5" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">Lag din egen grep -c</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Løkke + if + teller</div>
+<p class="e-hook">I L12 talte <code>grep -c</code> de feilede innloggingene for deg. Nå bygger du den selv, med alt fra denne leksjonen 🧩</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Bygg tell.py" data-oppgave="Sett kodelinjene i riktig rekkefølge, fra øverst til nederst.">
+  <div class="rf-item" data-forklar="Telleren starter på 0, før løkka. Inni løkka ville den blitt nullstilt hver runde."><code>antall = 0</code></div>
+  <div class="rf-item" data-forklar="Løkka: én runde per linje."><code>for linje in open("auth.log"):</code></div>
+  <div class="rf-item" data-forklar="Dørvakta, med innrykk inni løkka."><code>&nbsp;&nbsp;&nbsp;&nbsp;if "Failed password" in linje:</code></div>
+  <div class="rf-item" data-forklar="Dobbelt innrykk: kjører bare når if-en stemmer."><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;antall += 1</code></div>
+  <div class="rf-item" data-forklar="Ingen innrykk: kjører én gang, etter at løkka er ferdig."><code>print("Feil passord:", antall)</code></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>antall</code> er en <b>teller</b> (counter). <code>antall += 1</code> er kortversjonen av <code>antall = antall + 1</code>: «legg til én».
+</div>
+<p class="e-sikker">🛑 Vil du stoppe ved første treff? Skriv <code>break</code> inni if-en. Da hopper Python ut av løkka med en gang. Nyttig når loggen er enorm.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat tell.py" data-mal="Se på programmet du nettopp bygde:"><template class="ut"><span class="h2">antall = 0</span>
+for linje in open("auth.log"):
+    <span class="h1">if "Failed password" in linje:</span>
+        <span class="h2">antall += 1</span>
+print("Feil passord:", antall)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>telleren: starter på 0, øker med 1</span></li><li><span class="m h1"></span><span>dørvakta: slipper bare gjennom feilede innlogginger</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 tell.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet."><template class="ut">Feil passord: <span class="h1">5</span></template><template class="forklar"><p>5 linjer slapp forbi dørvakta 🕴️</p></template></div>
+<div class="tm-o" data-cmd="grep -c &quot;Failed password&quot; auth.log" data-mal="Sjekk svaret med grep fra L12:" data-alias="grep -c 'Failed password' auth.log|grep &quot;Failed password&quot; -c auth.log|grep &quot;Failed password&quot; auth.log -c"><template class="ut"><span class="h1">5</span></template><template class="forklar"><p>Samme svar 🎉 Du har skrevet din egen <code>grep -c</code>. Forskjellen? I Python kan du bygge videre: telle per IP, varsle, blokkere…</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="5|fem"><span class="ans-q">Hvor mange feilede innlogginger fant tell.py?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tallet etter «Feil passord:».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">5</div></div></div>
+<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Ga grep -c det samme tallet? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Sammenlign de to gule tallene.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Bruk <code>auth.log</code> fra oppgave 4. Skriv <code>nano tell.py</code>, skriv inn koden, lagre og avslutt. Kjør <code>python3 tell.py</code> og så <code>grep -c "Failed password" auth.log</code>. Begge skal si 5. Bytt så <code>"Failed password"</code> til <code>"Accepted password"</code> i tell.py og kjør igjen 🔁</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Du bytter "Failed password" med "Accepted password" i tell.py. Hvilket tall skrives ut?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de grønne linjene i <code>cat auth.log</code> i oppgave 4.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+<div class="ans-row" data-p="1" data-a="antall = antall + 1|antall=antall+1|antall = 1 + antall"><span class="ans-q">Skriv antall += 1 på den lange måten.</span><input class="ans-in" placeholder="antall = …"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står i den blå fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">antall = antall + 1</div></div></div>
+<div class="ans-row" data-p="1" data-a="break"><span class="ans-q">Hvilket ord hopper ut av løkka med en gang?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står i den gule boksen 🛑.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">break</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-inner">
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+</div></div></footer>
+<script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
+</body>
+</html>

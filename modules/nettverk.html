@@ -3,16 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nettverkskommandoer — CyberLab</title>
+<title>Fire spørsmål til en ukjent maskin — CyberLab</title>
 <link rel="stylesheet" href="../css/style.css?v=13">
 <link rel="stylesheet" href="../css/lab-shared.css?v=13">
-<style>
-.back-link:hover{color:var(--green)}
-.mod-hero .section-title span{color:var(--green)}
-.ts-nav{background:#1a1a2e}
-</style>
+<link rel="stylesheet" href="../css/enkel.css?v=5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
 </head>
-<body class="page">
+<body class="page enkel">
 <nav class="nav">
   <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
   <div class="nav-links">
@@ -25,557 +24,454 @@
 </nav>
 
 <div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
-  <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="back-link">← Tilbake</a>
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
 
-  <div class="mod-hero">
-    <div class="section-eyebrow">Modul 1</div>
-    <div class="section-title">Nettverks<span>kommandoer</span></div>
-    <p class="section-desc">Bruk terminalen til å kartlegge nettverk, analysere mistenkelig output, og tenk som en angriper.</p>
-    <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-      <span class="badge badge-module">6 labber</span>
-      <span class="badge badge-easy">Nivå 1–2: Lett</span>
-      <span class="badge badge-medium">Nivå 3–4: Middels</span>
-      <span class="badge badge-hard">Nivå 5–6: Hard</span>
-    </div>
-  </div>
+<div class="mod-hero">
+  <div class="section-eyebrow">Lab 1 &middot; Emne 1 &middot; Leksjon 14</div>
+  <div class="section-title">Fire spørsmål til en ukjent maskin</div>
+  <p class="section-desc">Hvem er du? Hva kjører? Hva lytter? Hvem er inne? Nettverkskommandoene som svarer. Seks små spill, og så noen spørsmål etter hvert.</p>
+</div>
 
-  <div class="setup-box ok">
-    <div class="setup-title">✅ Alt kj&oslash;rer her i nettleseren</div>
-    <ul class="setup-list"><li>Du trenger <strong>ingen virtuelle maskiner</strong> og ingen installasjon.</li><li>Terminalen og nettsiden i oppgavene er simulert p&aring; denne siden.</li><li>Fremdriften lagres lokalt i nettleseren din.</li></ul>
-  </div>
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
 
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>Nettverksadresse</dt><dd>Første adresse i nettet. Vertsdelen er bare nuller. <code>172.20.5.0</code></dd>
+    <dt>Kringkasting</dt><dd>Siste adresse i nettet. Går til alle. <code>172.20.5.255</code></dd>
+    <dt>Maske</dt><dd>Tallet etter skråstreken. <code>/24</code> = de tre første tallene er nettet.</dd>
+    <dt>DNS</dt><dd>Telefonkatalogen som gjør navn om til IP.</dd>
+    <dt>Navneserver</dt><dd>Maskinen du spør når du slår opp et navn.</dd>
+    <dt>MX</dt><dd>Oppføringen som sier hvor e-posten skal. Lavest tall prøves først.</dd>
+    <dt>Tjeneste</dt><dd>Et program som går i bakgrunnen og venter på jobb.</dd>
+    <dt>LISTEN / ESTAB</dt><dd>Venter på gjester / samtale i gang.</dd>
+    <dt>TTL</dt><dd>Antall liv en pakke har. Hver ruter tar ett.</dd>
+    <dt>Hopp</dt><dd>Én ruter på veien.</dd>
+    <dt>Klartekst</dt><dd>Ukryptert. Alle på veien kan lese det.</dd>
+    <dt>Fingeravtrykk</dt><dd>Et kort «ID-kort» for serverens nøkkel.</dd>
+    <dt>MITM</dt><dd>Man-in-the-middle. En mellommann som later som han er den andre.</dd>
+    <dt>Støy</dt><dd>Hvor mange pakker du sender, og til hvor mange.</dd>
+  </dl>
+</details>
 
-  <div class="progress-wrap" style="margin-bottom:28px">
-    <div class="progress-label"><span>Fremgang</span><span id="progressLabel">0 / 6 fullført</span></div>
-    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-  </div>
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
 
-  <div class="filter-row">
-    <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
-    <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
-    <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
-    <button class="filter-pill" onclick="setFilter('hard',this)">Hard</button>
-  </div>
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
 
-  <div class="tasks">
+<div class="tasks">
 
-<!-- LAB 1: ipconfig/ifconfig ─────────────────────────── -->
+<!-- ═══════════════════════ 1 · HVEM ER DU ═══════════════════════ -->
 <div class="lab-card" id="net-1" data-level="easy">
-  <div class="lab-header" onclick="toggleTask(this)">
-    <span class="lab-num">01</span>
-    <span class="lab-title">Kartlegg maskinen din — ipconfig / ifconfig</span>
-    <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="level-badge lb-1" style="margin:0">Nivå 1</span><span class="lab-chev">▶</span></div>
-  </div>
-  <div class="lab-body">
-    <div class="lab-flow">
-        <div class="level-badge lb-1">Nivå 1 — Lokal nettverksinformasjon</div>
-        <div class="theory-block"><div class="theory-title">📐 Adresse pluss maske gir nettverket</div><div class="theory-text"><p>En IP-adresse alene sier ingenting om hvilket nett du står i. Det er <strong>adressen og masken sammen</strong> som avgjør det.</p><p>Masken deler adressen i en <strong>nettverksdel</strong> og en <strong>vertsdel</strong>. Tallet etter skråstreken er hvor mange bit som er nettverksdel. <code>/24</code> betyr de 24 første bitene, altså de tre første tallene.</p><p>Antall brukbare adresser er <code>2^(32 - maske) - 2</code>. De to som trekkes fra er nettverksadressen, der vertsdelen er null, og kringkastingsadressen, der vertsdelen er full.</p><p>To maskiner er på samme nett hvis <strong>nettverksdelen er lik</strong>. Er den ulik, må trafikken gjennom en ruter.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En maskin har <code>172.20.5.80/24</code>.</p><ol class="wsteps"><li>Masken er /24, så nettverksdelen er de tre første tallene: <code>172.20.5</code></li><li>Vertsdelen er det siste tallet: <code>80</code></li><li>Nettverksadressen har vertsdel null: <code>172.20.5.0</code></li><li>Kringkastingsadressen har vertsdel full: <code>172.20.5.255</code></li><li>Brukbare: 2^(32-24) - 2 = 256 - 2 = <strong>254</strong>, altså .1 til .254</li><li><code>172.20.5.200</code> har samme nettverksdel, altså <strong>samme nett</strong>. <code>172.20.6.9</code> har ikke, altså <strong>må gjennom ruter</strong></li></ol></div></div>
-        <p class="lab-desc">Bruk terminalen til høyre til å hente nettverksinformasjon om maskinen. Dette er det første en angriper gjør etter å ha fått tilgang.</p>
-        <div>
-          <div class="obj-title">Mål</div>
-          <div class="obj-item"><div class="obj-num">1</div><div class="obj-text">Kjør <code>ipconfig</code> — finn IP-adresse, subnettmaske og gateway</div></div>
-          <div class="obj-item"><div class="obj-num">2</div><div class="obj-text">Er IP-adressen privat eller offentlig? Hvilken klasse?</div></div>
-          <div class="obj-item"><div class="obj-num">3</div><div class="obj-text">Hva er standard gateway, og hva brukes den til?</div></div>
-          <div class="obj-item"><div class="obj-num">4</div><div class="obj-text">Prøv også <code>ifconfig</code> og <code>ip a</code></div></div>
-        </div>
-        <div class="term-block"><div class="fake-browser" style="flex-direction:column">
-          <div class="fake-bar">
-            <div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div>
-            <div class="fake-url">Terminal — student@cyberlab:~$</div>
-          </div>
-          <div class="lab-term" style="flex:1">
-            <div class="lab-term-body" id="tb1"><div class="lt-info">Skriv 'help' for tilgjengelige kommandoer</div></div>
-            <div class="lab-term-input"><span class="lt-ps1">student@cyberlab:~$&nbsp;</span><input class="lt-in" id="ti1" placeholder="skriv kommando..." autocomplete="off"></div>
-          </div>
-        </div></div><div class="ans-block">
-          <div class="obj-title">Din tur</div>
-          <div class="ans-row" data-p="1" data-a="10.44.7.0"><span class="ans-q">Din maskin er 10.44.7.15/24. Hva er nettverksadressen?</span><input class="ans-in" placeholder="en adresse"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Nettverksadressen har vertsdelen satt til null.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">10.44.7.0</div></div></div>
-          <div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Er 10.44.8.15 på samme nett som deg? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Med /24 sammenligner du de tre f&oslash;rste tallene.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
-          <div class="ans-row" data-p="1" data-a="62"><span class="ans-q">Hvor mange brukbare adresser gir /26?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">32 minus 26 gir vertsbitene. To opph&oslash;yd i det, minus to.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">62</div></div></div>
-        </div>
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">Kartlegg maskinen din — ipconfig / ifconfig</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="level-badge lb-1" style="margin:0">Nivå 1</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Lokal nettverksinformasjon</div>
+<p class="e-hook">Spørsmål 1 til en ukjent maskin: <b>Hvem er du, og hvor står du?</b> 📍 I et /24-nett har to adresser en spesiell jobb. Finn dem!</p>
 
-        <div>
-          <button class="hint-btn" onclick="toggleHint(this)">▶ Hint</button>
-          <div class="hint-box">Private adresser starter med <code>10.</code>, <code>172.16-31.</code> eller <code>192.168.</code>. Alt annet er offentlig. Gateway er ruteren — all trafikk ut av nettverket passerer den.</div>
-          <button class="sol-btn" onclick="toggleSolution(this)">▶ Vis løsning</button>
-          <div class="sol-box"><strong>IP:</strong> <code>192.168.1.105</code> — privat, klasse C. <strong>Maske:</strong> /24 = 254 mulige enheter. <strong>Gateway:</strong> <code>192.168.1.1</code> — ruteren. En angriper bruker disse for å forstå hvor i nettverket han befinner seg og hva som er nabomaskiner.</div>
-        </div>
-        <div class="complete-banner" id="done-net-1"><span>✓</span> Lab 1 fullført!</div>
-        <button class="btn btn-success" style="margin-top:8px" onclick="markTaskDone('net-1')">✓ Marker fullført</button>
-      </div>
-  </div>
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Hvem er denne adressen?" data-knapper="🏁 Nettverksadressen|💻 Nabo i nettet|📣 Kringkasting|🧭 Annet nett">
+  <div class="ly-fast">Du er 💻 <span class="e-ip"><span>172</span><i>.</i><span>20</span><i>.</i><span>5</span><i>.</i><span>80</span></span> /24</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Samme tre første tall, og et vanlig husnummer. En nabo."><span class="e-ip"><span class="like">172</span><i>.</i><span class="like">20</span><i>.</i><span class="like">5</span><i>.</i><span>200</span></span></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Siste tall er 0. Det er navnet på selve nettet, ikke en maskin."><span class="e-ip"><span class="like">172</span><i>.</i><span class="like">20</span><i>.</i><span class="like">5</span><i>.</i><span>0</span></span></div>
+  <div class="ly-item" data-svar="3" data-hvorfor="Tredje tall er 6, ikke 5. Annen gate, så pakken må via ruteren."><span class="e-ip"><span class="like">172</span><i>.</i><span class="like">20</span><i>.</i><span class="ulik">6</span><i>.</i><span>9</span></span></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Siste tall er 255, det høyeste. Den adressen roper til alle i nettet."><span class="e-ip"><span class="like">172</span><i>.</i><span class="like">20</span><i>.</i><span class="like">5</span><i>.</i><span>255</span></span></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Ofte ruteren, men det er fortsatt en vanlig maskin i nettet."><span class="e-ip"><span class="like">172</span><i>.</i><span class="like">20</span><i>.</i><span class="like">5</span><i>.</i><span>1</span></span></div>
+  <div class="ly-item" data-svar="3" data-hvorfor="Lurt! Andre tall er 21, ikke 20. Annet nett."><span class="e-ip"><span class="like">172</span><i>.</i><span class="ulik">21</span><i>.</i><span class="like">5</span><i>.</i><span>80</span></span></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="254 er den siste brukbare. 255 er tatt av kringkasting."><span class="e-ip"><span class="like">172</span><i>.</i><span class="like">20</span><i>.</i><span class="like">5</span><i>.</i><span>254</span></span></div>
 </div>
 
-<!-- LAB 2: DNS & ping ─────────────────────────────────── -->
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Første adresse (bare nuller i vertsdelen) er <b>nettverksadressen</b>. Siste (alt fullt) er <b>kringkastingsadressen</b> (broadcast). Ingen maskin kan bruke dem.<br>
+Derfor: <b>brukbare = 2<sup>(32 − maske)</sup> − 2</b>. For /24: 2<sup>8</sup> − 2 = 254.
+</div>
+<p class="e-sikker">🦹 Dette er det første en angriper sjekker etter å ha kommet inn: «Hvor står jeg, og hvor store er nabolaget?»</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="hostnamectl" data-mal="Spør maskinen hvem den er:"><template class="ut"> Static hostname: <span class="h1">kali</span>
+       Icon name: computer-vm
+         Chassis: vm 🖴
+      Machine ID: 4c1f0a9e2b7d4e8f9a6b3c5d7e1f2a4b
+         Boot ID: 9d2e6b1a7c3f4e5d8b0a1c2e3f4d5a6b
+  Virtualization: <span class="h4">oracle</span>
+Operating System: <span class="h2">Kali GNU/Linux Rolling</span>
+          Kernel: <span class="h3">Linux 6.12.13-amd64</span>
+    Architecture: x86-64
+ Hardware Vendor: innotek GmbH
+  Hardware Model: VirtualBox
+Firmware Version: VirtualBox
+   Firmware Date: Fri 2006-12-01</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>navnet på maskinen</span></li><li><span class="m h2"></span><span>operativsystemet</span></li><li><span class="m h3"></span><span>kjernen, hjertet i Linux</span></li><li><span class="m h4"></span><span>den kjører i VirtualBox (Oracle), ikke på ekte maskinvare</span></li></ul></template></div>
+<div class="tm-o" data-cmd="ip a" data-mal="Vis IP-adressen og masken din." data-alias="ip addr|ip address|ip ad" data-skjult data-hint="Fra leksjon 5. <code>ip</code> og én bokstav til."><template class="ut">1: <span class="dim">lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 ...</span>
+    <span class="dim">inet 127.0.0.1/8 scope host lo</span>
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP
+    link/ether 08:00:27:3c:7a:10 brd ff:ff:ff:ff:ff:ff
+    inet <span class="h2">192.168.1.10</span><span class="h1">/24</span> brd <span class="h3">192.168.1.255</span> scope global dynamic eth0</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>IP-en din</span></li><li><span class="m h1"></span><span>masken: tre første tall er nettet</span></li><li><span class="m h3"></span><span>kringkastingsadressen (<code>brd</code>), det siste i nettet</span></li></ul><p>MAC-en starter med <code>08:00:27</code>. Det er VirtualBox sin kode. Den avslører også at dette er en virtuell maskin 🕵️</p></template></div>
+<div class="tm-o" data-cmd="ip route" data-mal="Finn nettet ditt og veien ut." data-alias="ip r|ip ro" data-skjult data-hint="Kommandoen med <code>default via</code> fra leksjon 5 og 9."><template class="ut"><span class="h1">default via 192.168.1.1</span> dev eth0 proto dhcp metric 100
+<span class="h2">192.168.1.0</span>/24 dev eth0 proto kernel scope link src 192.168.1.10</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>gatewayen, veien ut</span></li><li><span class="m h2"></span><span>nettverksadressen: siste tall er 0</span></li></ul></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="kali gnu/linux rolling|kali gnu/linux|kali linux|kali"><span class="ans-q">Hvilket operativsystem kjører maskinen?</span><input class="ans-in" placeholder="navnet"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå linja i <code>hostnamectl</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Kali GNU/Linux Rolling</div></div></div>
+<div class="ans-row" data-p="1" data-a="192.168.1.0|192.168.1.0/24"><span class="ans-q">Hva er nettverksadressen til nettet ditt?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå adressen i <code>ip route</code>, uten /24.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">192.168.1.0</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Navn og tall blir litt annerledes hos deg. Det er helt riktig! Gammel skole: <code>ifconfig</code> viser nesten det samme som <code>ip a</code>.<p class="e-win">Windows: <code>hostname</code>, <code>systeminfo</code> og <code>ipconfig /all</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="10.44.7.0"><span class="ans-q">Din maskin er 10.44.7.15/24. Hva er nettverksadressen?</span><input class="ans-in" placeholder="en adresse"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Fra lynrunden: hvilket siste tall har nettverksadressen? Bytt ut 15 med det.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">10.44.7.0</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Er 10.44.8.15 på samme nett som deg? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Sammenlign de tre første tallene, som i lynrunden. Er 7 og 8 like?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="62"><span class="ans-q">Hvor mange brukbare adresser gir /26?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Formelen i fagord-boksen: 32 − 26 = 6. 2<sup>6</sup> = 64. Minus to.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">62</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · DNS ═══════════════════════ -->
 <div class="lab-card" id="net-2" data-level="easy">
-  <div class="lab-header" onclick="toggleTask(this)">
-    <span class="lab-num">02</span>
-    <span class="lab-title">DNS-rekognosering — nslookup og ping</span>
-    <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="level-badge lb-2" style="margin:0">Nivå 2</span><span class="lab-chev">▶</span></div>
-  </div>
-  <div class="lab-body">
-    <div class="lab-flow">
-        <div class="level-badge lb-2">Nivå 2 — DNS og tilgjengelighet</div>
-        <div class="theory-block"><div class="theory-title">📖 DNS svarer på ulike spørsmål</div><div class="theory-text"><p>DNS er ikke ett oppslag, det er flere. Hver <strong>record-type</strong> svarer på sitt eget spørsmål om et domene.</p><p><code>A</code> gir IPv4-adressen. <code>AAAA</code> gir IPv6. <code>MX</code> peker på e-postserverne, med et prioritetstall der <strong>lavest tall prøves først</strong>. <code>NS</code> peker på navneserverne. <code>TXT</code> inneholder fritekst, ofte SPF-oppføringer som sier hvem som får sende e-post for domenet.</p><p>Oppslaget går til en navneserver, <strong>ikke til målet</strong>. Derfor dukker det ikke opp i målets logger.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Et oppslag mot <code>eksempel.no</code> gir:</p><ol class="wsteps"><li><code>A</code> peker på <code>93.184.2.10</code>, altså webserveren</li><li><code>MX 10 mail1.eksempel.no</code> og <code>MX 20 mail2.eksempel.no</code></li><li>Lavest prioritetstall prøves først, så <strong>mail1 er primær</strong> og mail2 er reserve</li><li>Ingen av oppslagene sendte en eneste pakke til 93.184.2.10</li></ol></div></div>
-        <p class="lab-desc">DNS oversetter domenenavn til IP-adresser. Angripere bruker DNS-oppslag til å kartlegge infrastruktur uten å røre serverne direkte.</p>
-        <div>
-          <div class="obj-title">Mål</div>
-          <div class="obj-item"><div class="obj-num">1</div><div class="obj-text">Kjør <code>nslookup vg.no</code> — hvilke IP-er returneres?</div></div>
-          <div class="obj-item"><div class="obj-num">2</div><div class="obj-text">Kjør <code>nslookup -type=MX vg.no</code> — hva er MX-records?</div></div>
-          <div class="obj-item"><div class="obj-num">3</div><div class="obj-text">Kjør <code>ping vg.no</code> — svarer serveren? Hva betyr timeout?</div></div>
-          <div class="obj-item"><div class="obj-num">4</div><div class="obj-text">Forklar: hva kan en angriper lære av DNS-informasjon alene?</div></div>
-        </div>
-        <div class="term-block"><div class="fake-browser" style="flex-direction:column">
-          <div class="fake-bar">
-            <div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div>
-            <div class="fake-url">Terminal — student@cyberlab:~$</div>
-          </div>
-          <div class="lab-term" style="flex:1">
-            <div class="lab-term-body" id="tb2"><div class="lt-info">Prøv: nslookup vg.no</div></div>
-            <div class="lab-term-input"><span class="lt-ps1">student@cyberlab:~$&nbsp;</span><input class="lt-in" id="ti2" placeholder="skriv kommando..." autocomplete="off"></div>
-          </div>
-        </div></div><div class="ans-block">
-          <div class="obj-title">Din tur</div>
-          <div class="ans-row" data-p="1" data-a="alfa"><span class="ans-q">Domenet har MX 5 alfa og MX 30 beta. Hvilken prøves først?</span><input class="ans-in" placeholder="et navn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Lavest prioritetstall pr&oslash;ves f&oslash;rst.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">alfa</div></div></div>
-          <div class="ans-row" data-p="1" data-a="google"><span class="ans-q">Oppslaget mot firma.no gir MX som peker på mx.google.com. Hvem drifter e-posten deres?</span><input class="ans-in" placeholder="ett navn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Verten i MX-oppf&oslash;ringen r&oslash;per hvem som drifter tjenesten.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">google</div></div></div>
-          <div class="ans-row" data-p="1" data-a="ingen|null|0"><span class="ans-q">Hvor mange pakker sendte du til firma.no sine egne servere under hele oppslaget?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Oppslaget gikk til en navneserver, ikke til m&aring;let.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ingen</div></div></div>
-        </div>
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">DNS-rekognosering — nslookup og ping</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="level-badge lb-2" style="margin:0">Nivå 2</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-2">Nivå 2 — DNS og tilgjengelighet</div>
+<p class="e-hook">Du kan lære mye om et firma uten å banke på døra deres én eneste gang. Du spør bare telefonkatalogen 📖🤫</p>
 
-        <div>
-          <button class="hint-btn" onclick="toggleHint(this)">▶ Hint</button>
-          <div class="hint-box"><strong>MX-records</strong> avslører e-postservere. Mange server-typer blokkerer ping (ICMP) for å skjule seg — men de er fremdeles oppe.</div>
-          <button class="sol-btn" onclick="toggleSolution(this)">▶ Vis løsning</button>
-          <div class="sol-box"><strong>DNS gir:</strong> IP-adresser, hosting-leverandør, CDN-info, e-postservere (MX), navneservere (NS). Alt uten å sende én pakke til serveren selv — dette kalles passiv rekognosering.</div>
-        </div>
-        <div class="complete-banner" id="done-net-2"><span>✓</span> Lab 2 fullført!</div>
-        <button class="btn btn-success" style="margin-top:8px" onclick="markTaskDone('net-2')">✓ Marker fullført</button>
-      </div>
-  </div>
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hvilken oppføring svarer?" data-oppgave="DNS har en oppføring per spørsmål. Koble spørsmålet til oppføringen.">
+  <div class="pr-par" data-forklar="A = adressen. Den vanlige IPv4-en, som 93.184.2.10."><span>🏠 «Hvilken IPv4-adresse har webserveren?»</span><span>A</span></div>
+  <div class="pr-par" data-forklar="Fire A-er, fordi IPv6-adresser er fire ganger så lange."><span>🔢 «Og den nye, lange IPv6-adressen?»</span><span>AAAA</span></div>
+  <div class="pr-par" data-forklar="MX = Mail eXchanger. Pekeren til e-postserverne."><span>✉️ «Hvor skal e-posten til firmaet?»</span><span>MX</span></div>
+  <div class="pr-par" data-forklar="NS = Name Server. De som eier sannheten om domenet."><span>📚 «Hvem har det offisielle svaret om domenet?»</span><span>NS</span></div>
+  <div class="pr-par" data-forklar="TXT er fritekst. Ofte SPF: lista over hvem som får sende e-post for domenet."><span>📝 «Hvem får lov å sende e-post i firmaets navn?»</span><span>TXT</span></div>
 </div>
 
-<!-- LAB 3: netstat — åpne porter ──────────────────────── -->
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Hver oppføring heter en <b>record</b>. MX har et tall foran: <b>lavest tall prøves først</b>, resten er reserve.<br>
+Oppslaget går til <b>navneserveren</b>, ikke til firmaet. Firmaet ser ingenting. Det heter <b>passiv rekognosering</b> (passive recon).
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat /etc/resolv.conf" data-mal="Hvem spør maskinen din når den slår opp navn?"><template class="ut"># Generated by NetworkManager
+nameserver <span class="h1">192.168.1.1</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>navneserveren din. Her er det ruteren, som spør videre ut på internett</span></li></ul><p>Linjer som starter med <code>#</code> er bare kommentarer.</p></template></div>
+<div class="tm-o" data-cmd="nslookup vg.no" data-mal="Slå opp adressen til vg.no:"><template class="ut">Server:		<span class="h1">192.168.1.1</span>
+Address:	192.168.1.1#53
+
+<span class="h4">Non-authoritative answer:</span>
+Name:	vg.no
+Address: <span class="h2">99.84.118.99</span>
+Name:	vg.no
+Address: <span class="h2">99.84.118.51</span>
+Name:	vg.no
+Address: <span class="h2">99.84.118.76</span>
+Name:	vg.no
+Address: <span class="h2">99.84.118.117</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>navneserveren du spurte (port 53 = DNS)</span></li><li><span class="m h2"></span><span>A-oppføringene: fire adresser til samme navn</span></li><li><span class="m h4"></span><span>svaret kom fra en mellomlagret kopi, ikke fra vg.no sin egen navneserver</span></li></ul><p>Fire adresser? Store nettsteder spres over mange servere 🌍</p></template></div>
+<div class="tm-o" data-cmd="nslookup -type=mx google.com" data-mal="Finn e-postserveren til google.com." data-alias="nslookup -query=mx google.com|nslookup -q=mx google.com" data-skjult data-hint="Samme kommando, men legg til <code>-type=mx</code> før navnet."><template class="ut">Server:		192.168.1.1
+Address:	192.168.1.1#53
+
+Non-authoritative answer:
+google.com	mail exchanger = <span class="h1">10</span> <span class="h2">smtp.google.com.</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>prioritetstallet. Lavest vinner</span></li><li><span class="m h2"></span><span>e-postserveren</span></li></ul><p>Punktumet til slutt er riktig. Det betyr «hele navnet, ikke legg til noe».</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="192.168.1.1"><span class="ans-q">Hvilken navneserver spør maskinen din?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står etter <code>nameserver</code>, og etter <code>Server:</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">192.168.1.1</div></div></div>
+<div class="ans-row" data-p="1" data-a="smtp.google.com|smtp.google.com."><span class="ans-q">Hvilken server tar imot e-posten til google.com?</span><input class="ans-in" placeholder="et navn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå biten etter <code>mail exchanger = 10</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">smtp.google.com</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Adressene du får kan være andre. Store nettsteder bytter dem ofte. Det er helt riktig! Vil du ha mer detaljer, prøv <code>dig vg.no</code>.<p class="e-win">Windows: <code>nslookup</code> virker likt. <code>ipconfig /all</code> viser navneserveren under «DNS Servers».</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="alfa"><span class="ans-q">Domenet har MX 5 alfa og MX 30 beta. Hvilken prøves først?</span><input class="ans-in" placeholder="et navn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Fagord-boksen: lavest tall prøves først.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">alfa</div></div></div>
+<div class="ans-row" data-p="1" data-a="google"><span class="ans-q">Oppslaget mot firma.no gir MX som peker på mx.google.com. Hvem drifter e-posten deres?</span><input class="ans-in" placeholder="ett navn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på hvem som eier navnet MX peker på. Akkurat som <code>smtp.google.com</code> i terminalen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">google</div></div></div>
+<div class="ans-row" data-p="1" data-a="ingen|null|0"><span class="ans-q">Hvor mange pakker sendte du til firma.no sine egne servere under hele oppslaget?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvem spurte du i terminalen: firmaet, eller navneserveren 192.168.1.1?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ingen</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · PORTER OG TJENESTER ═══════════════════════ -->
 <div class="lab-card" id="net-3" data-level="medium">
-  <div class="lab-header" onclick="toggleTask(this)">
-    <span class="lab-num">03</span>
-    <span class="lab-title">Analyser åpne porter — netstat output</span>
-    <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="level-badge lb-3" style="margin:0">Nivå 3</span><span class="lab-chev">▶</span></div>
-  </div>
-  <div class="lab-body">
-    <div class="lab-flow">
-        <div class="level-badge lb-3">Nivå 3 — Portanalyse</div>
-        <div class="theory-block"><div class="theory-title">🔌 En linje i netstat er fire opplysninger</div><div class="theory-text"><p>Hver linje forteller deg <strong>lokal adresse og port</strong>, <strong>ekstern adresse og port</strong>, og en <strong>tilstand</strong>.</p><p><code>LISTENING</code> betyr at en tjeneste venter. Den eksterne adressen er da tom eller null, fordi ingen har koblet til ennå. <code>ESTABLISHED</code> betyr at to parter snakker sammen nå, og da står det en ekte adresse i begge ender.</p><p>Den lokale adressen avgjør hvem som når tjenesten. <code>127.0.0.1</code> betyr bare maskinen selv. <code>0.0.0.0</code> betyr <strong>alle grensesnitt</strong>, altså også nettet.</p><p>Retningen ligger i portnumrene. En tjeneste lytter på en <strong>fast, lav</strong> port. En klient som kobler ut får en <strong>tilfeldig, høy</strong> port over 32768.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En linje viser <code>TCP 0.0.0.0:445 0.0.0.0:0 LISTENING</code>, en annen <code>TCP 10.0.0.5:49821 93.184.2.10:443 ESTABLISHED</code>.</p><ol class="wsteps"><li>Første linje: lokal port 445 er fast og lav, ekstern adresse er tom. En <strong>tjeneste som venter</strong></li><li>Den lytter på 0.0.0.0, altså <strong>nåbar fra nettet</strong>, ikke bare lokalt</li><li>Andre linje: lokal port 49821 er høy og tilfeldig, ekstern port 443 er fast og lav</li><li>Altså er <strong>denne maskinen klienten</strong>, og den kobler ut til en webserver</li></ol></div></div>
-        <p class="lab-desc">Netstat-outputen til høyre kommer fra en server. Analyser den og identifiser røde flagg — akkurat slik en SOC-analytiker ville gjort det.</p>
-        <div>
-          <div class="obj-title">Mål</div>
-          <div class="obj-item"><div class="obj-num">1</div><div class="obj-text">Kjør <code>netstat</code> — les outputen nøye</div></div>
-          <div class="obj-item"><div class="obj-num">2</div><div class="obj-text">Finn alle røde flagg — hvilke porter er mistenkelige?</div></div>
-          <div class="obj-item"><div class="obj-num">3</div><div class="obj-text">Hvilken tilkobling indikerer en aktiv bakdør?</div></div>
-          <div class="obj-item"><div class="obj-num">4</div><div class="obj-text">Hva gjør du som incident responder umiddelbart?</div></div>
-        </div>
-        <div class="term-block"><div class="fake-browser" style="flex-direction:column">
-          <div class="fake-bar">
-            <div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div>
-            <div class="fake-url">Terminal — student@kompromittert-server:~$</div>
-          </div>
-          <div class="lab-term" style="flex:1">
-            <div class="lab-term-body" id="tb3"><div class="lt-info">Kjør 'netstat' for å se nettverkstilstanden</div></div>
-            <div class="lab-term-input"><span class="lt-ps1">student@server:~$&nbsp;</span><input class="lt-in" id="ti3" placeholder="skriv kommando..." autocomplete="off"></div>
-          </div>
-        </div></div><div class="ans-block">
-          <div class="obj-title">Din tur</div>
-          <div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">TCP 127.0.0.1:3306 0.0.0.0:0 LISTENING — er databasen nåbar fra nettet? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Les hvilken lokal adresse tjenesten lytter p&aring;.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
-          <div class="ans-row" data-p="1" data-a="klient"><span class="ans-q">TCP 10.0.0.5:52310 8.8.8.8:53 ESTABLISHED — er denne maskinen klient eller tjener?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Finn den lave, faste porten. Hvem har den?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">klient</div></div></div>
-          <div class="ans-row" data-p="1" data-a="utgående tilkobling|utgaende|utgående"><span class="ans-q">En linje viser lokal port 4444 mot en ekstern adresse, ESTABLISHED. Er 4444 en lyttende tjeneste eller en utgående tilkobling?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Er porten din h&oslash;y eller lav, og hvem har den faste porten?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">utgående tilkobling</div></div></div>
-        </div>
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">Analyser åpne porter — netstat output</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="level-badge lb-3" style="margin:0">Nivå 3</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 3 — Portanalyse</div>
+<p class="e-hook">Spørsmål 2 og 3: <b>Hva kjører, og hva lytter?</b> Serveren under snakker med fire maskiner. Men hvem ringte hvem? 📞</p>
 
-        <div>
-          <button class="hint-btn" onclick="toggleHint(this)">▶ Hint</button>
-          <div class="hint-box">Port <code>4444</code> = Metasploit Meterpreter bakdør. Port <code>23</code> = Telnet (klartekst). Port <code>3306</code> åpen på <code>0.0.0.0</code> = database eksponert mot alle.</div>
-          <button class="sol-btn" onclick="toggleSolution(this)">▶ Vis løsning</button>
-          <div class="sol-box"><strong>Røde flagg:</strong><br>• Port 4444 ESTABLISHED til ekstern IP → aktiv bakdør/C2<br>• Port 23 LISTENING → Telnet skal ikke eksistere<br>• Port 3306 på 0.0.0.0 → database eksponert<br><br><strong>Umiddelbar handling:</strong> Isoler maskinen, ta minnedump, blokker C2-IP i brannmur.</div>
-        </div>
-        <div class="complete-banner" id="done-net-3"><span>✓</span> Lab 3 fullført!</div>
-        <button class="btn btn-success" style="margin-top:8px" onclick="markTaskDone('net-3')">✓ Marker fullført</button>
-      </div>
-  </div>
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Hvem ringte ut?" data-oppgave="Server01 har adressen 10.0.0.5. Klikk på de to linjene der server01 er klienten, altså den som ringte.">
+<pre>Proto Local Address        Foreign Address        State
+tcp   <span class="kl" data-forklar="Ingen motpart ennå. Den venter, den ringer ingen.">0.0.0.0:22           0.0.0.0:*              LISTEN</span>
+tcp   <span class="kl" data-rett data-forklar="Høy, lånt port hos server01. Fast port 443 hos motparten. Server01 ringte en webserver.">10.0.0.5:49821        93.184.2.10:443        ESTABLISHED</span>
+tcp   <span class="kl" data-forklar="Fast port 22 hos server01. Det er motparten som har den lånte porten. Her er server01 tjeneren.">10.0.0.5:22           10.0.0.66:50412        ESTABLISHED</span>
+tcp   <span class="kl" data-rett data-forklar="Høy port hos server01, port 53 (DNS) hos motparten. Server01 spør en navneserver.">10.0.0.5:41022        1.1.1.1:53             ESTABLISHED</span>
+tcp   <span class="kl" data-forklar="Fast port 443 hos server01. En gjest har ringt inn. Server01 er tjeneren.">10.0.0.5:443          185.31.18.185:52341    ESTABLISHED</span></pre>
 </div>
 
-<!-- LAB 4: traceroute ─────────────────────────────────── -->
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Hver linje har fire ting: <b>lokal adresse:port</b>, <b>motpartens adresse:port</b> og en <b>tilstand</b>. <code>LISTEN</code> = venter. <code>ESTABLISHED</code> = samtale i gang.<br>
+<b>Tjeneren</b> har den faste, lave porten. <b>Klienten</b> har den høye, lånte.<br>
+<code>netstat</code> er det gamle verktøyet. På Linux bruker vi nå <code>ss</code>, som skriver <code>ESTAB</code>.
+</div>
+<p class="e-sikker">🔐 Husker du fra leksjon 7? <code>127.0.0.1</code> = bare maskinen selv. <code>0.0.0.0</code> = alle som når maskinen.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="systemctl list-units --type=service --state=running" data-mal="Spørsmål 2: hvilke tjenester kjører?" data-alias="systemctl list-units --state=running --type=service"><template class="ut">  UNIT                      LOAD   ACTIVE SUB     DESCRIPTION
+  accounts-daemon.service   loaded active running Accounts Service
+  cron.service              loaded active running Regular background program processing daemon
+  dbus.service              loaded active running D-Bus System Message Bus
+  lightdm.service           loaded active running Light Display Manager
+  <span class="h2">mariadb.service</span>           loaded active running MariaDB 11.8.3 database server
+  NetworkManager.service    loaded active running Network Manager
+  polkit.service            loaded active running Authorization Manager
+  <span class="h2">ssh.service</span>               loaded active running OpenBSD Secure Shell server
+  systemd-journald.service  loaded active running Journal Service
+  systemd-logind.service    loaded active running User Login Management
+  systemd-udevd.service     loaded active running Rule-based Manager for Device Events and Files
+  user@1000.service         loaded active running User Manager for UID 1000
+
+Legend: LOAD   → Reflects whether the unit definition was properly loaded.
+        ACTIVE → The high-level unit activation state, i.e. generalization of SUB.
+        SUB    → The low-level unit activation state, values depend on unit type.
+
+<span class="h1">12 loaded units listed.</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>antall tjenester som kjører akkurat nå</span></li><li><span class="m h2"></span><span>de to som tar imot besøk utenfra: databasen og SSH</span></li></ul><p>De fleste er Linux sine egne hjelpere. En ukjent tjeneste her er verdt å undersøke 🕵️</p></template></div>
+<div class="tm-o" data-cmd="sudo ss -tlnp" data-mal="Spørsmål 3: hvilke porter lytter det på, og hvilket program står bak?" data-alias="sudo ss -tnlp|sudo ss -ltnp|sudo ss -lntp|sudo ss -plnt|sudo ss -pltn|sudo ss -nltp|sudo ss -ntlp" data-skjult data-hint="Du lærte den i leksjon 7: <code>ss</code> med t, l, n og p. Programnavnene krever sjef-rettigheter fra leksjon 13."><template class="ut">[sudo] password for kali: <span class="dim">(passordet vises ikke mens du skriver)</span>
+State  Recv-Q Send-Q   Local Address:Port  Peer Address:Port Process
+LISTEN 0      128            <span class="h1">0.0.0.0</span>:22         0.0.0.0:*    users:((<span class="h2">"sshd"</span>,pid=812,fd=3))
+LISTEN 0      80           <span class="h3">127.0.0.1</span>:3306       0.0.0.0:*    users:((<span class="h2">"mariadbd"</span>,pid=1044,fd=21))
+LISTEN 0      128               <span class="h1">[::]</span>:22            [::]:*    users:((<span class="h2">"sshd"</span>,pid=812,fd=4))</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>eksponert: andre kan nå den</span></li><li><span class="m h3"></span><span>bare lokalt</span></li><li><span class="m h2"></span><span>programmet bak porten</span></li></ul><p>Tjenestene fra lista over dukker opp igjen her, nå med port 🎯</p></template></div>
+<div class="tm-o" data-cmd="ss -tn state established" data-mal="Hvem snakker maskinen med akkurat nå?" data-alias="ss -nt state established|ss -tn state estab"><template class="ut">Recv-Q Send-Q   Local Address:Port    Peer Address:Port  Process
+0      0         192.168.1.10:<span class="h2">51200</span>  142.250.74.78:<span class="h3">443</span>
+0      0         192.168.1.10:<span class="h3">22</span>      192.168.1.20:<span class="h2">52814</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>høy, lånt port = klienten</span></li><li><span class="m h3"></span><span>lav, fast port = tjeneren</span></li></ul><p><code>state established</code> = vis bare samtalene som er i gang. Da trengs ikke State-kolonnen.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="sshd|ssh"><span class="ans-q">Hvilket program lytter på port 22?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det blå navnet på linja med <code>:22</code> i <code>sudo ss -tlnp</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">sshd</div></div></div>
+<div class="ans-row" data-p="1" data-a="12|tolv"><span class="ans-q">Hvor mange tjenester kjører på maskinen?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Siste linje fra <code>systemctl</code>, den gule.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">12</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Lista hos deg blir annerledes. Kali starter verken SSH eller database av seg selv. Det er helt riktig! Trykk <b>q</b> for å komme ut av <code>systemctl</code>-lista.<p class="e-win">Windows: <code>netstat -ano</code> viser porter og samtaler. <code>Get-Service | Where Status -eq Running</code> i PowerShell viser tjenestene.</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">TCP 127.0.0.1:3306 0.0.0.0:0 LISTENING — er databasen nåbar fra nettet? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule boksen 🔐: hvem når en tjeneste på 127.0.0.1?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="klient"><span class="ans-q">TCP 10.0.0.5:52310 8.8.8.8:53 ESTABLISHED — er denne maskinen klient eller tjener?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Som i klikkespillet: hvem har den høye, lånte porten, og hvem har port 53?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">klient</div></div></div>
+<div class="ans-row" data-p="1" data-a="utgående tilkobling|utgaende|utgående"><span class="ans-q">En linje viser lokal port 4444 mot en ekstern adresse, ESTABLISHED. Er 4444 en lyttende tjeneste eller en utgående tilkobling?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Les tilstanden. En lyttende tjeneste står i LISTEN og har ingen motpart. Her står det ESTABLISHED mot en ekstern adresse.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">utgående tilkobling</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · TRACEROUTE ═══════════════════════ -->
 <div class="lab-card" id="net-4" data-level="medium">
-  <div class="lab-header" onclick="toggleTask(this)">
-    <span class="lab-num">04</span>
-    <span class="lab-title">Kartlegg nettverksruten — traceroute</span>
-    <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="level-badge lb-3" style="margin:0">Nivå 4</span><span class="lab-chev">▶</span></div>
-  </div>
-  <div class="lab-body">
-    <div class="lab-flow">
-        <div class="level-badge lb-3">Nivå 4 — Nettverkstopologi</div>
-        <div class="theory-block"><div class="theory-title">🗺️ TTL er en teller, ikke en tid</div><div class="theory-text"><p>Hver IP-pakke har et felt som heter <strong>TTL</strong>. Hver ruter pakken passerer trekker fra én. Når TTL treffer null kastes pakken, og ruteren sender en feilmelding tilbake til avsenderen.</p><p>Traceroute utnytter det: send med TTL 1, og første ruter melder fra. Send med TTL 2, og andre ruter melder fra. <strong>Hoppnummeret er altså TTL-verdien som ble brukt.</strong></p><p><code>* * *</code> betyr bare at hoppet ikke svarte. Mange rutere er satt opp til å la være, og pakken går videre likevel.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En traceroute viser hopp 4 som <code>* * *</code>, og hopp 5 svarer normalt.</p><ol class="wsteps"><li>Hopp 4 fikk pakker med TTL 4 og svarte ikke</li><li>Hopp 5 fikk pakker med TTL 5 og svarte</li><li>Altså kom pakken <strong>gjennom</strong> hopp 4 og videre til hopp 5</li><li>Ruter 4 er derfor <strong>ikke nede</strong>, den er bare satt opp til å tie</li></ol></div></div>
-        <p class="lab-desc">Traceroute viser hvert hopp en pakke tar fra din maskin til destinasjonen. Brukes av angripere til å kartlegge infrastruktur og finne svake punkter.</p>
-        <div>
-          <div class="obj-title">Mål</div>
-          <div class="obj-item"><div class="obj-num">1</div><div class="obj-text">Kjør <code>tracert vg.no</code> og tell antall hopp</div></div>
-          <div class="obj-item"><div class="obj-num">2</div><div class="obj-text">Hva betyr <code>* * *</code> på et hopp?</div></div>
-          <div class="obj-item"><div class="obj-num">3</div><div class="obj-text">Sammenlign <code>tracert vg.no</code> og <code>tracert google.com</code></div></div>
-          <div class="obj-item"><div class="obj-num">4</div><div class="obj-text">Hva kan traceroute avsløre om intern nettverksstruktur?</div></div>
-        </div>
-        <div class="term-block"><div class="fake-browser" style="flex-direction:column">
-          <div class="fake-bar">
-            <div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div>
-            <div class="fake-url">Terminal — student@cyberlab:~$</div>
-          </div>
-          <div class="lab-term" style="flex:1">
-            <div class="lab-term-body" id="tb4"><div class="lt-info">Prøv: tracert vg.no</div></div>
-            <div class="lab-term-input"><span class="lt-ps1">student@cyberlab:~$&nbsp;</span><input class="lt-in" id="ti4" placeholder="skriv kommando..." autocomplete="off"></div>
-          </div>
-        </div></div><div class="ans-block">
-          <div class="obj-title">Din tur</div>
-          <div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Hopp 7 svarer, hopp 8 er * * *, hopp 9 svarer. Er ruter 8 nede? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Pakken n&aring;dde hopp 9. Hvordan kom den dit?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
-          <div class="ans-row" data-p="1" data-a="6"><span class="ans-q">Hvilken TTL-verdi ble brukt for å nå hopp 6?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hoppnummeret er TTL-verdien som ble brukt.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">6</div></div></div>
-          <div class="ans-row" data-p="1" data-a="pakken kommer ikke fram|pakken kommer ikke frem|kommer ikke fram"><span class="ans-q">Traceroute stopper helt etter hopp 12 og alt videre er *. Hva er mest sannsynlig: ruteren tier, eller pakken kommer ikke fram?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Forskjellen er om <em>alt</em> videre er stille, eller bare ett hopp.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">pakken kommer ikke fram</div></div></div>
-        </div>
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Kartlegg nettverksruten — traceroute</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="level-badge lb-3" style="margin:0">Nivå 4</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 4 — Nettverkstopologi</div>
+<p class="e-hook">Traceroute er et skittent triks: den sender pakker som er <b>laget for å dø</b> 💀 Og hver gang en dør, får du vite hvor.</p>
 
-        <div>
-          <button class="hint-btn" onclick="toggleHint(this)">▶ Hint</button>
-          <div class="hint-box"><code>* * *</code> betyr at ruteren ikke svarer på ICMP TTL-exceeded — vanlig sikkerhetstiltak. Angripere kan fremdeles bruke TCP-traceroute for å omgå dette.</div>
-          <button class="sol-btn" onclick="toggleSolution(this)">▶ Vis løsning</button>
-          <div class="sol-box">Traceroute avslører router-navn som ofte inneholder stedsnavn og leverandørinfo: <code>ae0.cr1-osl1.telia.net</code> avslører at Telia brukes i Oslo. En angriper bygger nettverkskart fra slik info for å finne singelpunkter og planlegge angrep.</div>
-        </div>
-        <div class="complete-banner" id="done-net-4"><span>✓</span> Lab 4 fullført!</div>
-        <button class="btn btn-success" style="margin-top:8px" onclick="markTaskDone('net-4')">✓ Marker fullført</button>
-      </div>
-  </div>
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Slik finner traceroute veien" data-oppgave="Sett stegene i riktig rekkefølge.">
+  <div class="rf-item" data-forklar="Pakken får bare ett liv.">📤 PC-en sender en pakke med TTL = 1</div>
+  <div class="rf-item" data-forklar="Hver ruter trekker fra én. 1 − 1 = 0.">💀 Ruter 1 tar livet. TTL = 0, pakken kastes</div>
+  <div class="rf-item" data-forklar="Meldingen heter «Time to live exceeded». Nå vet du hvem hopp 1 er!">📨 Ruter 1 sender en feilmelding tilbake til deg</div>
+  <div class="rf-item" data-forklar="Ett liv mer, så den kommer ett hopp lenger.">📤 Ny pakke, nå med TTL = 2</div>
+  <div class="rf-item" data-forklar="Ruter 1 tar ett liv, ruter 2 tar det siste. Nå er det ruter 2 som melder fra.">📨 Ruter 2 kaster den og melder fra. Hopp 2 funnet!</div>
+  <div class="rf-item" data-forklar="Til slutt har pakken liv nok til å nå målet.">🏁 Målet svarer selv. Ferdig!</div>
 </div>
 
-<!-- LAB 5: SSH vs Telnet ──────────────────────────────── -->
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Livene heter <b>TTL</b> (Time To Live). Det er en teller, ikke en tid. <b>Hoppnummeret = TTL-verdien</b> som ble brukt.<br>
+<code>* * *</code> betyr at ruteren <b>ikke ville svare</b>. Den sendte pakken videre likevel.
+</div>
+<p class="e-sikker">🗺️ Rutere har ofte navn som <code>ae0.cr1-osl1.telia.net</code>. Da vet en angriper at trafikken går via Telia i Oslo.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ping -c 1 -t 1 8.8.8.8" data-mal="Send én pakke med bare ett liv:" data-alias="ping -t 1 -c 1 8.8.8.8|ping 8.8.8.8 -c 1 -t 1|ping 8.8.8.8 -t 1 -c 1"><template class="ut">PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+From <span class="h1">192.168.1.1</span> icmp_seq=1 <span class="h2">Time to live exceeded</span>
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>hopp 1 svarte: ruteren din</span></li><li><span class="m h2"></span><span>«pakken døde her» 💀</span></li></ul><p><code>-t 1</code> = TTL 1. Pakken kom aldri til Google, men du lærte hvem hopp 1 er.</p></template></div>
+<div class="tm-o" data-cmd="ping -c 1 -t 2 8.8.8.8" data-mal="Gi pakken ett liv til." data-alias="ping -t 2 -c 1 8.8.8.8|ping 8.8.8.8 -c 1 -t 2|ping 8.8.8.8 -t 2 -c 1" data-skjult data-hint="Samme kommando, bare bytt tallet etter <code>-t</code>."><template class="ut">PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+From <span class="h1">10.20.0.1</span> icmp_seq=1 Time to live exceeded
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms</template><template class="forklar"><p>Nå døde den ett hopp lenger ut. Hopp 2 er <b>10.20.0.1</b>, hos internettleverandøren.</p></template></div>
+<div class="tm-o" data-cmd="ping -c 1 -t 3 8.8.8.8" data-mal="Og tre liv?" data-alias="ping -t 3 -c 1 8.8.8.8|ping 8.8.8.8 -c 1 -t 3|ping 8.8.8.8 -t 3 -c 1" data-skjult data-hint="Du kan mønsteret nå 😉"><template class="ut">PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 0 received, <span class="h1">100% packet loss</span>, time 0ms</template><template class="forklar"><p>🤐 Stille! Ruter 3 kastet pakken, men <b>sa ingenting</b>. Det er dette som blir <code>* * *</code> i traceroute.</p></template></div>
+<div class="tm-o" data-cmd="traceroute 8.8.8.8" data-mal="Nå: la traceroute gjøre alt dette for deg." data-alias="traceroute -n 8.8.8.8" data-skjult data-hint="Du brukte den i leksjon 5, oppgave 3. Starter med <code>trace…</code>"><template class="ut">traceroute to 8.8.8.8 (8.8.8.8), 30 hops max, 60 byte packets
+ <span class="h1">1</span>  192.168.1.1 (192.168.1.1)  1.2 ms  1.1 ms  1.3 ms
+ <span class="h1">2</span>  10.20.0.1 (10.20.0.1)  8.5 ms  8.2 ms  8.9 ms
+ <span class="h1">3</span>  <span class="h2">* * *</span>
+ <span class="h1">4</span>  72.14.209.81 (72.14.209.81)  12.0 ms  11.8 ms  12.2 ms
+ <span class="h1">5</span>  <span class="h3">8.8.8.8 (8.8.8.8)</span>  12.3 ms  12.1 ms  12.4 ms</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>hoppnummeret = TTL-en som ble brukt</span></li><li><span class="m h2"></span><span>ruter 3 tier, akkurat som da du pinget med TTL 3</span></li><li><span class="m h3"></span><span>målet nådd! Altså slapp ruter 3 pakken videre ✅</span></li></ul></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="10.20.0.1"><span class="ans-q">Hvilken ruter svarte da TTL var 2?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står etter <code>From</code> i oppdrag 2.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">10.20.0.1</div></div></div>
+<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Hopp 3 svarte ikke. Kom traceroute likevel fram til 8.8.8.8? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på den grønne linja, hopp 5.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Ruterne hos deg har andre adresser. Det er helt riktig! I en virtuell maskin kan første hopp være VirtualBox sin egen ruter, ofte <code>10.0.2.2</code>.<p class="e-win">Windows: <code>tracert 8.8.8.8</code> og <code>ping -n 1 -i 2 8.8.8.8</code> (Windows bruker <code>-i</code> for TTL)</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Hopp 7 svarer, hopp 8 er * * *, hopp 9 svarer. Er ruter 8 nede? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Husker du ruter 3 i terminalen? Den tidde, men traceroute kom fram likevel.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="6"><span class="ans-q">Hvilken TTL-verdi ble brukt for å nå hopp 6?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Fagord-boksen: hoppnummeret = TTL-verdien.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">6</div></div></div>
+<div class="ans-row" data-p="1" data-a="pakken kommer ikke fram|pakken kommer ikke frem|kommer ikke fram"><span class="ans-q">Traceroute stopper helt etter hopp 12 og alt videre er *. Hva er mest sannsynlig: ruteren tier, eller pakken kommer ikke fram?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ett stille hopp = en ruter som tier. Men når <em>alt</em> videre er stille?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">pakken kommer ikke fram</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · SSH OG TELNET ═══════════════════════ -->
 <div class="lab-card" id="net-5" data-level="hard">
-  <div class="lab-header" onclick="toggleTask(this)">
-    <span class="lab-num">05</span>
-    <span class="lab-title">SSH vs Telnet — kryptert vs klartekst</span>
-    <div class="lab-meta"><span class="badge badge-hard">Hard</span><span class="level-badge lb-4" style="margin:0">Nivå 5</span><span class="lab-chev">▶</span></div>
-  </div>
-  <div class="lab-body">
-    <div class="lab-flow">
-        <div class="level-badge lb-4">Nivå 5 — Protokollsikkerhet</div>
-        <div class="theory-block"><div class="theory-title">🔐 Kryptering skjuler innhold, ikke eksistens</div><div class="theory-text"><p>Telnet sender alt i klartekst. SSH krypterer nyttelasten.</p><p>Det en avlytter fortsatt ser av en SSH-økt: <strong>hvem som snakker med hvem</strong>, <strong>når</strong>, <strong>hvor mye data</strong> og <strong>hvor lenge</strong>. Det han ikke ser er hva som ble skrevet.</p><p>Ved første tilkobling viser SSH et <strong>fingeravtrykk</strong> av serverens offentlige nøkkel. Poenget er at en mellommann kan videresende trafikken, men han har ikke serverens private nøkkel. Derfor blir fingeravtrykket et annet, og klienten advarer.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En avlytter fanger 40 minutter SSH mellom to maskiner, til sammen 8 MB, med jevn trafikk hvert femte sekund.</p><ol class="wsteps"><li>Han kan ikke lese en eneste kommando som ble kjørt</li><li>Han vet likevel <strong>hvem</strong> som snakket med <strong>hvem</strong>, i 40 minutter</li><li>8 MB er mye for et tastatur, så noe ble sannsynligvis <strong>overført</strong></li><li>Jevn trafikk hvert femte sekund ser ut som noe automatisk, ikke som en person som skriver</li></ol></div></div>
-        <p class="lab-desc">Du er en angriper som lytter på nettverkstrafikken. Til høyre ser du to innloggingsforsøk — én via Telnet og én via SSH. Analyser begge.</p>
-        <div>
-          <div class="obj-title">Mål</div>
-          <div class="obj-item"><div class="obj-num">1</div><div class="obj-text">Les Telnet-pakken — hva kan du se i klartekst?</div></div>
-          <div class="obj-item"><div class="obj-num">2</div><div class="obj-text">Les SSH-pakken — hva ser du, og hva ser du ikke?</div></div>
-          <div class="obj-item"><div class="obj-num">3</div><div class="obj-text">Kjør <code>ssh</code> i terminalen — forstå fingerprint-advarselen</div></div>
-          <div class="obj-item"><div class="obj-num">4</div><div class="obj-text">Forklar: hva er et MITM-angrep, og hvordan stopper SSH-nøkkel det?</div></div>
-        </div>
-        <div class="term-block"><div class="fake-browser" style="flex-direction:column">
-          <div class="fake-bar">
-            <div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div>
-            <div class="fake-url">Wireshark — nettverkspakke-analyse (simulert)</div>
-          </div>
-          <div class="site-wrap">
-            <div class="ts" style="background:#1a1a2e">
-              <div style="background:#2d2d44;border-bottom:1px solid #444;padding:8px 14px;display:flex;gap:12px;font-family:monospace;font-size:11px;color:#aaa">
-                <span style="color:#7dd3fc">No.</span><span style="color:#7dd3fc">Time</span><span style="color:#7dd3fc">Source</span><span style="color:#7dd3fc">Destination</span><span style="color:#7dd3fc">Protocol</span><span style="color:#7dd3fc">Info</span>
-              </div>
-              <div id="ws-rows" style="font-family:monospace;font-size:11px">
-                <div style="padding:6px 14px;border-bottom:1px solid #333;color:#e2e8f0;cursor:pointer" onclick="wsSelect('telnet')">
-                  <span style="color:#aaa;margin-right:8px">1</span>
-                  <span style="color:#aaa;margin-right:8px">0.000</span>
-                  <span style="color:#fca5a5;margin-right:8px">10.0.0.55</span>
-                  <span style="color:#fca5a5;margin-right:8px">10.0.0.10</span>
-                  <span style="color:#fbbf24;margin-right:8px">TELNET</span>
-                  <span style="color:#e2e8f0">Data: brukernavn=admin passord=Pa$$w0rd123</span>
-                </div>
-                <div style="padding:6px 14px;border-bottom:1px solid #333;color:#e2e8f0;cursor:pointer" onclick="wsSelect('ssh')">
-                  <span style="color:#aaa;margin-right:8px">2</span>
-                  <span style="color:#aaa;margin-right:8px">0.142</span>
-                  <span style="color:#86efac;margin-right:8px">10.0.0.66</span>
-                  <span style="color:#86efac;margin-right:8px">10.0.0.10</span>
-                  <span style="color:#60a5fa;margin-right:8px">SSH</span>
-                  <span style="color:#e2e8f0">Encrypted packet (len=248)</span>
-                </div>
-                <div style="padding:6px 14px;border-bottom:1px solid #333;color:#e2e8f0;cursor:pointer" onclick="wsSelect('ssh2')">
-                  <span style="color:#aaa;margin-right:8px">3</span>
-                  <span style="color:#aaa;margin-right:8px">0.198</span>
-                  <span style="color:#86efac;margin-right:8px">10.0.0.10</span>
-                  <span style="color:#86efac;margin-right:8px">10.0.0.66</span>
-                  <span style="color:#60a5fa;margin-right:8px">SSH</span>
-                  <span style="color:#e2e8f0">Encrypted packet (len=192)</span>
-                </div>
-              </div>
-              <div id="ws-detail" style="background:#111827;border-top:1px solid #444;padding:12px 14px;font-family:monospace;font-size:11px;color:#9ca3af;display:none;min-height:80px"></div>
-            </div>
-          </div>
-          <div class="lab-term" style="max-height:160px">
-            <div class="lab-term-body" id="tb5"><div class="lt-info">Prøv: ssh</div></div>
-            <div class="lab-term-input"><span class="lt-ps1">student@cyberlab:~$&nbsp;</span><input class="lt-in" id="ti5" placeholder="skriv kommando..." autocomplete="off"></div>
-          </div>
-        </div></div><div class="ans-block">
-          <div class="obj-title">Din tur</div>
-          <div class="ans-row" data-p="1" data-a="apen terminal|åpen terminal|terminal"><span class="ans-q">En avlytter ser en 6 timer lang SSH-økt på 2 kB totalt. Er det mest sannsynlig en filoverføring eller en åpen terminal?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">2 kB er lite. Hvor mye data lager seks timer med tasting?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">apen terminal</div></div></div>
-          <div class="ans-row" data-p="1" data-a="man in the middle|mellommannsangrep|mellommann|mitm"><span class="ans-q">Fingeravtrykket endrer seg plutselig på en server du har brukt i et år. Hva bør du anta først?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Serverens n&oslash;kkel er den samme. Hvem andre kan svare deg?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">man in the middle</div></div></div>
-          <div class="ans-row" data-p="1" data-a="22"><span class="ans-q">Hvilken port må være åpen for at SSH skal virke?</span><input class="ans-in" placeholder="portnummer"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Telnet er 23. SSH ligger rett ved siden av.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">22</div></div></div>
-        </div>
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">SSH vs Telnet — kryptert vs klartekst</span>
+  <div class="lab-meta"><span class="badge badge-hard">Hard</span><span class="level-badge lb-4" style="margin:0">Nivå 5</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-4">Nivå 5 — Protokollsikkerhet</div>
+<p class="e-hook">Spørsmål 4: <b>Hvem er logget inn?</b> Men først: to kolleger logger inn på samme server. Én med Telnet, én med SSH. Og noen lytter 🎧</p>
 
-        <div>
-          <button class="hint-btn" onclick="toggleHint(this)">▶ Hint</button>
-          <div class="hint-box">SSH-fingerprint er en hash av serverens offentlige nøkkel. Hvis fingerprinten endrer seg neste gang du kobler til, kan noen sitte mellom deg og serveren.</div>
-          <button class="sol-btn" onclick="toggleSolution(this)">▶ Vis løsning</button>
-          <div class="sol-box"><strong>Telnet:</strong> Brukernavn og passord i klartekst — Wireshark viser alt direkte.<br><br><strong>SSH:</strong> Alt kryptert med AES — en avlytter ser bare kryptert støy.<br><br><strong>MITM:</strong> Angriperen setter seg mellom klient og server. SSH-nøkkelverifisering stopper dette fordi angriperen ikke har serverens private nøkkel.</div>
-        </div>
-        <div class="complete-banner" id="done-net-5"><span>✓</span> Lab 5 fullført!</div>
-        <button class="btn btn-success" style="margin-top:8px" onclick="markTaskDone('net-5')">✓ Marker fullført</button>
-      </div>
-  </div>
+<div class="e-spill" data-spill="chat" data-tittel="💬 Avlytter-chatten">
+  <div class="ch-item" data-fra="sys">📍 10.0.0.55 logger inn på serveren med <b>Telnet</b> (port 23). 🦹 sitter på samme nett med Wireshark.</div>
+  <div class="ch-item" data-fra="pc" data-navn="Telnet-bruker · 10.0.0.55">login: admin</div>
+  <div class="ch-item" data-fra="pc" data-navn="Telnet-bruker · 10.0.0.55">Password: Pa$$w0rd123</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Avlytteren">Takk 😏 Jeg så hver eneste bokstav. Brukernavn OG passord.</div>
+  <div class="ch-item" data-stopp="▶ Nå prøver kollegaen SSH"></div>
+  <div class="ch-item" data-fra="sys">📍 10.0.0.66 logger inn med <b>SSH</b> (port 22).</div>
+  <div class="ch-item" data-fra="pc" data-navn="SSH-bruker · 10.0.0.66">🔐 3d 8f a2 c1 44 e9 12 7b 9c 3f 81 d4 …</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Avlytteren">Bare støy 😤 Men jeg ser likevel <b>hvem</b> som snakker med <b>hvem</b>, <b>når</b>, <b>hvor lenge</b> og <b>hvor mye</b>.</div>
+  <div class="ch-item" data-stopp="▶ Avlytteren prøver et triks"></div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Avlytteren">Jeg later som jeg ER serveren 🎭 Send alt til meg!</div>
+  <div class="ch-item" data-fra="sys">⚠️ WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!</div>
+  <div class="ch-item" data-fra="pc" data-navn="SSH-bruker · 10.0.0.66">Fingeravtrykket er ikke det jeg har lagret. Jeg stopper her 🛑</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Avlytteren">Æsj. Uten serverens private nøkkel kan jeg ikke lage det riktige avtrykket 🔑</div>
 </div>
 
-<!-- LAB 6: Angriper inne i nettverket ─────────────────── -->
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Telnet sender i <b>klartekst</b>. SSH er <b>kryptert</b>. Men kryptering skjuler <b>innholdet</b>, ikke <b>at</b> noen snakker.<br>
+Serverens «ID-kort» heter <b>fingeravtrykket</b> (fingerprint). En som later som han er serveren, er en <b>mellommann</b> (man-in-the-middle, MITM).
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="who" data-mal="Spørsmål 4: hvem er logget inn?"><template class="ut"><span class="h1">kali</span>     tty7         2026-10-07 08:12 (<span class="h3">:0</span>)
+<span class="h1">kali</span>     <span class="h4">pts/1</span>        2026-10-07 09:41 (<span class="h2">192.168.1.20</span>)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>brukernavnet</span></li><li><span class="m h3"></span><span><code>:0</code> = skjermen foran maskinen</span></li><li><span class="m h2"></span><span>innlogget over nettet, fra denne IP-en</span></li><li><span class="m h4"></span><span><code>pts</code> = en terminal over nettet, typisk SSH</span></li></ul><p>Naboen 192.168.1.20 fra leksjon 7 er fortsatt inne 👀</p></template></div>
+<div class="tm-o" data-cmd="w" data-mal="Hva holder de på med? Én bokstav:"><template class="ut"> 10:02:17 up  1:51,  2 users,  load average: 0.08, 0.05, 0.01
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU  WHAT
+kali     tty7     :0               08:12    1:51m  1:02   0.21s xfce4-session
+kali     pts/1    192.168.1.20     09:41    <span class="h1">3:12</span>   0.04s  0.01s <span class="h2">-zsh</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>hvor lenge siden personen trykket på en tast</span></li><li><span class="m h2"></span><span>hva hun kjører nå: bare et skall som venter</span></li></ul><p><code>w</code> er <code>who</code> med mer info. Første linje sier hvor lenge maskinen har vært på (<code>up 1:51</code>).</p></template></div>
+<div class="tm-o" data-cmd="last -n 5" data-mal="Hvem har vært inne før? Vis de 5 siste." data-alias="last -5|last -n5" data-skjult data-hint="«Siste» på engelsk. <code>-n 5</code> = 5 linjer, akkurat som <code>head -n 5</code> fra leksjon 12."><template class="ut">kali     pts/1        192.168.1.20     Wed Oct  7 09:41   still logged in
+kali     tty7         :0               Wed Oct  7 08:12   still logged in
+<span class="dim">reboot   system boot  6.12.13-amd64    Wed Oct  7 08:11   still running</span>
+kali     pts/1        <span class="h2">192.168.1.20</span>     Tue Oct  6 21:03 - 21:47  (<span class="h1">00:44</span>)
+kali     tty7         :0               Tue Oct  6 17:30 - down   (04:20)
+
+wtmp begins Mon Sep 14 11:02:43 2026</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>hvor lenge økta varte (timer:minutter)</span></li><li><span class="m h2"></span><span>samme nabo, også i går kveld</span></li></ul><p><code>reboot</code>-linja er ikke en person. Den viser når maskinen startet.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="192.168.1.20"><span class="ans-q">Fra hvilken IP er noen logget inn over nettet?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå adressen i parentes fra <code>who</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">192.168.1.20</div></div></div>
+<div class="ans-row" data-p="1" data-a="00:44|0:44|44|44 minutter|44 min"><span class="ans-q">Hvor lenge varte SSH-økta fra 192.168.1.20 i går?</span><input class="ans-in" placeholder="tt:mm"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det gule tallet i parentes fra <code>last</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">00:44</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Hos deg er nok bare du inne, uten noen IP. Det er helt riktig!<p class="e-win">Windows: <code>query user</code> viser hvem som er logget inn (på Pro og Server).</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="apen terminal|åpen terminal|terminal"><span class="ans-q">En avlytter ser en 6 timer lang SSH-økt på 2 kB totalt. Er det mest sannsynlig en filoverføring eller en åpen terminal?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">2 kB er nesten ingenting. Lager en filoverføring lite data, eller en terminal som står og venter? Skriv «apen terminal».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">apen terminal</div></div></div>
+<div class="ans-row" data-p="1" data-a="man in the middle|mellommannsangrep|mellommann|mitm"><span class="ans-q">Fingeravtrykket endrer seg plutselig på en server du har brukt i et år. Hva bør du anta først?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva het den som lot som han var serveren i chatten? Står i fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">man in the middle</div></div></div>
+<div class="ans-row" data-p="1" data-a="22"><span class="ans-q">Hvilken port må være åpen for at SSH skal virke?</span><input class="ans-in" placeholder="portnummer"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilken port brukte SSH i chatten? <code>sshd</code> lyttet på den samme i oppgave 3.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">22</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 6 · STILLE REKOGNOSERING ═══════════════════════ -->
 <div class="lab-card" id="net-6" data-level="hard">
-  <div class="lab-header" onclick="toggleTask(this)">
-    <span class="lab-num">06</span>
-    <span class="lab-title">Angriper i nettverket — rekognosering innenfra</span>
-    <div class="lab-meta"><span class="badge badge-hard">Hard</span><span class="level-badge lb-5" style="margin:0">Nivå 6</span><span class="lab-chev">▶</span></div>
-  </div>
-  <div class="lab-body">
-    <div class="lab-flow">
-        <div class="level-badge lb-5">Nivå 6 — Intern rekognosering</div>
-        <div class="theory-block"><div class="theory-title">🤫 Støy er et mål, ikke en følelse</div><div class="theory-text"><p>En kommando lager støy i forhold til <strong>hvor mange pakker den sender og til hvor mange maskiner</strong>.</p><p>Noen kommandoer sender null pakker fordi de bare leser noe maskinen allerede har. Andre snakker med én maskin. Et sveip snakker med hele nettet.</p><p>En IDS reagerer på mønstre, og det tydeligste mønsteret er <strong>én kilde mot mange mål på kort tid</strong>. Det er derfor rekkefølgen betyr noe: hent alt du kan fra de stille kildene før du rører de støyende.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Tre kommandoer på et /24-nett:</p><ol class="wsteps"><li><code>arp -a</code> leser en tabell maskinen allerede har: <strong>0 pakker</strong> ut</li><li><code>nslookup vg.no</code> spør én navneserver: <strong>1 pakke</strong> ut, og ikke til målet</li><li>Et pingsveip over /24 treffer 254 adresser: <strong>254 pakker</strong> fra én kilde på få sekunder</li><li>Den siste er den eneste som tegner mønsteret <strong>én mot mange</strong></li></ol></div></div>
-        <p class="lab-desc">Du har nettopp fått tilgang til én maskin i bedriftsnettverket <code>192.168.10.0/24</code>. Du vet ingenting om resten av nettverket. Bruk kun terminalen.</p>
-        <div>
-          <div class="obj-title">Mål</div>
-          <div class="obj-item"><div class="obj-num">1</div><div class="obj-text">Finn ut hvem maskinen er og hvor den er i nettverket</div></div>
-          <div class="obj-item"><div class="obj-num">2</div><div class="obj-text">Finn andre aktive maskiner uten å sende mye trafikk</div></div>
-          <div class="obj-item"><div class="obj-num">3</div><div class="obj-text">Identifiser tjenester som kjører på nettverket</div></div>
-          <div class="obj-item"><div class="obj-num">4</div><div class="obj-text">Skriv rekkefølgen på kommandoene du brukte, og forklar hvilke er mest "stille"</div></div>
-        </div>
-        <div class="term-block"><div class="fake-browser" style="flex-direction:column">
-          <div class="fake-bar">
-            <div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div>
-            <div class="fake-url">Terminal — angriper@kompromittert-pc (192.168.10.45)</div>
-          </div>
-          <div class="lab-term" style="flex:1">
-            <div class="lab-term-body" id="tb6">
-              <div class="lt-info">Du er inne. Finn ut hva som er rundt deg.</div>
-              <div class="lt-out">Last login: Mon Mar 24 02:31:44 2026 from 185.220.101.34</div>
-            </div>
-            <div class="lab-term-input"><span class="lt-ps1">angriper@win-pc:~$&nbsp;</span><input class="lt-in" id="ti6" placeholder="skriv kommando..." autocomplete="off"></div>
-          </div>
-        </div></div><div class="ans-block">
-          <div class="obj-title">Din tur</div>
-          <div class="ans-row" data-p="1" data-a="arp -a|arp"><span class="ans-q">Rangér etter støy, minst først: pingsveip, arp -a, nslookup. Skriv den minst støyende.</span><input class="ans-in" placeholder="kommando"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilken av de tre sender ingen pakker i det hele tatt?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">arp -a</div></div></div>
-          <div class="ans-row" data-p="1" data-a="126"><span class="ans-q">Hvor mange pakker sender et pingsveip over et /25-nett?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Et /25 har 126 brukbare adresser.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">126</div></div></div>
-          <div class="ans-row" data-p="1" data-a="ingen|null|0"><span class="ans-q">Hvor mange pakker sender arp -a ut på nettet?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kommandoen leser en tabell maskinen allerede har.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ingen</div></div></div>
-        </div>
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">06</span>
+  <span class="lab-title">Angriper i nettverket — rekognosering innenfra</span>
+  <div class="lab-meta"><span class="badge badge-hard">Hard</span><span class="level-badge lb-5" style="margin:0">Nivå 6</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-5">Nivå 6 — Intern rekognosering</div>
+<p class="e-hook">Du har kommet inn på én maskin 🥷 Nå gjelder det å lære mest mulig uten å vekke alarmen. Hvor mye bråk lager hver kommando?</p>
 
-        <div>
-          <button class="hint-btn" onclick="toggleHint(this)">▶ Hint</button>
-          <div class="hint-box">Prøv rekkefølgen: <code>whoami</code> → <code>ipconfig</code> → <code>arp -a</code> → <code>netstat -an</code> → <code>nslookup</code>.<br><br><code>arp -a</code> viser maskiner som allerede er i ARP-cachen — helt stille, ingen ny nettverkstrafikk.</div>
-          <button class="sol-btn" onclick="toggleSolution(this)">▶ Vis løsning</button>
-          <div class="sol-box"><strong>Stileste til støyest:</strong><br>1. <code>whoami</code>, <code>ipconfig</code> — kun lokal info, null nettverkstrafikk<br>2. <code>arp -a</code> — leser lokal cache, ingen pakker<br>3. <code>netstat -an</code> — viser eksisterende tilkoblinger, ingen nye<br>4. <code>nslookup</code> — kun DNS-forespørsler<br>5. <code>ping</code> sweep — genererer ICMP, lett å oppdage i IDS</div>
-        </div>
-        <div class="complete-banner" id="done-net-6"><span>✓</span> Lab 6 fullført!</div>
-        <button class="btn btn-success" style="margin-top:8px" onclick="markTaskDone('net-6')">✓ Marker fullført</button>
-      </div>
-  </div>
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Hvor mye bråk?" data-knapper="🤫 0 pakker|☝️ Én maskin|📢 Mange maskiner">
+  <div class="ly-item" data-svar="0" data-hvorfor="Den leser notatboka maskinen allerede har. Ingen pakker ut."><code>ip neigh</code></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Én pakke til hver adresse i nettet. 254 stykker på et /24. Én mot mange = alarm 🚨">Ping til hele <code>192.168.1.0/24</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Én pakke til navneserveren. Ikke engang til vg.no."><code>nslookup vg.no</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Lister programmene på maskinen din. Ingenting går ut på nettet."><code>ps aux</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Én pakke, til én maskin.">ping -c 1 til ruteren</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Viser samtaler som allerede finnes. Lager ingen nye."><code>ss -tn</code></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="nmap banker på alle i nettet. Det er så bråkete det går an.">nmap mot hele nettet</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Leser en liste på maskinen. Helt stille."><code>who</code></div>
 </div>
 
-  </div>
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>Støy</b> = hvor mange pakker du sender, og til hvor mange. Et <b>pingsveip</b> treffer alle brukbare adresser i nettet.<br>
+Alarmen heter <b>IDS</b> (inntrengingsdeteksjon). Den reagerer på mønsteret <b>én mot mange</b>. Windows-utgaven av <code>ip neigh</code> heter <code>arp -a</code>.
+</div>
+<p class="e-sikker">🤫 Regelen: hent alt du kan fra de stille kildene <b>før</b> du rører de bråkete.</p>
 
-  <div style="margin-top:40px;display:flex;gap:12px;flex-wrap:wrap">
-    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="btn btn-ghost">← Hjem</a>
-    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/modules/kryptografi.html" class="btn btn-success">Neste modul: Kryptografi →</a>
-  </div>
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="uname -a" data-mal="Hvilken kjerne og maskin er du på?"><template class="ut">Linux <span class="h1">kali</span> <span class="h2">6.12.13-amd64</span> #1 SMP PREEMPT_DYNAMIC Kali 6.12.13-1kali1 (2025-02-11) <span class="h3">x86_64</span> GNU/Linux</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>maskinnavnet</span></li><li><span class="m h2"></span><span>kjerneversjonen. Gamle versjoner kan ha kjente hull</span></li><li><span class="m h3"></span><span>64-bit</span></li></ul><p><code>-a</code> = «alt». Kortversjonen av <code>hostnamectl</code> fra oppgave 1.</p></template></div>
+<div class="tm-o" data-cmd="ps aux --sort=-%cpu | head -5" data-mal="Vis de fire programmene som bruker mest CPU:" data-alias="ps aux --sort=-%cpu | head -n 5|ps aux --sort -%cpu | head -5"><template class="ut">USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+<span class="h1">kali</span>        2214  <span class="h2">6.3</span>  9.8 3164208 398112 ?      Sl   08:14   7:05 <span class="h3">/usr/lib/firefox-esr/firefox-esr</span>
+root         903  1.9  2.4 412784 98256 tty7     Ssl+ 08:11   2:08 /usr/lib/xorg/Xorg :0 -seat seat0 -auth /var/run/lightdm/root/:0 -nolisten tcp vt7 -novtswitch
+kali        1408  0.6  1.9 975320 78104 ?        Sl   08:12   0:41 xfwm4
+mysql       1044  0.2  2.6 1290348 105420 ?      Ssl  08:11   0:15 /usr/sbin/mariadbd</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>hvem som eier prosessen</span></li><li><span class="m h2"></span><span>prosent av CPU-en</span></li><li><span class="m h3"></span><span>programmet</span></li></ul><p><code>--sort=-%cpu</code> = sorter på CPU, største først (minus = synkende). <code>| head -5</code> = bare de fem første linjene, rør fra leksjon 12. Kjenner du igjen <code>mariadbd</code> med PID 1044 fra oppgave 3?</p></template></div>
+<div class="tm-o" data-cmd="ip neigh" data-mal="Hvem har maskinen allerede snakket med? Helt stille!" data-alias="ip n|ip neighbour|ip neighbor|ip neighbors|ip neighbours" data-skjult data-hint="Notatboka fra leksjon 5, oppgave 4. Den starter med <code>ip</code>."><template class="ut"><span class="h2">192.168.1.1</span> dev eth0 lladdr 3c:22:fb:7a:10:05 REACHABLE
+<span class="h2">192.168.1.20</span> dev eth0 lladdr a4:5e:60:12:34:20 REACHABLE
+<span class="h2">192.168.1.30</span> dev eth0 lladdr b8:27:eb:9c:41:30 STALE</template><template class="forklar"><p>Tre naboer, og du sendte <b>null</b> pakker for å finne dem 🤫 192.168.1.20 er den som er logget inn med SSH.</p></template></div>
+<div class="tm-o" data-cmd="ss -tn state established" data-mal="Hvem snakker maskinen med akkurat nå? Også stille." data-alias="ss -nt state established|ss -tn state estab" data-skjult data-hint="Samme som siste oppdrag i oppgave 3."><template class="ut">Recv-Q Send-Q   Local Address:Port    Peer Address:Port  Process
+0      0         192.168.1.10:51200  142.250.74.78:443
+0      0         192.168.1.10:22      192.168.1.20:52814</template><template class="forklar"><p>Fortsatt ingen nye pakker. Nå vet du hvem maskinen er, hva den kjører, hvem den kjenner og hvem som er inne. Uten å ha sagt et ord på nettet 🥷</p></template></div>
 </div>
 
-<footer class="footer">
-  <div class="container"><div class="footer-inner"><span>CyberLab</span><span><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html">← Hjem</a></span></div></div>
-</footer>
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="firefox-esr|firefox"><span class="ans-q">Hvilket program bruker mest CPU?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Første linje under overskriften i <code>ps</code>. Bare det siste ordet etter <code>/</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">firefox-esr</div></div></div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hvor mange naboer står i notatboka?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene fra <code>ip neigh</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+</div>
 
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Programmene og naboene hos deg blir andre. Det er helt riktig! Gjør dette bare på din egen maskin eller i et lab-nett du har lov til å bruke.<p class="e-win">Windows: <code>arp -a</code>, <code>tasklist</code> og <code>netstat -an</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="arp -a|arp"><span class="ans-q">Rangér etter støy, minst først: pingsveip, arp -a, nslookup. Skriv den minst støyende.</span><input class="ans-in" placeholder="kommando"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilken knapp fikk <code>ip neigh</code> i lynrunden? Windows-navnet står i fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">arp -a</div></div></div>
+<div class="ans-row" data-p="1" data-a="126"><span class="ans-q">Hvor mange pakker sender et pingsveip over et /25-nett?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Pingsveip = én pakke per brukbar adresse. Formelen fra oppgave 1: 2<sup>(32 − 25)</sup> − 2.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">126</div></div></div>
+<div class="ans-row" data-p="1" data-a="ingen|null|0"><span class="ans-q">Hvor mange pakker sender arp -a ut på nettet?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den leser notatboka maskinen allerede har. Hvilken knapp var det i lynrunden?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ingen</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px;display:flex;gap:12px;flex-wrap:wrap">
+  <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a>
+  <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/modules/kryptografi.html" class="btn btn-success">Neste modul: Kryptografi &rarr;</a>
+</div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-inner">
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+</div></div></footer>
 <script src="../js/cyberlab.js?v=13"></script>
-<script>
-const NETTERM = {
-  ipconfig:[
-    {t:'lt-info',v:'Windows IP Configuration'},
-    {t:'lt-out', v:''},
-    {t:'lt-info',v:'Ethernet adapter Ethernet:'},
-    {t:'lt-out', v:'   IPv4 Address. . . . . : 192.168.1.105'},
-    {t:'lt-out', v:'   Subnet Mask . . . . . : 255.255.255.0'},
-    {t:'lt-out', v:'   Default Gateway . . . : 192.168.1.1'},
-    {t:'lt-info',v:''},
-    {t:'lt-info',v:'Wireless LAN adapter Wi-Fi:'},
-    {t:'lt-out', v:'   IPv4 Address. . . . . : 192.168.0.42'},
-    {t:'lt-out', v:'   Subnet Mask . . . . . : 255.255.255.0'},
-    {t:'lt-out', v:'   Default Gateway . . . : 192.168.0.1'},
-  ],
-  ifconfig:[
-    {t:'lt-info',v:'eth0: flags=4163<UP,BROADCAST,RUNNING>  mtu 1500'},
-    {t:'lt-out', v:'        inet 192.168.1.105  netmask 255.255.255.0'},
-    {t:'lt-out', v:'        inet6 fe80::a00:27ff:fe4e:66a1  prefixlen 64'},
-    {t:'lt-info',v:'lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536'},
-    {t:'lt-out', v:'        inet 127.0.0.1  netmask 255.0.0.0'},
-  ],
-  'ip a':[
-    {t:'lt-info',v:'2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP>'},
-    {t:'lt-out', v:'    inet 192.168.1.105/24 brd 192.168.1.255'},
-    {t:'lt-out', v:'    inet6 fe80::a00:27ff:fe4e:66a1/64'},
-  ],
-  nslookup:[
-    {t:'lt-out', v:'Server:  8.8.8.8'},
-    {t:'lt-out', v:'Address: 8.8.8.8#53'},
-    {t:'lt-out', v:''},
-    {t:'lt-info',v:'Non-authoritative answer:'},
-    {t:'lt-out', v:'Name:    vg.no'},
-    {t:'lt-out', v:'Address: 195.88.55.16'},
-    {t:'lt-out', v:'Address: 195.88.55.17'},
-  ],
-  'nslookup vg.no':[
-    {t:'lt-out', v:'Server:  8.8.8.8'},
-    {t:'lt-info',v:'Non-authoritative answer:'},
-    {t:'lt-out', v:'Name: vg.no  Address: 195.88.55.16'},
-    {t:'lt-out', v:'Name: vg.no  Address: 195.88.55.17'},
-  ],
-  'nslookup -type=mx vg.no':[
-    {t:'lt-info',v:'Non-authoritative answer:'},
-    {t:'lt-out', v:'vg.no   mail exchanger = 10 mail1.vg.no'},
-    {t:'lt-out', v:'vg.no   mail exchanger = 20 mail2.vg.no'},
-    {t:'lt-info',v:'// MX-records avslører e-postservere — brukes til phishing-planlegging'},
-  ],
-  ping:[
-    {t:'lt-info',v:'Pinging vg.no [195.88.55.16] with 32 bytes of data:'},
-    {t:'lt-out', v:'Reply from 195.88.55.16: bytes=32 time=12ms TTL=55'},
-    {t:'lt-out', v:'Reply from 195.88.55.16: bytes=32 time=11ms TTL=55'},
-    {t:'lt-out', v:'Reply from 195.88.55.16: bytes=32 time=13ms TTL=55'},
-    {t:'lt-info',v:'Packets: Sent=3, Received=3, Lost=0 (0% loss)'},
-  ],
-  netstat:[
-    {t:'lt-info',v:'Proto  Local Address          Foreign Address         State'},
-    {t:'lt-out', v:'TCP    0.0.0.0:80             0.0.0.0:0               LISTENING'},
-    {t:'lt-out', v:'TCP    0.0.0.0:443            0.0.0.0:0               LISTENING'},
-    {t:'lt-out', v:'TCP    0.0.0.0:22             0.0.0.0:0               LISTENING'},
-    {t:'lt-err', v:'TCP    0.0.0.0:23             0.0.0.0:0               LISTENING   ← Telnet!'},
-    {t:'lt-err', v:'TCP    0.0.0.0:3306           0.0.0.0:0               LISTENING   ← DB eksponert!'},
-    {t:'lt-err', v:'TCP    0.0.0.0:4444           0.0.0.0:0               LISTENING   ← Bakdør!'},
-    {t:'lt-out', v:'TCP    10.0.0.5:443           185.31.18.185:52341     ESTABLISHED'},
-    {t:'lt-err', v:'TCP    10.0.0.5:4444          91.108.56.112:8080      ESTABLISHED ← C2 tilkobling!'},
-  ],
-  'netstat -an':[
-    {t:'lt-info',v:'Proto  Local Address          Foreign Address         State'},
-    {t:'lt-out', v:'TCP    0.0.0.0:80             0.0.0.0:0               LISTENING'},
-    {t:'lt-out', v:'TCP    0.0.0.0:443            0.0.0.0:0               LISTENING'},
-    {t:'lt-err', v:'TCP    0.0.0.0:4444           0.0.0.0:0               LISTENING'},
-    {t:'lt-err', v:'TCP    10.0.0.5:4444          91.108.56.112:8080      ESTABLISHED'},
-  ],
-  tracert:[
-    {t:'lt-info',v:'Tracing route to vg.no [195.88.55.16] over 30 hops:'},
-    {t:'lt-out', v:'  1    <1ms    <1ms    <1ms  192.168.1.1'},
-    {t:'lt-out', v:'  2     4ms     4ms     5ms  10.0.0.1'},
-    {t:'lt-out', v:'  3     *       *       *    Request timed out.'},
-    {t:'lt-out', v:'  4    11ms    10ms    11ms  ae0.cr1-osl1.telia.net [62.115.2.1]'},
-    {t:'lt-out', v:'  5    14ms    13ms    14ms  195.88.55.16'},
-    {t:'lt-info',v:'Trace complete.  // Hopp 3 blokkerer ICMP — men er fremdeles der'},
-  ],
-  traceroute:[
-    {t:'lt-info',v:'traceroute to vg.no (195.88.55.16), 30 hops max'},
-    {t:'lt-out', v:' 1  192.168.1.1  0.8ms'},
-    {t:'lt-out', v:' 2  10.0.0.1  4.3ms'},
-    {t:'lt-out', v:' 3  * * *'},
-    {t:'lt-out', v:' 4  ae0.cr1-osl1.telia.net  11.2ms'},
-    {t:'lt-out', v:' 5  195.88.55.16  14.8ms'},
-  ],
-  'tracert google.com':[
-    {t:'lt-info',v:'Tracing route to google.com [142.250.74.46] over 30 hops:'},
-    {t:'lt-out', v:'  1    <1ms   192.168.1.1'},
-    {t:'lt-out', v:'  2     4ms   10.0.0.1'},
-    {t:'lt-out', v:'  3    11ms   ae0.cr1-osl1.telia.net'},
-    {t:'lt-out', v:'  4    18ms   72.14.194.9  [Google backbone]'},
-    {t:'lt-out', v:'  5    20ms   142.250.74.46'},
-    {t:'lt-info',v:'Trace complete.'},
-  ],
-  ssh:[
-    {t:'lt-out', v:"The authenticity of host '192.168.1.50' can't be established."},
-    {t:'lt-out', v:'ED25519 key fingerprint is SHA256:abc123xyz789def456...'},
-    {t:'lt-info',v:'WARNING: Fingerprint endret siden sist! Mulig MITM-angrep!'},
-    {t:'lt-out', v:'Are you sure you want to continue? (yes/no): '},
-    {t:'lt-info',v:'// I motsetning til Telnet: passordet krypteres med AES-256'},
-  ],
-  whoami:[{t:'lt-out',v:'angriper'}],
-  'whoami /all':[
-    {t:'lt-out',v:'USER INFORMATION: angriper'},
-    {t:'lt-out',v:'GROUP INFORMATION: BUILTIN\\Users'},
-    {t:'lt-info',v:'// Ikke admin — eskalering nødvendig for full kontroll'},
-  ],
-  'arp -a':[
-    {t:'lt-info',v:'Interface: 192.168.10.45 on 0x4'},
-    {t:'lt-out', v:'  Internet Address    Physical Address    Type'},
-    {t:'lt-out', v:'  192.168.10.1        00-11-22-33-44-55   dynamic  [Gateway]'},
-    {t:'lt-out', v:'  192.168.10.10       aa-bb-cc-dd-ee-ff   dynamic  [Aktiv vert]'},
-    {t:'lt-out', v:'  192.168.10.20       11-22-33-44-55-66   dynamic  [Aktiv vert]'},
-    {t:'lt-info',v:'// ARP-cache: helt stille — ingen ny nettverkstrafikk generert'},
-  ],
-  pwd:[{t:'lt-out',v:'/home/angriper'}],
-  ls:[{t:'lt-out',v:'Desktop  Documents  Downloads  passwords.txt  '}],
-  'cat passwords.txt':[{t:'lt-info',v:'admin:Pa$$w0rd123\ndbuser:s3cr3t!\n// Se på det. Passord i klartekst.'}],
-  date:[{t:'lt-info',v:new Date().toString()}],
-  help:[
-    {t:'lt-info',v:'Tilgjengelige kommandoer:'},
-    {t:'lt-out', v:'  ipconfig / ifconfig / ip a   — nettverksinfo'},
-    {t:'lt-out', v:'  nslookup [domene]             — DNS-oppslag'},
-    {t:'lt-out', v:'  ping [vert]                   — tilgjengelighet'},
-    {t:'lt-out', v:'  netstat / netstat -an          — porter og tilkoblinger'},
-    {t:'lt-out', v:'  tracert / traceroute           — nettverksrute'},
-    {t:'lt-out', v:'  ssh                           — sikker tilkobling'},
-    {t:'lt-out', v:'  whoami / arp -a / pwd / ls    — systeminformasjon'},
-    {t:'lt-out', v:'  clear                         — tøm terminal'},
-  ],
-};
-
-// Wireshark packet detail
-function wsSelect(type){
-  const d=document.getElementById('ws-detail');
-  d.style.display='block';
-  if(type==='telnet'){
-    d.innerHTML='<span style="color:#fca5a5;font-weight:bold">TELNET — KLARTEKST</span><br>'+
-      'Source: 10.0.0.55:54321  →  Dest: 10.0.0.10:23<br>'+
-      '<span style="color:#fbbf24">Data payload (hex + ASCII):</span><br>'+
-      '75 73 65 72 6e 61 6d 65 3d 61 64 6d 69 6e  <span style="color:#f87171">username=admin</span><br>'+
-      '70 61 73 73 77 6f 72 64 3d 50 61 24 24 77  <span style="color:#f87171">password=Pa$$w0rd123</span><br>'+
-      '<span style="color:#fca5a5">→ Passord synlig i klartekst for alle på nettverket</span>';
-  } else {
-    d.innerHTML='<span style="color:#86efac;font-weight:bold">SSH — KRYPTERT</span><br>'+
-      'Source: 10.0.0.66:52341  →  Dest: 10.0.0.10:22<br>'+
-      '<span style="color:#60a5fa">Data payload (kryptert):</span><br>'+
-      '3d 8f a2 c1 44 e9 12 7b 9c 3f 81 d4 5a 2e  ????????????????<br>'+
-      'f1 0c 67 b3 9e 24 5d 8a 7f 16 c3 4b 2d e8  ????????????????<br>'+
-      '<span style="color:#86efac">→ Innhold uleselig — AES-256 kryptering</span>';
-  }
-}
-
-document.addEventListener('DOMContentLoaded',()=>{
-  ['1','2','3','4','5','6'].forEach(n=>termInit('tb'+n,'ti'+n,NETTERM));
-});
-</script>
+<script src="../js/enkel.js?v=5"></script>
 </body>
 </html>

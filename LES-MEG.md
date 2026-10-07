@@ -1,32 +1,59 @@
 # CyberLab Emne 1
 
-Kopi av Emne 1 fra [Cybersikkerhet-Gokstad/CyberLab](https://github.com/Cybersikkerhet-Gokstad/CyberLab),
-hentet fra commit `7961b8f`. Dette repoet er stedet der endringene til Emne 1 gjøres.
+Startet som en kopi av Emne 1 fra [Cybersikkerhet-Gokstad/CyberLab](https://github.com/Cybersikkerhet-Gokstad/CyberLab)
+(commit `7961b8f`), og er nå skrevet om til en tilpasset versjon. Se under.
 
 ## Innhold
 
-| Fil | Fra CyberLab |
-|-----|--------------|
-| `emne1.html` | `emne1.html`, oversikten over de 26 leksjonene |
-| `index.html` | Ny. Sender rett videre til `emne1.html` |
-| `modules/*.html` | De 10 labbene som `emne1.html` lenker til |
-| `css/`, `js/` | Uendret |
+| Fil | Hva det er |
+|-----|------------|
+| `emne1.html` | Oversikten over de 26 leksjonene. Alle lenker til en lab |
+| `index.html` | Sender rett videre til `emne1.html` |
+| `modules/*.html` | Én lab per leksjon (L11–L13 deler én, og det samme gjør L22 og L25) |
+| `css/style.css`, `css/lab-shared.css`, `js/cyberlab.js` | Uendret fra CyberLab |
+| `css/enkel.css`, `js/enkel.js` | Stilen og spillene i den tilpassede versjonen |
+| `verktoy/` | Oppskrift, test og hjelpeskript |
 
-## Det eneste som er endret
-
-Lenker til sider som ikke er en del av Emne 1, peker nå på den ekte CyberLab-sida:
+Lenker til sider utenfor Emne 1 peker på den ekte CyberLab-sida:
 `index.html`, `emne3.html`, `labber.html` og `modules/kryptografi.html`.
-Ellers er alt likt med originalen, tegn for tegn.
 
 ## Tilpasset versjon
 
-Labbene skrives om for en student med ADHD som synes abstrakte begreper er vanskelige.
-Spørsmålene fra originalen beholdes, så læringsmålene er de samme.
+Labbene er skrevet om for en student med ADHD som synes abstrakte begreper er vanskelige.
 
-| Lab | Status |
-|-----|--------|
-| `modules/nett-grunnlag.html` (L05) | Tilpasset (pilot) |
-| De andre 9 | Som i CyberLab |
+Alle 26 leksjonene har en lab i den tilpassede stilen:
+
+| Leksjon | Fil | |
+|---|---|---|
+| L01 Å jobbe med cybersikkerhet | `cybersikkerhet.html` | ny |
+| L02 Hvordan digitale systemer virker | `digitale-systemer.html` | ny |
+| L03 Verdier, trusler, sårbarheter og risiko | `risiko.html` | ny |
+| L04 Etikk, lov og ansvar | `etikk-lov.html` | ny |
+| L05 Hva et nettverk er | `nett-grunnlag.html` | tilpasset |
+| L06 IP-adressering, DNS og DHCP | `adressering.html` | tilpasset |
+| L07 Tjenester, porter og eksponering | `porter.html` | tilpasset |
+| L08 Switching, VLAN og segmentering | `vlan.html` | tilpasset |
+| L09 Ruting, default gateway og NAT | `ruting-nat.html` | tilpasset |
+| L10 Trådløse nettverk | `tradlost.html` | tilpasset |
+| L11–L13 Linux | `linux.html` | tilpasset |
+| L14 Fire spørsmål til en ukjent maskin | `nettverk.html` | tilpasset |
+| L15 Fra kommando til program | `python-start.html` | ny |
+| L16 Én regel, mange linjer | `python-valg.html` | ny |
+| L17 Hundre funn, én variabel | `python-samlinger.html` | ny |
+| L18 Fem linjer med et navn | `python-funksjoner.html` | ny |
+| L19 Fra funn til rapport | `python-rapport.html` | ny |
+| L20 Når verden ikke ser ut som du trodde | `python-feil.html` | ny |
+| L21 Tabellen noen andre passer på | `sql.html` | ny |
+| L22 og L25 Web | `web-sarbarheter.html` | tilpasset |
+| L23 Kommandolinjen får sitt eget språk | `bash-skript.html` | ny |
+| L24 Ett skript, fire spørsmål | `maskinrapport.html` | ny |
+| L26 Når navnet blir kode | `injeksjon.html` | tilpasset |
+
+I de tilpassede labbene står alle de opprinnelige spørsmålene uendret. Unntaket er to fasiter
+som var «;» og aldri kunne godtas (svarsjekken fjerner tegnsetting). De viser nå «semikolon (;)».
+
+Slik lager eller endrer du en lab: se `verktoy/OPPSKRIFT.md`. Test med
+`node verktoy/test-lab.mjs modules/x.html` og `python3 verktoy/sjekk-originaler.py modules/x.html`.
 
 Hver oppgave er bygd slik, og hver idé forklares bare én gang:
 

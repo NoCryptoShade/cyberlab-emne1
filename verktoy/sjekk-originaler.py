@@ -10,9 +10,15 @@ rad = re.compile(r'data-a="([^"]*)"[^>]*>\s*<span class="ans-q">(.*?)</span>.*?<
 mcq = re.compile(r'<div class="mcq" data-c="(-?\d+)".*?<div class="mcq-fb">', re.S)
 def norm(t): return re.sub(r'\s+', ' ', t).strip()
 g = [tuple(map(norm, m)) for m in rad.findall(gammel)]; n = [tuple(map(norm, m)) for m in rad.findall(ny)]
-it = iter(n); mangler = [x for x in g if not any(x == y for y in it)]
+def i_rekkefolge(gamle, nye):
+    mangler, pos = [], 0
+    for x in gamle:
+        if x in nye[pos:]: pos = nye.index(x, pos) + 1
+        else: mangler.append(x)
+    return mangler
+mangler = i_rekkefolge(g, n)
 gm = [norm(m.group(0)) for m in mcq.finditer(gammel)]; nm = [norm(m.group(0)) for m in mcq.finditer(ny)]
-it2 = iter(nm); mmangler = [x for x in gm if not any(x == y for y in it2)]
+mmangler = i_rekkefolge(gm, nm)
 print(f'{fil}: {len(g)} opprinnelige spørsmål, {len(gm)} flervalg')
 for x in mangler: print('  MANGLER/ENDRET:', x[1][:90])
 for x in mmangler: print('  FLERVALG ENDRET:', x[:90])

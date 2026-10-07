@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ett skript, fire spørsmål — CyberLab</title>
+<link rel="stylesheet" href="../css/style.css?v=13">
+<link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+.enkel code,.enkel pre,.enkel .ans-in,.enkel .tm-vindu,.enkel .mcq-opt{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+.rf-k code,.rf-svar code{font-size:14px;white-space:pre}
+.x-felt{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px}
+.x-felt span{font-family:'JetBrains Mono',monospace;font-size:13px;padding:3px 8px;border-radius:6px;background:var(--bg3,rgba(127,127,127,.12));border:1px solid var(--border,rgba(127,127,127,.3))}
+.x-felt span b{color:var(--blue)}
+.x-mono .mcq-opt{font-family:"JetBrains Mono",monospace;font-size:14px;white-space:pre}
+</style>
+</head>
+<body class="page enkel">
+<nav class="nav">
+  <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
+  <div class="nav-links">
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="nav-link">Hjem</a>
+    <a href="../emne1.html" class="nav-link">Emne 1</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne3.html" class="nav-link">Emne 3</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="nav-link on">Labber</a>
+    <a href="https://tk1104.timoamling.com/" target="_blank" rel="noopener" class="nav-link">Self check &nearr;</a>
+  </div>
+</nav>
+
+<div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
+
+<div class="mod-hero">
+  <div class="section-eyebrow">Emne 1 &middot; Leksjon 24</div>
+  <div class="section-title">Ett skript, fire spørsmål</div>
+  <p class="section-desc">Samle maskininfo i én rapport, sammenligne med normalbildet, og kjøre kontroll automatisk. Fem små spill, og så noen spørsmål etter hvert.</p>
+</div>
+
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
+
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>Skript</dt><dd>En fil med kommandoer som kjøres etter hverandre.</dd>
+    <dt>Shebang</dt><dd>Første linje, <code>#!/bin/bash</code>. Sier hvilket program som skal lese skriptet.</dd>
+    <dt>Variabel</dt><dd>Et navn på en verdi. <code>dato=…</code> lager den, <code>$dato</code> bruker den.</dd>
+    <dt><code>$(…)</code></dt><dd>Kjør kommandoen inni, og lim inn svaret.</dd>
+    <dt><code>&gt;</code> og <code>&gt;&gt;</code></dt><dd>Send utskriften til en fil. <code>&gt;</code> lager fila på nytt, <code>&gt;&gt;</code> legger til nederst.</dd>
+    <dt>Normalbilde</dt><dd>Et bilde av maskinen mens du vet den er ren. Baseline på engelsk.</dd>
+    <dt>diff</dt><dd>Sammenligner to filer linje for linje.</dd>
+    <dt>Avvik</dt><dd>Noe som er annerledes enn normalbildet.</dd>
+    <dt>Avslutningskode</dt><dd>Tallet en kommando gir når den er ferdig. Ligger i <code>$?</code>. 0 = alt OK.</dd>
+    <dt>cron</dt><dd>Linux sin vekkerklokke. Kjører jobber til faste tider.</dd>
+    <dt>crontab</dt><dd>Lista over dine cron-jobber.</dd>
+    <dt>Bakdør</dt><dd>Et program en angriper lar stå og lytte, så han kan komme inn igjen.</dd>
+  </dl>
+</details>
+
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
+
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · FIRE SPØRSMÅL ═══════════════════════ -->
+<div class="lab-card" id="l24-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">Fire spørsmål og en dato</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Spørsmålene</div>
+<p class="e-hook">I L14 stilte du fire spørsmål til en maskin, én kommando om gangen. Nå skal ett skript stille alle fire hver morgen, mens du drikker kaffe ☕</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hvem svarer på hva?" data-oppgave="Koble spørsmålet til kommandoen som svarer.">
+  <div class="pr-par" data-forklar="Maskinnavn, kjerne og arkitektur på én linje. hostnamectl sier mer, men over mange linjer."><span>🪪 Hvem er du?</span><span><code>uname -a</code></span></div>
+  <div class="pr-par" data-forklar="Tjenestene som går akkurat nå."><span>⚙️ Hva kjører?</span><span><code>systemctl list-units --type=service --state=running</code></span></div>
+  <div class="pr-par" data-forklar="t = TCP, l = lytter, n = tall i stedet for navn. Uten p trenger du ikke sudo."><span>👂 Hva lytter?</span><span><code>ss -tln</code></span></div>
+  <div class="pr-par" data-forklar="Én linje per innlogging."><span>👥 Hvem er inne?</span><span><code>who</code></span></div>
+  <div class="pr-par" data-forklar="%F = full dato: år-måned-dag. Den trenger rapporten i navnet sitt."><span>📅 Hvilken dag er det?</span><span><code>date +%F</code></span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>$(kommando)</code> kjører kommandoen og limer svaret rett inn i teksten. Det heter <b>kommandoerstatning</b> (command substitution).<br>
+<code>+%F</code> gir datoen som år-måned-dag. Da står filene i riktig rekkefølge av seg selv 📅
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="date +%F" data-mal="Hvilken dag er det?"><template class="ut"><span class="h1">2026</span>-<span class="h2">10</span>-<span class="h3">07</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>år</span></li><li><span class="m h2"></span><span>måned</span></li><li><span class="m h3"></span><span>dag</span></li></ul></template></div>
+<div class="tm-o" data-cmd="echo &quot;rapport-$(date +%F).txt&quot;" data-mal="Lim datoen inn i et filnavn:" data-alias="echo rapport-$(date +%F).txt"><template class="ut">rapport-<span class="h1">2026-10-07</span>.txt</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>her sto <code>$(date +%F)</code>. Bash kjørte den og limte inn svaret</span></li></ul><p>Husker du L23? Med enkle hermetegn <code>'…'</code> blir <code>$(…)</code> <b>ikke</b> kjørt. Bruk doble.</p></template></div>
+<div class="tm-o" data-cmd="uname -a" data-mal="Spørsmål 1: hvem er du?" data-skjult data-hint="Fra L14, kortversjonen av <code>hostnamectl</code>. Starter med <code>u</code>, og <code>-a</code> = alt."><template class="ut">Linux <span class="h1">kali</span> <span class="h2">6.12.13-amd64</span> #1 SMP PREEMPT_DYNAMIC Kali 6.12.13-1kali1 (2025-02-11) <span class="h3">x86_64</span> GNU/Linux</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>maskinnavnet</span></li><li><span class="m h2"></span><span>kjerneversjonen</span></li><li><span class="m h3"></span><span>64-bit</span></li></ul><p>Én linje. Perfekt til en rapport ✍️</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="kali"><span class="ans-q">Hva heter maskinen ifølge uname -a?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det gule ordet rett etter <code>Linux</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">kali</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Datoen og kjernen blir annerledes hos deg. Det er helt riktig!<p class="e-win">Windows (PowerShell): <code>Get-Date -Format yyyy-MM-dd</code> og <code>hostname</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="hva kjører|hva kjorer|kjører"><span class="ans-q">Hvilket av de fire spørsmålene svarer systemctl list-units --type=service --state=running på?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på parene i spillet. Hvilken emoji fikk <code>systemctl</code>? ⚙️</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">hva kjører</div></div></div>
+<div class="ans-row" data-p="1" data-a="logg-kali.txt"><span class="ans-q">Du er logget inn som kali og skriver fil="logg-$(whoami).txt". Hva blir verdien av fil?</span><input class="ans-in" placeholder="et filnavn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip"><code>whoami</code> svarer med brukernavnet. Lim det inn der <code>$(whoami)</code> står, som med datoen i oppdrag 2.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">logg-kali.txt</div></div></div>
+<div class="ans-row" data-p="1" data-a="dagen|dag"><span class="ans-q">Med +%F står året først. Hva står sist?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på den grønne biten i <code>date +%F</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">dagen</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · SKRIPTET ═══════════════════════ -->
+<div class="lab-card" id="l24-2" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">Bygg maskinrapport.sh</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Én fil, én rapport</div>
+<p class="e-hook">Fem kommandoer å skrive hver morgen? Nei takk 🙅 Vi legger dem i én fil og trykker <b>én</b> gang.</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Bygg et mini-skript" data-oppgave="Sett linjene i riktig rekkefølge, fra øverst til nederst. Skriptet lager en rapport med ett av spørsmålene.">
+  <div class="rf-item" data-forklar="Shebang. Alltid først: «les meg med bash»."><code>#!/bin/bash</code></div>
+  <div class="rf-item" data-forklar="Datoen først. Den trengs i neste linje."><code>dato=$(date +%F)</code></div>
+  <div class="rf-item" data-forklar="Filnavnet bygges av datoen. En variabel må finnes før den brukes."><code>rapport="rapport-$dato.txt"</code></div>
+  <div class="rf-item" data-forklar="Én &gt; lager fila på nytt. Derfor må den komme før alle &gt;&gt;."><code>echo "== Maskinrapport $dato ==" &gt; "$rapport"</code></div>
+  <div class="rf-item" data-forklar="Overskriften kommer før svaret den hører til."><code>echo "== Hva lytter? ==" &gt;&gt; "$rapport"</code></div>
+  <div class="rf-item" data-forklar="Svaret legges til under overskriften."><code>ss -tln &gt;&gt; "$rapport"</code></div>
+  <div class="rf-item" data-forklar="Til slutt: si fra på skjermen hvor rapporten ligger."><code>echo "Ferdig: $rapport"</code></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>&gt;</code> sender utskriften til en fil og <b>lager fila på nytt</b>. <code>&gt;&gt;</code> <b>legger til nederst</b> (append).<br>
+<code>"$rapport"</code> står i doble hermetegn, så et filnavn med mellomrom ikke deles i to (quoting, fra L23).
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat maskinrapport.sh" data-mal="Se på hele skriptet, med alle fire spørsmål:"><template class="ut">#!/bin/bash
+<span class="dim"># maskinrapport.sh: fire spørsmål, én rapport</span>
+<span class="h2">dato=$(date +%F)</span>
+<span class="h2">rapport="rapport-$dato.txt"</span>
+
+echo "== Maskinrapport $dato ==" <span class="h1">&gt;</span> "$rapport"
+echo "== Hvem er du? ==" <span class="h3">&gt;&gt;</span> "$rapport"
+uname -a <span class="h3">&gt;&gt;</span> "$rapport"
+echo "== Hva kjører? ==" <span class="h3">&gt;&gt;</span> "$rapport"
+systemctl list-units --type=service --state=running --no-legend <span class="h3">&gt;&gt;</span> "$rapport"
+echo "== Hva lytter? ==" <span class="h3">&gt;&gt;</span> "$rapport"
+ss -tln <span class="h3">&gt;&gt;</span> "$rapport"
+echo "== Hvem er inne? ==" <span class="h3">&gt;&gt;</span> "$rapport"
+who <span class="h3">&gt;&gt;</span> "$rapport"
+
+echo "Ferdig: $rapport"</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>variablene: dato og filnavn</span></li><li><span class="m h1"></span><span>én <code>&gt;</code>: start en ny rapport</span></li><li><span class="m h3"></span><span><code>&gt;&gt;</code>: legg til nederst</span></li></ul><p><code>--no-legend</code> fjerner overskrift og forklaring fra systemctl. Linjer som starter med <code>#</code> er kommentarer.</p></template></div>
+<div class="tm-o" data-cmd="chmod +x maskinrapport.sh" data-mal="Gjør fila kjørbar:" data-alias="chmod u+x maskinrapport.sh|chmod 755 maskinrapport.sh"><template class="ut"><span class="dim">(ingen utskrift. Stille betyr at det gikk bra)</span></template><template class="forklar"><p><code>+x</code> = «lov å kjøre» (execute). Uten den sier Linux <code>Permission denied</code>.</p></template></div>
+<div class="tm-o" data-cmd="./maskinrapport.sh" data-mal="Kjør skriptet:" data-alias="bash maskinrapport.sh"><template class="ut">Ferdig: <span class="h1">rapport-2026-10-07.txt</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>navnet på rapporten. Datoen kom fra <code>$(date +%F)</code></span></li></ul><p><code>./</code> = «i mappa jeg står i». Alt annet havnet i fila, ikke på skjermen.</p></template></div>
+<div class="tm-o" data-cmd="cat rapport-2026-10-07.txt" data-mal="Les rapporten." data-skjult data-hint="<code>cat</code> og filnavnet skriptet skrev ut."><template class="ut"><span class="h4">== Maskinrapport 2026-10-07 ==</span>
+<span class="h4">== Hvem er du? ==</span>
+Linux kali 6.12.13-amd64 #1 SMP PREEMPT_DYNAMIC Kali 6.12.13-1kali1 (2025-02-11) x86_64 GNU/Linux
+<span class="h4">== Hva kjører? ==</span>
+  accounts-daemon.service  loaded active running Accounts Service
+  cron.service             loaded active running Regular background program processing daemon
+  dbus.service             loaded active running D-Bus System Message Bus
+  lightdm.service          loaded active running Light Display Manager
+  mariadb.service          loaded active running MariaDB 11.8.3 database server
+  NetworkManager.service   loaded active running Network Manager
+  polkit.service           loaded active running Authorization Manager
+  ssh.service              loaded active running OpenBSD Secure Shell server
+  systemd-journald.service loaded active running Journal Service
+  systemd-logind.service   loaded active running User Login Management
+  systemd-udevd.service    loaded active running Rule-based Manager for Device Events and Files
+  user@1000.service        loaded active running User Manager for UID 1000
+<span class="h4">== Hva lytter? ==</span>
+State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess
+LISTEN 0      128          0.0.0.0:22        0.0.0.0:*
+LISTEN 0      80         127.0.0.1:3306      0.0.0.0:*
+LISTEN 0      1            0.0.0.0:4444      0.0.0.0:*
+LISTEN 0      128             [::]:22           [::]:*
+<span class="h4">== Hvem er inne? ==</span>
+kali     tty7         2026-10-07 08:12 (:0)
+kali     pts/1        2026-10-07 09:41 (192.168.1.20)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h4"></span><span>overskriftene fra <code>echo</code></span></li></ul><p>Fire svar i én fil 🎉 Men se nøye under «Hva lytter?». Er alt der kjent fra L14? 👀</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="4444"><span class="ans-q">Én port under «Hva lytter?» var ikke med i L14. Hvilken?</span><input class="ans-in" placeholder="et portnummer"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">I L14 lyttet bare 22 og 3306. Se på tallet etter <code>0.0.0.0:</code> på de fire LISTEN-linjene.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4444</div></div></div>
+<div class="ans-row" data-p="1" data-a="12|tolv"><span class="ans-q">Hvor mange tjenester kjører, ifølge rapporten?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene under «Hva kjører?». Hver linje slutter på <code>.service</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">12</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv <code>nano maskinrapport.sh</code> og skriv inn skriptet fra øve-terminalen. Lagre med <b>Ctrl + O</b> og <b>Enter</b>, avslutt med <b>Ctrl + X</b>. Kjør så <code>chmod +x maskinrapport.sh</code> og <code>./maskinrapport.sh</code>, og les rapporten med <code>cat rapport-$(date +%F).txt</code>. Hos deg lytter nok færre porter, og tjenestelista er en annen. Det er helt riktig!</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="mcq x-mono" data-c="5862017" data-ok="Riktig! &gt;&gt; legger til nederst." data-no="Ikke helt. Én &gt; lager fila på nytt og sletter det som sto der. | sender videre til en annen kommando."><div class="mcq-q">Hvilket tegn legger til nederst i en fil, uten å slette det som står der?</div><button class="mcq-opt">&gt;</button><button class="mcq-opt">&gt;&gt;</button><button class="mcq-opt">|</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="who|hvem er inne"><span class="ans-q">Du bytter alle &gt;&gt; i skriptet med &gt;. Hvilken kommando sitt svar blir det eneste som står igjen i rapporten?</span><input class="ans-in" placeholder="en kommando"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hver <code>&gt;</code> lager fila på nytt. Hvem skriver til fila aller sist?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">who</div></div></div>
+<div class="ans-row" data-p="1" data-a="chmod +x maskinrapport.sh|chmod +x|chmod u+x maskinrapport.sh"><span class="ans-q">Hvilken kommando må du kjøre før ./maskinrapport.sh virker første gang?</span><input class="ans-in" placeholder="en kommando"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Oppdrag 2 i øve-terminalen: «lov å kjøre».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">chmod +x maskinrapport.sh</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · NORMALBILDE OG DIFF ═══════════════════════ -->
+<div class="lab-card" id="l24-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">Normalbildet og diff</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Hva er nytt?</div>
+<p class="e-hook">Er port 4444 farlig? Det vet du ikke før du vet hva som er <b>vanlig</b> på maskinen 🤔 Så la oss sammenligne med i går.</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Hva er nytt i dag?" data-oppgave="Dette er diff mellom gårsdagens og dagens rapport. &lt;code&gt;&amp;lt;&lt;/code&gt; = bare i går. &lt;code&gt;&amp;gt;&lt;/code&gt; = bare i dag. Klikk på linja som viser en ny port som lytter.">
+<pre><span class="kl" data-forklar="En overskrift fra diff: linje 1 er byttet ut (c = change). Ikke en port.">1c1</span>
+<span class="kl" data-forklar="Gårsdagens dato. Den endrer seg hver dag. Helt normalt.">&lt; == Maskinrapport 2026-10-06 ==</span>
+---
+<span class="kl" data-forklar="Dagens dato. Selvfølgelig ny 😄">&gt; == Maskinrapport 2026-10-07 ==</span>
+<span class="kl" data-forklar="En overskrift: etter linje 20, legg til (a = add) linje 21. Riktig sted! Men klikk på selve linja under.">20a21</span>
+<span class="kl" data-rett data-forklar="&gt; = bare i dag. LISTEN på 0.0.0.0:4444, åpen for alle. Den porten lyttet ikke i går! 🚨">&gt; LISTEN 0      1            0.0.0.0:4444      0.0.0.0:*</span>
+<span class="kl" data-forklar="En overskrift: linje 23–24 er byttet ut med 24–25.">23,24c24,25</span>
+<span class="kl" data-forklar="&lt; = bare i går. Du ved skjermen i går. En innlogging, ikke en port.">&lt; kali     tty7         2026-10-06 17:30 (:0)</span>
+<span class="kl" data-forklar="Naboen .20 sin innlogging i går kveld. Bare i går, og ikke en port.">&lt; kali     pts/1        2026-10-06 21:03 (192.168.1.20)</span>
+---
+<span class="kl" data-forklar="Du ved skjermen i dag. Nytt klokkeslett, men helt normalt.">&gt; kali     tty7         2026-10-07 08:12 (:0)</span>
+<span class="kl" data-forklar="Naboen .20 fra L14 er inne igjen. Normalt, og ikke en port.">&gt; kali     pts/1        2026-10-07 09:41 (192.168.1.20)</span></pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>diff</code> sammenligner to filer linje for linje. <code>&lt;</code> = bare i den <b>første</b> fila. <code>&gt;</code> = bare i den <b>andre</b>.<br>
+Linja over sier hvor: <code>3a4</code> = «etter linje 3, legg til linje 4». <code>a</code> = lagt til (add), <code>c</code> = endret (change), <code>d</code> = borte (delete).<br>
+Dato og innlogginger endrer seg hver dag. Det er <b>støy</b>. Derfor lagrer vi ett rent <b>normalbilde</b> (baseline) av det som lytter, <b>én gang</b>: <code>ss -tln &gt; normal.txt</code>
+</div>
+<p class="e-sikker">📸 Ta normalbildet mens du vet at maskinen er ren. Tar du det etter et innbrudd, blir bakdøra en del av «det normale» 😬</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat normal.txt" data-mal="Se på normalbildet, lagret 1. oktober:"><template class="ut">State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess
+LISTEN 0      128          0.0.0.0:<span class="h3">22</span>        0.0.0.0:*
+LISTEN 0      80         127.0.0.1:<span class="h3">3306</span>      0.0.0.0:*
+LISTEN 0      128             [::]:<span class="h3">22</span>           [::]:*</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>portene som lytter på en vanlig dag: SSH og databasen</span></li></ul></template></div>
+<div class="tm-o" data-cmd="ss -tln &gt; i_dag.txt" data-mal="Ta et bilde av i dag, rett i en fil:" data-alias="ss -ltn &gt; i_dag.txt|ss -lnt &gt; i_dag.txt|ss -tnl &gt; i_dag.txt|ss -ntl &gt; i_dag.txt|ss -nlt &gt; i_dag.txt"><template class="ut"><span class="dim">(ingen utskrift. Alt havnet i i_dag.txt)</span></template><template class="forklar"><p>Samme kommando som normalbildet, bare et annet filnavn. Da kan de to sammenlignes linje for linje.</p></template></div>
+<div class="tm-o" data-cmd="diff normal.txt i_dag.txt" data-mal="Hva er forskjellen?" data-skjult data-hint="<code>diff</code>, så normalbildet, så dagens fil."><template class="ut"><span class="h2">3a4</span>
+<span class="h1">&gt;</span> LISTEN 0      1            0.0.0.0:4444      0.0.0.0:*</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>etter linje 3 i normal.txt kommer en ny linje 4</span></li><li><span class="m h1"></span><span>bare i den andre fila, i_dag.txt</span></li></ul><p>Ingen støy. Bare det ene som faktisk er nytt 🎯</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="4444"><span class="ans-q">Hvilken port lytter i dag, men ikke i normalbildet?</span><input class="ans-in" placeholder="et portnummer"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Linja med <code>&gt;</code> foran i <code>diff</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4444</div></div></div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hvor mange LISTEN-linjer står i normal.txt?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene under overskriften i <code>cat normal.txt</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag normalbildet ditt én gang: <code>ss -tln &gt; normal.txt</code>. Ta så et nytt bilde med <code>ss -tln &gt; i_dag.txt</code> og kjør <code>diff normal.txt i_dag.txt</code>. Får du <b>ingen utskrift</b>? Da er filene like. Det er helt riktig!<p class="e-win">Windows: <code>netstat -an &gt; normal.txt</code> og <code>fc normal.txt i_dag.txt</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="mcq x-mono" data-c="177635" data-ok="Riktig! &gt; peker mot den andre fila, i_dag.txt." data-no="Ikke helt. &lt; peker mot den første fila. --- skiller bare to deler av en endring."><div class="mcq-q">diff normal.txt i_dag.txt — hvilket tegn står foran en linje som bare finnes i i_dag.txt?</div><button class="mcq-opt">&lt;</button><button class="mcq-opt">&gt;</button><button class="mcq-opt">---</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="filene er like|de er like|ingen forskjell|ingenting er endret|ingen endring"><span class="ans-q">diff normal.txt i_dag.txt skriver ingenting i det hele tatt. Hva betyr det?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">diff viser bare forskjeller. Ingen linjer = ingen …? Les Kali-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">filene er like</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">En dag viser diff linja &lt; LISTEN 0 80 127.0.0.1:3306 … Lytter databasen fortsatt? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip"><code>&lt;</code> = bare i den første fila, normalbildet. Finnes linja i dag?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · VAKTA: IF + DIFF ═══════════════════════ -->
+<div class="lab-card" id="l24-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Skriptet som roper AVVIK</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — if + diff</div>
+<p class="e-hook">Så hvem åpnet egentlig port 4444? Spol tilbake til i natt 🌙</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Natta normalbildet slo alarm">
+  <div class="ch-item" data-fra="sys">📍 Natt til onsdag 7. oktober. Maskinen kali står og surrer. Alle sover 😴</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 03:12 · Inntrengeren">Inne! Nå setter jeg opp en bakdør, så jeg kommer tilbake når jeg vil: <code>nc -lvnp 4444</code> 🚪</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Inntrengeren">Ingen ny tjeneste i <code>systemctl</code>. Jeg logger ut, så <code>who</code> ser meg ikke heller 😏</div>
+  <div class="ch-item" data-stopp="⏰ Spol fram til kl. 07:00"></div>
+  <div class="ch-item" data-fra="sys">⏰ 07:00. maskinrapport.sh starter av seg selv, som hver morgen. (Hvordan? Det lærer du i oppgave 5.)</div>
+  <div class="ch-item" data-fra="pc" data-navn="🤖 maskinrapport.sh">Spørsmål 3: hva lytter? <code>ss -tln &gt; i_dag.txt</code></div>
+  <div class="ch-item" data-fra="pc" data-navn="🤖 maskinrapport.sh">Sammenligner med normalbildet… <code>diff -q normal.txt i_dag.txt</code> sier: <b>differ</b>!</div>
+  <div class="ch-item" data-fra="pc" data-navn="🤖 maskinrapport.sh">🚨 AVVIK! Skriver forskjellen inn i rapporten.</div>
+  <div class="ch-item" data-stopp="☕ Spol fram til du kommer på jobb"></div>
+  <div class="ch-item" data-fra="nabo" data-navn="👩‍💻 Deg · 08:12">AVVIK i rapporten? <code>&gt; LISTEN … 0.0.0.0:4444</code>. Den porten har jeg aldri åpnet!</div>
+  <div class="ch-item" data-fra="nabo" data-navn="👩‍💻 Deg">Hvem står bak? <code>sudo ss -tlnp</code> … <code>users:(("nc",…))</code>. Netcat! Kobler maskinen fra nettet 🔌</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Inntrengeren">Hæ?! Bakdøra svarer ikke 😤 Hvordan fant de den så fort?</div>
+  <div class="ch-item" data-fra="sys">🎉 Normalbildet. Uten det hadde 4444 vært én linje blant mange.</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Hver kommando gir en <b>avslutningskode</b> (exit status) når den er ferdig. Den ligger i <code>$?</code>. For diff: <code>0</code> = like, <code>1</code> = ulike.<br>
+<code>if</code> kjører blokka når koden er 0. <code>!</code> snur det: <code>if ! diff -q normal.txt i_dag.txt; then … fi</code> = «hvis filene <b>ikke</b> er like». <code>-q</code> (quiet) = si bare <b>om</b> de er ulike, ikke hvordan.
+</div>
+<p class="e-sikker">🔔 Mangler normal.txt? Da gir diff kode 2 (feil), <code>!</code> snur den, og skriptet roper AVVIK likevel. En falsk alarm er bedre enn ingen.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="diff -q normal.txt i_dag.txt" data-mal="Spør bare: er de ulike?"><template class="ut">Files normal.txt and i_dag.txt <span class="h1">differ</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>«er forskjellige». Ingen detaljer, bare svaret</span></li></ul></template></div>
+<div class="tm-o" data-cmd="echo $?" data-mal="Se avslutningskoden til diff:"><template class="ut"><span class="h1">1</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>1 = filene er ulike. Like filer hadde gitt 0</span></li></ul><p><code>$?</code> husker bare den <b>siste</b> kommandoen. Sjekk den med en gang.</p></template></div>
+<div class="tm-o" data-cmd="cat maskinrapport.sh" data-mal="Se på skriptet, nå med en vakt nederst:" data-skjult data-hint="Samme som første oppdrag i oppgave 2."><template class="ut">#!/bin/bash
+<span class="dim"># maskinrapport.sh: fire spørsmål, én rapport, og en vakt</span>
+dato=$(date +%F)
+rapport="rapport-$dato.txt"
+
+echo "== Maskinrapport $dato ==" &gt; "$rapport"
+echo "== Hvem er du? ==" &gt;&gt; "$rapport"
+uname -a &gt;&gt; "$rapport"
+echo "== Hva kjører? ==" &gt;&gt; "$rapport"
+systemctl list-units --type=service --state=running --no-legend &gt;&gt; "$rapport"
+echo "== Hva lytter? ==" &gt;&gt; "$rapport"
+ss -tln &gt;&gt; "$rapport"
+echo "== Hvem er inne? ==" &gt;&gt; "$rapport"
+who &gt;&gt; "$rapport"
+
+<span class="h2">ss -tln &gt; i_dag.txt</span>
+<span class="h1">if ! diff -q normal.txt i_dag.txt; then</span>
+    <span class="h3">echo "== AVVIK ==" &gt;&gt; "$rapport"</span>
+    <span class="h3">diff normal.txt i_dag.txt &gt;&gt; "$rapport"</span>
+    <span class="h3">echo "AVVIK! Se $rapport"</span>
+<span class="h1">fi</span>
+echo "Ferdig: $rapport"</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>dagens bilde, som i oppgave 3</span></li><li><span class="m h1"></span><span>vakta: «hvis filene ikke er like …» og <code>fi</code> (if baklengs) avslutter</span></li><li><span class="m h3"></span><span>kjører bare ved avvik: forskjellen havner i rapporten</span></li></ul></template></div>
+<div class="tm-o" data-cmd="./maskinrapport.sh" data-mal="Kjør det nye skriptet." data-alias="bash maskinrapport.sh" data-skjult data-hint="Samme som i oppgave 2: punktum, skråstrek og filnavnet."><template class="ut">Files normal.txt and i_dag.txt differ
+<span class="h1">AVVIK! Se rapport-2026-10-07.txt</span>
+Ferdig: rapport-2026-10-07.txt</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>vakta slo til 🚨</span></li></ul><p>Første linje kommer fra <code>diff -q</code> selv. Nederst i rapporten står nå <code>== AVVIK ==</code> og diff-linjene fra oppgave 3.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="1|en|én"><span class="ans-q">Hvilken avslutningskode ga diff -q?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Utskriften fra <code>echo $?</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Legg vakta inn i skriptet ditt med <code>nano maskinrapport.sh</code>, og kjør <code>./maskinrapport.sh</code>. Ingen AVVIK? Bra! Vil du se vakta slå til, åpne en ny terminal og lag en ufarlig «bakdør»: <code>nc -lvnp 4444</code>. Kjør skriptet igjen i den første terminalen 🚨 Stopp nc med <b>Ctrl + C</b> etterpå. Gjør dette bare på din egen maskin.</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="0|null"><span class="ans-q">Hvilket tall gir echo $? etter en diff der filene er helt like?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Fagord-boksen: hva betyr 0 for diff?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">0</div></div></div>
+<div class="mcq" data-c="-330208796" data-ok="Riktig! ! snur svaret, så blokka kjører når filene er ulike." data-no="Ikke helt. ! i Bash betyr «ikke». Les fagord-boksen igjen."><div class="mcq-q">Hva gjør ! i if ! diff -q normal.txt i_dag.txt; then?</div><button class="mcq-opt">Sletter normal.txt</button><button class="mcq-opt">Snur svaret: kjør når filene er ulike</button><button class="mcq-opt">Kjører diff to ganger</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="hva lytter|lytter"><span class="ans-q">Bakdøra var ingen tjeneste, og inntrengeren logget ut. Hvilket av de fire spørsmålene avslørte ham?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilket spørsmål stilte skriptet i chatten kl. 07:00? Det med <code>ss -tln</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">hva lytter</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · CRON ═══════════════════════ -->
+<div class="lab-card" id="l24-5" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">Av seg selv hver morgen: cron</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Vekkerklokka</div>
+<p class="e-hook">Kl. 07:00 kjørte skriptet mens alle sov. Hvem trykket på knappen? Ingen. En linje med fem felt gjorde det ⏰</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Når kjører denne linja?" data-knapper="🔁 Hvert kvarter|⏰ Én gang i timen|☀️ Én gang om dagen|📅 Én gang i uka">
+  <div class="ly-fast">Feltene: <div class="x-felt"><span><b>minutt</b></span><span><b>time</b></span><span>dag i mnd</span><span>måned</span><span>ukedag</span></div><code>*</code> = alle</div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Minutt 0, time 7, alle dager. Hver morgen kl. 07:00 ☀️"><code>0 7 * * *</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="*/15 i minuttfeltet = hvert 15. minutt: :00, :15, :30 og :45."><code>*/15 * * * *</code></div>
+  <div class="ly-item" data-svar="3" data-hvorfor="Siste felt er ukedag. 1 = mandag. Mandager kl. 07:00."><code>0 7 * * 1</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Minutt 0 i alle timer: 00:00, 01:00, 02:00 …"><code>0 * * * *</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Lurt! 15 uten */ betyr «når minuttet er 15». Kl. 00:15, 01:15 … én gang i timen."><code>15 * * * *</code></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Lurt! Minuttet står først. Dette er 00:07, sju minutter over midnatt, hver dag."><code>7 0 * * *</code></div>
+  <div class="ly-item" data-svar="3" data-hvorfor="0 i ukedag = søndag (7 betyr også søndag). Søndager kl. 03:30."><code>30 3 * * 0</code></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>cron</b> er Linux sin vekkerklokke. Jobbene dine står i din <b>crontab</b>, én linje per jobb: fem tidsfelt, så kommandoen.<br>
+<code>*</code> = alle. <code>*/15</code> = hvert 15. Ukedag: 1 = mandag, 0 og 7 = søndag.<br>
+<code>crontab -e</code> = rediger (edit). <code>crontab -l</code> = vis lista (list).
+</div>
+<p class="e-sikker">🦹 Angripere elsker cron også. En linje i crontab kan starte bakdøra på nytt hver natt. Sjekk <code>crontab -l</code> når noe virker rart.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="crontab -l" data-mal="Vis cron-jobbene dine:"><template class="ut"><span class="dim"># Edit this file to introduce tasks to be run by cron.
+#
+# Each task to run has to be defined through a single line
+# indicating with different fields when the task will be run
+# and what command to run for the task
+#
+# To define the time you can provide concrete values for
+# minute (m), hour (h), day of month (dom), month (mon),
+# and day of week (dow) or use '*' in these fields (for 'any').
+#
+# Notice that tasks will be started based on the cron's system
+# daemon's notion of time and timezones.
+#
+# Output of the crontab jobs (including errors) is sent through
+# email to the user the crontab file belongs to (unless redirected).
+#
+# For example, you can run a backup of all your user accounts
+# at 5 a.m every week with:
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+#
+# For more information see the manual pages of crontab(5) and cron(8)
+# </span>
+<span class="h4"># m h  dom mon dow   command</span>
+<span class="h1">0 7 * * *</span> <span class="h2">/home/kali/maskinrapport.sh</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h4"></span><span>huskelappen: minutt, time, dag, måned, ukedag, kommando</span></li><li><span class="m h1"></span><span>når: hver dag kl. 07:00</span></li><li><span class="m h2"></span><span>hva: skriptet ditt, med full sti</span></li></ul><p>Alt med <code>#</code> foran er kommentarer som fulgte med da crontab-en ble laget. Bare den siste linja er en jobb.</p></template></div>
+<div class="tm-o" data-cmd="ls rapport-*" data-mal="Se rapportene cron har laget denne uka:" data-alias="ls rapport*"><template class="ut">rapport-2026-10-01.txt  rapport-2026-10-04.txt  rapport-2026-10-07.txt
+rapport-2026-10-02.txt  rapport-2026-10-05.txt
+rapport-2026-10-03.txt  rapport-2026-10-06.txt</template><template class="forklar"><p>Én rapport per dag. Og takket være <code>%F</code> står de i riktig rekkefølge (les nedover) 📅 <code>*</code> betyr her «hva som helst», akkurat som i cron.</p></template></div>
+<div class="tm-o" data-cmd="grep -c AVVIK rapport-*" data-mal="Tell AVVIK i hver rapport:" data-alias="grep -c &quot;AVVIK&quot; rapport-*|grep -c 'AVVIK' rapport-*|grep AVVIK -c rapport-*" data-skjult data-hint="<code>grep -c</code> fra L12 teller treff. Så ordet, så <code>rapport-*</code>."><template class="ut">rapport-2026-10-01.txt:0
+rapport-2026-10-02.txt:0
+rapport-2026-10-03.txt:0
+rapport-2026-10-04.txt:0
+rapport-2026-10-05.txt:0
+rapport-2026-10-06.txt:0
+<span class="h1">rapport-2026-10-07.txt:1</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>bare i dag: natta med bakdøra</span></li></ul><p>Seks rolige morgener, én alarm. Slik skal det se ut 😌</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="1|en|én"><span class="ans-q">Hvor mange av rapportene inneholder AVVIK?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell filene med <code>:1</code> i <code>grep -c</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1</div></div></div>
+<div class="ans-row" data-p="1" data-a="07:00|7|kl 7"><span class="ans-q">Hvilket klokkeslett kjører jobben i crontab -l?</span><input class="ans-in" placeholder="tt:mm"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten på siste linje: minutt, så time.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">07:00</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv <code>crontab -e</code>. Første gang spør den om editor: velg <b>nano</b>. Legg til linja <code>0 7 * * * /home/kali/maskinrapport.sh</code> nederst, lagre og avslutt. Sjekk med <code>crontab -l</code>. Bruk alltid full sti: cron starter i hjemmemappa di (der <code>normal.txt</code> ligger), men vet lite annet. Vil du teste raskt? Bruk <code>*/2 * * * *</code>, vent to minutter, og bytt tilbake etterpå.<p class="e-win">Windows: Oppgaveplanlegging (Task Scheduler), eller <code>schtasks</code> i terminalen.</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="minutt|minuttet|minutter"><span class="ans-q">Hvilket felt står først i en cron-linje?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Husk det lure kortet <code>7 0 * * *</code> i lynrunden. Det var 00:07, ikke 07:00.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">minutt</div></div></div>
+<div class="mcq x-mono" data-c="-305085892" data-ok="Riktig! Minutt 30, time 6, alle dager." data-no="Ikke helt. Minuttet står først, så timen. */30 ville vært hver halvtime."><div class="mcq-q">Hvilken linje kjører hver dag kl. 06:30?</div><button class="mcq-opt">6 30 * * *</button><button class="mcq-opt">30 6 * * *</button><button class="mcq-opt">*/30 6 * * *</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="mandag til fredag|hverdager|hverdag|man-fre|mandag-fredag"><span class="ans-q">Linja 0 7 * * 1-5 kjører kl. 07:00 på hvilke dager?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Siste felt er ukedag. 1 = mandag, så 1-5 = mandag til …?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">mandag til fredag</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-inner">
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+</div></div></footer>
+<script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
+</body>
+</html>

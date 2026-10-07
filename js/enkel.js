@@ -441,7 +441,139 @@
     kort.forEach(function(k){ obs.observe(k, { attributes: true, attributeFilter: ['class'], attributeOldValue: true }); });
   }
 
-  var MOTORER = { pakker: pakker, reise: reise, lyn: lyn, chat: chat, rop: rop, terminal: terminal };
+  /* ── Felles: stokk en liste, men aldri tilbake til samme rekkefoelge ── */
+  function stokk(a){
+    var b = a.slice();
+    for (var n = 0; n < 8; n++) {
+      for (var i = b.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = b[i]; b[i] = b[j]; b[j] = t; }
+      if (b.length < 2 || b.some(function(x, k){ return x !== a[k]; })) break;
+    }
+    return b;
+  }
+
+  /* ── Klikk: finn de riktige bitene i en tekst, logg eller kode ──
+       <div class="e-spill" data-spill="klikk" data-oppgave="Klikk på alle IP-adressene">
+         <pre>… <span class="kl" data-rett data-forklar="…">10.0.0.1</span> … <span class="kl" data-forklar="…">felle</span></pre>
+       </div>
+     Ferdig naar alle med data-rett er funnet. data-forklar vises ved klikk. */
+  function klikk(sp){
+    var ferdig = ramme(sp, sp.dataset.tittel || '🔎 Finn dem');
+    var alle = [].slice.call(sp.querySelectorAll('.kl'));
+    var rette = alle.filter(function(k){ return k.hasAttribute('data-rett'); });
+    var oppg = el('p', 'kl-oppgave', (sp.dataset.oppgave || 'Klikk på de riktige') + ' <span class="kl-teller"></span>');
+    sp.insertBefore(oppg, sp.querySelector('.sp-topp').nextSibling);
+    var teller = oppg.querySelector('.kl-teller');
+    var tekst = el('p', 'sp-tekst'); sp.appendChild(tekst);
+    var funnet = 0;
+    function tell(){ teller.textContent = funnet + ' av ' + rette.length + ' funnet'; }
+    tell();
+    alle.forEach(function(k){
+      k.setAttribute('role', 'button'); k.setAttribute('tabindex', '0');
+      function trykk(){
+        if (k.classList.contains('funnet')) return;
+        var f = k.dataset.forklar || '';
+        if (k.hasAttribute('data-rett')) {
+          k.classList.add('funnet'); animer(k, 'pop'); funnet++; tell();
+          tekst.className = 'sp-tekst ok'; tekst.innerHTML = '✅ ' + (f || 'Riktig!');
+          if (funnet === rette.length) {
+            tekst.innerHTML += '<br>🎉 Alle funnet!'; ferdig();
+          }
+        } else {
+          k.classList.add('feil'); animer(k, 'rist');
+          setTimeout(function(){ k.classList.remove('feil'); }, 700);
+          tekst.className = 'sp-tekst nei'; tekst.innerHTML = '❌ ' + (f || 'Ikke denne. Prøv en annen.');
+        }
+      }
+      k.addEventListener('click', trykk);
+      k.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); trykk(); } });
+    });
+  }
+
+  /* ── Rekkefoelge: klikk stegene i riktig rekkefoelge ──
+       <div class="e-spill" data-spill="rekkefolge" data-oppgave="…">
+         <div class="rf-item" data-forklar="…">Første steg</div>   (staar i RIKTIG rekkefoelge i HTML)
+         …
+       </div> */
+  function rekkefolge(sp){
+    var ferdig = ramme(sp, sp.dataset.tittel || '🧩 Sett i riktig rekkefølge');
+    var items = [].slice.call(sp.querySelectorAll('.rf-item')).map(function(n, i){
+      n.remove(); return { i: i, html: n.innerHTML, forklar: n.dataset.forklar || '' };
+    });
+    if (sp.dataset.oppgave) sp.appendChild(el('p', 'kl-oppgave', sp.dataset.oppgave));
+    var svar = el('ol', 'rf-svar'); sp.appendChild(svar);
+    var bunke = el('div', 'rf-bunke'); sp.appendChild(bunke);
+    var tekst = el('p', 'sp-tekst', 'Klikk på det som skjer <b>først</b>.'); sp.appendChild(tekst);
+    var kn = el('div', 'sp-knapper'); sp.appendChild(kn);
+    var neste;
+    function start(){
+      neste = 0; svar.innerHTML = ''; bunke.innerHTML = ''; kn.innerHTML = '';
+      tekst.className = 'sp-tekst'; tekst.innerHTML = 'Klikk på det som skjer <b>først</b>.';
+      stokk(items).forEach(function(it){
+        var b = knapp(it.html, 'rf-k'); bunke.appendChild(b);
+        b.onclick = function(){
+          if (it.i === neste) {
+            b.remove();
+            svar.appendChild(el('li', 'pop', '<span>' + it.html + '</span>' + (it.forklar ? '<small>' + it.forklar + '</small>' : '')));
+            neste++;
+            if (neste === items.length) {
+              tekst.className = 'sp-tekst ok'; tekst.innerHTML = '🎉 Riktig rekkefølge!';
+              var ig = knapp('↺ Prøv igjen'); kn.appendChild(ig); ig.onclick = start; ferdig();
+            } else { tekst.className = 'sp-tekst ok'; tekst.innerHTML = '✅ Ja! Hva kommer så?'; }
+          } else {
+            b.classList.add('nei'); animer(b, 'rist'); setTimeout(function(){ b.classList.remove('nei'); }, 700);
+            tekst.className = 'sp-tekst nei'; tekst.innerHTML = '❌ Ikke ennå. Hva må skje før dette?';
+          }
+        };
+      });
+    }
+    start();
+  }
+
+  /* ── Par: koble hver ting til riktig partner ──
+       <div class="e-spill" data-spill="par" data-oppgave="…">
+         <div class="pr-par" data-forklar="…"><span>venstre</span><span>høyre</span></div>
+         …
+       </div> */
+  function par(sp){
+    var ferdig = ramme(sp, sp.dataset.tittel || '🔗 Finn parene');
+    var parene = [].slice.call(sp.querySelectorAll('.pr-par')).map(function(n, i){
+      var s = n.querySelectorAll('span'); n.remove();
+      return { i: i, v: s[0].innerHTML, h: s[1].innerHTML, forklar: n.dataset.forklar || '' };
+    });
+    if (sp.dataset.oppgave) sp.appendChild(el('p', 'kl-oppgave', sp.dataset.oppgave));
+    var rad = el('div', 'pr-rad'); sp.appendChild(rad);
+    var venstre = el('div', 'pr-kol'), hoyre = el('div', 'pr-kol');
+    rad.appendChild(venstre); rad.appendChild(hoyre);
+    var tekst = el('p', 'sp-tekst', 'Klikk én til venstre, så partneren til høyre.'); sp.appendChild(tekst);
+    var valgt = null, ferdige = 0;
+    parene.forEach(function(p){
+      var b = knapp(p.v, 'pr-k'); venstre.appendChild(b); p.vk = b;
+      b.onclick = function(){
+        if (b.disabled) return;
+        parene.forEach(function(x){ x.vk.classList.remove('valgt'); });
+        b.classList.add('valgt'); valgt = p;
+        tekst.className = 'sp-tekst'; tekst.textContent = 'Og partneren er…?';
+      };
+    });
+    stokk(parene).forEach(function(p){
+      var b = knapp(p.h, 'pr-k'); hoyre.appendChild(b); p.hk = b;
+      b.onclick = function(){
+        if (!valgt) { tekst.className = 'sp-tekst'; tekst.textContent = 'Velg en til venstre først 👈'; animer(venstre, 'rist'); return; }
+        if (valgt === p) {
+          p.vk.classList.remove('valgt'); p.vk.classList.add('ok'); b.classList.add('ok');
+          p.vk.disabled = b.disabled = true; ferdige++; valgt = null;
+          tekst.className = 'sp-tekst ok'; tekst.innerHTML = '✅ ' + (p.forklar || 'Riktig par!');
+          if (ferdige === parene.length) { tekst.innerHTML += '<br>🎉 Alle parene er funnet!'; ferdig(); }
+        } else {
+          b.classList.add('nei'); animer(b, 'rist'); setTimeout(function(){ b.classList.remove('nei'); }, 700);
+          tekst.className = 'sp-tekst nei'; tekst.textContent = '❌ Ikke de to. Prøv en annen.';
+        }
+      };
+    });
+  }
+
+  var MOTORER = { pakker: pakker, reise: reise, lyn: lyn, chat: chat, rop: rop, terminal: terminal,
+                  klikk: klikk, rekkefolge: rekkefolge, par: par };
   document.addEventListener('DOMContentLoaded', function(){
     document.querySelectorAll('.enkel .e-spill[data-spill]').forEach(function(sp){
       var f = MOTORER[sp.dataset.spill]; if (f) f(sp);

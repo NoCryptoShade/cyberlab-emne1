@@ -236,3 +236,28 @@
 .e-kali code{font-size:14px;color:var(--green)}
 .e-kali .e-win{margin-top:6px}
 .ans-block.les .obj-title{color:var(--purple)}
+
+/* ── Klikk, rekkefoelge og par ── */
+.kl-oppgave{font-size:16.5px;color:var(--text);margin:0 0 12px;line-height:1.6}
+.kl-teller{font-family:var(--mono);font-size:12.5px;color:var(--text3);margin-left:6px;white-space:nowrap}
+.e-spill pre{background:#05070a;border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin:0;
+  font-family:var(--mono);font-size:14px;line-height:1.9;color:var(--text2);white-space:pre-wrap;word-break:break-word}
+.kl{cursor:pointer;border-radius:4px;padding:1px 3px;border-bottom:2px dotted var(--border2);transition:background .15s}
+.kl:hover{background:rgba(75,142,255,.18)}
+.kl:focus-visible{outline:2px solid var(--blue)}
+.kl.funnet{background:var(--green);color:#000;border-bottom-color:transparent;cursor:default}
+.kl.feil{background:var(--red);color:#000}
+.rf-svar{list-style:none;counter-reset:rf;margin:0 0 10px;padding:0;display:flex;flex-direction:column;gap:6px}
+.rf-svar:empty{display:none}
+.rf-svar li{counter-increment:rf;position:relative;padding:10px 12px 10px 46px;background:var(--green-d);border:1px solid var(--green);
+  border-radius:10px;font-size:16px;color:var(--text);line-height:1.5}
+.rf-svar li::before{content:counter(rf);position:absolute;left:12px;top:9px;width:24px;height:24px;border-radius:50%;background:var(--green);
+  color:#000;font-family:var(--mono);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+.rf-svar li small{display:block;font-size:14px;color:var(--text2);margin-top:2px}
+.rf-bunke{display:flex;flex-wrap:wrap;gap:8px}
+.rf-k{font-weight:600;text-align:left}
+.pr-rad{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pr-kol{display:flex;flex-direction:column;gap:8px}
+.pr-k{font-weight:600;text-align:left;width:100%}
+.pr-k.valgt{border-color:var(--blue);background:var(--blue-d)}
+@media(max-width:520px){.pr-k{font-size:14.5px;padding:10px 12px}}

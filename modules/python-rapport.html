@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fra funn til rapport — CyberLab</title>
+<link rel="stylesheet" href="../css/style.css?v=13">
+<link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+.x-kode{margin-bottom:12px !important;color:var(--text) !important}
+.x-kode .x-k{color:var(--blue)}
+.x-kode .x-t{color:var(--green)}
+.enkel code,.enkel pre,.enkel .ans-in,.enkel .tm-vindu{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+.rf-k code,.rf-svar code{font-size:14px;white-space:pre}
+</style>
+</head>
+<body class="page enkel">
+<nav class="nav">
+  <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
+  <div class="nav-links">
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="nav-link">Hjem</a>
+    <a href="../emne1.html" class="nav-link">Emne 1</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne3.html" class="nav-link">Emne 3</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="nav-link on">Labber</a>
+    <a href="https://tk1104.timoamling.com/" target="_blank" rel="noopener" class="nav-link">Self check &nearr;</a>
+  </div>
+</nav>
+
+<div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
+
+<div class="mod-hero">
+  <div class="section-eyebrow">Emne 1 &middot; Leksjon 19</div>
+  <div class="section-title">Fra funn til rapport</div>
+  <p class="section-desc">Skrive filer uten å overskrive, og lage en enkel tekst- eller CSV-rapport. Seks små spill, og så noen spørsmål etter hvert.</p>
+</div>
+
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
+
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt><code>open()</code></dt><dd>Åpner en fil. Andre argument er modusen: hva du vil gjøre med fila.</dd>
+    <dt><code>"r"</code></dt><dd>Les (read). Standard hvis du ikke skriver noe. Fila må finnes.</dd>
+    <dt><code>"w"</code></dt><dd>Skriv (write). Tømmer fila med en gang, og skriver fra start.</dd>
+    <dt><code>"a"</code></dt><dd>Legg til (append). Skriver nederst i fila. Det gamle blir stående.</dd>
+    <dt><code>f.write()</code></dt><dd>Skriver tekst inn i fila. Lager ikke linjeskift selv.</dd>
+    <dt><code>\n</code></dt><dd>Linjeskift (newline). «Hopp ned til neste linje.»</dd>
+    <dt>f-streng</dt><dd>Tekst med <code>f</code> foran: <code>f"{ip}: {antall}"</code>. Det i <code>{ }</code> byttes ut med verdien.</dd>
+    <dt>CSV</dt><dd>En tabell i en vanlig tekstfil. Én rad per linje, komma mellom kolonnene.</dd>
+    <dt>Header</dt><dd>Overskriftsraden øverst i en CSV. Navnet på hver kolonne.</dd>
+    <dt><code>csv.writer</code></dt><dd>Python sin CSV-skriver. <code>writerow([...])</code> skriver én rad.</dd>
+    <dt><code>column</code></dt><dd>Linux-kommando som viser en CSV som en ryddig tabell.</dd>
+    <dt>nano</dt><dd>En enkel teksteditor i terminalen.</dd>
+  </dl>
+</details>
+
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
+
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · SKRIVE EN FIL ═══════════════════════ -->
+<div class="lab-card" id="l19-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">Python skriver på papir: "w" og write()</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Fra skjerm til fil</div>
+<p class="e-hook">Til nå har programmene dine bare snakket til skjermen. Lukker du terminalen, er alt borte 💨 I dag skriver de det ned.</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Én bokstav bestemmer" data-oppgave="<code>open()</code> trenger en bokstav som sier hva du vil gjøre. Koble sammen. De to siste kjenner du fra L12!">
+  <div class="pr-par" data-forklar="r = read. Det er det du gjorde i L18. Finnes ikke fila, får du FileNotFoundError."><span><code>"r"</code></span><span>📖 Bare les. Fila må finnes.</span></div>
+  <div class="pr-par" data-forklar="w = write. Fila tømmes i det den åpnes. Finnes den ikke, lages den."><span><code>"w"</code></span><span>🧹 Tøm fila, skriv fra start</span></div>
+  <div class="pr-par" data-forklar="a = append, «legg til». Det gamle blir stående."><span><code>"a"</code></span><span>➕ Legg til nederst</span></div>
+  <div class="pr-par" data-forklar="Én pil i bash = «w» i Python. Begge overskriver."><span><code>echo hei &gt; fil.txt</code></span><span><code>open("fil.txt", "w")</code></span></div>
+  <div class="pr-par" data-forklar="To piler i bash = «a» i Python. Begge legger til nederst."><span><code>echo hei &gt;&gt; fil.txt</code></span><span><code>open("fil.txt", "a")</code></span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Bokstaven heter <b>modus</b> (mode). <code>with open("rapport.txt", "w") as f:</code> åpner fila for skriving. <code>f.write("tekst")</code> skriver inn i den. <code>with</code> lukker fila for deg, som i L18.<br>
+<code>\n</code> er et <b>linjeskift</b> (newline). <code>write()</code> lager ikke linjeskift selv, så du må huske det.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat skriv.py" data-mal="Se på programmet:"><template class="ut">with open("rapport.txt", <span class="h1">"w"</span>) as f:
+    <span class="h2">f.write(</span>"Rapport for auth.log<span class="h3">\n</span>")
+    <span class="h2">f.write(</span>"Feil passord: 7<span class="h3">\n</span>")
+    <span class="h2">f.write(</span>"Verst: 203.0.113.45<span class="h3">\n</span>")</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>modusen: skriv</span></li><li><span class="m h2"></span><span>skriv denne teksten inn i fila</span></li><li><span class="m h3"></span><span>linjeskift på slutten av hver linje</span></li></ul><p>Tallene kommer fra loggen i L17. Gjett: hva dukker opp på skjermen når du kjører den? 🤔</p></template></div>
+<div class="tm-o" data-cmd="python3 skriv.py" data-mal="Kjør det:"><template class="ut"></template><template class="forklar"><p>Ingenting? Helt riktig 🤫 Programmet har ingen <code>print</code>. Alt gikk inn i fila.</p></template></div>
+<div class="tm-o" data-cmd="cat rapport.txt" data-mal="Se hva som havnet i fila." data-skjult data-hint="Samme kommando som i første oppdrag, men fila heter <code>rapport.txt</code>."><template class="ut">Rapport for auth.log
+Feil passord: 7
+Verst: 203.0.113.45</template><template class="forklar"><p>Der er rapporten 🎉 Tre <code>\n</code> ga tre pene linjer. Fila ligger der også etter at programmet er ferdig.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hvor mange linjer har rapport.txt?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene under <code>cat rapport.txt</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+<div class="ans-row" data-p="1" data-a="ingenting|ingen ting|ingen|tomt|null|0|ikke noe"><span class="ans-q">Hva skrev python3 skriv.py ut på skjermen?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se rett under kommandoen. Står det noe der?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ingenting</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv <code>nano skriv.py</code>. Skriv inn koden, med <b>4 mellomrom</b> foran <code>f.write</code>. Lagre med <b>Ctrl + O</b> og <b>Enter</b>, avslutt med <b>Ctrl + X</b>. Kjør <code>python3 skriv.py</code>, og så <code>cat rapport.txt</code> 🎯 Skriv <code>ls</code> og se at fila har dukket opp.<p class="e-win">Windows: lag fila i Notisblokk, kjør <code>python skriv.py</code> og se på fila med <code>type rapport.txt</code></p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="w"><span class="ans-q">Hvilken bokstav gir du open() for å tømme fila og skrive fra start?</span><input class="ans-in" placeholder="én bokstav"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kosten 🧹 i spillet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">w</div></div></div>
+<div class="mcq" data-c="5863055" data-ok="Riktig! \n er linjeskift. Bakstreken er viktig." data-no="Ikke helt. Se på slutten av teksten i skriv.py. Hvilken skråstrek står der?"><div class="mcq-q">Hvilket tegn må du skrive for å få et linjeskift i fila?</div><button class="mcq-opt">/n</button><button class="mcq-opt">\n</button><button class="mcq-opt">\t</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="write|f.write|write()|f.write()"><span class="ans-q">Fyll inn: f.____("tekst") skriver tekst inn i fila.</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå biten i <code>cat skriv.py</code>. Engelsk for «skriv».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">write</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · W OVERSKRIVER ═══════════════════════ -->
+<div class="lab-card" id="l19-2" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">Hvor ble gårsdagens rapport av?</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Faren med "w"</div>
+<p class="e-hook">Ny dag, nytt program. Du kjører det, og gårsdagens rapport er borte. Hvem gjorde det? 🕵️</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Rapporten som forsvant">
+  <div class="ch-item" data-fra="sys">📍 Tirsdag morgen. rapport.txt har tre linjer fra i går.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 dagens.py">God morgen, rapport.txt! Jeg skal skrive dagens funn. <code>open("rapport.txt", "w")</code></div>
+  <div class="ch-item" data-fra="nabo" data-navn="📄 rapport.txt">Vent, «w»? Jeg har jo viktige ting i meg…</div>
+  <div class="ch-item" data-fra="sys">🧹 «w» tømmer fila i det den åpnes. Før et eneste ord er skrevet.</div>
+  <div class="ch-item" data-fra="nabo" data-navn="📄 rapport.txt">…hva var det jeg skulle huske? 😶</div>
+  <div class="ch-item" data-stopp="✍️ La dagens.py skrive"></div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 dagens.py"><code>f.write("Dagens funn: 198.51.100.7\n")</code> Ferdig! 😊</div>
+  <div class="ch-item" data-fra="nabo" data-navn="📄 rapport.txt">Nå har jeg én linje. Gårsdagens tre er borte.</div>
+  <div class="ch-item" data-fra="sys">Ingen angreknapp. Ingen papirkurv. 🔥</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 dagens.py">Oi. Neste gang bruker jeg «a» 😅</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>"w"</code> <b>overskriver</b> (overwrite). Fila tømmes allerede når <code>open()</code> kjører, akkurat som <code>&gt;</code> i bash. Det er riktig når du vil ha en ny rapport hver gang. Det er farlig når det gamle skal bli liggende.
+</div>
+<p class="e-sikker">🛡️ I sikkerhet er logger bevis. Et program som skriver logg med «w», sletter bevisene fra forrige gang. Logger skal alltid legges til.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat rapport.txt" data-mal="Gårsdagens rapport ligger der fortsatt:"><template class="ut">Rapport for auth.log
+Feil passord: 7
+Verst: 203.0.113.45</template><template class="forklar"><p>Tre linjer, laget av skriv.py i oppgave 1.</p></template></div>
+<div class="tm-o" data-cmd="cat dagens.py" data-mal="Se på det nye programmet:"><template class="ut">with open("rapport.txt", <span class="h1">"w"</span>) as f:
+    f.write("Dagens funn: 198.51.100.7\n")</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>samme fil, samme modus som i går</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 dagens.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet."><template class="ut"></template><template class="forklar"><p>Ingen utskrift, ingen advarsel. Python spør ikke «er du sikker?» 😬</p></template></div>
+<div class="tm-o" data-cmd="cat rapport.txt" data-mal="Se på rapporten igjen." data-skjult data-hint="Samme som første oppdrag."><template class="ut"><span class="h1">Dagens funn: 198.51.100.7</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>det eneste som er igjen</span></li></ul><p>«Feil passord: 7» og «Verst: 203.0.113.45» er borte for godt.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="1|en|én|ei"><span class="ans-q">Hvor mange linjer har rapport.txt etter at dagens.py har kjørt?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se under den siste <code>cat rapport.txt</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Ta en kopi først: <code>cp rapport.txt backup.txt</code> 🛟 Lag så <code>dagens.py</code> med <code>nano</code>, og kjør <code>python3 dagens.py</code>. Se på <code>cat rapport.txt</code>. Borte! Men <code>cat backup.txt</code> har alt. Hent det tilbake med <code>cp backup.txt rapport.txt</code>.</div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="mcq" data-c="-1487628348" data-ok="Riktig! Fila er tom før write() i det hele tatt har kjørt." data-no="Ikke helt. Se på chatten: hva sa systemet om når fila ble tømt?"><div class="mcq-q">Når blir fila tømt med «w»?</div><button class="mcq-opt">Først når write() kjører</button><button class="mcq-opt">Med en gang open() kjører</button><button class="mcq-opt">Når programmet er ferdig</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="0|null|ingen|tom"><span class="ans-q">Du åpner rapport.txt med "w", men skriver ingenting. Hvor mange linjer har fila etterpå?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tømmingen skjer i <code>open()</code>. Og så kommer det ingen <code>write()</code>…</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">0</div></div></div>
+<div class="ans-row" data-p="1" data-a="cp|cp rapport.txt backup.txt"><span class="ans-q">Hvilken Linux-kommando tar en kopi av fila før du kjører et program som kan overskrive den?</span><input class="ans-in" placeholder="kommandoen"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Første kommando i Kali-boksen 🛟. To bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">cp</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · A LEGGER TIL ═══════════════════════ -->
+<div class="lab-card" id="l19-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">Legg til nederst: "a"</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Kjør to ganger</div>
+<p class="e-hook">Et vaktprogram kjører hver time. Det skal huske <b>alle</b> rundene, ikke bare den siste. Kan du se forskjell på den som husker og den som glemmer? 🧠</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Overskriver eller legger til?" data-knapper="🧹 Overskriver|➕ Legger til|📖 Bare leser">
+  <div class="ly-item" data-svar="0" data-hvorfor="«w» tømmer fila først."><code>open("rapport.txt", "w")</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="«a» = append. Skriver nederst."><code>open("vakt.txt", "a")</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Én pil = overskriv. Samme som «w»."><code>echo ok &gt; logg.txt</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="To piler = legg til. Samme som «a»."><code>echo ok &gt;&gt; logg.txt</code></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Ingen bokstav betyr «r». Python leser, og rører ikke innholdet."><code>open("auth.log")</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="newline=&quot;&quot; endrer bare linjeskiftene. Det er fortsatt «w»."><code>open("rapport.csv", "w", newline="")</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Finnes ikke fila, lager «a» den. Det er ingenting å overskrive."><code>open("ny.txt", "a")</code></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="«r» skrevet ut. Samme som å la den være."><code>open("auth.log", "r")</code></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>"a"</code> = <b>append</b>, «legg til». Ny tekst havner nederst, det gamle blir stående. Som <code>&gt;&gt;</code> i bash.<br>
+Tommelregel: <b>rapport</b> som lages på nytt hver gang → <code>"w"</code>. <b>Logg</b> som skal vokse → <code>"a"</code>.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat logg.py" data-mal="Se på vaktprogrammet:"><template class="ut">with open("vakt.txt", <span class="h1">"a"</span>) as f:
+    f.write("Sjekket auth.log\n")
+
+<span class="h2">antall = 0</span>
+<span class="h2">with open("vakt.txt") as f:</span>
+    <span class="h2">for linje in f:</span>
+        <span class="h2">antall += 1</span>
+print("Linjer i vakt.txt:", antall)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>legg til én linje nederst</span></li><li><span class="m h2"></span><span>tell linjene i fila, med teller og løkke fra L16</span></li></ul><p>vakt.txt finnes ikke ennå. «a» lager den.</p></template></div>
+<div class="tm-o" data-cmd="python3 logg.py" data-mal="Kjør det:"><template class="ut">Linjer i vakt.txt: <span class="h1">1</span></template><template class="forklar"><p>Første runde: én linje. Hva tror du skjer hvis du kjører den igjen? 🤔</p></template></div>
+<div class="tm-o" data-cmd="python3 logg.py" data-mal="Kjør det en gang til." data-skjult data-hint="Akkurat samme kommando som forrige oppdrag. Pil opp ⬆️ henter den."><template class="ut">Linjer i vakt.txt: <span class="h1">2</span></template><template class="forklar"><p>Samme program, nytt svar! Fila husket runden før 🧠</p></template></div>
+<div class="tm-o" data-cmd="cat vakt.txt" data-mal="Se inni vakt.txt." data-skjult data-hint="<code>cat</code> og filnavnet."><template class="ut">Sjekket auth.log
+Sjekket auth.log</template><template class="forklar"><p>Én linje per kjøring. Med «w» hadde det bare stått én 🧹</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvilket tall skrev logg.py ut andre gang?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det gule tallet etter andre <code>python3 logg.py</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag <code>logg.py</code> med <code>nano</code>. Kjør <code>python3 logg.py</code> tre ganger (pil opp ⬆️ og Enter). Tallet øker 📈 Bytt så <code>"a"</code> til <code>"w"</code> og kjør to ganger til. Hva skjer med tallet nå?</div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="5|fem|linjer i vakt.txt: 5"><span class="ans-q">Etter øve-terminalen kjører du logg.py tre ganger til. Hvilket tall skrives ut siste gang?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Du sto på 2. Hver kjøring legger til én linje.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">5</div></div></div>
+<div class="mcq" data-c="5862017" data-ok="Riktig! To piler legger til, akkurat som «a»." data-no="Ikke helt. Se på de to siste parene i spillet i oppgave 1."><div class="mcq-q">Hvilken bash-pil gjør det samme som «a»?</div><button class="mcq-opt">&gt;</button><button class="mcq-opt">&gt;&gt;</button><button class="mcq-opt">|</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="1|en|én|ei"><span class="ans-q">Du bytter "a" til "w" i logg.py og kjører den to ganger. Hvilket tall skrives ut andre gang?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Prøvde du det i Kali-boksen? «w» tømmer fila hver gang før den skriver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · F-STRENGER ═══════════════════════ -->
+<div class="lab-card" id="l19-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Pene linjer med f-strenger</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Tekstrapport</div>
+<p class="e-hook">Én liten bokstav foran anførselstegnet. Glemmer du den, får sjefen en veldig rar rapport 🙈</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hva blir teksten?" data-oppgave="Variablene er satt. Koble hver tekst i koden til det som faktisk blir skrevet.">
+<pre class="x-kode">ip = <span class="x-t">"203.0.113.45"</span>
+antall = 4</pre>
+  <div class="pr-par" data-forklar="f foran = Python bytter ut det i { } med verdiene."><span><code>f"{ip}: {antall} forsøk"</code></span><span><code>203.0.113.45: 4 forsøk</code></span></div>
+  <div class="pr-par" data-forklar="Ingen f! Da er { } bare vanlige tegn, og ingenting byttes ut."><span><code>"{ip}: {antall} forsøk"</code></span><span><code>{ip}: {antall} forsøk</code></span></div>
+  <div class="pr-par" data-forklar="Du bestemmer rekkefølgen selv."><span><code>f"{antall} forsøk fra {ip}"</code></span><span><code>4 forsøk fra 203.0.113.45</code></span></div>
+  <div class="pr-par" data-forklar="Bare et komma mellom. Ser ut som en CSV-rad, se oppgave 5 😉"><span><code>f"{ip},{antall}"</code></span><span><code>203.0.113.45,4</code></span></div>
+  <div class="pr-par" data-forklar="Inni { } kan du til og med regne."><span><code>f"Sum: {antall + 1}"</code></span><span><code>Sum: 5</code></span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+En <b>f-streng</b> (f-string) er tekst med <code>f</code> foran. Alt i <code>{ }</code> byttes ut med verdien. Med <code>\n</code> på slutten blir det én pen linje i fila:<br>
+<code>f.write(f"{ip}: {antall} forsøk\n")</code>
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat tekstrapport.py" data-mal="Se på programmet. Den øverste delen er tellinga fra L17:"><template class="ut">teller = {}
+with open("auth.log") as f:
+    for linje in f:
+        if "Failed password" in linje:
+            ip = linje.split()[10]
+            teller[ip] = teller.get(ip, 0) + 1
+
+with open("rapport.txt", "w") as f:
+    for ip in sorted(teller):
+        antall = teller[ip]
+        <span class="h1">f.write(f"{ip}: {antall} forsøk\n")</span>
+<span class="h2">print(f"Skrev {len(teller)} linjer til rapport.txt")</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>én f-streng-linje per IP, inn i fila</span></li><li><span class="m h2"></span><span>en f-streng i <code>print</code> også, så du ser at noe skjedde</span></li></ul><p>auth.log er den samme som i L17.</p></template></div>
+<div class="tm-o" data-cmd="python3 tekstrapport.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet."><template class="ut">Skrev <span class="h1">3</span> linjer til rapport.txt</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span><code>len(teller)</code>: tre ulike IP-er</span></li></ul></template></div>
+<div class="tm-o" data-cmd="cat rapport.txt" data-mal="Se på rapporten." data-skjult data-hint="Samme som i oppgave 1."><template class="ut">192.168.1.10: 1 forsøk
+198.51.100.7: 2 forsøk
+<span class="h1">203.0.113.45: 4 forsøk</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>verstingen fra L17 🦹</span></li></ul><p>Tre pene linjer, laget av én f-streng i en løkke.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvor mange forsøk står bak 198.51.100.7 i rapporten?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Midterste linje under <code>cat rapport.txt</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Bruk <code>auth.log</code> fra L17. Lag <code>tekstrapport.py</code> med <code>nano</code>, kjør den og se på <code>cat rapport.txt</code> 🎯 Fjern så <code>\n</code> fra <code>f.write</code>, kjør igjen og se på rapporten. Alt havner på én lang linje, og ledeteksten <code>kali@kali</code> klistrer seg på slutten 😵</div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="10.0.0.5: 9 forsøk|10.0.0.5 9 forsøk|10.0.0.5: 9 forsok|10.0.0.5 9 forsok"><span class="ans-q"><code>ip = "10.0.0.5"</code> og <code>antall = 9</code>. Hva blir <code>f"{ip}: {antall} forsøk"</code>?</span><input class="ans-in" placeholder="teksten"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Første par i spillet. Bytt ut <code>{ip}</code> og <code>{antall}</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">10.0.0.5: 9 forsøk</div></div></div>
+<div class="mcq" data-c="858206585" data-ok="Riktig! Uten f blir krøllparentesene stående som vanlig tekst." data-no="Ikke helt. Se på det andre paret i spillet, det uten f."><div class="mcq-q">Du glemmer f foran: <code>"{ip}: {antall} forsøk"</code>. Hva står der 4 skulle vært?</div><button class="mcq-opt"><code>4</code></button><button class="mcq-opt"><code>{antall}</code></button><button class="mcq-opt"><code>antall</code></button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="1|en|én|ei"><span class="ans-q">Du fjerner \n fra f.write i tekstrapport.py. Hvor mange linjer ser du med cat rapport.txt?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se Kali-boksen. Uten linjeskift havner alt på …</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · CSV ═══════════════════════ -->
+<div class="lab-card" id="l19-5" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">En tabell i en tekstfil: CSV</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — csv-modulen</div>
+<p class="e-hook">Sjefen vil ha rapporten i et regneark 📊 Du trenger ikke Excel for å lage den. Bare noen kommaer.</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Hva skiller verdiene?" data-oppgave="Dette er <code>rapport.csv</code>. Klikk på alle <b>skilletegnene</b>, det som skiller én verdi fra den neste. Pass deg for feller!">
+<pre><span class="kl" data-forklar="Dette er et kolonnenavn i overskriftsraden (header). Det skiller ingenting.">ip</span><span class="kl" data-rett data-forklar="Komma mellom de to kolonnenavnene.">,</span><span class="kl" data-forklar="Kolonnenavn nummer to. Også en del av overskriftsraden.">antall</span>
+192<span class="kl" data-forklar="Punktum er en del av IP-adressen. Det deler ikke opp kolonnene.">.</span>168.1.10<span class="kl" data-rett data-forklar="Kommaet deler raden i IP og antall.">,</span>1
+198.51.100.7<span class="kl" data-rett data-forklar="Ett komma per rad, fordi det er to kolonner.">,</span>2
+203.0.113.45<span class="kl" data-rett data-forklar="Siste skilletegn! Hver linje er én rad.">,</span><span class="kl" data-forklar="Dette er en verdi: 4 forsøk. Ikke et skilletegn.">4</span></pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>CSV</b> = Comma-Separated Values, «kommaseparerte verdier». Første linje er <b>overskriftsraden</b> (header). Hver linje under er én <b>rad</b>. Kommaet er <b>skilletegnet</b>.<br>
+<code>import csv</code> henter Pythons CSV-verktøy. <code>csv.writer(f)</code> lager en skriver, og <code>writerow([...])</code> skriver én rad. Kommaene ordner den selv.<br>
+<code>newline=""</code> i <code>open()</code> lar csv styre linjeskiftene. Uten den kan du få tomme rader i Excel på Windows.
+</div>
+<p class="e-sikker">🦹 Fun fact: Starter en verdi i en CSV med <code>=</code>, kan regnearket tro det er en formel. Det heter CSV-injeksjon (CSV injection). Data fra en logg kan være laget av en angriper.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat csvrapport.py" data-mal="Se på programmet. Tallene er de samme som i L17:"><template class="ut"><span class="h4">import csv</span>
+
+teller = {"192.168.1.10": 1, "198.51.100.7": 2, "203.0.113.45": 4}
+
+with open("rapport.csv", "w", <span class="h2">newline=""</span>) as f:
+    <span class="h4">skriver = csv.writer(f)</span>
+    <span class="h1">skriver.writerow(["ip", "antall"])</span>
+    for ip in teller:
+        <span class="h3">skriver.writerow([ip, teller[ip]])</span>
+print("Ferdig: rapport.csv")</template><template class="forklar"><ul class="e-forklar"><li><span class="m h4"></span><span>hent csv-verktøyet og lag en skriver</span></li><li><span class="m h2"></span><span>la csv bestemme linjeskiftene</span></li><li><span class="m h1"></span><span>overskriftsraden, skrevet én gang</span></li><li><span class="m h3"></span><span>én rad per IP, inni løkka</span></li></ul><p>Hver rad er en liste <code>[ ]</code>, som i L17.</p></template></div>
+<div class="tm-o" data-cmd="python3 csvrapport.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet."><template class="ut">Ferdig: rapport.csv</template></div>
+<div class="tm-o" data-cmd="cat rapport.csv" data-mal="Se på fila slik den egentlig er." data-skjult data-hint="<code>cat</code> og filnavnet. Husk <code>.csv</code>."><template class="ut"><span class="h1">ip,antall</span>
+192.168.1.10<span class="h2">,</span>1
+198.51.100.7<span class="h2">,</span>2
+203.0.113.45<span class="h2">,</span>4</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>overskriftsraden</span></li><li><span class="m h2"></span><span>skilletegnene, akkurat som i spillet</span></li></ul><p>Bare vanlig tekst. Derfor kan alle programmer lese den.</p></template></div>
+<div class="tm-o" data-cmd="column -s, -t rapport.csv" data-alias="column -t -s, rapport.csv|column -s , -t rapport.csv|column -t -s , rapport.csv|column -s &quot;,&quot; -t rapport.csv|column -t -s &quot;,&quot; rapport.csv|column -s, -t &lt; rapport.csv" data-mal="Vis den som en ryddig tabell. <code>-s,</code> betyr «komma er skilletegnet», <code>-t</code> betyr «lag tabell»:"><template class="ut"><span class="h1">ip            antall</span>
+192.168.1.10  1
+198.51.100.7  2
+203.0.113.45  4</template><template class="forklar"><p>Samme fil, nå med pene kolonner 📊 Kommaene er byttet med mellomrom på skjermen. Fila er ikke endret.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="ip,antall|ip antall|ipantall"><span class="ans-q">Hva står på første linje i rapport.csv?</span><input class="ans-in" placeholder="hele linja"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule linja under <code>cat rapport.csv</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ip,antall</div></div></div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hvor mange rader med data er det, uten overskriftsraden?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Én rad per IP.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag <code>csvrapport.py</code> med <code>nano</code>, kjør den, og prøv både <code>cat rapport.csv</code> og <code>column -s, -t rapport.csv</code> 🎯 Har du LibreOffice, åpne fila som regneark: <code>libreoffice --calc rapport.csv</code>. Velg <b>Komma</b> som skilletegn og trykk <b>OK</b>. Mangler den, kan du hente den med <code>sudo apt install libreoffice-calc</code>.<p class="e-win">Windows: Norsk Excel venter semikolon, ikke komma. Bruk <b>Data → Fra tekst/CSV</b> og velg komma.</p></div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="mcq" data-c="177617" data-ok="Riktig! Komma er skilletegnet. Det er C-en i CSV." data-no="Ikke helt. Hvilke tegn klikket du på i spillet?"><div class="mcq-q">Hvilket tegn skiller kolonnene i rapport.csv?</div><button class="mcq-opt">.</button><button class="mcq-opt">;</button><button class="mcq-opt">,</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="writerow|skriver.writerow|writerow()"><span class="ans-q">Hvilken metode skriver én rad i CSV-fila?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule og den grønne linja i <code>cat csvrapport.py</code>. «Write row».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">writerow</div></div></div>
+<div class="ans-row" data-p="1" data-a="1|en|én|ei|en gang|én gang"><span class="ans-q">Hvor mange ganger skriver csvrapport.py overskriftsraden?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står den gule linja inni eller utenfor løkka?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 6 · VERKTØYET ═══════════════════════ -->
+<div class="lab-card" id="l19-6" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">06</span>
+  <span class="lab-title">Ditt eget verktøy: logg inn, rapport ut</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Alt sammen</div>
+<p class="e-hook">Siste brikke 🧩 L16, L17 og i dag i ett lite verktøy. Inn går en logg. Ut kommer en rapport med verstingen øverst.</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Bygg lag_rapport.py" data-oppgave="Sett bitene i riktig rekkefølge, fra øverst til nederst. Innrykket er et hint.">
+  <div class="rf-item" data-forklar="Verktøy hentes helt øverst, før de brukes."><code>import csv</code></div>
+  <div class="rf-item" data-forklar="Først må du ha noe å rapportere: tell feil passord per IP, som i L17."><code>teller = {}</code> + løkka som teller per IP</div>
+  <div class="rf-item" data-forklar="Sorter etter tallet, størst først. Det må skje etter tellinga."><code>verst_forst = sorted(teller, key=teller.get, reverse=True)</code></div>
+  <div class="rf-item" data-forklar="Åpne fila for skriving. «w», fordi rapporten skal lages på nytt hver gang."><code>with open("rapport.csv", "w", newline="") as f:</code></div>
+  <div class="rf-item" data-forklar="Lag skriveren før du kan skrive med den."><code>&nbsp;&nbsp;&nbsp;&nbsp;skriver = csv.writer(f)</code></div>
+  <div class="rf-item" data-forklar="Overskriftsraden kommer først, og bare én gang."><code>&nbsp;&nbsp;&nbsp;&nbsp;skriver.writerow(["ip", "antall"])</code></div>
+  <div class="rf-item" data-forklar="Til slutt én rad per IP, i sortert rekkefølge."><code>&nbsp;&nbsp;&nbsp;&nbsp;for ip in verst_forst:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;skriver.writerow([ip, teller[ip]])</code></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>sorted(teller)</code> sorterer på IP, som i L17. <code>key=teller.get</code> sier «sorter på tallet til hver IP i stedet». <code>reverse=True</code> snur rekkefølgen, så det <b>største</b> tallet kommer først.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat lag_rapport.py" data-mal="Se på verktøyet du nettopp bygde:"><template class="ut">import csv
+
+<span class="h2">teller = {}</span>
+<span class="h2">with open("auth.log") as f:</span>
+    <span class="h2">for linje in f:</span>
+        <span class="h2">if "Failed password" in linje:</span>
+            <span class="h2">ip = linje.split()[10]</span>
+            <span class="h2">teller[ip] = teller.get(ip, 0) + 1</span>
+
+<span class="h1">verst_forst = sorted(teller, key=teller.get, reverse=True)</span>
+
+with open("rapport.csv", "w", newline="") as f:
+    skriver = csv.writer(f)
+    skriver.writerow(["ip", "antall"])
+    for ip in verst_forst:
+        skriver.writerow([ip, teller[ip]])
+print(f"Skrev {len(verst_forst)} IP-er til rapport.csv")</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>tellinga fra L17</span></li><li><span class="m h1"></span><span>det eneste nye: sorter med verstingen først</span></li></ul><p>Resten kjenner du fra oppgave 5.</p></template></div>
+<div class="tm-o" data-cmd="python3 lag_rapport.py" data-mal="Kjør verktøyet." data-skjult data-hint="<code>python3</code> og filnavnet. Husk understreken."><template class="ut">Skrev 3 IP-er til rapport.csv</template></div>
+<div class="tm-o" data-cmd="column -s, -t rapport.csv" data-alias="column -t -s, rapport.csv|column -s , -t rapport.csv|column -t -s , rapport.csv|column -s &quot;,&quot; -t rapport.csv|column -t -s &quot;,&quot; rapport.csv|column -s, -t &lt; rapport.csv" data-mal="Vis rapporten som en tabell." data-skjult data-hint="Samme som siste oppdrag i oppgave 5."><template class="ut">ip            antall
+<span class="h1">203.0.113.45  4</span>
+198.51.100.7  2
+192.168.1.10  1</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>verstingen øverst 🦹</span></li></ul><p>Sammenlign med oppgave 5. Der sto den nederst. Nå er rapporten klar for sjefen 🎉</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="203.0.113.45"><span class="ans-q">Hvilken IP står øverst i rapporten?</span><input class="ans-in" placeholder="en IP"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule linja i tabellen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">203.0.113.45</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag <code>lag_rapport.py</code> med <code>nano</code> i samme mappe som <code>auth.log</code>. Kjør den, og se på resultatet med <code>column -s, -t rapport.csv</code> 🎯 Åpne den gjerne i LibreOffice som i oppgave 5. Legg så til tre nye Failed-linjer fra 198.51.100.7 nederst i <code>auth.log</code>, og kjør verktøyet igjen. Hvem er verst nå? 🔁</div>
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="198.51.100.7"><span class="ans-q">auth.log får tre nye Failed-linjer fra 198.51.100.7. Hvilken IP står øverst etter ny kjøring?</span><input class="ans-in" placeholder="en IP"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">198.51.100.7 hadde 2. Pluss 3. Er det mer enn 4?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">198.51.100.7</div></div></div>
+<div class="mcq" data-c="1724916486" data-ok="Riktig! Uten reverse=True ville den minste kommet først." data-no="Ikke helt. Se i fagord-boksen: hva gjør reverse med rekkefølgen?"><div class="mcq-q">Hva gjør reverse=True i sorted()?</div><button class="mcq-opt">Minste tall først</button><button class="mcq-opt">Største tall først</button><button class="mcq-opt">Sorterer på IP</button><div class="mcq-fb"></div></div>
+<div class="ans-row" data-p="1" data-a="4|fire"><span class="ans-q">Hvor mange linjer har rapport.csv, med overskriftsraden?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene i tabellen i øve-terminalen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-inner">
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+</div></div></footer>
+<script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
+</body>
+</html>

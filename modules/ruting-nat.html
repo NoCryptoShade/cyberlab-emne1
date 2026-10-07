@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ruting, gateway og NAT &mdash; CyberLab</title>
+<link rel="stylesheet" href="../css/style.css?v=13">
+<link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+.cmd{background:#05070a;border:1px solid var(--border);border-left:2px solid var(--blue);
+  border-radius:0 6px 6px 0;padding:11px 14px;font-family:var(--mono);font-size:11.5px;
+  color:var(--text2);overflow-x:auto;line-height:1.85;white-space:pre-wrap;word-break:break-word}
+.cmd .c{color:var(--text3)}
+.setup-box{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--green);
+  border-radius:10px;padding:20px 24px;margin-bottom:28px}
+.setup-box h3{font-size:15px;font-weight:700;margin-bottom:8px}
+.setup-box p{font-size:13px;color:var(--text2);line-height:1.7}
+.term-block{margin:14px 0 4px}
+.term-block .fake-browser{height:290px}
+</style>
+</head>
+<body class="page">
+<nav class="nav">
+  <div class="nav-logo">
+<span class="bracket">[</span>CyberLab<span class="bracket">]</span>
+</div>
+  <div class="nav-links">
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="nav-link">Hjem</a>
+    <a href="../emne1.html" class="nav-link">Emne 1</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne3.html" class="nav-link">Emne 3</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="nav-link on">Labber</a>
+    <a href="https://tk1104.timoamling.com/" target="_blank" rel="noopener" class="nav-link">Self check &nearr;</a>
+  </div>
+</nav>
+
+<div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
+  <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
+  <div class="mod-hero">
+    <div class="section-eyebrow">Lab 25 &middot; Emne 1 &middot; Leksjon 9</div>
+    <div class="section-title">Ruting, gateway og NAT</div>
+    <p class="section-desc">Hvordan en pakke finner veien ut av ditt eget nett, hvordan ruteren velger mellom flere mulige veier, og hva som skjer med avsenderadressen paa vei ut.</p>
+  </div>
+
+  <div class="setup-box">
+    <h3>Du trenger ingenting</h3>
+    <p>Hele modulen kjoerer i nettleseren. Ingen virtuell maskin, ingen installasjon, ingen palogging. Terminalene under er simulerte, og svarene de gir er de samme for alle.</p>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+<span>Fremdrift</span>
+<span id="progressLabel">0 / 0 fullf&oslash;rt</span>
+</div>
+    <div class="progress-track">
+<div class="progress-fill" id="progressFill">
+</div>
+</div>
+  </div>
+
+  <div class="filter-row">
+    <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+    <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+    <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+    <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+  </div>
+
+  <div class="tasks">
+  <div class="lab-card" id="n9-1" data-level="easy">
+    <div class="lab-header" onclick="toggleTask(this)">
+      <span class="lab-num">01</span>
+      <span class="lab-title">Maskinen regner ut hvor den skal sende</span>
+      <div class="lab-meta">
+<span class="badge badge-easy">Lett</span>
+<span class="lab-chev">&#9654;</span>
+</div>
+    </div>
+    <div class="lab-body">
+      <div class="lab-flow">
+        <div class="level-badge lb-1">Nivå 1 — Eget nett eller ikke</div>
+        <div class="theory-block">
+<div class="theory-title">📐 Regnestykket som skjer før hver eneste pakke</div>
+<div class="theory-text">
+<p>Før maskinen sender noe som helst, regner den ut <strong>om mottakeren ligger i dens eget nett</strong>. Den bruker nettmasken sin til det.</p>
+<p>Er svaret ja, legger den rammen rett ut på nettet og lar switchen ta den videre. Ingen ruter er involvert.</p>
+<p>Er svaret nei, kan den ikke nå mottakeren selv. Da sender den rammen til <strong>standard gateway</strong>, og lar ruteren ta over ansvaret.</p>
+<p>Det gir en konsekvens som overrasker mange: gatewayen må ligge i maskinens eget nett. En gateway maskinen ikke kan nå direkte, er ingen gateway.</p>
+</div>
+</div>
+        <div class="worked">
+<div class="worked-t">Regneeksempel</div>
+<div class="worked-b">
+<p>Maskinen er 192.168.1.20 med maske /24, altså 255.255.255.0.</p>
+<ol class="wsteps">
+<li>/24 betyr at de tre første tallene må stemme. Nettet er 192.168.1.0</li>
+<li>Mottaker 192.168.1.60: de tre første tallene stemmer, så <strong>samme nett</strong>, send direkte</li>
+<li>Mottaker 8.8.8.8: første tall stemmer ikke, så <strong>annet nett</strong>, send til gateway</li>
+<li>Gatewayen er 192.168.1.1, som ligger i 192.168.1.0. Maskinen kan nå den direkte</li>
+</ol>
+</div>
+</div>
+        <div class="cmd-block">
+          <div class="obj-title">Til hjelp</div>
+          <div class="cmd">En /26 deler siste tall i blokker på 64:
+  0-63     64-127     128-191     192-255
+<span class='c'># finn hvilken blokk adressen havner i</span></div>
+        </div>
+        <div class="ans-block">
+<div class="obj-title">Din tur</div>
+<div class="ans-row" data-p="1" data-a="10.20.30.100"><span class="ans-q">Maskinen er 10.20.30.70 med maske /26. Hvilken av disse tre kan den nå uten å gå via gateway: 10.20.30.100, 10.20.30.140 eller 10.20.30.200?</span><input class="ans-in" placeholder="en adresse">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Finn hvilken blokk på 64 adressen 70 havner i, og se hvem av de tre som havner i samme blokk.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">10.20.30.100</div>
+</div>
+</div>
+<div class="ans-row" data-p="1" data-a="10.20.30.126"><span class="ans-q">Hvilken er den høyeste adressen maskinen 10.20.30.70/26 kan nå direkte?</span><input class="ans-in" placeholder="en adresse">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Siste adresse i blokken er kringkasting, og den teller ikke som en maskin.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">10.20.30.126</div>
+</div>
+</div>
+<div class="ans-row" data-p="1" data-a="62"><span class="ans-q">Hvor mange maskiner er det plass til i et /26-nett?</span><input class="ans-in" placeholder="et tall">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Blokken er 64 adresser stor, men to av dem kan ingen maskin bruke.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">62</div>
+</div>
+</div>
+<div class="mcq" data-c="282430488" data-ok="Nettopp. For å nå .200 må maskinen gå via gateway, og gatewayen er den samme adressen." data-no="Tenk på regnestykket maskinen gjør først. Er 10.20.30.200 i blokken 64-127?">
+<div class="mcq-q">Noen setter gatewayen på en maskin i 10.20.30.64/26 til 10.20.30.200. Adressen finnes, og ruteren svarer på den. Hvorfor virker det likevel ikke?</div>
+<button class="mcq-opt">Maskinen må nå gatewayen direkte, og 10.20.30.200 ligger utenfor dens eget nett</button>
+<button class="mcq-opt">Gatewayen må alltid slutte på .1</button>
+<button class="mcq-opt">Ruteren svarer bare på adresser som slutter på partall</button>
+<div class="mcq-fb"></div>
+</div>
+</div>
+        <div class="hint-row">
+<button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button>
+<div class="hint-box">Del siste tall i blokker på 64 og se hvilken blokk hver adresse havner i.</div>
+</div>
+      </div>
+    </div>
+  </div>
+  <div class="lab-card" id="n9-2" data-level="easy">
+    <div class="lab-header" onclick="toggleTask(this)">
+      <span class="lab-num">02</span>
+      <span class="lab-title">Rutetabellen er en liste over hva ruteren kjenner</span>
+      <div class="lab-meta">
+<span class="badge badge-easy">Lett</span>
+<span class="lab-chev">&#9654;</span>
+</div>
+    </div>
+    <div class="lab-body">
+      <div class="lab-flow">
+        <div class="level-badge lb-1">Nivå 1 — Rader i tabellen</div>
+        <div class="theory-block">
+<div class="theory-title">🗺️ Ruteren slår opp, den gjetter aldri</div>
+<div class="theory-text">
+<p>En rutetabell er en liste med rader. Hver rad sier <strong>hvilket nett</strong> den gjelder og <strong>hvor pakken skal videre</strong>, enten ut et grensesnitt eller til neste ruter.</p>
+<p>Bokstaven foran raden sier hvor den kom fra. <strong>C</strong> er direkte tilkoblet, altså lagt inn av ruteren selv i det øyeblikket grensesnittet fikk adresse og kom opp. <strong>S</strong> er statisk, skrevet inn av et menneske.</p>
+<p>Treffer ingen rad, finnes det ofte en siste utvei: <strong>0.0.0.0/0</strong>, default route. Den dekker alt. Finnes heller ikke den, forkastes pakken.</p>
+<p>Du har allerede sett en kortere utgave av dette. <code>ip route</code> på Kali viser maskinens egen tabell. Ruteren har samme tabell, bare med flere rader.</p>
+</div>
+</div>
+        <div class="worked">
+<div class="worked-t">Regneeksempel</div>
+<div class="worked-b">
+<p>En tabell har radene 0.0.0.0/0 via 10.0.0.1 og 192.168.5.0/24 via 10.0.0.9. Pakken skal til 192.168.5.77.</p>
+<ol class="wsteps">
+<li>Treffer 192.168.5.0/24? De tre første tallene stemmer, så ja</li>
+<li>Treffer 0.0.0.0/0? Den treffer alt, så ja</li>
+<li>To rader treffer. Ruteren tar den som er smalest beskrevet, altså /24</li>
+<li>Pakken går til 10.0.0.9</li>
+</ol>
+</div>
+</div>
+        <div class="cmd-block">
+          <div class="obj-title">Prøv dette</div>
+          <div class="theory-text"><p>Skriv <code>show ip route</code> i ruteren under, og les tabellen før du svarer.</p></div>
+        </div>
+        <div class="term-block">
+<div class="fake-browser" style="flex-direction:column">
+          <div class="fake-bar">
+            <div class="fake-dots">
+<div class="fdot fdot-r"></div>
+<div class="fdot fdot-y"></div>
+<div class="fdot fdot-g"></div>
+</div>
+            <div class="fake-url">Simulert ruter — R1</div>
+          </div>
+          <div class="lab-term" style="flex:1">
+            <div class="lab-term-body" id="tb1">
+<div class="lt-info">Skriv 'help' for tilgjengelige kommandoer</div>
+</div>
+            <div class="lab-term-input">
+<span class="lt-ps1">R1#&nbsp;</span>
+<input class="lt-in" id="ti1" placeholder="skriv kommando..." autocomplete="off">
+</div>
+          </div>
+        </div>
+</div>
+
+        <div class="ans-block">
+<div class="obj-title">Din tur</div>
+<div class="ans-row" data-p="1" data-a="10.20.30.62"><span class="ans-q">Hvor sender ruteren en pakke som skal til 10.20.40.7? Oppgi neste hopp.</span><input class="ans-in" placeholder="en adresse">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Let etter raden som beskriver nettet 10.20.40.0, og les hva som står etter via.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">10.20.30.62</div>
+</div>
+</div>
+<div class="ans-row" data-p="1" data-a="203.0.113.2"><span class="ans-q">Hvor sender ruteren en pakke som skal til 172.16.9.9? Oppgi neste hopp.</span><input class="ans-in" placeholder="en adresse">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Ingen rad nevner 172.16. Hva er igjen da?</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">203.0.113.2</div>
+</div>
+</div>
+<div class="ans-row" data-p="1" data-a="C"><span class="ans-q">Hvilken bokstav står foran radene ruteren har lagt inn selv, uten at noen skrev dem?</span><input class="ans-in" placeholder="en bokstav">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Se kodelinjen øverst i utskriften.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">C</div>
+</div>
+</div>
+<div class="ans-row" data-p="1" data-a="to|2"><span class="ans-q">Hvor mange rader i tabellen er skrevet inn av et menneske? Tell dem.</span><input class="ans-in" placeholder="et tall">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Tell radene som er merket med S, og husk at default route også er en av dem.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">2</div>
+</div>
+</div>
+<div class="mcq" data-c="-1833189020" data-ok="Riktig. /32 er en enkelt adresse, og ruteren fører seg selv opp separat." data-no="Se på masken. /32 peker på nøyaktig en adresse, ikke på et nett.">
+<div class="mcq-q">Raden 10.20.30.1/32 står oppført for seg selv, ved siden av 10.20.30.0/26. Hva er den?</div>
+<button class="mcq-opt">Ruterens egen adresse på det grensesnittet</button>
+<button class="mcq-opt">En feil, siden nettet allerede står i tabellen over</button>
+<button class="mcq-opt">Den første maskinen som koblet seg til nettet</button>
+<div class="mcq-fb"></div>
+</div>
+</div>
+        <div class="hint-row">
+<button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button>
+<div class="hint-box">Les tabellen ovenfra og ned en gang før du svarer. Alle svarene står i utskriften, men ikke i den rekkefølgen spørsmålene kommer.</div>
+</div>
+      </div>
+    </div>
+  </div>
+  <div class="lab-card" id="n9-3" data-level="medium">
+    <div class="lab-header" onclick="toggleTask(this)">
+      <span class="lab-num">03</span>
+      <span class="lab-title">Lengste treff vinner</span>
+      <div class="lab-meta">
+<span class="badge badge-medium">Middels</span>
+<span class="lab-chev">&#9654;</span>
+</div>
+    </div>
+    <div class="lab-body">
+      <div class="lab-flow">
+        <div class="level-badge lb-3">Nivå 2 — Når flere rader passer</div>
+        <div class="theory-block">
+<div class="theory-title">🎯 Smalest beskrevet vinner, ikke først i listen</div>
+<div class="theory-text">
+<p>Flere rader kan treffe samme adresse samtidig. Ruteren leser ikke ovenfra og ned og tar den første. Den sammenligner alle, og velger den som er <strong>smalest beskrevet</strong>.</p>
+<p>Tallet bak skråstreken er antall biter som må stemme. /24 krever at 24 biter stemmer. /26 krever 26. Jo høyere tall, jo smalere rad, jo sterkere treff.</p>
+<p>Dette handler ikke om avstand, fart eller kvalitet på linjen. Bare om hvor presist ruten er beskrevet.</p>
+<p>Og en rad treffer bare hvis adressen faktisk ligger inne i nettet den beskriver. En smal rad som ikke dekker adressen, er ikke med i konkurransen i det hele tatt.</p>
+</div>
+</div>
+        <div class="worked">
+<div class="worked-t">Regneeksempel</div>
+<div class="worked-b">
+<p>Pakken skal til 192.168.4.10. Tabellen har tre rader som kan treffe.</p>
+<ol class="wsteps">
+<li>0.0.0.0/0 via A treffer alt, 0 biter må stemme</li>
+<li>192.168.0.0/16 via B treffer, 16 biter stemmer</li>
+<li>192.168.4.0/24 via C treffer, 24 biter stemmer</li>
+<li>24 er høyest, så pakken går til C</li>
+</ol>
+</div>
+</div>
+        <div class="cmd-block">
+          <div class="obj-title">Regnemåte</div>
+          <div class="cmd">Tabellen i oppgaven under:
+  0.0.0.0/0        via A
+  10.0.0.0/8       via B
+  10.20.0.0/16     via C
+  10.20.30.0/26    via D
+<span class='c'># /26 dekker bare .0 til .63 i siste tall</span></div>
+        </div>
+        <div class="ans-block">
+<div class="obj-title">Din tur</div>
+<div class="ans-row" data-p="1" data-a="C"><span class="ans-q">Pakken skal til 10.20.30.200. Hvilken vei velger ruteren? Svar med bokstaven.</span><input class="ans-in" placeholder="en bokstav">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Sjekk først om 200 i det hele tatt ligger inne i /26-raden.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">C</div>
+</div>
+</div>
+<div class="ans-row" data-p="1" data-a="D"><span class="ans-q">Pakken skal til 10.20.30.40. Hvilken vei velger ruteren? Svar med bokstaven.</span><input class="ans-in" placeholder="en bokstav">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">40 ligger i blokken 0 til 63.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">D</div>
+</div>
+</div>
+<div class="ans-row" data-p="1" data-a="A"><span class="ans-q">Pakken skal til 11.5.5.5. Hvilken vei velger ruteren? Svar med bokstaven.</span><input class="ans-in" placeholder="en bokstav">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">10.0.0.0/8 krever at første tall er 10.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">A</div>
+</div>
+</div>
+<div class="ans-row" data-p="1" data-a="fire|4"><span class="ans-q">Hvor mange av de fire radene treffer adressen 10.20.30.40?</span><input class="ans-in" placeholder="et tall">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Gå gjennom en rad om gangen og spør om adressen ligger inne i nettet.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">4</div>
+</div>
+</div>
+<div class="mcq" data-c="-622933583" data-ok="Riktig. Default route er siste utvei, ikke førstevalg." data-no="Sammenlign hvor mange biter hver rad krever at stemmer.">
+<div class="mcq-q">Raden 0.0.0.0/0 dekker også 10.20.30.40. Hvorfor sender ikke ruteren pakken til A?</div>
+<button class="mcq-opt">Fordi D beskriver adressen med flere biter, og smalest beskrevet vinner</button>
+<button class="mcq-opt">Fordi default route bare brukes til adresser utenfor landet</button>
+<button class="mcq-opt">Fordi A står øverst, og ruteren leser nedenfra og opp</button>
+<div class="mcq-fb"></div>
+</div>
+</div>
+        <div class="hint-row">
+<button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button>
+<div class="hint-box">Ta en rad om gangen. Spør først om adressen ligger inne i nettet, deretter hvor mange biter raden krever.</div>
+</div>
+      </div>
+    </div>
+  </div>
+  <div class="lab-card" id="n9-4" data-level="medium">
+    <div class="lab-header" onclick="toggleTask(this)">
+      <span class="lab-num">04</span>
+      <span class="lab-title">TTL og hvordan traceroute egentlig virker</span>
+      <div class="lab-meta">
+<span class="badge badge-medium">Middels</span>
+<span class="lab-chev">&#9654;</span>
+</div>
+    </div>
+    <div class="lab-body">
+      <div class="lab-flow">
+        <div class="level-badge lb-3">Nivå 2 — Pakker som teller ned</div>
+        <div class="theory-block">
+<div class="theory-title">⏳ Hver ruter trekker fra en</div>
+<div class="theory-text">
+<p>Hver IP-pakke har et felt som heter <strong>TTL</strong>, time to live. Det er ikke et klokkeslett, det er en teller.</p>
+<p>Hver ruter som videresender pakken trekker fra <strong>en</strong>. Kommer telleren til null, kastes pakken, og ruteren sender en melding tilbake til avsenderen om at tiden løp ut.</p>
+<p>Det finnes for å hindre at pakker går i ring for alltid når to rutere peker på hverandre.</p>
+<p><strong>traceroute</strong> misbruker akkurat denne mekanismen med vilje. Den sender først en pakke med TTL 1, som dør hos første ruter og gir svar derfra. Så en med TTL 2, som dør hos nummer to. Slik kartlegges veien, ett hopp om gangen.</p>
+</div>
+</div>
+        <div class="worked">
+<div class="worked-t">Regneeksempel</div>
+<div class="worked-b">
+<p>En pakke sendes med TTL 64 og passerer tre rutere på veien.</p>
+<ol class="wsteps">
+<li>Ruter 1 trekker fra en, TTL er nå 63</li>
+<li>Ruter 2 trekker fra en, TTL er nå 62</li>
+<li>Ruter 3 trekker fra en, TTL er nå 61</li>
+<li>Pakken kommer fram med TTL 61, altså 64 minus antall rutere</li>
+</ol>
+</div>
+</div>
+        <div class="cmd-block">
+          <div class="obj-title">Til hjelp</div>
+          <div class="cmd">TTL ut  -  TTL inn  =  antall rutere passert
+<span class='c'># og i traceroute: pakke nummer n sendes med TTL = n</span></div>
+        </div>
+        <div class="ans-block">
+<div class="obj-title">Din tur</div>
+<div class="ans-row" data-p="1" data-a="6"><span class="ans-q">En pakke sendes med TTL 128 og kommer fram med TTL 122. Hvor mange rutere passerte den?</span><input class="ans-in" placeholder="et tall">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Trekk den ene fra den andre.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">6</div>
+</div>
+</div>
+<div class="ans-row" data-p="1" data-a="8"><span class="ans-q">En traceroute gir ni linjer med svar, og den siste kommer fra målet selv. Hvor mange rutere ligger mellom deg og målet?</span><input class="ans-in" placeholder="et tall">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Målet er ikke en ruter på veien. Det er enden av veien.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">8</div>
+</div>
+</div>
+<div class="ans-row" data-p="1" data-a="fire|4"><span class="ans-q">Hvilken TTL settes i pakke nummer fire i en traceroute?</span><input class="ans-in" placeholder="et tall">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Pakke nummer n skal dø hos ruter nummer n.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">4</div>
+</div>
+</div>
+<div class="ans-row" data-p="1" data-a="30"><span class="ans-q">En pakke havner i en ring mellom to rutere som peker på hverandre, og starter med TTL 30. Hvor mange ganger blir den videresendt før den kastes?</span><input class="ans-in" placeholder="et tall">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Hver videresending koster en, og den kastes når telleren når null.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">30</div>
+</div>
+</div>
+<div class="mcq" data-c="-844690350" data-ok="Riktig. Mange rutere er satt opp til å ikke svare. Trafikken kan gå helt fint forbi." data-no="Se på linjene etter den. Kommer det svar lenger ute, gikk trafikken jo forbi.">
+<div class="mcq-q">En linje i traceroute viser bare stjerner. Hva er den mest presise tolkningen?</div>
+<button class="mcq-opt">Den ruteren svarte ikke på denne pakken, og det er alt du vet</button>
+<button class="mcq-opt">Nettverket er nede fra og med det hoppet</button>
+<button class="mcq-opt">Pakken kom aldri fram til målet</button>
+<div class="mcq-fb"></div>
+</div>
+</div>
+        <div class="hint-row">
+<button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button>
+<div class="hint-box">Skriv ned hva TTL er ved hvert steg i stedet for å regne i hodet.</div>
+</div>
+      </div>
+    </div>
+  </div>
+  <div class="lab-card" id="n9-5" data-level="medium">
+    <div class="lab-header" onclick="toggleTask(this)">
+      <span class="lab-num">05</span>
+      <span class="lab-title">Private adresser og hva NAT bytter om</span>
+      <div class="lab-meta">
+<span class="badge badge-medium">Middels</span>
+<span class="lab-chev">&#9654;</span>
+</div>
+    </div>
+    <div class="lab-body">
+      <div class="lab-flow">
+        <div class="level-badge lb-3">Nivå 2 — Adressen som byttes på vei ut</div>
+        <div class="theory-block">
+<div class="theory-title">🔀 Tre blokker som ikke betyr noe utenfor huset</div>
+<div class="theory-text">
+<p>IPv4 har rundt 4,3 milliarder adresser, og det er for få. Tre blokker er derfor satt av til privat bruk: <strong>10.0.0.0/8</strong>, <strong>172.16.0.0/12</strong> og <strong>192.168.0.0/16</strong>.</p>
+<p>De har ingen betydning utenfor nettet de brukes i, og kan gjenbrukes i tusenvis av separate nett samtidig. Rutere ute på internett har ingen rute til dem, og forkaster dem.</p>
+<p><strong>NAT</strong> fyller hullet. På vei ut bytter ruteren avsenderadressen til sin egen offentlige adresse, og noterer i en tabell hvem som egentlig sendte.</p>
+<p>Når svaret kommer tilbake, slår ruteren opp i den tabellen og bytter adressen tilbake. Tjeneren på utsiden har aldri fått vite at maskinen din finnes.</p>
+</div>
+</div>
+        <div class="worked">
+<div class="worked-t">Regneeksempel</div>
+<div class="worked-b">
+<p>Maskinen 192.168.1.20 sender til en tjener, og ruteren har den offentlige adressen 203.0.113.5.</p>
+<ol class="wsteps">
+<li>Pakken forlater maskinen med avsender 192.168.1.20</li>
+<li>Ruteren bytter avsenderen til 203.0.113.5 og noterer byttet i tabellen</li>
+<li>Tjeneren ser en pakke fra 203.0.113.5 og svarer dit</li>
+<li>Ruteren slår opp, bytter tilbake til 192.168.1.20, og sender svaret videre inn</li>
+</ol>
+</div>
+</div>
+        <div class="cmd-block">
+          <div class="obj-title">Prøv dette</div>
+          <div class="theory-text"><p>Skriv <code>show ip nat translations</code> i ruteren under. Kolonnen Inside global er adressen utsiden ser.</p></div>
+        </div>
+        <div class="term-block">
+<div class="fake-browser" style="flex-direction:column">
+          <div class="fake-bar">
+            <div class="fake-dots">
+<div class="fdot fdot-r"></div>
+<div class="fdot fdot-y"></div>
+<div class="fdot fdot-g"></div>
+</div>
+            <div class="fake-url">Simulert ruter — R1</div>
+          </div>
+          <div class="lab-term" style="flex:1">
+            <div class="lab-term-body" id="tb2">
+<div class="lt-info">Skriv 'help' for tilgjengelige kommandoer</div>
+</div>
+            <div class="lab-term-input">
+<span class="lt-ps1">R1#&nbsp;</span>
+<input class="lt-in" id="ti2" placeholder="skriv kommando..." autocomplete="off">
+</div>
+          </div>
+        </div>
+</div>
+
+        <div class="ans-block">
+<div class="obj-title">Din tur</div>
+<div class="ans-row" data-p="1" data-a="203.0.113.1"><span class="ans-q">Hvilken adresse tror tjeneren 198.51.100.9 at den snakket med?</span><input class="ans-in" placeholder="en adresse">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Se i kolonnen Inside global.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">203.0.113.1</div>
+</div>
+</div>
+<div class="ans-row" data-p="1" data-a="3"><span class="ans-q">Hvor mange forskjellige maskiner på innsiden står i tabellen?</span><input class="ans-in" placeholder="et tall">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Tell forskjellige adresser i kolonnen Inside local, ikke antall rader.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">3</div>
+</div>
+</div>
+<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Er 172.20.5.9 en privat adresse? ja eller nei</span><input class="ans-in" placeholder="ja / nei">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">172.16.0.0/12 dekker mer enn bare 172.16. Regn ut hvor blokken slutter.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">ja</div>
+</div>
+</div>
+<div class="ans-row" data-p="1" data-a="172.31"><span class="ans-q">Hva er den høyeste adressen som fortsatt ligger i den private 172-blokken? Oppgi bare de to første tallene, for eksempel 172.9</span><input class="ans-in" placeholder="to tall">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">/12 gir 16 verdier i andre tall, og de starter på 16.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">172.31</div>
+</div>
+</div>
+<div class="mcq" data-c="-2070687191" data-ok="Riktig. Ute på internett er det bare de offentlige adressene som finnes." data-no="Tenk på hva som står som avsender når pakken faktisk forlater bedriften.">
+<div class="mcq-q">To bedrifter bruker begge 192.168.1.10 på en maskin. Hvorfor blir det ikke krøll?</div>
+<button class="mcq-opt">Fordi private adresser bare har betydning innenfor sitt eget nett</button>
+<button class="mcq-opt">Fordi ruterne blir enige om hvem som fikk adressen først</button>
+<button class="mcq-opt">Fordi den ene bedriften må bytte adresse når de kobler seg til internett</button>
+<div class="mcq-fb"></div>
+</div>
+</div>
+        <div class="hint-row">
+<button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button>
+<div class="hint-box">Les tabellen kolonne for kolonne. Inside local er hvem det egentlig er, Inside global er hvem utsiden tror det er.</div>
+</div>
+      </div>
+    </div>
+  </div>
+  <div class="lab-card" id="n9-6" data-level="hard">
+    <div class="lab-header" onclick="toggleTask(this)">
+      <span class="lab-num">06</span>
+      <span class="lab-title">Mange maskiner, en adresse, og hullet du åpner</span>
+      <div class="lab-meta">
+<span class="badge badge-hard">Vanskelig</span>
+<span class="lab-chev">&#9654;</span>
+</div>
+    </div>
+    <div class="lab-body">
+      <div class="lab-flow">
+        <div class="level-badge lb-5">Nivå 3 — Porten er nøkkelen</div>
+        <div class="theory-block">
+<div class="theory-title">🚪 Hvorfor det ikke blir rot når alle deler samme adresse</div>
+<div class="theory-text">
+<p>Hvis tjue maskiner går ut med samme avsenderadresse, hvordan vet ruteren hvem svaret tilhører? Svaret er <strong>portnummeret</strong>.</p>
+<p>Ruteren gir hver samtale sitt eget portnummer på utsiden, og noterer paret. Svaret kommer tilbake til den porten, og ruteren vet da nøyaktig hvilken maskin det skal til. Dette kalles PAT, eller NAT overload.</p>
+<p>Retningen er ikke symmetrisk. Ut fra innsiden lages raden i det øyeblikket trafikken går. Inn fra utsiden finnes det ingenting å slå opp i, så pakken forkastes.</p>
+<p>Skal noe utenfra nå inn, må noen ha laget raden <strong>på forhånd</strong>. Det er port forwarding. Og den regelen gjelder alle som kjenner adressen, ikke bare den du laget den for.</p>
+</div>
+</div>
+        <div class="worked">
+<div class="worked-t">Regneeksempel</div>
+<div class="worked-b">
+<p>To maskiner går ut mot samme tjener, og begge valgte tilfeldigvis kildeport 50122.</p>
+<ol class="wsteps">
+<li>10.20.30.40:50122 får utsideporten 40011</li>
+<li>10.20.30.41:50122 får utsideporten 40012</li>
+<li>Begge går ut med avsender 203.0.113.1, men med hvert sitt portnummer</li>
+<li>Et svar til port 40012 kan bare tilhøre den ene av dem</li>
+</ol>
+</div>
+</div>
+        <div class="cmd-block">
+          <div class="obj-title">Til hjelp</div>
+          <div class="cmd">Tabellen i oppgaven under:
+  203.0.113.1:40011   10.20.30.40:50122
+  203.0.113.1:40012   10.20.30.41:50122
+  203.0.113.1:40013   10.20.30.55:61004
+<span class='c'># venstre er det utsiden ser, hoyre er sannheten</span></div>
+        </div>
+        <div class="ans-block">
+<div class="obj-title">Din tur</div>
+<div class="ans-row" data-p="1" data-a="10.20.30.55"><span class="ans-q">Et svar kommer inn til 203.0.113.1 port 40013. Hvilken maskin skal det til?</span><input class="ans-in" placeholder="en adresse">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Finn raden med den utsideporten og les hva som står til høyre.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">10.20.30.55</div>
+</div>
+</div>
+<div class="ans-row" data-p="1" data-a="fire|4"><span class="ans-q">Maskinen 10.20.30.40 åpner i tillegg en samtale til en helt annen tjener. Hvor mange rader har tabellen da?</span><input class="ans-in" placeholder="et tall">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Hver samtale får sin egen rad, ikke hver maskin.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">4</div>
+</div>
+</div>
+<div class="ans-row" data-p="1" data-a="en rad i oversettelsestabellen"><span class="ans-q">En maskin på utsiden prøver å sende direkte til 10.20.30.55, uten at noen har laget en regel. Hvor langt kommer pakken? Svar med navnet på det som mangler i ruteren.</span><input class="ans-in" placeholder="ett eller to ord">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Ruteren slår opp i tabellen. Hva finner den ikke der?</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">en rad i oversettelsestabellen</div>
+</div>
+</div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Du lager port forwarding for TCP port 80 inn til en vevtjener. En maskin utenfra prøver å pinge den samme adressen. Virker det? ja eller nei</span><input class="ans-in" placeholder="ja / nei">
+<span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button>
+<div class="ah">
+<button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button>
+<div class="ah-box tip">Regelen du la inn nevner en bestemt protokoll og et bestemt portnummer. Ping er ingen av delene.</div>
+<button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button>
+<div class="ah-box sv">nei</div>
+</div>
+</div>
+<div class="mcq" data-c="-1480579318" data-ok="Riktig. En brannmur håndhever regler noen har bestemt, og kan fortelle deg hva den stoppet. NAT bare mangler en rad å slå opp i." data-no="Spør hvem som bestemte at pakken skulle stoppes, og hvor du kan lese om det etterpå.">
+<div class="mcq-q">NAT gjør at uoppfordret trafikk utenfra blir forkastet. Gjør det NAT til en brannmur?</div>
+<button class="mcq-opt">Nei, det er en bieffekt av oversettelsen, og ingen har skrevet en regel eller logget noe</button>
+<button class="mcq-opt">Ja, effekten er den samme, så det er samme funksjon</button>
+<button class="mcq-opt">Ja, så lenge ruteren også har port forwarding slått av</button>
+<div class="mcq-fb"></div>
+</div>
+</div>
+        <div class="hint-row">
+<button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button>
+<div class="hint-box">Hold de to kolonnene fra hverandre. Venstre side er det utsiden ser, høyre side er sannheten.</div>
+</div>
+<button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis løsning</button>
+<div class="sol-box">Det samme oppslaget avgjorde en av de mest kjente hendelsene på internett. I februar 2008 skulle Pakistan Telecom sperre YouTube innenlands, og annonserte en rute for 208.65.153.0/24. YouTube selv annonserte 208.65.152.0/22. Den smaleste raden vinner, akkurat som i kort 3, så rutere over store deler av verden begynte å sende YouTube-trafikk til Pakistan. Ingen hadde brutt seg inn noe sted. Ruterne gjorde nøyaktig det de er bygget for, og stolte på det de fikk høre.</div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div style="margin-top:36px">
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a>
+</div>
+</div>
+
+<footer class="footer">
+<div class="container">
+<div class="footer-inner">
+<span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span>
+<span>Gratis &amp; &aring;pen kildekode</span>
+</div>
+</div>
+</footer>
+<script src="../js/cyberlab.js?v=13"></script>
+<script>
+const RTERM = {
+  "show ip route": [
+    {t:"info", v:"Codes: C - connected, L - local, S - static"},
+    {t:"out", v:""},
+    {t:"out", v:"Gateway of last resort is 203.0.113.2 to network 0.0.0.0"},
+    {t:"out", v:""},
+    {t:"out", v:"S*    0.0.0.0/0 [1/0] via 203.0.113.2"},
+    {t:"out", v:"      10.0.0.0/8 is variably subnetted, 3 subnets"},
+    {t:"out", v:"C        10.20.30.0/26 is directly connected, GigabitEthernet0/0"},
+    {t:"out", v:"L        10.20.30.1/32 is directly connected, GigabitEthernet0/0"},
+    {t:"out", v:"S        10.20.40.0/24 [1/0] via 10.20.30.62"},
+    {t:"out", v:"      203.0.113.0/30 is subnetted, 1 subnets"},
+    {t:"out", v:"C        203.0.113.0/30 is directly connected, GigabitEthernet0/1"},
+  ],
+  "show ip interface brief": [
+    {t:"out", v:"Interface              IP-Address      OK? Status    Protocol"},
+    {t:"out", v:"GigabitEthernet0/0     10.20.30.1      YES up        up"},
+    {t:"out", v:"GigabitEthernet0/1     203.0.113.1     YES up        up"},
+    {t:"out", v:"GigabitEthernet0/2     unassigned      YES administratively down"},
+  ],
+  "ping 10.20.40.7": [
+    {t:"out", v:"Sending 5, 100-byte ICMP Echos to 10.20.40.7, timeout is 2 seconds:"},
+    {t:"out", v:"!!!!!"},
+    {t:"out", v:"Success rate is 100 percent (5/5), round-trip min/avg/max = 1/2/4 ms"},
+  ],
+  "ping 172.16.9.9": [
+    {t:"out", v:"Sending 5, 100-byte ICMP Echos to 172.16.9.9, timeout is 2 seconds:"},
+    {t:"out", v:"....."},
+    {t:"out", v:"Success rate is 0 percent (0/5)"},
+  ],
+  "help": [
+    {t:"info", v:"Tilgjengelige kommandoer i denne simulerte ruteren:"},
+    {t:"out", v:"  show ip route             hele rutetabellen"},
+    {t:"out", v:"  show ip interface brief   adresse og status per grensesnitt"},
+    {t:"out", v:"  ping 10.20.40.7           test mot nettet bak den statiske ruten"},
+    {t:"out", v:"  ping 172.16.9.9           test mot noe tabellen ikke kjenner"},
+    {t:"out", v:"  clear                     toem terminalen"},
+  ],
+};
+
+const NTERM = {
+  "show ip nat translations": [
+    {t:"info", v:"Pro  Inside global      Inside local       Outside local      Outside global"},
+    {t:"out", v:"icmp 203.0.113.1:12    10.20.30.40:12     198.51.100.9:12    198.51.100.9:12"},
+    {t:"out", v:"tcp  203.0.113.1:40011 10.20.30.40:50122  198.51.100.9:443   198.51.100.9:443"},
+    {t:"out", v:"tcp  203.0.113.1:40012 10.20.30.41:50122  198.51.100.9:443   198.51.100.9:443"},
+    {t:"out", v:"tcp  203.0.113.1:40013 10.20.30.55:61004  198.51.100.9:80    198.51.100.9:80"},
+  ],
+  "show ip nat statistics": [
+    {t:"out", v:"Total active translations: 4 (0 static, 4 dynamic; 3 extended)"},
+    {t:"out", v:"Outside interfaces: GigabitEthernet0/1"},
+    {t:"out", v:"Inside interfaces:  GigabitEthernet0/0"},
+    {t:"out", v:"Hits: 1184  Misses: 0"},
+  ],
+  "help": [
+    {t:"info", v:"Tilgjengelige kommandoer i denne simulerte ruteren:"},
+    {t:"out", v:"  show ip nat translations   aktive oversettelser akkurat na"},
+    {t:"out", v:"  show ip nat statistics     hvilke grensesnitt som er inne og ute"},
+    {t:"out", v:"  clear                      toem terminalen"},
+  ],
+};
+
+document.addEventListener('DOMContentLoaded',()=>{
+  termInit('tb1','ti1',RTERM);
+  termInit('tb2','ti2',NTERM);
+});
+</script>
+</body>
+</html>

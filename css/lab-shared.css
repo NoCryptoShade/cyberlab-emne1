@@ -326,3 +326,45 @@ strong{font-weight:600;color:var(--text)}
 .ah-box.sv{background:var(--green-d);border:1px solid rgba(0,229,160,.2);color:#7acfb0;
   font-family:var(--mono);font-size:12px}
 .ah-box code{font-family:var(--mono);font-size:11.5px;background:rgba(255,255,255,.08);padding:1px 5px;border-radius:3px}
+
+/* ── OPPSETT ── hva modulen faktisk krever ────────────────
+   Oppgavene ga kommandoer uten aa si at de forutsatte en kjoerende
+   Kali, et maal paa host-only eller en nedlastet fil. Denne boksen
+   staar oeverst og sier det rett ut.
+──────────────────────────────────────────────────────── */
+.setup-box{border-radius:var(--radius-lg);padding:18px 22px;margin:22px 0 6px;border:1px solid var(--border)}
+.setup-box.ok{background:rgba(0,229,160,.05);border-color:rgba(0,229,160,.22)}
+.setup-box.need{background:rgba(255,181,71,.05);border-color:rgba(255,181,71,.25)}
+.setup-title{font-size:14px;font-weight:700;margin-bottom:9px;display:flex;align-items:center;gap:8px}
+.setup-box.ok .setup-title{color:var(--green)}
+.setup-box.need .setup-title{color:var(--amber)}
+.setup-list{margin:0;padding-left:19px;font-size:13px;color:var(--text2);line-height:1.8;max-width:74ch}
+.setup-list li{margin-bottom:5px}
+.setup-list li:last-child{margin-bottom:0}
+.setup-list code{font-family:var(--mono);font-size:11.5px;background:rgba(255,255,255,.07);padding:1px 5px;border-radius:3px;color:var(--text)}
+.setup-list strong{color:var(--text)}
+.badge.krever-maal{font-size:9.5px;letter-spacing:.05em}
+
+/* fokus-ring paa klikkbare headere (tastaturtilgang) */
+.lab-header:focus-visible, .faq-q:focus-visible, .task-card-header:focus-visible,
+.route .rtop:focus-visible{
+  outline:2px solid var(--green); outline-offset:-2px; border-radius:6px;
+}
+
+/* ── SUBMIT-MODELL ── Svar sender, Fasit vises etter 3 forsoek ──
+   Tidligere sjekket feltet live og 'Svar' viste fasiten. Naa er
+   'Svar' en submit-knapp, og fasit-knappen dukker foerst opp etter
+   tre bomma forsoek.
+──────────────────────────────────────────────────────────── */
+.submit-btn{
+  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.03em;
+  background:var(--green-d);border:1px solid rgba(0,229,160,.35);color:var(--green);
+  padding:5px 14px;border-radius:6px;cursor:pointer;margin-left:8px;transition:all .15s;
+  vertical-align:middle;
+}
+.submit-btn:hover{background:rgba(0,229,160,.16);border-color:var(--green)}
+.submit-btn:active{transform:translateY(1px)}
+
+/* Fasit-knappen er skjult til den er opptjent (3 bomma forsoek) */
+.fasit-btn{display:none}
+.fasit-btn.avail{display:inline-block}

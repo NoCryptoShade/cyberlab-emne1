@@ -261,3 +261,7 @@
 .pr-k{font-weight:600;text-align:left;width:100%}
 .pr-k.valgt{border-color:var(--blue);background:var(--blue-d)}
 @media(max-width:520px){.pr-k{font-size:14.5px;padding:10px 12px}}
+.tm-forklar .h1,.e-fagord .h1{color:#000;background:var(--amber);border-radius:3px;padding:0 3px}
+.tm-forklar .h2,.e-fagord .h2{color:#000;background:var(--blue);border-radius:3px;padding:0 3px}
+.tm-forklar .h3,.e-fagord .h3{color:#000;background:var(--green);border-radius:3px;padding:0 3px}
+.tm-forklar .h4,.e-fagord .h4{color:#000;background:var(--purple);border-radius:3px;padding:0 3px}

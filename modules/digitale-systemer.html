@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hvordan digitale systemer virker — CyberLab</title>
+<link rel="stylesheet" href="../css/style.css?v=13">
+<link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+</head>
+<body class="page enkel">
+<nav class="nav">
+  <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
+  <div class="nav-links">
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="nav-link">Hjem</a>
+    <a href="../emne1.html" class="nav-link">Emne 1</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne3.html" class="nav-link">Emne 3</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="nav-link on">Labber</a>
+    <a href="https://tk1104.timoamling.com/" target="_blank" rel="noopener" class="nav-link">Self check &nearr;</a>
+  </div>
+</nav>
+
+<div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
+
+<div class="mod-hero">
+  <div class="section-eyebrow">Emne 1 &middot; Leksjon 2</div>
+  <div class="section-title">Hvordan digitale systemer virker</div>
+  <p class="section-desc">Hva skjer egentlig når du åpner en nettside? Fem små spill, og så noen spørsmål etter hvert.</p>
+</div>
+
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
+
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>Klient</dt><dd>Den som spør. Nettleseren, appen, <code>curl</code>.</dd>
+    <dt>Tjener (server)</dt><dd>Den som venter og svarer.</dd>
+    <dt>Forespørsel (request)</dt><dd>Spørsmålet klienten sender.</dd>
+    <dt>Respons (response)</dt><dd>Svaret tjeneren sender tilbake.</dd>
+    <dt>HTTP</dt><dd>Språket nettleser og webtjener snakker.</dd>
+    <dt>Statuskode</dt><dd>Tallet først i svaret. <code>200</code> = OK, <code>404</code> = finnes ikke.</dd>
+    <dt>DNS</dt><dd>Nettets telefonkatalog: navn &rarr; IP-adresse.</dd>
+    <dt>IP-adresse</dt><dd>Adressen til en maskin. <code>192.168.1.10</code></dd>
+    <dt>Database</dt><dd>Der tjeneren lagrer og henter data.</dd>
+    <dt>Maskinvare</dt><dd>Det du kan ta på: prosessor, minne, disk.</dd>
+    <dt>Operativsystem</dt><dd>Sjefen for maskinvaren. Kali, Windows, Android.</dd>
+    <dt>Prosess</dt><dd>Et program som kjører akkurat nå.</dd>
+    <dt>Logg</dt><dd>Systemets dagbok.</dd>
+  </dl>
+</details>
+
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
+
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · KLIENT OG TJENER ═══════════════════════ -->
+<div class="lab-card" id="l02-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">Klient og tjener</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Hvem spør, hvem svarer?</div>
+<p class="e-hook">Nesten alt på internett er en samtale mellom to. Én spør, én svarer. Klarer du å se hvem som er hvem? 🤔</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Spør eller svarer?" data-knapper="🙋 Klient|🖥️ Tjener">
+  <div class="ly-item" data-svar="0" data-hvorfor="Nettleseren spør etter siden. Den er klienten.">Nettleseren din som åpner vg.no 🌐</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Den venter på at noen ber om en film, og sender den.">Maskinen hos Netflix som sender deg filmen 🍿</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Appen spør etter nye snaps. Klient!">Snapchat-appen på mobilen din 📱</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Den lagrer e-postene og sender dem når du spør.">Maskinen som lagrer alle e-postene dine i Gmail 📬</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Den holder styr på alle spillerne og svarer alle sammen.">Spillserveren som holder styr på alle spillerne i Fortnite 🎮</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Du sender en forespørsel med curl. Da er Kali klienten.">Kali når du skriver <code>curl https://example.com</code> 🐉</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Den som spør heter <b>klient</b> (client). Den som svarer heter <b>tjener</b> (server). Spørsmålet er en <b>forespørsel</b> (request), og svaret er en <b>respons</b> (response).
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="curl -I https://example.com" data-mal="Spør tjeneren example.com, men be bare om hodet på svaret:" data-alias="curl --head https://example.com|curl -i https://example.com"><template class="ut">HTTP/2 <span class="h1">200</span>
+<span class="h2">content-type: text/html</span>
+content-length: 1256
+<span class="dim">date: Wed, 07 Oct 2026 08:12:44 GMT</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>statuskoden: 200 betyr «OK, her er det du ba om» ✅</span></li><li><span class="m h2"></span><span>hva slags innhold svaret har: en nettside (HTML)</span></li></ul><p><code>curl</code> er en klient uten bilder og knapper. <code>-I</code> betyr «bare hodet på svaret».</p></template></div>
+<div class="tm-o" data-cmd="curl -s https://example.com | head -n 4" data-mal="Hent selve siden, men vis bare de 4 første linjene:"><template class="ut">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;<span class="h1">Example Domain</span>&lt;/title&gt;</template><template class="forklar"><p>Dette er <b>HTML</b>, oppskriften på siden. Nettleseren gjør den om til farger og tekst. Det gule mellom <code>&lt;title&gt;</code> og <code>&lt;/title&gt;</code> er navnet på fanen i nettleseren.</p><p><code>|</code> sender utskriften videre. <code>head -n 4</code> = «vis bare 4 linjer». <code>-s</code> = stille, ingen fremdriftslinje.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="200"><span class="ans-q">Hvilken statuskode sendte tjeneren?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det gule tallet på første linje.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">200</div></div></div>
+<div class="ans-row" data-p="1" data-a="example domain"><span class="ans-q">Hva står mellom &lt;title&gt; og &lt;/title&gt;?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på siste linje i andre oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Example Domain</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Datoen og noen linjer blir litt annerledes enn her. Det er helt riktig!<p class="e-win">Windows (PowerShell): <code>curl.exe -I https://example.com</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="klient|klienten|client"><span class="ans-q">Du ser på YouTube på mobilen. Er mobilen klient eller tjener?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvem spør etter videoen?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">klient</div></div></div>
+<div class="ans-row" data-p="1" data-a="klienten|klient|client"><span class="ans-q">Hvem sender den første meldingen i samtalen, klienten eller tjeneren?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tjeneren venter. Hvem må spørre først?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">klienten</div></div></div>
+<div class="ans-row" data-p="1" data-a="response|respons|responsen"><span class="ans-q">Hva heter svaret fra tjeneren på engelsk?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står i parentes i den blå fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">response</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · FRA ADRESSE TIL SIDE ═══════════════════════ -->
+<div class="lab-card" id="l02-2" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">Hva skjer når du trykker Enter?</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Fra navn til nettside</div>
+<p class="e-hook">Du skriver <code>example.com</code> og trykker Enter. Under ett sekund senere er siden der. Hva rakk å skje? ⏱️</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Ett sekund, sju steg" data-oppgave="Sett stegene i riktig rekkefølge, fra Enter til ferdig side.">
+  <div class="rf-item" data-forklar="Alt starter med deg, brukeren.">Du skriver example.com og trykker Enter ⌨️</div>
+  <div class="rf-item" data-forklar="Maskiner bruker tall, ikke navn. Så nettleseren må slå opp.">Nettleseren spør: «Hvilken adresse har example.com?» 📒</div>
+  <div class="rf-item" data-forklar="Navnet er gjort om til et tall.">Svaret kommer: en IP-adresse 🔢</div>
+  <div class="rf-item" data-forklar="Nå vet nettleseren hvor den skal, og spør.">Nettleseren sender forespørselen til tjeneren 📨</div>
+  <div class="rf-item" data-forklar="Tjeneren finner fram det du ba om.">Tjeneren henter innholdet fra disk eller database 🗄️</div>
+  <div class="rf-item" data-forklar="200 OK, og HTML-en ligger i svaret.">Tjeneren sender svaret: 200 OK + HTML 📦</div>
+  <div class="rf-item" data-forklar="Oppskriften blir til farger, tekst og bilder.">Nettleseren tegner siden på skjermen 🎨</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Oppslaget fra navn til adresse heter <b>DNS</b> (Domain Name System). Tenk telefonkatalog 📒: du kan navnet, DNS gir deg nummeret. Adressen heter <b>IP-adresse</b>. Den lærer du mer om i leksjon 5.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="nslookup example.com" data-mal="Slå opp adressen til example.com:"><template class="ut">Server:		<span class="h2">192.168.1.1</span>
+Address:	192.168.1.1#53
+
+Non-authoritative answer:
+Name:	example.com
+Address: <span class="h1">23.192.228.80</span>
+Name:	example.com
+Address: <span class="h1">23.215.0.136</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>hvem du spurte: ruteren din, som spør videre for deg</span></li><li><span class="m h1"></span><span>svaret: IP-adressene til example.com</span></li></ul><p>To adresser? Store nettsteder har flere tjenere. Da tåler de at én går ned 💪</p></template></div>
+<div class="tm-o" data-cmd="host -t A example.com" data-mal="Gjør det samme oppslaget med et kortere verktøy." data-alias="host -tA example.com|host example.com -t A" data-skjult data-hint="Verktøyet heter <code>host</code>. <code>-t A</code> betyr «bare vanlige adresser»."><template class="ut">example.com has address <span class="h1">23.192.228.80</span>
+example.com has address <span class="h1">23.215.0.136</span></template><template class="forklar"><p>Samme svar, færre linjer. «has address» = «har adressen».</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="192.168.1.1"><span class="ans-q">Hvilken maskin svarte på DNS-spørsmålet ditt (linja «Server»)?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå adressen øverst.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">192.168.1.1</div></div></div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvor mange IP-adresser fikk du for example.com?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de gule adressene.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Adressene du får kan være andre enn her. Store nettsteder bytter dem av og til. Det er helt riktig!<p class="e-win">Windows: <code>nslookup example.com</code> (samme kommando!)</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="dns"><span class="ans-q">Hva heter systemet som gjør navn om til IP-adresser?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Telefonkatalogen 📒. Tre bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">DNS</div></div></div>
+<div class="ans-row" data-p="1" data-a="dns oppslaget|dns-oppslaget|dns|navneoppslaget|navneoppslag|oppslaget"><span class="ans-q">Hva skjer først etter at du trykker Enter: DNS-oppslaget eller forespørselen til tjeneren?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kan du sende et brev før du vet adressen?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">DNS-oppslaget</div></div></div>
+<div class="ans-row" data-p="1" data-a="nettleseren|nettleser|browser|browseren"><span class="ans-q">Hvem gjør HTML om til en side du kan se?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Siste steg i spillet 🎨.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nettleseren</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · DATABASE OG STATUSKODER ═══════════════════════ -->
+<div class="lab-card" id="l02-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">Bak tjeneren: databasen</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Hvem vet hva?</div>
+<p class="e-hook">Du klikker på «Joggesko» i en nettbutikk. Tjeneren vet faktisk ikke hvilke sko som finnes. Hvem spør den? 👟</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Nettbutikk-chatten">
+  <div class="ch-item" data-fra="sys">🛒 Du klikker på «Joggesko» i nettbutikken.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🌐 Nettleseren">GET /joggesko 🙋 Kan jeg få siden med joggesko?</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🖥️ Tjeneren">Et øyeblikk! Databasen, hvilke joggesko har vi på lager? 🤔</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🗄️ Databasen">Tre par: Rask 🏃, Rosa 💗 og Rimelig 💸</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🖥️ Tjeneren">200 OK ✅ Her er siden, ferdig pakket i HTML.</div>
+  <div class="ch-item" data-fra="sys">Nettleseren tegner siden. Du ser tre par sko.</div>
+  <div class="ch-item" data-stopp="⏪ Spol tilbake. Du skriver feil adresse…"></div>
+  <div class="ch-item" data-fra="pc" data-navn="🌐 Nettleseren">GET /jogesko 🙋</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🖥️ Tjeneren">404 Not Found 🤷 Den siden finnes ikke hos meg.</div>
+  <div class="ch-item" data-stopp="⏪ En gang til. Nå har databasen krasjet 💥"></div>
+  <div class="ch-item" data-fra="pc" data-navn="🌐 Nettleseren">GET /joggesko 🙋</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🖥️ Tjeneren">Databasen? Hallo?? 😰</div>
+  <div class="ch-item" data-fra="sys">🗄️ Databasen svarer ikke.</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🖥️ Tjeneren">500 Internal Server Error 😵 Feilen er hos meg, ikke hos deg.</div>
+  <div class="ch-item" data-fra="sys">💡 Nettleseren snakket aldri med databasen. Bare med tjeneren.</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Der dataene bor, heter <b>databasen</b>. Språket nettleser og tjener snakker, heter <b>HTTP</b>. Tallet først i svaret er en <b>statuskode</b>: <code>200</code> OK, <code>404</code> finnes ikke, <code>500</code> feil hos tjeneren.
+</div>
+<p class="e-sikker">🔐 Tjeneren står som en vakt foran databasen. Slipper vakten rare spørsmål gjennom, kan en angriper lure databasen. Det heter SQL-injeksjon, og du møter det i Emne 3 🦹</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="curl -I https://httpbin.org/status/404" data-mal="httpbin.org er en øve-tjener. Be om en side som gir 404:" data-alias="curl --head https://httpbin.org/status/404"><template class="ut">HTTP/2 <span class="h1">404</span>
+<span class="dim">date: Wed, 07 Oct 2026 08:31:12 GMT</span>
+content-type: text/html; charset=utf-8
+content-length: 0
+<span class="h2">server: gunicorn/19.9.0</span>
+access-control-allow-origin: *
+access-control-allow-credentials: true</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>statuskoden: 404, finnes ikke</span></li><li><span class="m h2"></span><span>tjeneren forteller hvilket program den er</span></li></ul><p>httpbin.org svarer med akkurat den koden du ber om. Perfekt for å øve 🎯</p></template></div>
+<div class="tm-o" data-cmd="curl -I https://httpbin.org/status/500" data-mal="Be om en 500 i stedet." data-alias="curl --head https://httpbin.org/status/500" data-skjult data-hint="Samme kommando som over, men bytt tallet til slutt."><template class="ut">HTTP/2 <span class="h1">500</span>
+<span class="dim">date: Wed, 07 Oct 2026 08:31:40 GMT</span>
+content-type: text/html; charset=utf-8
+content-length: 0
+server: gunicorn/19.9.0
+access-control-allow-origin: *
+access-control-allow-credentials: true</template><template class="forklar"><p>500 = «noe gikk galt hos meg». Som tjeneren i chatten da databasen krasjet 😵</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="gunicorn|gunicorn/19.9.0"><span class="ans-q">Hvilket program svarte (linja «server»)? Bare navnet, uten tallene.</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå linja i første oppdrag, før skråstreken.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">gunicorn</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Prøv gjerne et annet tall til slutt, for eksempel <code>/status/418</code> 🫖<p class="e-win">Windows (PowerShell): <code>curl.exe -I https://httpbin.org/status/404</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="404"><span class="ans-q">Du skriver feil adresse til en side. Hvilken statuskode får du?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva svarte tjeneren på /jogesko? 🤷</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">404</div></div></div>
+<div class="ans-row" data-p="1" data-a="tjeneren|tjener|server|serveren"><span class="ans-q">Hvem snakker nettleseren med: tjeneren eller databasen?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se siste linje i chatten 💡.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">tjeneren</div></div></div>
+<div class="ans-row" data-p="1" data-a="tjeneren|tjener|server|serveren|hos tjeneren"><span class="ans-q">Du får 500. Er feilen hos deg eller hos tjeneren?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva sa tjeneren da databasen krasjet? 😵</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">hos tjeneren</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · DELENE I ET SYSTEM ═══════════════════════ -->
+<div class="lab-card" id="l02-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Delene i et digitalt system</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Seks deler</div>
+<p class="e-hook">Mobilen din, nettbanken og Kali er bygd av de samme seks delene. Klarer du å koble dem? 🧩</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hva hører sammen?" data-oppgave="Koble hver del til et eksempel.">
+  <div class="pr-par" data-forklar="Maskinvare er det du kan ta på."><span>🔩 Maskinvare</span><span>Prosessor, minne og disk</span></div>
+  <div class="pr-par" data-forklar="Operativsystemet er sjefen som styrer maskinvaren."><span>🐧 Operativsystem</span><span>Kali, Windows, Android</span></div>
+  <div class="pr-par" data-forklar="Applikasjoner er programmene du bruker. De står oppå operativsystemet."><span>📱 Applikasjon</span><span>Nettleseren, Spotify, Word</span></div>
+  <div class="pr-par" data-forklar="Data er det programmene jobber med. Ofte det mest verdifulle!"><span>🗂️ Data</span><span>Bilder, e-poster, kunderegister</span></div>
+  <div class="pr-par" data-forklar="Uten brukere skjer det ingenting."><span>🙋 Bruker</span><span>Deg, som klikker og skriver</span></div>
+  <div class="pr-par" data-forklar="Nettverket kobler systemet til andre systemer."><span>📶 Nettverk</span><span>Wifi og kabelen ut til verden</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Delene ligger i lag: <b>maskinvare</b> nederst, <b>operativsystemet</b> (OS) oppå, <b>applikasjonene</b> oppå der igjen. De jobber med <b>data</b>, for <b>brukere</b>, over <b>nettverket</b>. Et program som kjører akkurat nå, heter en <b>prosess</b>.
+</div>
+<p class="e-sikker">🔐 Hver del kan angripes. En stjålet disk, et OS uten oppdateringer, en lurt bruker. Derfor ser sikkerhetsfolk på <b>alle</b> seks.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat /etc/os-release" data-mal="Hvilket operativsystem kjører du?"><template class="ut">PRETTY_NAME="<span class="h1">Kali GNU/Linux Rolling</span>"
+NAME="Kali GNU/Linux"
+VERSION_ID="2026.3"
+VERSION="2026.3"
+VERSION_CODENAME=kali-rolling
+ID=kali
+<span class="h2">ID_LIKE=debian</span>
+HOME_URL="https://www.kali.org/"
+SUPPORT_URL="https://forums.kali.org/"
+BUG_REPORT_URL="https://bugs.kali.org/"
+ANSI_COLOR="1;31"</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>navnet på operativsystemet</span></li><li><span class="m h2"></span><span>Kali er bygd på Debian, en annen Linux</span></li></ul><p><code>cat</code> = «vis innholdet i fila». Fila <code>/etc/os-release</code> beskriver OS-et.</p></template></div>
+<div class="tm-o" data-cmd="free -h" data-mal="Hvor mye minne (RAM) har maskinvaren?"><template class="ut">               total        used        free      shared  buff/cache   available
+Mem:           <span class="h1">3.8Gi</span>       1.1Gi       1.4Gi        24Mi       1.3Gi       <span class="h3">2.7Gi</span>
+Swap:          1.0Gi          0B       1.0Gi</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>alt minnet maskinen har</span></li><li><span class="m h3"></span><span>hvor mye programmene kan bruke nå</span></li></ul><p><code>-h</code> = «lesbart for mennesker» (Gi i stedet for et langt tall). Gi er nesten det samme som GB.</p></template></div>
+<div class="tm-o" data-cmd="df -h" data-mal="Hvor full er disken?" data-skjult data-hint="To bokstaver, «disk free», og samme <code>-h</code> som over."><template class="ut">Filesystem      Size  Used Avail Use% Mounted on
+udev            1.9G     0  1.9G   0% /dev
+tmpfs           392M  1.1M  391M   1% /run
+<span class="h1">/dev/sda1        79G   18G   57G  24% /</span>
+tmpfs           2.0G     0  2.0G   0% /dev/shm
+tmpfs           5.0M     0  5.0M   0% /run/lock
+tmpfs           392M  120K  392M   1% /run/user/1000</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>den ekte disken, montert på <code>/</code>. 24 % er brukt</span></li></ul><p>Linjene med <code>tmpfs</code> og <code>udev</code> er ikke ekte disker. De ligger i minnet. Hopp over dem.</p></template></div>
+<div class="tm-o" data-cmd="ps aux | head -n 3" data-mal="Hvilke prosesser kjører? Vis de 3 første linjene:"><template class="ut">USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+<span class="h2">root</span>           <span class="h1">1</span>  0.0  0.3  24364 13472 ?        Ss   09:58   0:01 <span class="h3">/sbin/init splash</span>
+<span class="h2">root</span>           <span class="h1">2</span>  0.0  0.0      0     0 ?        S    09:58   0:00 [kthreadd]</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>PID: nummeret prosessen har fått</span></li><li><span class="m h2"></span><span>hvilken bruker prosessen kjører som</span></li><li><span class="m h3"></span><span>programmet. PID 1 er det aller første OS-et starter</span></li></ul><p>Kjør <code>ps aux</code> uten <code>head</code> på ekte Kali. Da ser du hundrevis, også nettleseren og terminalen din.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="3.8gi|3.8|3,8|3.8 gi|3,8 gi|3.8 gb|3,8 gb"><span class="ans-q">Hvor mye minne har maskinen totalt?</span><input class="ans-in" placeholder="f.eks. 8Gi"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det gule tallet fra <code>free -h</code>, under «total».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3.8Gi</div></div></div>
+<div class="ans-row" data-p="1" data-a="24|24%|24 %"><span class="ans-q">Hvor mange prosent av disken er brukt?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule linja fra <code>df -h</code>, kolonnen «Use%».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">24</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Tallene dine blir litt annerledes enn her. Det er helt riktig! Disken din kan hete <code>/dev/sda1</code>, <code>/dev/vda1</code> eller <code>/dev/nvme0n1p2</code>.<p class="e-win">Windows: <code>systeminfo</code> viser OS og minne. <code>tasklist</code> viser prosessene.</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="maskinvare|maskinvaren|hardware"><span class="ans-q">Minnet (RAM) er en del av hva: maskinvare eller operativsystem?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kan du ta på det? 🔩</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">maskinvare</div></div></div>
+<div class="ans-row" data-p="1" data-a="operativsystemet|operativsystem|os|os-et"><span class="ans-q">Hvilken del styrer maskinvaren, og lar applikasjonene bruke den?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Sjefen i midten 🐧. Kali er et eksempel.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">operativsystemet</div></div></div>
+<div class="ans-row" data-p="1" data-a="prosess|en prosess|prosessen"><span class="ans-q">Hva heter et program mens det kjører?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip"><code>ps</code> er kort for dette ordet. Står i fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">prosess</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · LOGGER ═══════════════════════ -->
+<div class="lab-card" id="l02-5" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">Logger: systemets hukommelse</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Dagboka</div>
+<p class="e-hook">Nettbutikken husker hver eneste forespørsel. I natt var det noen som snoket rundt. Finner du sporene? 🕵️</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Hvem snoker?" data-oppgave="Klikk på alle forespørslene som fikk svaret «finnes ikke».">
+<pre>192.168.1.10 - - [07/Oct/2026:10:02:11 +0200] "GET / HTTP/1.1" <span class="kl" data-forklar="200 = OK. Her gikk alt fint.">200</span> 3380
+192.168.1.10 - - [07/Oct/2026:10:02:14 +0200] "GET /joggesko HTTP/1.1" <span class="kl" data-forklar="200 = OK. Vanlig kunde som ser på sko 👟">200</span> 5120
+203.0.113.66 - - [07/Oct/2026:10:05:01 +0200] "GET /admin HTTP/1.1" <span class="kl" data-rett data-forklar="404 på /admin. Noen leter etter innloggingen til sjefen 🦹">404</span> 196
+203.0.113.66 - - [07/Oct/2026:10:05:01 +0200] "GET /.env HTTP/1.1" <span class="kl" data-rett data-forklar="404 på /.env. Den fila har ofte passord i seg. Skurken håper den ligger åpen 🔑">404</span> 196
+203.0.113.66 - - [07/Oct/2026:10:05:02 +0200] "GET /backup.zip HTTP/1.1" <span class="kl" data-rett data-forklar="404 på /backup.zip. En glemt sikkerhetskopi ville vært gull for skurken 💰">404</span> 196
+192.168.1.20 - - [07/Oct/2026:10:06:30 +0200] "GET /joggesko HTTP/1.1" <span class="kl" data-forklar="200 = OK. En annen kunde.">200</span> 5120</pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Dagboka heter en <b>logg</b> (log). Én linje = én hendelse: <b>hvem</b> (IP), <b>når</b> (tid), <b>hva</b> (forespørselen) og <b>hvordan det gikk</b> (statuskoden). Webtjeneren Apache skriver i fila <code>access.log</code>.
+</div>
+<p class="e-sikker">🔐 Tre forsøk på ett sekund? Det er et skript, ikke et menneske. Smarte angripere prøver å slette loggene etterpå. Derfor kopierer bedrifter dem til en annen maskin.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sudo systemctl start apache2" data-mal="Gjør Kali til en webtjener. Start Apache:"><template class="ut">[sudo] password for kali: <span class="dim">(passordet vises ikke mens du skriver. Normalt!)</span></template><template class="forklar"><p><code>sudo</code> = «gjør dette som sjef». <code>systemctl start</code> = «start tjenesten». Ingen melding betyr at det gikk bra 👍</p></template></div>
+<div class="tm-o" data-cmd="curl -I http://localhost" data-mal="Vær klient mot din egen tjener." data-alias="curl --head http://localhost|curl -I localhost|curl -I http://127.0.0.1" data-skjult data-hint="Samme kommando som i oppgave 1, men adressen er <code>http://localhost</code> (= denne maskinen)."><template class="ut">HTTP/1.1 <span class="h1">200 OK</span>
+Date: Wed, 07 Oct 2026 08:41:07 GMT
+<span class="h2">Server: Apache/2.4.65 (Debian)</span>
+Last-Modified: Tue, 15 Sep 2026 07:30:12 GMT
+ETag: "29cd-63f1a2b3c4d5e"
+Accept-Ranges: bytes
+Content-Length: 10701
+Vary: Accept-Encoding
+Content-Type: text/html</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>200 OK, din egen tjener svarer ✅</span></li><li><span class="m h2"></span><span>tjenerprogrammet: Apache</span></li></ul><p>Nå er Kali <b>både</b> klient og tjener 🤯</p></template></div>
+<div class="tm-o" data-cmd="curl -I http://localhost/admin" data-mal="Snok litt selv. Be om /admin:" data-alias="curl --head http://localhost/admin|curl -I localhost/admin"><template class="ut">HTTP/1.1 <span class="h1">404 Not Found</span>
+Date: Wed, 07 Oct 2026 08:41:19 GMT
+Server: Apache/2.4.65 (Debian)
+Content-Type: text/html; charset=iso-8859-1</template><template class="forklar"><p>Ingen /admin her 🤷 Akkurat som skurken i spillet.</p></template></div>
+<div class="tm-o" data-cmd="sudo tail -n 2 /var/log/apache2/access.log" data-mal="Les de 2 siste linjene i loggen." data-alias="sudo tail -2 /var/log/apache2/access.log" data-skjult data-hint="<code>sudo tail -n 2</code> og så stien <code>/var/log/apache2/access.log</code>."><template class="ut"><span class="h2">127.0.0.1</span> - - [<span class="dim">07/Oct/2026:10:41:07 +0200</span>] "HEAD / HTTP/1.1" <span class="h3">200</span> 255 "-" "<span class="h4">curl/8.15.0</span>"
+<span class="h2">127.0.0.1</span> - - [<span class="dim">07/Oct/2026:10:41:19 +0200</span>] "HEAD /admin HTTP/1.1" <span class="h1">404</span> 140 "-" "<span class="h4">curl/8.15.0</span>"</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>hvem: 127.0.0.1 er maskinen selv</span></li><li><span class="m h3"></span><span>første forespørsel: 200 OK</span></li><li><span class="m h1"></span><span>andre forespørsel: 404</span></li><li><span class="m h4"></span><span>hvilken klient som spurte</span></li></ul><p>Tiden står i klammene [ ], norsk tid (+0200). Det er deg! 👋 <code>tail</code> = «vis slutten av fila». <code>HEAD</code> er det <code>curl -I</code> sender.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="apache"><span class="ans-q">Hvilket tjenerprogram svarte på localhost?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Linja som starter med <code>Server:</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Apache</div></div></div>
+<div class="ans-row" data-p="1" data-a="curl|curl/8.15.0"><span class="ans-q">Hvilken klient står det i loggen at spurte?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den lilla biten helt til slutt på linja.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">curl</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Tidene dine blir andre enn her. Det er helt riktig!<br>Står det «Unit apache2.service not found»? Kjør <code>sudo apt install apache2</code> først. Stopp tjeneren etterpå med <code>sudo systemctl stop apache2</code>.<p class="e-win">Windows: Loggboka heter <b>Event Viewer</b> (Hendelsesliste). Søk etter <code>eventvwr</code> i startmenyen.</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="203.0.113.66"><span class="ans-q">Fra hvilken IP-adresse kom snokingen i spillet?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se starten på linjene med 404.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">203.0.113.66</div></div></div>
+<div class="ans-row" data-p="1" data-a="access.log|access log|accesslog"><span class="ans-q">Hva heter fila der Apache skriver hver forespørsel?</span><input class="ans-in" placeholder="filnavn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Siste del av stien i <code>tail</code>-kommandoen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">access.log</div></div></div>
+<div class="ans-row" data-p="1" data-a="skript|et skript|program|et program|script|bot|robot"><span class="ans-q">Tre forespørsler på ett sekund fra samme adresse. Er det et menneske eller et skript?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kan du skrive tre adresser på ett sekund? Se den gule boksen 🔐.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">skript</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-inner">
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+</div></div></footer>
+<script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
+</body>
+</html>

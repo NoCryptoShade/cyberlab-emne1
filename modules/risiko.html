@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verdier, trusler, sårbarheter og risiko — CyberLab</title>
+<link rel="stylesheet" href="../css/style.css?v=13">
+<link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+.x-ting{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.x-ting .kl{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:8px 12px;font-size:15px;color:var(--text)}
+.x-ting .kl.funnet{background:var(--green);border-color:var(--green);color:#000}
+.x-ting .kl.feil{background:var(--red);border-color:var(--red);color:#000}
+.x-mx{display:grid;grid-template-columns:auto repeat(3,1fr);gap:4px;max-width:360px;font-size:13px;text-align:center}
+.x-mx span{padding:5px 4px;border-radius:6px}
+.x-mx .x-a{color:var(--text3);font-family:var(--mono);font-size:12px}
+.x-mx .x-h{color:var(--text2)}
+.x-mx .x-l{background:rgba(0,229,160,.18);color:var(--green);font-weight:700}
+.x-mx .x-m{background:rgba(255,181,71,.18);color:var(--amber);font-weight:700}
+.x-mx .x-r{background:rgba(255,92,92,.18);color:var(--red);font-weight:700}
+.x-forkl{margin:8px 0 0;font-size:13.5px;color:var(--text2)}
+.x-sk{display:block;margin-top:8px;font-family:var(--mono);font-size:13.5px;color:var(--text2)}
+</style>
+</head>
+<body class="page enkel">
+<nav class="nav">
+  <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
+  <div class="nav-links">
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="nav-link">Hjem</a>
+    <a href="../emne1.html" class="nav-link">Emne 1</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne3.html" class="nav-link">Emne 3</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="nav-link on">Labber</a>
+    <a href="https://tk1104.timoamling.com/" target="_blank" rel="noopener" class="nav-link">Self check &nearr;</a>
+  </div>
+</nav>
+
+<div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
+
+<div class="mod-hero">
+  <div class="section-eyebrow">Emne 1 &middot; Leksjon 3</div>
+  <div class="section-title">Verdier, trusler, sårbarheter og risiko</div>
+  <p class="section-desc">Hva må et lite bakeri beskytte, og hva er forskjellen på en trussel og en sårbarhet? Fem små spill, og så noen spørsmål etter hvert.</p>
+</div>
+
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
+
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>Verdi</dt><dd>Noe som er verdt å beskytte. Engelsk: <i>asset</i>.</dd>
+    <dt>Trussel</dt><dd>Noe eller noen som kan skade en verdi. 🦹 ⚡</dd>
+    <dt>Sårbarhet</dt><dd>Et hull eller en svakhet som trusselen kan bruke. 🕳️</dd>
+    <dt>Risiko</dt><dd>Sannsynlighet × konsekvens.</dd>
+    <dt>Sannsynlighet</dt><dd>Hvor lett eller ofte noe skjer.</dd>
+    <dt>Konsekvens</dt><dd>Hvor vondt det gjør hvis det skjer.</dd>
+    <dt>Risikomatrise</dt><dd>Tabellen som gjør S og K om til lav, middels eller høy.</dd>
+    <dt>Angrepsflate</dt><dd>Alle dørene inn til et system, til sammen.</dd>
+    <dt>Tjeneste</dt><dd>Et program som står og venter på besøk, for eksempel SSH.</dd>
+    <dt>Tiltak</dt><dd>Noe du gjør for å senke risikoen.</dd>
+    <dt>Restrisiko</dt><dd>Risikoen som er igjen etter tiltakene.</dd>
+  </dl>
+</details>
+
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
+
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · VERDIER ═══════════════════════ -->
+<div class="lab-card" id="l03-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">Verdier: hva er verdt å beskytte?</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Verdier</div>
+<p class="e-hook">Bakeriet «Brød &amp; Bit» har ingen hemmelige agenter. Har de i det hele tatt noe å beskytte? 🥐</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🎮 Bakeriets skattekiste" data-oppgave="Klikk på alt bakeriet bør beskytte.">
+<div class="x-ting">
+  <span class="kl" data-rett data-forklar="1243 kunder med e-post og telefon. Gull for svindlere.">📋 kundelista</span>
+  <span class="kl" data-forklar="Tom eske. Ingen vil stjele den 📦">📦 en tom pappeske</span>
+  <span class="kl" data-rett data-forklar="Lønn og kontonummer. Privat, og ulovlig å lekke.">💰 lønnslista</span>
+  <span class="kl" data-rett data-forklar="Uten den kan ingen betale. Da står salget stille.">💳 betalingsterminalen</span>
+  <span class="kl" data-forklar="Gammel og ubrukt. Ingen savner den.">🗓️ kalenderen fra 2019</span>
+  <span class="kl" data-rett data-forklar="Oppskriften er det som gjør bakeriet unikt. En forretningshemmelighet!">🥐 den hemmelige kanelbolle-oppskriften</span>
+  <span class="kl" data-rett data-forklar="8000 følgere. Kapres den, kan noen svindle kundene i bakeriets navn.">📸 Instagram-kontoen</span>
+  <span class="kl" data-forklar="Kjøp ny for 20 kroner 🧻">🧻 en halv rull tørkepapir</span>
+  <span class="kl" data-rett data-forklar="Folk er verdier også. Kari er den eneste som kan fikse ovnen.">👩‍🍳 Kari, som kan alt om ovnen</span>
+  <span class="kl" data-rett data-forklar="Et godt rykte tar år å bygge, og én lekkasje å rive ned.">⭐ ryktet: «beste boller i byen»</span>
+</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Alt du klikket riktig på er <b>verdier</b> (<i>assets</i>). Ikke bare filer og maskiner, men også <b>folk</b> og <b>omdømme</b>. Første spørsmål i sikkerhet er alltid: <b>hva skal vi beskytte?</b>
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ls firma" data-mal="Se hva som ligger i mappa til bakeriet:" data-alias="ls firma/|ls ~/firma"><template class="ut"><span class="h2">faktura</span>  <span class="h1">kundeliste.csv</span>  <span class="h1">lonn.csv</span>  <span class="h2">oppskrifter</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>filer: kundelista og lønnslista</span></li><li><span class="m h2"></span><span>mapper med fakturaer og oppskrifter</span></li></ul><p>Fire ting. Alle fire er verdier 💎</p></template></div>
+<div class="tm-o" data-cmd="du -sh firma/*" data-mal="Hvor mye plass tar hver av dem?" data-alias="du -sh ~/firma/*|du -hs firma/*"><template class="ut"><span class="h1">552K</span>	firma/faktura
+<span class="h1">56K</span>	firma/kundeliste.csv
+<span class="h1">4.0K</span>	firma/lonn.csv
+<span class="h1">16K</span>	firma/oppskrifter</template><template class="forklar"><p><code>du</code> = <i>disk usage</i>. <code>-s</code> = bare summen, <code>-h</code> = lesbare tall (K = kilobyte). <code>*</code> = «alt i mappa».</p><p>Lønnslista er bitteliten, men kanskje den mest sensitive. <b>Størrelse ≠ verdi!</b> 🤯</p></template></div>
+<div class="tm-o" data-cmd="wc -l firma/kundeliste.csv" data-mal="Tell linjene i kundelista:" data-alias="wc -l ~/firma/kundeliste.csv"><template class="ut"><span class="h1">1243</span> firma/kundeliste.csv</template><template class="forklar"><p><code>wc -l</code> teller linjer (<i>word count, lines</i>). Første linje er overskriften, så det er 1242 kunder.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="1243"><span class="ans-q">Hvor mange linjer har kundelista?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tallet foran filnavnet i siste oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1243</div></div></div>
+<div class="ans-row" data-p="1" data-a="faktura|firma/faktura"><span class="ans-q">Hvilken av de fire tar mest plass?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på de gule tallene fra <code>du</code>. Hvilket er størst?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">faktura</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Mappa <code>firma</code> finnes bare her. Se på dine egne verdier i stedet: <code>ls ~</code> og <code>du -sh ~/*</code>. Hva ville du savnet mest? 🤔<p class="e-win">Windows: <code>dir %USERPROFILE%</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Er ryktet til en bedrift en verdi? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Var ⭐ en av de riktige i spillet?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
+<div class="ans-row" data-p="1" data-a="konfidensialitet|konfidensialiteten"><span class="ans-q">Kundelista lekker ut på nettet. Hva er brutt: konfidensialitet, integritet eller tilgjengelighet?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Fra leksjon 1: hvilken av de tre handler om at bare de rette får lese?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">konfidensialitet</div></div></div>
+<div class="ans-row" data-p="1" data-a="asset|assets|en asset"><span class="ans-q">Hva heter «verdi» på engelsk, slik du møter det i verktøy og rapporter?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står i parentes i den blå fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">asset</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · TRUSSEL ELLER SÅRBARHET ═══════════════════════ -->
+<div class="lab-card" id="l03-2" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">Trussel eller sårbarhet?</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Tyven og vinduet</div>
+<p class="e-hook">Et innbrudd trenger to ting: en tyv 🦹 og et åpent vindu 🪟. Bare én av dem kan du gjøre noe med. Hvilken?</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Tyv eller vindu?" data-knapper="🦹 Trussel|🕳️ Sårbarhet">
+  <div class="ly-item" data-svar="0" data-hvorfor="Hackeren er den som angriper. Det er trusselen.">En hacker i et annet land vil ha kundelista 🌍</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Et svakt passord er et hull. Det er sårbarheten.">Passordet på serveren er <code>bakeri123</code> 🔑</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Trusler er ikke bare folk. Natur og uhell teller også.">Lynet slår ned, og strømmen går ⚡</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Gammel programvare har kjente hull. Sårbarhet.">Serveren er ikke oppdatert siden 2024 📅</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Svindel-e-posten er angrepet som kommer. Trussel.">En falsk e-post «fra banken» lander i innboksen 🎣</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Mangler backup = svakhet. Den gjør skaden mye større.">Bakeriet har ingen backup 💾</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Trusselen kan komme innenfra også. Det heter innsidetrussel.">En sint ansatt slutter og vil hevne seg 😠</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Alle kan skrive i fila. Det er et hull i rettighetene.">Fila <code>lonn.csv</code> har rettighetene <code>-rw-rw-rw-</code> 📄</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Mangel på kunnskap er også en sårbarhet. Den fikses med opplæring.">Ingen ansatte har lært å kjenne igjen svindel 🤷</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+🦹 Tyven er <b>trusselen</b> (<i>threat</i>): noe eller noen som kan skade en verdi.<br>
+🕳️ Vinduet er <b>sårbarheten</b> (<i>vulnerability</i>): hullet trusselen kommer gjennom.<br>
+Huskeregel: <b>Trusselen kan du sjelden fjerne. Hullet kan du tette.</b>
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="uname -r" data-mal="Hvilken Linux-kjerne kjører maskinen?"><template class="ut"><span class="h1">6.6.9</span>-amd64</template><template class="forklar"><p><code>uname -r</code> viser versjonen av kjernen (<i>kernel</i>), hjertet i Linux. 6.6.9 kom i januar 2024. Gammel kjerne = kjente hull 🕳️</p></template></div>
+<div class="tm-o" data-cmd="apt list --upgradable" data-mal="Hvilke programmer har en nyere versjon klar?"><template class="ut"><span class="dim">WARNING: apt does not have a stable CLI interface. Use with caution in scripts.</span>
+
+Listing... Done
+<span class="h2">firefox-esr</span>/kali-rolling 140.3.0esr-1 amd64 [upgradable from: <span class="h1">115.8.0esr-1</span>]
+<span class="h2">linux-image-amd64</span>/kali-rolling 6.16.8-1kali1 amd64 [upgradable from: <span class="h1">6.6.9-1kali1</span>]
+<span class="h2">openssh-server</span>/kali-rolling 1:10.0p1-8 amd64 [upgradable from: <span class="h1">1:9.6p1-3</span>]
+<span class="h2">sudo</span>/kali-rolling 1.9.16p2-3 amd64 [upgradable from: <span class="h1">1.9.15p5-3</span>]</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>programmet som kan oppdateres</span></li><li><span class="m h1"></span><span>versjonen du har nå</span></li></ul><p>WARNING-linja kan du overse. Fun fact 🔥 OpenSSH 8.5p1 til 9.7p1 hadde hullet «regreSSHion» (CVE-2024-6387). Versjonen her, 9.6p1, er i det spennet.</p></template></div>
+<div class="tm-o" data-cmd="ls -l firma" data-mal="Se rettighetene på filene i firma." data-alias="ls -l firma/|ls -l ~/firma|ls -la firma|ls -al firma" data-skjult data-hint="<code>ls</code> fra oppgave 1, pluss <code>-l</code> for lang liste."><template class="ut">total 68
+drwxr-xr-x 2 kali kali  4096 Oct  1 08:30 faktura
+-rw-r--r-- 1 kali kali 56437 Oct  5 09:14 kundeliste.csv
+<span class="h1">-rw-rw-rw-</span> 1 kali kali   269 Sep 30 16:02 <span class="h1">lonn.csv</span>
+drwxr-xr-x 2 kali kali  4096 Oct  1 08:30 oppskrifter</template><template class="forklar"><p>De siste tre tegnene i <span class="h1" style="font-family:var(--mono)">-rw-rw-rw-</span> gjelder <b>alle andre</b> brukere. <code>w</code> = de kan skrive. Hvem som helst på maskinen kan endre lønna si 💸</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="4|fire"><span class="ans-q">Hvor mange pakker kan oppdateres?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene med <code>upgradable from</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">4</div></div></div>
+<div class="ans-row" data-p="1" data-a="lonn.csv|lonn|lønn.csv"><span class="ans-q">Hvilken fil kan alle brukere skrive i?</span><input class="ans-in" placeholder="filnavn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule linja i <code>ls -l</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">lonn.csv</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Kjør <code>uname -r</code> og <code>ls -l ~</code>. Før <code>apt list --upgradable</code> må Kali hente den nyeste lista: <code>sudo apt update</code>. Ellers sammenligner den med en gammel liste.<p class="e-win">Windows: <code>winver</code> viser versjonen. Oppdateringer: Innstillinger → Windows Update.</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="trussel|en trussel|trusselen"><span class="ans-q">Ransomware-gjengen som angriper små bedrifter: trussel eller sårbarhet?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Er de tyven 🦹 eller vinduet 🪟?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">trussel</div></div></div>
+<div class="ans-row" data-p="1" data-a="sårbarhet|sarbarhet|en sårbarhet|sårbarheten"><span class="ans-q">Passordet «sommer2026» på alle kontoene: trussel eller sårbarhet?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Husk kortet med <code>bakeri123</code> i spillet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">sårbarhet</div></div></div>
+<div class="ans-row" data-p="1" data-a="sårbarheten|sårbarhet|sarbarheten|sarbarhet"><span class="ans-q">Hvilken av de to kan du som regel fikse selv?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Huskeregelen i den blå boksen: hva kan du tette?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">sårbarheten</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · ANGREPSFLATE ═══════════════════════ -->
+<div class="lab-card" id="l03-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">Angrepsflaten: alle dørene inn</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Dørene</div>
+<p class="e-hook">En angriper trenger bare <b>én</b> dør som er åpen. Hvor mange har din Kali? 🚪🚪🚪</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Noen banker på">
+  <div class="ch-item" data-fra="sys">📍 Din Kali, 192.168.1.10. En angriper går rundt og prøver dørene.</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Angriperen">Dør 80, nettsiden 🚪 Åpen. Ok, den skal jo være det.</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Angriperen">Dør 22, SSH 🚪 Åpen! Her kan jeg prøve passord 🔑 bakeri123? 😏</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Angriperen">Dør 21, FTP?! 😮 Den har vel ingen brukt siden 2019…</div>
+  <div class="ch-item" data-fra="pc" data-navn="Din Kali">Øh. Glemte at den sto på 😬</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Angriperen">Dør 5432, databasen… stengt for meg. Den svarer bare maskinen selv 🙄</div>
+  <div class="ch-item" data-stopp="🔧 Skru av FTP"></div>
+  <div class="ch-item" data-fra="sys">🔧 FTP er skrudd av. Nå står bare 80 og 22 åpne utover.</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 Angriperen">Færre dører = færre steder å prøve. Kjedelig 😒</div>
+  <div class="ch-item" data-fra="sys">🎉 Flaten angriperen kan treffe ble mindre.</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Alle dørene inn, til sammen, heter <b>angrepsflaten</b> (<i>attack surface</i>). Programmet bak hver dør er en <b>tjeneste</b> (<i>service</i>). Regelen er enkel: <b>skru av det du ikke bruker.</b>
+</div>
+<p class="e-sikker">🏠 Angrepsflaten er ikke bare porter. E-post, Wi-Fi, USB-pinner og ansatte som svarer i telefonen er også dører inn.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sudo ss -tlnp" data-mal="Vis alle dørene som står og venter på besøk:" data-alias="sudo ss -ltnp|sudo ss -lntp|sudo ss -tnlp|sudo ss -plnt|sudo ss -nltp"><template class="ut">State  Recv-Q Send-Q Local Address:Port  Peer Address:PortProcess
+LISTEN 0      32                 *:<span class="h1">21</span>               *:*    users:((<span class="h2">"vsftpd"</span>,pid=812,fd=3))
+LISTEN 0      128          0.0.0.0:<span class="h1">22</span>         0.0.0.0:*    users:((<span class="h2">"sshd"</span>,pid=790,fd=6))
+LISTEN 0      200        <span class="h3">127.0.0.1</span>:<span class="h1">5432</span>       0.0.0.0:*    users:((<span class="h2">"postgres"</span>,pid=845,fd=7))
+LISTEN 0      511                *:<span class="h1">80</span>               *:*    users:((<span class="h2">"apache2"</span>,pid=901,fd=4))
+LISTEN 0      128             [::]:<span class="h1">22</span>            [::]:*    users:((<span class="h2">"sshd"</span>,pid=790,fd=7))</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>dørnummeret, porten</span></li><li><span class="m h2"></span><span>tjenesten bak døra</span></li><li><span class="m h3"></span><span>bare maskinen selv kommer inn her</span></li></ul><p><code>-t</code> TCP, <code>-l</code> lytter, <code>-n</code> tall i stedet for navn, <code>-p</code> vis programmet (krever <code>sudo</code>). <code>*</code>, <code>0.0.0.0</code> og <code>[::]</code> betyr «åpen for alle». SSH står to ganger: én for IPv4 og én for IPv6.</p></template></div>
+<div class="tm-o" data-cmd="systemctl list-units --type=service --state=running" data-mal="Vis alle tjenestene som kjører:" data-alias="systemctl list-units --state=running --type=service|systemctl --type=service --state=running"><template class="ut">  UNIT                       LOAD   ACTIVE SUB     DESCRIPTION
+  <span class="h2">apache2.service</span>            loaded active running The Apache HTTP Server
+  cron.service               loaded active running Regular background program processing daemon
+  dbus.service               loaded active running D-Bus System Message Bus
+  lightdm.service            loaded active running Light Display Manager
+  NetworkManager.service     loaded active running Network Manager
+  polkit.service             loaded active running Authorization Manager
+  <span class="h2">postgresql@17-main.service</span> loaded active running PostgreSQL Cluster 17-main
+  <span class="h2">ssh.service</span>                loaded active running OpenBSD Secure Shell server
+  systemd-journald.service   loaded active running Journal Service
+  systemd-logind.service     loaded active running User Login Management
+  systemd-udevd.service      loaded active running Rule-based Manager for Device Events and Files
+  user@1000.service          loaded active running User Manager for UID 1000
+  <span class="h1">vsftpd.service</span>             loaded active running vsftpd FTP server
+
+<span class="dim">Legend: LOAD   → Reflects whether the unit definition was properly loaded.
+        ACTIVE → The high-level unit activation state, i.e. generalization of SUB.
+        SUB    → The low-level unit activation state, values depend on unit type.</span>
+
+<span class="h3">13</span> loaded units listed.</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>tjenestene bak dørene du fant med <code>ss</code></span></li><li><span class="m h1"></span><span>den glemte FTP-tjenesten 😬</span></li><li><span class="m h3"></span><span>antall tjenester som kjører</span></li></ul><p>De fleste tjenestene har ingen dør utover. De jobber bare inne i maskinen.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hvor mange forskjellige porter er åpne for andre maskiner?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de gule portene i <code>ss</code>. Hopp over den grønne 127.0.0.1, og tell 22 bare én gang.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+<div class="ans-row" data-p="1" data-a="postgres|postgresql"><span class="ans-q">Hvilken tjeneste lytter bare på 127.0.0.1?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den døra angriperen i chatten ikke kom inn gjennom. Se den blå teksten på samme linje.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">postgres</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Kjør <code>sudo ss -tlnp</code> og <code>systemctl list-units --type=service --state=running</code>. En fersk Kali har nesten ingen åpne dører. Det er bra! Trykk <b>q</b> for å komme ut av lista til <code>systemctl</code>.<p class="e-win">Windows: <code>netstat -ano | findstr LISTENING</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="mindre"><span class="ans-q">Du skrur av en tjeneste du ikke bruker. Blir angrepsflaten større eller mindre?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvorfor ble angriperen i chatten sur? 😒</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">mindre</div></div></div>
+<div class="ans-row" data-p="1" data-a="angrepsflaten|angrepsflate|attack surface"><span class="ans-q">Hva heter alle dørene inn til et system, til sammen?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står i tittelen på denne oppgaven.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">angrepsflaten</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">En tjeneste lytter bare på 127.0.0.1. Kan en annen maskin koble seg rett til den? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kom angriperen inn gjennom dør 5432?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · RISIKO ═══════════════════════ -->
+<div class="lab-card" id="l03-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Risiko = sannsynlighet × konsekvens</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Hvor farlig?</div>
+<p class="e-hook">En brann er skummel, men skjer nesten aldri. Et svakt passord er kjedelig, men blir testet hver eneste dag. Hva er verst? 🤔</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Lav, middels eller høy?" data-knapper="🟢 Lav|🟡 Middels|🔴 Høy">
+  <div class="ly-fast"><div class="x-mx">
+    <span class="x-a">K ↓ &nbsp;S →</span><span class="x-h">lav 1</span><span class="x-h">middels 2</span><span class="x-h">høy 3</span>
+    <span class="x-h">høy 3</span><span class="x-m">3</span><span class="x-r">6</span><span class="x-r">9</span>
+    <span class="x-h">middels 2</span><span class="x-l">2</span><span class="x-m">4</span><span class="x-r">6</span>
+    <span class="x-h">lav 1</span><span class="x-l">1</span><span class="x-l">2</span><span class="x-m">3</span>
+  </div><p class="x-forkl"><b>S</b> = sannsynlighet, <b>K</b> = konsekvens. Gang dem: 🟢 1–2 · 🟡 3–4 · 🔴 6–9</p></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="3 × 3 = 9. Skjer ofte og gjør vondt. Fiks først!">Noen gjetter passordet <code>bakeri123</code> på SSH 🔑<span class="x-sk">S: høy · K: høy</span></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="1 × 3 = 3. Sjelden, men dyrt når det skjer.">Brann i serverskapet 🔥<span class="x-sk">S: lav · K: høy</span></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="1 × 1 = 1. Skjer nesten aldri, og hvem bryr seg?">Noen stjeler reklameplakaten i vinduet 🪧<span class="x-sk">S: lav · K: lav</span></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="3 × 2 = 6. Phishing skjer hele tiden.">Svindel-e-post lurer en ansatt til å gi bort Instagram-passordet 🎣<span class="x-sk">S: høy · K: middels</span></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="2 × 2 = 4. Irriterende, men bakeriet overlever en dag.">Nettbutikken blir overbelastet og er nede en dag 🌐<span class="x-sk">S: middels · K: middels</span></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="2 × 1 = 2. Bakeriet er låst, så ingen andre kommer til.">En ansatt glemmer å låse PC-en etter stengetid 💻<span class="x-sk">S: middels · K: lav</span></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="2 × 3 = 6. Uten backup er alt borte for godt.">Ransomware låser alle filene, og det finnes ingen backup 🔒<span class="x-sk">S: middels · K: høy</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>Risiko = sannsynlighet × konsekvens.</b> <b>Sannsynlighet</b> (<i>likelihood</i>): hvor lett eller ofte det skjer. <b>Konsekvens</b> (<i>impact</i>): hvor vondt det gjør. Tabellen du brukte heter en <b>risikomatrise</b>.
+</div>
+<p class="e-sikker">💡 Konsekvensen måles ofte med de tre fra leksjon 1: lekker det, blir det endret, eller blir det borte?</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="grep -c &quot;Failed password&quot; logg/auth.log" data-mal="Du har fått SSH-loggen fra bakeriets server. Tell de mislykkede innloggingene:" data-alias="grep -c 'failed password' logg/auth.log|grep &quot;Failed password&quot; logg/auth.log -c"><template class="ut"><span class="h1">1400</span></template><template class="forklar"><p><code>grep</code> leter etter tekst. <code>-c</code> = bare tell (<i>count</i>). 1400 forsøk på ett døgn! Sannsynligheten for at noen prøver er <b>høy</b> 📈</p></template></div>
+<div class="tm-o" data-cmd="grep &quot;Failed password&quot; logg/auth.log | tail -n 3" data-mal="Se de tre siste forsøkene:" data-alias="grep 'failed password' logg/auth.log | tail -n 3|grep &quot;Failed password&quot; logg/auth.log | tail -3"><template class="ut">2026-10-06T20:58:05.359828+02:00 bakeri-srv sshd[46965]: Failed password for invalid user <span class="h1">test</span> from <span class="h2">198.51.100.23</span> port 59212 ssh2
+2026-10-06T20:59:15.665064+02:00 bakeri-srv sshd[46974]: Failed password for invalid user <span class="h1">pi</span> from <span class="h2">198.51.100.7</span> port 39375 ssh2
+2026-10-06T21:00:01.168421+02:00 bakeri-srv sshd[46978]: Failed password for invalid user <span class="h1">oracle</span> from <span class="h2">203.0.113.188</span> port 34657 ssh2</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>brukernavnet angriperen gjettet</span></li><li><span class="m h2"></span><span>hvor forsøket kom fra</span></li></ul><p><code>|</code> sender utskriften videre til neste kommando. <code>tail -n 3</code> = de tre siste linjene. Dette er roboter som prøver vanlige navn, helt automatisk 🤖</p></template></div>
+<div class="tm-o" data-cmd="ls /backup" data-mal="Finnes det en backup?" data-alias="ls -l /backup|ls /backup/"><template class="ut"><span style="color:var(--red)">ls: cannot access '/backup': No such file or directory</span></template><template class="forklar"><p>Ingen backup-mappe 😱 Går noe galt, er filene borte. Konsekvensen blir <b>høy</b>.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="1400"><span class="ans-q">Hvor mange mislykkede innlogginger står i loggen?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det ene tallet fra <code>grep -c</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1400</div></div></div>
+<div class="ans-row" data-p="1" data-a="oracle"><span class="ans-q">Hvilket brukernavn prøvde angriperen aller sist?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det gule ordet på den nederste linja.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">oracle</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Loggen fra bakeriet finnes bare her. Kali har ofte ikke <code>/var/log/auth.log</code>, så bruk journalen: <code>sudo journalctl -u ssh | grep -c "Failed password"</code>. Får du 0? Bra, da har ingen prøvd 😄 <code>ls /backup</code> virker likt.</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="6|seks"><span class="ans-q">Sannsynlighet middels (2), konsekvens høy (3). Hva blir risikoen som tall?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Gang dem, som på ransomware-kortet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">6</div></div></div>
+<div class="ans-row" data-p="1" data-a="høy|hoy|høy risiko"><span class="ans-q">Er 6 lav, middels eller høy risiko i matrisen?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">🟢 1–2 · 🟡 3–4 · 🔴 6–9</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">høy</div></div></div>
+<div class="ans-row" data-p="1" data-a="konsekvensen|konsekvens"><span class="ans-q">Bakeriet mangler backup. Gjør det sannsynligheten eller konsekvensen større?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva sa forklaringen etter <code>ls /backup</code>?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">konsekvensen</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · TILTAK ═══════════════════════ -->
+<div class="lab-card" id="l03-5" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">Tiltak: gjør risikoen mindre</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Tett hullene</div>
+<p class="e-hook">Du har funnet hullene. Nå er det du som er rørleggeren 🔧</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hvilket tiltak tetter hvilket hull?" data-oppgave="Koble hvert problem til tiltaket som hjelper.">
+  <div class="pr-par" data-forklar="Oppdatering tetter kjente hull. Senker sannsynligheten."><span>📅 Gammel programvare</span><span>Oppdater med <code>apt</code></span></div>
+  <div class="pr-par" data-forklar="Et langt passord og en kode på mobilen er mye vanskeligere å gjette. Senker sannsynligheten."><span>🔑 Passordet <code>bakeri123</code></span><span>Langt passord + tofaktor (2FA)</span></div>
+  <div class="pr-par" data-forklar="Færre dører. Senker sannsynligheten."><span>🚪 Glemt FTP-tjeneste</span><span>Skru av tjenesten</span></div>
+  <div class="pr-par" data-forklar="Nå kan bare eieren skrive. Senker sannsynligheten."><span>📄 <code>lonn.csv</code> er <code>-rw-rw-rw-</code></span><span><code>chmod 644</code></span></div>
+  <div class="pr-par" data-forklar="Angrepet kan fortsatt skje, men du får filene tilbake. Senker konsekvensen."><span>🔒 Ransomware kan låse alt</span><span>Backup et annet sted</span></div>
+  <div class="pr-par" data-forklar="Tyven får maskinen, men ikke dataene. Senker konsekvensen."><span>💻 Den bærbare med kundelista blir stjålet</span><span>Krypter disken</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Alt du gjør for å senke risikoen er <b>tiltak</b> (<i>controls</i>). Noen senker <b>sannsynligheten</b>, andre senker <b>konsekvensen</b>. Risikoen som er igjen etterpå heter <b>restrisiko</b>. Den blir aldri helt null.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="chmod 644 firma/lonn.csv" data-mal="Gi bare eieren lov til å skrive i lønnslista:" data-alias="chmod 644 ~/firma/lonn.csv|chmod o-w,g-w firma/lonn.csv|chmod go-w firma/lonn.csv"><template class="ut"></template><template class="forklar"><p>Ingen utskrift = det gikk bra 👍 Linux sier bare fra når noe går galt.</p></template></div>
+<div class="tm-o" data-cmd="ls -l firma/lonn.csv" data-mal="Sjekk at det virket." data-alias="ls -l ~/firma/lonn.csv" data-skjult data-hint="Samme som i oppgave 2, men med filnavnet: <code>ls -l firma/…</code>"><template class="ut"><span class="h3">-rw-r--r--</span> 1 kali kali 269 Sep 30 16:02 firma/lonn.csv</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>bare eieren har <code>w</code> nå. Alle andre kan bare lese</span></li></ul></template></div>
+<div class="tm-o" data-cmd="sudo systemctl disable --now vsftpd" data-mal="Skru av FTP, nå og ved neste oppstart:" data-alias="sudo systemctl disable vsftpd --now|sudo systemctl disable --now vsftpd.service"><template class="ut">Synchronizing state of vsftpd.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.
+Executing: /usr/lib/systemd/systemd-sysv-install disable vsftpd
+<span class="h1">Removed</span> "/etc/systemd/system/multi-user.target.wants/vsftpd.service".</template><template class="forklar"><p><code>disable</code> = ikke start ved oppstart. <code>--now</code> = og stopp den med en gang. De to første linjene er bare systemet som rydder. Det viktige er <span class="h1" style="font-family:var(--mono)">Removed</span>.</p></template></div>
+<div class="tm-o" data-cmd="sudo ss -tlnp" data-mal="Tell dørene igjen." data-alias="sudo ss -ltnp|sudo ss -lntp|sudo ss -tnlp|sudo ss -plnt|sudo ss -nltp" data-skjult data-hint="Samme kommando som viste dørene i oppgave 3."><template class="ut">State  Recv-Q Send-Q Local Address:Port  Peer Address:PortProcess
+LISTEN 0      128          0.0.0.0:<span class="h1">22</span>         0.0.0.0:*    users:(("sshd",pid=790,fd=6))
+LISTEN 0      200        127.0.0.1:<span class="h1">5432</span>       0.0.0.0:*    users:(("postgres",pid=845,fd=7))
+LISTEN 0      511                *:<span class="h1">80</span>               *:*    users:(("apache2",pid=901,fd=4))
+LISTEN 0      128             [::]:<span class="h1">22</span>            [::]:*    users:(("sshd",pid=790,fd=7))</template><template class="forklar"><p>Port 21 er borte 🎉 Angrepsflaten ble mindre.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="-rw-r--r--|rw-r--r--"><span class="ans-q">Hvilke rettigheter har lonn.csv nå?</span><input class="ans-in" placeholder="-rw-…"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">De grønne tegnene først på linja fra <code>ls -l</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">-rw-r--r--</div></div></div>
+<div class="ans-row" data-p="1" data-a="21"><span class="ans-q">Hvilken port forsvant fra lista?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilken dør var FTP i chatten?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">21</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Ikke skru av noe du trenger! Øv på en testfil: <code>touch test.txt</code>, <code>chmod 666 test.txt</code>, <code>ls -l test.txt</code>, og så <code>chmod 644 test.txt</code> og <code>ls -l test.txt</code> igjen. Det beste tiltaket av alle: <code>sudo apt update &amp;&amp; sudo apt full-upgrade</code></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="konsekvensen|konsekvens"><span class="ans-q">Backup: senker den sannsynligheten eller konsekvensen?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Stopper backup angrepet, eller gjør den bare skaden mindre?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">konsekvensen</div></div></div>
+<div class="ans-row" data-p="1" data-a="sannsynligheten|sannsynlighet"><span class="ans-q">Oppdatering: senker den sannsynligheten eller konsekvensen?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva sto det da du koblet 📅 i spillet?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">sannsynligheten</div></div></div>
+<div class="ans-row" data-p="1" data-a="restrisiko|restrisikoen|residual risk"><span class="ans-q">Hva heter risikoen som er igjen etter tiltakene?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står i den blå fagord-boksen. Starter med «rest».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">restrisiko</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-inner">
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+</div></div></footer>
+<script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
+</body>
+</html>

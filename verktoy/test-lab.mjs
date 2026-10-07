@@ -41,7 +41,7 @@ try {
       try {
         if (type === 'lyn') {
           const svar = {};
-          for (const m of src.matchAll(/class="ly-item"[^>]*data-svar="(\d+)"[^>]*>([\s\S]*?)<\/div>/g)) svar[dekod(m[2])] = +m[1];
+          for (const m of src.matchAll(/class="ly-item"(?:[^>"]|"[^"]*")*data-svar="(\d+)"(?:[^>"]|"[^"]*")*>([\s\S]*?)<\/div>/g)) svar[dekod(m[2])] = +m[1];
           for (let n = 0; n < 60 && await sp.$('.ly-knapper .sp-k'); n++) {
             const t = dekod(await sp.$eval('.ly-kort', e => e.innerHTML));
             const k = await sp.$$('.ly-knapper .sp-k'); await k[svar[t] ?? 0].click();
@@ -50,10 +50,10 @@ try {
         } else if (type === 'klikk') {
           for (const k of await sp.$$('.kl[data-rett]')) await k.click();
         } else if (type === 'rekkefolge') {
-          const rek = [...src.matchAll(/class="rf-item"[^>]*>([\s\S]*?)<\/div>/g)].map(m => dekod(m[1]));
+          const rek = [...src.matchAll(/class="rf-item"(?:[^>"]|"[^"]*")*>([\s\S]*?)<\/div>/g)].map(m => dekod(m[1]));
           for (const t of rek) { for (const k of await sp.$$('.rf-k')) if (dekod(await k.innerHTML()) === t) { await k.click(); break; } }
         } else if (type === 'par') {
-          const p = [...src.matchAll(/class="pr-par"[^>]*>\s*<span>([\s\S]*?)<\/span>\s*<span>([\s\S]*?)<\/span>/g)].map(m => [dekod(m[1]), dekod(m[2])]);
+          const p = [...src.matchAll(/class="pr-par"(?:[^>"]|"[^"]*")*>\s*<span>([\s\S]*?)<\/span>\s*<span>([\s\S]*?)<\/span>/g)].map(m => [dekod(m[1]), dekod(m[2])]);
           const kol = await sp.$$('.pr-kol');
           for (const [v, h] of p) {
             for (const k of await kol[0].$$('.pr-k')) if (dekod(await k.innerHTML()) === v) { await k.click(); break; }

@@ -6,17 +6,12 @@
 <title>Porter, tjenester og eksponering — CyberLab</title>
 <link rel="stylesheet" href="../css/style.css?v=13">
 <link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
-<style>
-.cmd{background:#05070a;border:1px solid var(--border);border-left:2px solid var(--blue);
-  border-radius:0 6px 6px 0;padding:11px 14px;font-family:var(--mono);font-size:11.5px;
-  color:var(--text2);overflow-x:auto;line-height:1.85;white-space:pre-wrap;word-break:break-word}
-.cmd .c{color:var(--text3)}
-</style>
 </head>
-<body class="page">
+<body class="page enkel">
 <nav class="nav">
   <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
   <div class="nav-links">
@@ -29,194 +24,422 @@
 </nav>
 
 <div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
-  <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
-  <div class="mod-hero">
-    <div class="section-eyebrow">Lab 11 &middot; Emne 1 leksjon 7 &middot; repetisjon for Emne 3</div>
-    <div class="section-title">Porter, tjenester og eksponering</div>
-    <p class="section-desc">En IP-adresse tar deg til maskinen. Porten tar deg til riktig tjeneste p&aring; den. Her l&aelig;rer du &aring; lese hva som kj&oslash;rer, hvem som n&aring;r det, og hva som aldri burde v&aelig;rt &aring;pent.</p>
-  </div>
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
 
-  <div class="setup-box need">
-    <div class="setup-title">🧰 F&oslash;r du starter</div>
-    <ul class="setup-list"><li>Oppgave 1, 2, 5 og 6 kan gj&oslash;res <strong>uten VM</strong>, bare med lesing og regning.</li><li>Oppgave 3 og 4 kj&oslash;rer du mot <strong>din egen maskin</strong>: <code>ss -tlnp</code> p&aring; Linux eller <code>netstat -ano</code> p&aring; Windows.</li><li>Vil du se det p&aring; et ekte m&aring;l, start <strong>Kali</strong> og <strong>Metasploitable 2</strong> p&aring; <strong>host-only</strong>.</li></ul>
-  </div>
+<div class="mod-hero">
+  <div class="section-eyebrow">Lab 11 &middot; Emne 1 &middot; Leksjon 7</div>
+  <div class="section-title">Porter, tjenester og eksponering</div>
+  <p class="section-desc">IP-adressen finner maskinen. Porten finner tjenesten. Seks små spill, og så noen spørsmål etter hvert.</p>
+</div>
+
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
+
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>Port</dt><dd>Et nummer fra 0 til 65 535 som peker på ett program på maskinen.</dd>
+    <dt>Tjeneste</dt><dd>Programmet som venter bak en port. SSH, web, database …</dd>
+    <dt>Socket</dt><dd>IP og port sammen. <code>192.168.1.10:51200</code></dd>
+    <dt>Velkjent port</dt><dd>0–1023. Satt av til standardtjenester.</dd>
+    <dt>Flyktig port</dt><dd>En høy port klienten låner mens samtalen varer.</dd>
+    <dt>LISTEN</dt><dd>Tjenesten venter på at noen kobler til.</dd>
+    <dt>ESTABLISHED</dt><dd>Samtalen er i gang. <code>ss</code> skriver ESTAB.</dd>
+    <dt>Trehåndsgrep</dt><dd>SYN, SYN-ACK, ACK. Starten på en TCP-samtale.</dd>
+    <dt>127.0.0.1</dt><dd>Maskinen selv. Ingen andre når den.</dd>
+    <dt>0.0.0.0</dt><dd>Alle grensesnitt. Alle som når maskinen, når tjenesten.</dd>
+    <dt>Eksponert</dt><dd>Kan nås fra andre maskiner.</dd>
+    <dt>TCP / UDP</dt><dd>TCP bekrefter alt. UDP bare sender.</dd>
+    <dt>Portskann</dt><dd>Å banke på mange porter for å se hvem som svarer.</dd>
+  </dl>
+</details>
+
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
+
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · HVA EN PORT ER ═══════════════════════ -->
+<div class="lab-card" id="prt-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">Hva en port faktisk er</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Adresse og port</div>
+<p class="e-hook">IP-adressen fra leksjon 5 er adressen til blokka 🏢. Men inni bor web, e-post og database vegg i vegg. <b>Porten</b> er leilighetsnummeret 🚪</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Hvilken gruppe hører nummeret til?" data-knapper="🏛️ Velkjent|📝 Registrert|🎲 Flyktig">
+  <div class="ly-fast">🏛️ 0–1023 &nbsp;·&nbsp; 📝 1024–49151 &nbsp;·&nbsp; 🎲 49152–65535</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="443 er under 1024. Satt av til HTTPS, web med lås.">Port <b>443</b></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Lurt! Den ligner på 80, men 8080 er over 1023. Registrert.">Port <b>8080</b></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Over 49151. En klient låner den en liten stund.">Port <b>55000</b></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Akkurat på kanten. 1023 er den siste velkjente.">Port <b>1023</b></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Første registrerte. Én over grensen.">Port <b>1024</b></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="3306 er MySQL-databasen. Registrert.">Port <b>3306</b></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="22 er SSH. Lavt tall, velkjent.">Port <b>22</b></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Den aller siste porten. Høyere går det ikke.">Port <b>65535</b></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Nummeret heter <b>port</b>. Det finnes 65 535 av dem. IP og port sammen heter en <b>socket</b>, skrevet med kolon: <code>192.168.1.10:443</code><br>
+De tre gruppene heter <b>velkjente</b>, <b>registrerte</b> og <b>flyktige</b> (ephemeral).
+</div>
+<p class="e-sikker">🔑 Fun fact: På Linux må du være administrator (root) for å åpne en port under 1024. Derfor kjører utviklere test-serveren sin på 8080.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat /etc/services | grep -w 22" data-mal="Slå opp hvem som bor bak port 22:" data-alias="grep -w 22 /etc/services"><template class="ut"><span class="h2">ssh</span>		<span class="h1">22</span>/<span class="h3">tcp</span>				# SSH Remote Login Protocol</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>navnet på tjenesten</span></li><li><span class="m h1"></span><span>portnummeret</span></li><li><span class="m h3"></span><span>protokollen (mer om tcp i oppgave 5)</span></li></ul><p><code>/etc/services</code> er Linux sin telefonkatalog over kjente porter. <code>|</code> sender teksten videre til <code>grep</code>, som plukker ut linjene med <code>22</code>. <code>-w</code> betyr «hele ordet», så 220 og 2222 ikke kommer med.</p></template></div>
+<div class="tm-o" data-cmd="cat /etc/services | grep -w 8080" data-mal="Slå opp port 8080." data-alias="grep -w 8080 /etc/services" data-skjult data-hint="Samme som i stad, bare med et annet tall."><template class="ut"><span class="h2">http-alt</span>	<span class="h1">8080</span>/tcp	webcache	# WWW caching service</template><template class="forklar"><p>8080 er «reserve-web» 🌐. Ikke velkjent, men så vanlig at den står i katalogen.</p></template></div>
+<div class="tm-o" data-cmd="cat /proc/sys/net/ipv4/ip_local_port_range" data-mal="Se hvilke porter Linux låner ut til klienter:"><template class="ut"><span class="h1">32768</span>	<span class="h2">60999</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>laveste port Linux låner ut</span></li><li><span class="m h2"></span><span>høyeste port Linux låner ut</span></li></ul><p>Standarden sier 49152–65535. Linux låner fra et litt større område. Windows følger standarden.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="http-alt|http alt"><span class="ans-q">Hva heter tjenesten på port 8080 i /etc/services?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Første ord på linja fra oppdrag 2.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">http-alt</div></div></div>
+<div class="ans-row" data-p="1" data-a="32768"><span class="ans-q">Hva er den laveste porten Linux låner ut til klienter?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det gule tallet i siste oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">32768</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Lista hos deg kan være litt annerledes. Det er helt riktig!<p class="e-win">Windows (PowerShell): <code>netsh int ipv4 show dynamicport tcp</code> viser portene Windows låner ut.</p></div>
 
 
-  <div class="progress-wrap">
-    <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
-    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-  </div>
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="65 535|65535"><span class="ans-q">Hvor mange porter finnes det totalt?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva var den aller høyeste porten i lynrunden? Står også i den blå fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">65535</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Er 8080 en velkjent port? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilken knapp var riktig for 8080 i lynrunden? 🏛️ slutter ved 1023.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="ephemeral|dynamisk|flyktige|flyktig"><span class="ans-q">En klient kobler ut og får port 51200. Hvilken av de tre gruppene er det?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på lista som sto fast øverst i lynrunden. Er 51200 over eller under 49151?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">flyktig</div></div></div>
+</div>
+</div></div>
+</div>
 
-  <div class="filter-row">
-    <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
-    <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
-    <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
-    <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
-  </div>
+<!-- ═══════════════════════ 2 · PORTENE UTENAT ═══════════════════════ -->
+<div class="lab-card" id="prt-2" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">Portene du må kunne utenat</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Gjenkjenne tjenester</div>
+<p class="e-hook">Ti tall. Kan du dem, kjenner du igjen nesten alt i en portskann 🔟</p>
 
-  <div class="tasks">
-  <div class="lab-card" id="prt-1" data-level="easy">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">01</span>
-      <span class="lab-title">Hva en port faktisk er</span>
-      <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-1">Niv&aring; 1 &mdash; Adresse og port</div>
-        <div class="theory-block"><div class="theory-title">🚪 Adressen finner maskinen, porten finner tjenesten</div><div class="theory-text"><p>En maskin kjører gjerne mange tjenester samtidig: en webserver, en e-postserver, en database. Alle deler samme IP-adresse.</p><p><strong>Porten</strong> er det som skiller dem. Adressen tar pakken til riktig maskin, portnummeret tar den videre til riktig program på maskinen.</p><p>Kombinasjonen adresse pluss port kalles en <strong>socket</strong> og skrives med kolon: <code>10.0.0.5:443</code>.</p><p>Det finnes 65 535 porter. De deles i tre: <strong>0 til 1023</strong> er velkjente og reservert til standardtjenester, <strong>1024 til 49151</strong> er registrerte, og <strong>49152 og oppover</strong> er flyktige, altså de klienten låner mens en forbindelse varer.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En maskin på <code>10.0.0.5</code> kjører både en webserver og en database.</p><ol class="wsteps"><li>Webtrafikk kommer inn til <code>10.0.0.5:443</code></li><li>Databasetrafikk kommer inn til <code>10.0.0.5:3306</code></li><li>Samme adresse, to porter, to programmer</li><li>Uten portnummeret ville maskinen ikke visst hvilket program pakken skulle til</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd"><span class='c'># Windows</span>
-netstat -ano | more
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hvem bor hvor?" data-oppgave="Koble tjenesten til porten den vanligvis bruker.">
+  <div class="pr-par" data-forklar="21 = FTP. Gammel filoverføring, passordet går i klartekst."><span>📁 FTP · filoverføring</span><span>21</span></div>
+  <div class="pr-par" data-forklar="22 = SSH. Den trygge måten å styre en maskin på avstand."><span>🔐 SSH · fjerninnlogging, kryptert</span><span>22</span></div>
+  <div class="pr-par" data-forklar="23 = Telnet. Som SSH, men alt kan leses på veien."><span>📺 Telnet · fjerninnlogging, klartekst</span><span>23</span></div>
+  <div class="pr-par" data-forklar="25 = SMTP. Slik sendes e-post mellom servere."><span>✉️ SMTP · sende e-post</span><span>25</span></div>
+  <div class="pr-par" data-forklar="53 = DNS. Navneoppslaget fra leksjon 6."><span>📖 DNS · navn til IP</span><span>53</span></div>
+  <div class="pr-par" data-forklar="80 = HTTP. Web uten lås."><span>🌐 HTTP · web</span><span>80</span></div>
+  <div class="pr-par" data-forklar="443 = HTTPS. Web med lås 🔒"><span>🔒 HTTPS · web, kryptert</span><span>443</span></div>
+  <div class="pr-par" data-forklar="445 = SMB. Delte mapper i Windows."><span>🗂️ SMB · fildeling i Windows</span><span>445</span></div>
+  <div class="pr-par" data-forklar="3306 = MySQL. Databasen bak mange nettsider."><span>🐬 MySQL · database</span><span>3306</span></div>
+  <div class="pr-par" data-forklar="3389 = RDP. Se og styr skjermen til en Windows-maskin."><span>🖥️ RDP · fjernskrivebord</span><span>3389</span></div>
+</div>
 
-<span class='c'># Linux</span>
-ss -tuln</div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="65 535|65535"><span class="ans-q">Hvor mange porter finnes det totalt?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">16 bit gir hvor mange verdier? Trekk fra null.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">65535</div></div></div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Er 8080 en velkjent port? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Velkjente porter slutter ved 1023.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-p="1" data-a="ephemeral|dynamisk|flyktige|flyktig"><span class="ans-q">En klient kobler ut og får port 51200. Hvilken av de tre gruppene er det?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Grensene er 1023 og 49151. Hvilken side havner tallet p&aring;?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">flyktig</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Grensene er 1023 og 49151. Sjekk hvilken side tallet havner på.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">8080 ligger mellom 1024 og 49151, altså <strong>registrert</strong>, ikke velkjent. Det er derfor hvem som helst kan starte noe på 8080 uten spesielle rettigheter, mens port 80 krever administrator på de fleste systemer.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="prt-2" data-level="easy">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">02</span>
-      <span class="lab-title">Portene du må kunne utenat</span>
-      <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-1">Niv&aring; 1 &mdash; Gjenkjenne tjenester</div>
-        <div class="theory-block"><div class="theory-title">📋 Ti porter dekker det meste du møter</div><div class="theory-text"><p>Disse ti går igjen så ofte at du bør kjenne dem igjen uten å slå opp.</p><p><code>21</code> FTP &middot; <code>22</code> SSH &middot; <code>23</code> Telnet &middot; <code>25</code> SMTP &middot; <code>53</code> DNS &middot; <code>80</code> HTTP &middot; <code>443</code> HTTPS &middot; <code>445</code> SMB &middot; <code>3306</code> MySQL &middot; <code>3389</code> RDP</p><p>Tre av dem er <strong>klartekstversjoner</strong> av noe som finnes kryptert: 21 mot SFTP, 23 mot SSH på 22, og 80 mot 443.</p><p>Et portnummer er <strong>en konvensjon, ikke en garanti</strong>. Hvem som helst kan kjøre hva som helst på hvilken som helst port. Derfor gjetter en skanner ut fra portnummeret, mens en versjonsskann faktisk spør tjenesten.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En skann av en ukjent maskin gir 22, 445 og 3389 åpne.</p><ol class="wsteps"><li><code>22</code> er SSH, som er vanlig på Linux men finnes også på Windows</li><li><code>445</code> er SMB, altså fildeling, som er typisk Windows</li><li><code>3389</code> er RDP, fjernskrivebord, som er <strong>bare</strong> Windows</li><li>To av tre peker mot Windows, så det er den beste gjetningen</li><li>Men det er fortsatt en gjetning, helt til du spør tjenestene</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd"><span class='c'># hva svarer egentlig på porten</span>
-nc -vz 127.0.0.1 22
-curl -I http://127.0.0.1
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Programmet bak porten heter en <b>tjeneste</b> (service). Tre av de ti sender alt i <b>klartekst</b>, også passord: 21, 23 og 80. Den krypterte avløseren er SFTP (via SSH på 22), SSH på 22 og HTTPS på 443.
+</div>
+<p class="e-sikker">⚠️ Et portnummer er en <b>avtale</b>, ikke en regel. Hvem som helst kan kjøre web på 8443 eller SSH på 2222. En skanner gjetter ut fra nummeret. Vil du vite sikkert, må du spørre tjenesten selv.</p>
 
-<span class='c'># hele lista over kjente porter</span>
-cat /etc/services | head -30</div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="nettserver|web server|webserver"><span class="ans-q">En maskin har 80 og 443 åpne, ingenting annet. Hva slags maskin er dette sannsynligvis?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">De to portene er HTTP og HTTPS.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">webserver</div></div></div><div class="ans-row" data-p="1" data-a="22"><span class="ans-q">Du finner port 23 åpen. Hvilken port burde vært brukt i stedet?</span><input class="ans-in" placeholder="et portnummer"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Telnet har en kryptert erstatter.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">22</div></div></div><div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Noen kjører en webserver på port 8443. Er det lov? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Portnumre er en avtale, ikke noe systemet h&aring;ndhever.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Siste oppgave handler om forskjellen på en konvensjon og en regel.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">Ja, det er helt lov. Portnumre er avtaler om hva folk <em>pleier</em> å gjøre, ikke noe systemet håndhever. Nettopp derfor er <code>-sV</code> i nmap verdt noe: den spør tjenesten i stedet for å tro på portnummeret.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="prt-3" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">03</span>
-      <span class="lab-title">Lytter eller tilkoblet</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 2 &mdash; Lese netstat</div>
-        <div class="theory-block"><div class="theory-title">🔌 Tilstanden og portnumrene forteller retningen</div><div class="theory-text"><p><code>LISTENING</code> betyr at et program venter på at noen skal koble til. Da er den eksterne adressen tom eller null, fordi ingen har koblet til ennå.</p><p><code>ESTABLISHED</code> betyr at to parter snakker sammen akkurat nå, og da står det en ekte adresse og port i begge ender.</p><p>Retningen leser du av portnumrene. En <strong>tjener</strong> lytter på en fast, lav port. En <strong>klient</strong> som kobler ut får en tilfeldig, høy port.</p><p>Så: har din side den høye porten, er du klienten. Har din side den lave, faste porten, er du tjeneren.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>To linjer fra samme maskin.</p><ol class="wsteps"><li><code>TCP 0.0.0.0:22 0.0.0.0:0 LISTENING</code></li><li>Lav fast port på min side, ingen på den andre: <strong>jeg er tjener</strong>, SSH venter på gjester</li><li><code>TCP 10.0.0.5:53412 142.250.74.78:443 ESTABLISHED</code></li><li>Høy tilfeldig port hos meg, 443 hos den andre: <strong>jeg er klienten</strong></li><li>Samme maskin er altså tjener og klient samtidig, i to ulike samtaler</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd"><span class='c'># Linux, med prosessnavn</span>
-ss -tlnp
-ss -tnp | head
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="grep -E &quot;^(ssh|http|https|domain)\s&quot; /etc/services" data-mal="Slå opp fire tjenester på én gang (lim gjerne inn):"><template class="ut"><span class="h2">ssh</span>		22/tcp				# SSH Remote Login Protocol
+<span class="h2">domain</span>		<span class="h1">53/tcp</span>				# Domain Name Server
+<span class="h2">domain</span>		<span class="h1">53/udp</span>
+<span class="h2">http</span>		80/tcp		www		# WorldWideWeb HTTP
+<span class="h2">https</span>		443/tcp				# http protocol over TLS/SSL
+<span class="h2">https</span>		443/udp				# HTTP/3</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>tjenestenavnet. DNS heter <code>domain</code> her</span></li><li><span class="m h1"></span><span>samme port kan finnes både for tcp og udp</span></li></ul><p><code>-E</code> slår på søkemønstre. <code>^</code> = starten av linja. <code>|</code> = eller. <code>\s</code> = mellomrom.</p></template></div>
+<div class="tm-o" data-cmd="nc -zv 192.168.1.1 80" data-mal="Bank på dør 80 hos ruteren:" data-alias="nc -vz 192.168.1.1 80|nc -z -v 192.168.1.1 80"><template class="ut">Connection to 192.168.1.1 80 port [tcp/http] <span class="h3">succeeded!</span></template><template class="forklar"><p><code>nc</code> (netcat) banker på. <code>-z</code> = bare bank, ikke send noe. <code>-v</code> = fortell hva som skjer. Ruteren svarer på 80: det er innstillingssiden dens 🌐</p></template></div>
+<div class="tm-o" data-cmd="nc -zv 192.168.1.1 22" data-mal="Bank på dør 22 hos ruteren." data-alias="nc -vz 192.168.1.1 22|nc -z -v 192.168.1.1 22" data-skjult data-hint="Samme som i stad, bare en annen port."><template class="ut">nc: connect to 192.168.1.1 port 22 (tcp) failed: <span class="h1">Connection refused</span></template><template class="forklar"><p><b>Connection refused</b> = ingen tjeneste bak den døra. Ruteren sa et tydelig «nei» 🚫</p></template></div>
+</div>
 
-<span class='c'># Windows</span>
-netstat -ano | findstr LISTENING</div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="server|tjener"><span class="ans-q">TCP 10.0.0.5:445 10.0.0.9:61204 ESTABLISHED. Er denne maskinen klient eller tjener?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Finn den lave, faste porten. Den siden er tjeneren.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">tjener</div></div></div><div class="ans-row" data-p="1" data-a="denne maskinen|klienten|jeg|meg"><span class="ans-q">En linje viser lokal port 60112 mot ekstern port 80. Hvem startet forbindelsen?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den h&oslash;ye tilfeldige porten tilh&oslash;rer den som koblet ut.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">jeg</div></div></div><div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Du ser LISTENING på port 4444 og ingen tilkobling ennå. Er det farlig? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">4444 er ingen standardtjeneste. Er en bakd&oslash;r ufarlig f&oslash;r noen bruker den?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Finn den lave faste porten. Den siden er tjeneren.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">Siste oppgave: 4444 er ingen standardtjeneste, og en bakdør som lytter er like farlig før noen kobler til som etter. At tilstanden er LISTENING og ikke ESTABLISHED betyr bare at angriperen ikke er logget på <em>akkurat nå</em>.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="prt-4" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">04</span>
-      <span class="lab-title">Hvem når tjenesten</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 2 &mdash; Eksponering</div>
-        <div class="theory-block"><div class="theory-title">🌐 Adressen tjenesten lytter på avgjør hvem som slipper til</div><div class="theory-text"><p>Dette er det viktigste i hele leksjonen, og det er én kolonne i utdata.</p><p><code>127.0.0.1</code> betyr at tjenesten <strong>bare</strong> kan nås fra maskinen selv. Ingen andre på nettet kommer til, uansett brannmur.</p><p><code>0.0.0.0</code> betyr <strong>alle grensesnitt</strong>. Tjenesten er nåbar fra nettverket, og fra internett hvis maskinen har en offentlig adresse.</p><p>En konkret adresse som <code>10.0.0.5</code> betyr bare det grensesnittet.</p><p>De fleste databaselekkasjer starter her: en database som skulle lyttet på 127.0.0.1, lytter på 0.0.0.0 fordi det var standard i oppsettet.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Tre tjenester på samme maskin, som har den offentlige adressen <code>203.0.113.9</code>.</p><ol class="wsteps"><li><code>127.0.0.1:3306</code> MySQL: bare maskinen selv. <strong>Trygt</strong></li><li><code>0.0.0.0:443</code> webserver: hele internett. <strong>Meningen</strong></li><li><code>0.0.0.0:3306</code> hvis den sto slik i stedet: hele internett når databasen. <strong>Alvorlig</strong></li><li>Forskjellen mellom første og siste linje er ni tegn i en konfigurasjonsfil</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">ss -tlnp
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="443"><span class="ans-q">Hvilket portnummer har https i lista?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Finn linja som starter med <code>https</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">443</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Svarte ruteren på port 22? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva sto det i siste oppdrag: succeeded eller refused?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
 
-<span class='c'># se bare hva som er eksponert utover</span>
-ss -tln | grep -v 127.0.0.1
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Bruk ruteradressen din fra <code>ip route</code>. Kali sin <code>nc</code> kan skrive svaret litt annerledes, for eksempel <code>(UNKNOWN) [192.168.1.1] 80 (http) open</code>. Samme svar!<p class="e-win">Windows (PowerShell): <code>Test-NetConnection 192.168.1.1 -Port 80</code></p></div>
 
-<span class='c'># Windows</span>
-netstat -an | findstr LISTENING</div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="hele internett|internett|alle"><span class="ans-q">0.0.0.0:5432 LISTENING på en server med offentlig IP. Hvem kan nå databasen?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">0.0.0.0 betyr alle grensesnitt.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">alle</div></div></div><div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">En kollega sier «porten er lukket i brannmuren, så det går fint at den lytter på 0.0.0.0». Er tjenesten fortsatt nåbar fra det lokale nettet? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Brannmuren stopper trafikk utenfra. Hva med alt som allerede er innenfor?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div><div class="ans-row" data-p="1" data-a="127.0.0.1|localhost"><span class="ans-q">Du vil at bare maskinen selv skal nå en tjeneste. Hvilken adresse skal den lytte på?</span><input class="ans-in" placeholder="en adresse"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Adressen som alltid peker tilbake p&aring; maskinen selv.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">127.0.0.1</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Les kolonnen for lokal adresse, ikke portnummeret.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">Andre oppgave er den som teller. En brannmur foran stopper trafikk <em>utenfra</em>, men tjenesten er fortsatt åpen for alt som allerede er innenfor. To lag som gjør ulike jobber, og du kan ikke erstatte det ene med det andre.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="prt-5" data-level="medium">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">05</span>
-      <span class="lab-title">TCP eller UDP</span>
-      <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="badge badge-hard krever-maal" style="margin-right:6px">krever m&aring;l</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-3">Niv&aring; 2 &mdash; To transportprotokoller</div>
-        <div class="theory-block"><div class="theory-title">📦 Den ene bekrefter, den andre gjør det ikke</div><div class="theory-text"><p><strong>TCP</strong> setter opp en forbindelse med et trehåndsgrep, nummererer pakkene, bekrefter mottak og sender på nytt hvis noe forsvinner. Det koster tid, men du vet at alt kom fram.</p><p><strong>UDP</strong> sender bare av gårde. Ingen forbindelse, ingen bekreftelse, ingen gjensending. Raskere, men uten garanti.</p><p>Derfor bruker filoverføring, web og e-post TCP, mens DNS, direktesendt video og spill gjerne bruker UDP.</p><p>Konsekvens for skanning: en lukket TCP-port svarer med RST, altså et tydelig nei. En lukket UDP-port svarer ofte <strong>ingenting i det hele tatt</strong>, som ser nøyaktig ut som en åpen port. Det er derfor UDP-skanning er treg og usikker.</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>Du skanner port 53 på to måter.</p><ol class="wsteps"><li><code>nmap -sS -p 53</code> gir <code>closed</code>. Du fikk RST, altså et klart svar</li><li><code>nmap -sU -p 53</code> gir <code>open|filtered</code></li><li>Det doble svaret betyr at nmap <strong>ikke fikk noe</strong> og ikke kan skille</li><li>Åpen UDP-tjeneste som tier, og lukket port bak brannmur, ser likt ut utenfra</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd">ss -uln            <span class='c'># UDP som lytter</span>
-ss -tln            <span class='c'># TCP som lytter</span>
 
-nmap -sU -p 53 127.0.0.1
-nmap -sS -p 53 127.0.0.1</div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="udp"><span class="ans-q">DNS bruker vanligvis hvilken av de to?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Oppslaget er lite og skal g&aring; fort, uten oppkobling.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">udp</div></div></div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">En UDP-skann gir open|filtered. Vet du om noe lytter der? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det doble svaret betyr at nmap ikke fikk noe i det hele tatt.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div><div class="ans-row" data-p="1" data-a="tcp"><span class="ans-q">Hvilken av de to gjensender en pakke som forsvant på veien?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den som bekrefter mottak kan ogs&aring; oppdage at noe mangler.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">tcp</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Spør om protokollen venter på et svar før den går videre.</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="lab-card" id="prt-6" data-level="hard">
-    <div class="lab-header" onclick="toggleTask(this)">
-      <span class="lab-num">06</span>
-      <span class="lab-title">Hva skal aldri ut på internett</span>
-      <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="badge badge-hard krever-maal" style="margin-right:6px">krever m&aring;l</span><span class="lab-chev">&#9654;</span></div>
-    </div>
-    <div class="lab-body">
-      <div class="lab-flow">
-        <div class="level-badge lb-5">Niv&aring; 3 &mdash; Vurdering</div>
-        <div class="theory-block"><div class="theory-title">🚨 Tre spørsmål avgjør om en åpen port er et funn</div><div class="theory-text"><p>En åpen port er ikke i seg selv et problem. En webserver <em>skal</em> ha 443 åpen. Vurderingen krever tre spørsmål.</p><p><strong>Er tjenesten ment for publikum?</strong> Web og e-post er det. Databaser, fjernskrivebord og fildeling er det aldri.</p><p><strong>Er trafikken kryptert?</strong> Telnet, FTP og HTTP sender alt i klartekst, inkludert passord.</p><p><strong>Krever den autentisering, og er den standard?</strong> En tjeneste med standard brukernavn og passord er like åpen som en uten.</p><p>Rangeringen følger konsekvens, ikke portnummer. En åpen database er verre enn en åpen webserver, selv om begge bare er «en åpen port».</p></div></div>
-        <div class="worked"><div class="worked-t">Regneeksempel</div><div class="worked-b"><p>En skann mot en server med offentlig IP gir fire åpne porter.</p><ol class="wsteps"><li><code>443</code> HTTPS: ment for publikum, kryptert. <strong>Greit</strong></li><li><code>22</code> SSH: ikke ment for publikum, men kryptert og krever nøkkel. <strong>Akseptabelt, men bør begrenses</strong></li><li><code>3389</code> RDP mot internett: ikke ment for publikum, hyppig angrepet. <strong>Alvorlig</strong></li><li><code>3306</code> MySQL mot internett: aldri ment for publikum, og ofte med svakt passord. <strong>Kritisk</strong></li><li>Rekkefølgen du fikser dem i er 3306, 3389, 22, og 443 rører du ikke</li></ol></div></div>
-        <div class="cmd-block">
-          <div class="obj-title">Kj&oslash;r dette</div>
-          <div class="cmd"><span class='c'># alt som er eksponert utover</span>
-ss -tln | grep -v 127.0.0.1
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="nettserver|web server|webserver"><span class="ans-q">En maskin har 80 og 443 åpne, ingenting annet. Hva slags maskin er dette sannsynligvis?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvem koblet du til 80 og 443 i spillet? 🌐🔒</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">webserver</div></div></div>
+<div class="ans-row" data-p="1" data-a="22"><span class="ans-q">Du finner port 23 åpen. Hvilken port burde vært brukt i stedet?</span><input class="ans-in" placeholder="et portnummer"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">23 er Telnet 📺. Hvilket nummer fikk den krypterte fjerninnloggingen 🔐 i spillet?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">22</div></div></div>
+<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Noen kjører en webserver på port 8443. Er det lov? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Les den gule boksen ⚠️: avtale eller regel?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
+</div>
+</div></div>
+</div>
 
-<span class='c'># mot et mål du har lov til å skanne</span>
-nmap -sV --top-ports 20 <MAAL></div>
-          
-        </div>
-        <div class="ans-block"><div class="obj-title">Din tur</div><div class="ans-row" data-p="1" data-a="21"><span class="ans-q">En server har 21, 22, 80 og 443 åpne. Hvilken port ville du fjernet først?</span><input class="ans-in" placeholder="et portnummer"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">G&aring; gjennom de tre sp&oslash;rsm&aring;lene. Hvilken feiler p&aring; to av dem?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">21</div></div></div><div class="ans-row" data-p="1" data-a="offentlig tjeneste|offentlig|publikum"><span class="ans-q">Hvorfor er port 3306 åpen mot internett verre enn port 80 åpen? Svar med ett ord om hva 80 er og 3306 ikke er</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Web er ment for alle. Er en database det?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">offentlig</div></div></div><div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">En tjeneste er kryptert, men bruker standard brukernavn og passord. Er den trygg? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kryptering beskytter trafikken p&aring; veien, ikke d&oslash;ra.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div></div>
-        <div class="hint-row"><button class="hint-btn" onclick="toggleHint(this)">&#9654; Hint</button><div class="hint-box">Gå gjennom de tre spørsmålene for hver port, ett om gangen.</div><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis l&oslash;sning</button><div class="sol-box">21 er FTP: ikke ment for publikum <em>og</em> ukryptert, altså feil på to av tre spørsmål. 80 er ment for publikum, så en åpen 80 er ikke et funn i seg selv. Og kryptering beskytter trafikken på veien, ikke mot noen som bare logger inn med passordet som sto i dokumentasjonen.</div></div>
-      </div>
-    </div>
-  </div>
-  </div>
+<!-- ═══════════════════════ 3 · LYTTER ELLER TILKOBLET ═══════════════════════ -->
+<div class="lab-card" id="prt-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">Lytter eller tilkoblet</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Venter eller snakker</div>
+<p class="e-hook">Du åpner <code>https://vg.no</code>. Hvem tar kontakt med hvem, og fra hvilken port? 🤔</p>
 
-  <div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Fra «venter» til «snakker»">
+  <div class="rf-item" data-forklar="Serveren venter. Ingen gjester ennå.">🖥️ Webserveren startet i morges og lytter på port 443</div>
+  <div class="rf-item" data-forklar="Du er klienten. Det er du som tar kontakt.">👆 Du åpner vg.no i nettleseren</div>
+  <div class="rf-item" data-forklar="Klienten får en høy, tilfeldig port.">🎲 PC-en låner en flyktig port, for eksempel 51200</div>
+  <div class="rf-item" data-forklar="Fra 192.168.1.10:51200 til port 443.">👋 SYN: «Kan vi snakke?»</div>
+  <div class="rf-item" data-forklar="Serveren svarer tilbake til port 51200.">🤝 SYN-ACK: «Ja, gjerne!»</div>
+  <div class="rf-item" data-forklar="Nå er samtalen i gang i begge ender.">✅ ACK: «Flott!»</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+En tjeneste som venter, står som <b>LISTEN</b> (Windows: LISTENING). En samtale som er i gang, står som <b>ESTABLISHED</b>. SYN, SYN-ACK, ACK heter <b>trehåndsgrepet</b> (three-way handshake).<br>
+Huskeregel: <b>lav, fast port = tjeneren. Høy, lånt port = klienten.</b>
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ss -tln" data-mal="Vis TCP-portene som venter:" data-alias="ss -ltn|ss -lnt|ss -tnl|ss -ntl|ss -nlt"><template class="ut">State  Recv-Q Send-Q   Local Address:Port  Peer Address:Port Process
+<span class="h1">LISTEN</span> 0      128            0.0.0.0:<span class="h2">22</span>         0.0.0.0:<span class="h3">*</span>
+<span class="h1">LISTEN</span> 0      80           127.0.0.1:<span class="h2">3306</span>       0.0.0.0:<span class="h3">*</span>
+<span class="h1">LISTEN</span> 0      128               [::]:<span class="h2">22</span>            [::]:<span class="h3">*</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>venter på gjester</span></li><li><span class="m h2"></span><span>porten tjenesten venter på (22 = SSH, 3306 = database)</span></li><li><span class="m h3"></span><span>ingen motpart ennå, så bare en stjerne</span></li></ul><p><code>-t</code> = TCP. <code>-l</code> = bare de som lytter. <code>-n</code> = vis tall, ikke navn. <code>[::]</code> er det samme for IPv6, den nye adresseformen.</p></template></div>
+<div class="tm-o" data-cmd="ss -tn" data-mal="Vis samtalene som er i gang:" data-alias="ss -nt"><template class="ut">State Recv-Q Send-Q   Local Address:Port    Peer Address:Port  Process
+<span class="h1">ESTAB</span> 0      0         192.168.1.10:<span class="h2">51200</span>  142.250.74.78:<span class="h3">443</span>
+<span class="h1">ESTAB</span> 0      0         192.168.1.10:<span class="h3">22</span>      192.168.1.20:<span class="h2">52814</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>samtalen er i gang</span></li><li><span class="m h2"></span><span>høy, lånt port = klienten</span></li><li><span class="m h3"></span><span>lav, fast port = tjeneren</span></li></ul><p>Linje 1: du er klient hos en Google-server. Linje 2: naboen 192.168.1.20 er logget inn hos deg med SSH, så her er <b>du</b> tjeneren. Samme maskin, to roller 🎭</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="22"><span class="ans-q">I én av ESTAB-linjene er PC-en din tjeneren. Hvilken port står på din side?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Finn den grønne porten etter 192.168.1.10.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">22</div></div></div>
+<div class="ans-row" data-p="1" data-a="51200"><span class="ans-q">Hvilken port lånte PC-en din til samtalen med Google?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Linja der motparten har port 443. Hva står på din side?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">51200</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Lista hos deg blir annerledes. Det er helt riktig! Er <code>ss -tln</code> tom? Kali starter ingen tjenester av seg selv. Åpne en nettside i Firefox og kjør <code>ss -tn</code>, så ser du dine egne samtaler.<p class="e-win">Windows: <code>netstat -an | findstr LISTENING</code> og <code>netstat -an | findstr ESTABLISHED</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="server|tjener"><span class="ans-q">TCP 10.0.0.5:445 10.0.0.9:61204 ESTABLISHED. Er denne maskinen klient eller tjener?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Huskeregelen i fagord-boksen. Hvem har den lave, faste porten: 10.0.0.5 eller 10.0.0.9?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">tjener</div></div></div>
+<div class="ans-row" data-p="1" data-a="denne maskinen|klienten|jeg|meg"><span class="ans-q">En linje viser lokal port 60112 mot ekstern port 80. Hvem startet forbindelsen?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvem lånte en høy port 🎲 i rekkefølgespillet, og hvem sa SYN først?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">jeg</div></div></div>
+<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Du ser LISTENING på port 4444 og ingen tilkobling ennå. Er det farlig? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">4444 sto ikke blant de ti kjente. LISTEN = venter på gjester. Er en bakdør trygg bare fordi ingen har kommet inn ennå?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · HVEM NÅR TJENESTEN ═══════════════════════ -->
+<div class="lab-card" id="prt-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Hvem når tjenesten</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Eksponering</div>
+<p class="e-hook">Dette er den viktigste kolonnen i hele leksjonen. Den avgjør om bare maskinen selv, eller hele verden, kommer inn 🌍</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Hvem kan andre nå?" data-oppgave="Klikk på de tre tjenestene som andre maskiner på nettet kan nå.">
+<pre>State  Recv-Q Send-Q   Local Address:Port  Peer Address:Port Process
+LISTEN 0      128            <span class="kl" data-rett data-forklar="0.0.0.0 = alle grensesnitt. SSH på 22 er åpen for nettet.">0.0.0.0:22</span>         <span class="kl" data-forklar="Feil kolonne! Dette er motparten. Stjerna betyr «ingen ennå». Se på Local Address.">0.0.0.0:*</span>
+LISTEN 0      80           <span class="kl" data-forklar="127.0.0.1 = bare maskinen selv. Databasen er trygg.">127.0.0.1:3306</span>       0.0.0.0:*
+LISTEN 0      511            <span class="kl" data-rett data-forklar="0.0.0.0 igjen. Webserveren på 80 er åpen for alle.">0.0.0.0:80</span>         0.0.0.0:*
+LISTEN 0      4096         <span class="kl" data-forklar="127.0.0.1 = bare maskinen selv. 631 er skriverkøen.">127.0.0.1:631</span>        0.0.0.0:*
+LISTEN 0      511       <span class="kl" data-rett data-forklar="En egen adresse = bare via det nettkortet. Men det er nettkortet mot lokalnettet, så naboene når den.">192.168.1.10:8080</span>       0.0.0.0:*</pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>127.0.0.1</code> (localhost) = bare maskinen selv.<br>
+<code>0.0.0.0</code> = alle grensesnitt (nettkort). Alle som når maskinen, når tjenesten.<br>
+En egen adresse som <code>192.168.1.10</code> = bare via det ene nettkortet.<br>
+En tjeneste andre kan nå, er <b>eksponert</b>.
+</div>
+<p class="e-sikker">🔥 Mange databaselekkasjer starter her: databasen skulle lyttet på 127.0.0.1, men sto på 0.0.0.0 fordi det var standard. Og brannmuren i ruteren hjelper bare mot trafikk utenfra. Naboene i lokalnettet når fortsatt alt som står på 0.0.0.0.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sudo ss -tlnp" data-mal="Se hvem som lytter, med programnavn (krever sudo):" data-alias="sudo ss -tnlp|sudo ss -ltnp|sudo ss -lntp|sudo ss -plnt|sudo ss -pltn|sudo ss -nltp"><template class="ut">[sudo] password for kali: <span class="dim">(passordet vises ikke mens du skriver)</span>
+State  Recv-Q Send-Q   Local Address:Port  Peer Address:Port Process
+LISTEN 0      128            <span class="h1">0.0.0.0</span>:22         0.0.0.0:*    users:((<span class="h2">"sshd"</span>,pid=812,fd=3))
+LISTEN 0      80           <span class="h3">127.0.0.1</span>:3306       0.0.0.0:*    users:((<span class="h2">"mariadbd"</span>,pid=1044,fd=21))
+LISTEN 0      128               <span class="h1">[::]</span>:22            [::]:*    users:((<span class="h2">"sshd"</span>,pid=812,fd=4))</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>eksponert: andre kan nå den</span></li><li><span class="m h3"></span><span>bare lokalt: trygt</span></li><li><span class="m h2"></span><span>programmet bak porten</span></li></ul><p><code>-p</code> = vis programmet. Det krever <code>sudo</code>, fordi du kikker på andre sine prosesser.</p></template></div>
+<div class="tm-o" data-cmd="ss -tln | grep -v 127.0.0.1" data-mal="Vis bare det som er eksponert:"><template class="ut">State  Recv-Q Send-Q   Local Address:Port  Peer Address:Port Process
+LISTEN 0      128            <span class="h1">0.0.0.0:22</span>         0.0.0.0:*
+LISTEN 0      128               <span class="h1">[::]:22</span>            [::]:*</template><template class="forklar"><p><code>grep -v</code> = vis linjene som <b>ikke</b> inneholder teksten. Databasen forsvant, fordi den bare er lokal ✅</p></template></div>
+<div class="tm-o" data-cmd="nc -zv 127.0.0.1 3306" data-mal="Bank på databasen fra maskinen selv." data-alias="nc -vz 127.0.0.1 3306|nc -z -v 127.0.0.1 3306" data-skjult data-hint="Banke-kommandoen fra oppgave 2, mot 127.0.0.1 og port 3306."><template class="ut">Connection to 127.0.0.1 3306 port [tcp/mysql] <span class="h3">succeeded!</span></template><template class="forklar"><p>Innenfra kommer du inn ✅</p></template></div>
+<div class="tm-o" data-cmd="nc -zv 192.168.1.10 3306" data-mal="Bank på databasen via IP-en din på lokalnettet." data-alias="nc -vz 192.168.1.10 3306|nc -z -v 192.168.1.10 3306" data-skjult data-hint="Samme som i stad, men med IP-en din fra leksjon 5 i stedet for 127.0.0.1."><template class="ut">nc: connect to 192.168.1.10 port 3306 (tcp) failed: <span class="h1">Connection refused</span></template><template class="forklar"><p>Samme maskin, samme port, men nå via nettkortet: <b>refused</b> 🚫 Databasen lytter bare på 127.0.0.1. Akkurat som den skal.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="mariadbd|mariadb"><span class="ans-q">Hvilket program lytter på port 3306?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det blå navnet på linja med 3306.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">mariadbd</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Svarte databasen da du banket på via 192.168.1.10? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Siste oppdrag: succeeded eller refused?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Lytter ingenting hos deg? Start SSH med <code>sudo systemctl start ssh</code>, se på den, og stopp den igjen med <code>sudo systemctl stop ssh</code>.<p class="e-win">Windows: <code>netstat -ano | findstr LISTENING</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="hele internett|internett|alle"><span class="ans-q">0.0.0.0:5432 LISTENING på en server med offentlig IP. Hvem kan nå databasen?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva betydde 0.0.0.0 i klikkespillet? Og en offentlig IP kan nås fra hele internett.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">alle</div></div></div>
+<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">En kollega sier «porten er lukket i brannmuren, så det går fint at den lytter på 0.0.0.0». Er tjenesten fortsatt nåbar fra det lokale nettet? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Les den gule boksen 🔥. Hvem stopper brannmuren, og hva med naboene på innsiden?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
+<div class="ans-row" data-p="1" data-a="127.0.0.1|localhost"><span class="ans-q">Du vil at bare maskinen selv skal nå en tjeneste. Hvilken adresse skal den lytte på?</span><input class="ans-in" placeholder="en adresse"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilken adresse var en felle i klikkespillet? Databasen lyttet på den.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">127.0.0.1</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · TCP ELLER UDP ═══════════════════════ -->
+<div class="lab-card" id="prt-5" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">TCP eller UDP</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="badge badge-hard krever-maal" style="margin-right:6px">krever m&aring;l</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — To transportprotokoller</div>
+<p class="e-hook">Du banker på. Noen roper «nei!». Eller ingen svarer i det hele tatt. Hva er verst for den som skanner? 🦗</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Portskann-chatten">
+  <div class="ch-item" data-fra="sys">📍 Du skanner din egen testmaskin med nmap. Først med TCP.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐉 nmap → 22/tcp">SYN 👋 Kan vi snakke?</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🖥️ port 22/tcp">SYN-ACK 🤝 Ja! Jeg er her.</div>
+  <div class="ch-item" data-fra="sys">✅ Svar! 22 er <b>open</b>.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐉 nmap → 23/tcp">SYN 👋 Kan vi snakke?</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🖥️ port 23/tcp">RST ✋ Nei. Ingen her.</div>
+  <div class="ch-item" data-fra="sys">✅ Et tydelig nei. 23 er <b>closed</b>. Raskt og sikkert.</div>
+  <div class="ch-item" data-stopp="🔄 Nå samme skann med UDP…"></div>
+  <div class="ch-item" data-fra="sys">UDP har ikke noe håndtrykk. Nmap sender en pakke og venter.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐉 nmap → 53/udp">📦 Hei, her er et DNS-spørsmål.</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🖥️ port 53/udp">📦 Her er svaret!</div>
+  <div class="ch-item" data-fra="sys">✅ 53 svarte. <b>open</b>.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐉 nmap → 161/udp">📦 Hallo? Noen der?</div>
+  <div class="ch-item" data-fra="sys">… 🦗 … 🦗 … stille.</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐉 nmap">Hmm. Er tjenesten bare taus? Eller stoppet en brannmur pakken? 🤷</div>
+  <div class="ch-item" data-fra="sys">Nmap kan ikke vite det. Den skriver <b>open|filtered</b>. Og den må vente lenge på hver port 🐌</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<b>TCP</b> starter med trehåndsgrepet fra oppgave 3, nummererer pakkene og bekrefter alt. Forsvinner en pakke, sendes den på nytt.<br>
+<b>UDP</b> bare sender. Ingen håndtrykk, ingen bekreftelse. Raskt, men uten garanti. DNS, video og spill bruker ofte UDP.<br>
+<b>RST</b> er TCP sitt «nei». En lukket UDP-port sier ofte ingenting.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sudo nmap -sT 127.0.0.1" data-mal="TCP-skann av din egen maskin:" data-alias="nmap -sT 127.0.0.1"><template class="ut">Starting Nmap 7.95 ( https://nmap.org ) at 2026-10-07 10:14 CEST
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.000060s latency).
+Not shown: 998 closed tcp ports (<span class="dim">conn-refused</span>)
+PORT     STATE SERVICE
+<span class="h2">22/tcp</span>   <span class="h3">open</span>  ssh
+<span class="h2">3306/tcp</span> <span class="h3">open</span>  mysql
+
+Nmap done: 1 IP address (1 host up) scanned in 0.05 seconds</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>port og protokoll</span></li><li><span class="m h3"></span><span>svarte med SYN-ACK</span></li></ul><p><code>-sT</code> = vanlig TCP-oppkobling. Nmap sjekker de 1000 vanligste portene. 998 svarte med RST, så nmap viser dem ikke. Fra 127.0.0.1 når du også databasen, husker du?</p></template></div>
+<div class="tm-o" data-cmd="sudo nmap -sT -p 23 127.0.0.1" data-mal="Skann bare port 23." data-alias="nmap -sT -p 23 127.0.0.1|sudo nmap -sT 127.0.0.1 -p 23|sudo nmap -p 23 -sT 127.0.0.1" data-skjult data-hint="Samme skann som i stad. Legg til <code>-p 23</code> foran adressen."><template class="ut">Starting Nmap 7.95 ( https://nmap.org ) at 2026-10-07 10:15 CEST
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.000070s latency).
+
+PORT   STATE  SERVICE
+23/tcp <span class="h1">closed</span> telnet
+
+Nmap done: 1 IP address (1 host up) scanned in 0.04 seconds</template><template class="forklar"><p><code>-p</code> = velg port. <b>closed</b> = fikk RST, et tydelig nei ✋</p></template></div>
+<div class="tm-o" data-cmd="sudo nmap -sU -p 53,161 192.168.1.1" data-mal="UDP-skann av ruteren, port 53 og 161:" data-alias="sudo nmap -sU 192.168.1.1 -p 53,161|sudo nmap -p 53,161 -sU 192.168.1.1"><template class="ut">Starting Nmap 7.95 ( https://nmap.org ) at 2026-10-07 10:16 CEST
+Nmap scan report for 192.168.1.1
+Host is up (0.0011s latency).
+
+PORT    STATE         SERVICE
+53/udp  <span class="h3">open</span>          <span class="h2">domain</span>
+161/udp <span class="h1">open|filtered</span> snmp
+MAC Address: 3C:22:FB:7A:10:05 (Unknown)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.32 seconds</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>svarte: ruteren er DNS-server for hjemmenettet</span></li><li><span class="m h1"></span><span>stille. Nmap vet ikke</span></li></ul><p><code>-sU</code> = UDP. Det krever <code>sudo</code>. MAC-en er ruteren sin, fra leksjon 5.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvor mange TCP-porter var åpne på 127.0.0.1?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de grønne <code>open</code> i første oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+<div class="ans-row" data-p="1" data-a="closed|lukket"><span class="ans-q">Hvilken tilstand (STATE) fikk 23/tcp?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det gule ordet i oppdrag 2.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">closed</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme kommandoene. Skann bare maskiner du har lov til: din egen (127.0.0.1), din egen ruter, eller Metasploitable 2 på host-only. UDP-skann er treg. Med mange porter kan den ta lang tid ☕<p class="e-win">Windows: <code>netstat -an -p UDP</code> viser UDP-portene hos deg.</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="udp"><span class="ans-q">DNS bruker vanligvis hvilken av de to?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvilken del av chatten svarte port 53 i? Står også i den blå fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">udp</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">En UDP-skann gir open|filtered. Vet du om noe lytter der? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva sa nmap i chatten da det bare var 🦗?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="tcp"><span class="ans-q">Hvilken av de to gjensender en pakke som forsvant på veien?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den som bekrefter alt. Se fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">tcp</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 6 · ALDRI PÅ INTERNETT ═══════════════════════ -->
+<div class="lab-card" id="prt-6" data-level="hard">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">06</span>
+  <span class="lab-title">Hva skal aldri ut på internett</span>
+  <div class="lab-meta"><span class="badge badge-hard">Vanskelig</span><span class="badge badge-hard krever-maal" style="margin-right:6px">krever m&aring;l</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-5">Nivå 3 — Vurdering</div>
+<p class="e-hook">En åpen port er ikke en feil i seg selv. Nettbutikken din <i>skal</i> ha 443 åpen. Så hvilke er farlige? 🚨</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Greit på internett, eller aldri?" data-knapper="🌍 Greit på internett|🔒 Aldri på internett">
+  <div class="ly-item" data-svar="0" data-hvorfor="Ment for publikum og kryptert. Akkurat slik det skal være.">🔒 443 HTTPS på nettbutikken</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="En database er aldri ment for publikum. Nettsiden snakker med den lokalt.">🐬 3306 MySQL</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Fjernskrivebord mot internett blir prøvd hele døgnet. Bruk VPN i stedet.">🖥️ 3389 RDP</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="En e-postserver må ta imot post fra hele verden.">✉️ 25 SMTP på e-postserveren</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Klartekst. Passordet kan leses på veien. Og ruteren skal ikke styres fra internett.">📺 23 Telnet på ruteren</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Fildeling er for innsiden. Løsepengeviruset WannaCry spredte seg via 445 i 2017.">🗂️ 445 SMB</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Greit. Den sender bare besøkende videre til den låste versjonen på 443.">🌐 80 HTTP som sender videre til 443</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Database igjen. Aldri på internett.">🐘 5432 PostgreSQL</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Alt en angriper kan nå utenfra, heter <b>angrepsflaten</b> (attack surface). Tre spørsmål avgjør om en åpen port er et <b>funn</b>:<br>
+1️⃣ Er tjenesten ment for publikum?<br>
+2️⃣ Er den kryptert?<br>
+3️⃣ Krever den innlogging, og er standardpassordet byttet?
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="sudo nmap -sV -p 21,22,23,80,3306 192.168.1.50" data-mal="Spør tjenestene på testmaskinen Metasploitable (192.168.1.50) hvem de er:" data-alias="nmap -sV -p 21,22,23,80,3306 192.168.1.50|sudo nmap -sV 192.168.1.50 -p 21,22,23,80,3306|sudo nmap -p 21,22,23,80,3306 -sV 192.168.1.50"><template class="ut">Starting Nmap 7.95 ( https://nmap.org ) at 2026-10-07 10:31 CEST
+Nmap scan report for 192.168.1.50
+Host is up (0.00052s latency).
+
+PORT     STATE SERVICE VERSION
+<span class="h1">21/tcp</span>   open  ftp     <span class="h2">vsftpd 2.3.4</span>
+22/tcp   open  ssh     <span class="h2">OpenSSH 4.7p1 Debian 8ubuntu1 (protocol 2.0)</span>
+<span class="h1">23/tcp</span>   open  telnet  <span class="h2">Linux telnetd</span>
+<span class="h3">80/tcp</span>   open  http    <span class="h2">Apache httpd 2.2.8 ((Ubuntu) DAV/2)</span>
+<span class="h4">3306/tcp</span> open  mysql   <span class="h2">MySQL 5.0.51a-3ubuntu5</span>
+MAC Address: 08:00:27:5A:1B:50 (Oracle VirtualBox virtual NIC)
+Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 11.42 seconds</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>klartekst og ikke for publikum: fiks først</span></li><li><span class="m h4"></span><span>database: aldri på internett</span></li><li><span class="m h3"></span><span>web: ment for publikum</span></li><li><span class="m h2"></span><span>versjonen tjenesten oppga selv</span></li></ul><p><code>-sV</code> = spør tjenesten om versjon i stedet for å gjette ut fra nummeret. 🦹 <code>vsftpd 2.3.4</code> er kjent for å ha en innebygd bakdør!</p></template></div>
+<div class="tm-o" data-cmd="nc 192.168.1.50 21" data-mal="Bank på FTP-døra og hør hva den sier (uten -zv):"><template class="ut"><span class="h1">220 (vsFTPd 2.3.4)</span>
+<span class="dim">(trykk Ctrl + C for å avslutte)</span></template><template class="forklar"><p>Tjenesten presenterer seg selv, med versjon og alt. Det heter en <b>banner</b>. Det er en av måtene <code>-sV</code> finner versjonen på 🏷️</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="2.3.4"><span class="ans-q">Hvilken versjon av vsftpd kjører på port 21?</span><input class="ans-in" placeholder="x.x.x"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står i VERSION-kolonnen, og i svaret fra <code>nc</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2.3.4</div></div></div>
+<div class="ans-row" data-p="1" data-a="banner|en banner|banneret"><span class="ans-q">Hva heter det når tjenesten presenterer seg selv, som «220 (vsFTPd 2.3.4)»?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se forklaringen etter siste oppdrag 🏷️</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">banner</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Start Metasploitable 2, og la begge maskinene stå på <b>host-only</b>. Metasploitable er laget for å bli angrepet, så den skal aldri ut på et ekte nett. Adressen hos deg er en annen. Finn den med <code>ifconfig</code> inne i Metasploitable, og bytt ut 192.168.1.50 i kommandoene.</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="21"><span class="ans-q">En server har 21, 22, 80 og 443 åpne. Hvilken port ville du fjernet først?</span><input class="ans-in" placeholder="et portnummer"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Still de tre spørsmålene i fagord-boksen. Hvilken port feiler på både 1️⃣ og 2️⃣?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">21</div></div></div>
+<div class="ans-row" data-p="1" data-a="offentlig tjeneste|offentlig|publikum"><span class="ans-q">Hvorfor er port 3306 åpen mot internett verre enn port 80 åpen? Svar med ett ord om hva 80 er og 3306 ikke er</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvorfor var 3306 «aldri» i lynrunden? Spørsmål 1️⃣: ment for …?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">offentlig</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">En tjeneste er kryptert, men bruker standard brukernavn og passord. Er den trygg? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den består 2️⃣ i fagord-boksen. Men hva med 3️⃣?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
 </div>
 
 <footer class="footer"><div class="container"><div class="footer-inner">
-<span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
 </div></div></footer>
 <script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
 </body>
 </html>

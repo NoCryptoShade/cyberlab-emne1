@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Etikk, lov og ansvar — CyberLab</title>
+<link rel="stylesheet" href="../css/style.css?v=13">
+<link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+</head>
+<body class="page enkel">
+<nav class="nav">
+  <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
+  <div class="nav-links">
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="nav-link">Hjem</a>
+    <a href="../emne1.html" class="nav-link">Emne 1</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne3.html" class="nav-link">Emne 3</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="nav-link on">Labber</a>
+    <a href="https://tk1104.timoamling.com/" target="_blank" rel="noopener" class="nav-link">Self check &nearr;</a>
+  </div>
+</nav>
+
+<div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
+
+<div class="mod-hero">
+  <div class="section-eyebrow">Emne 1 &middot; Leksjon 4</div>
+  <div class="section-title">Etikk, lov og ansvar</div>
+  <p class="section-desc">Hvorfor testing krever tillatelse, hvem som kan gi den, og hvordan personopplysninger håndteres. Seks små spill, og så noen spørsmål etter hvert.</p>
+</div>
+
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
+
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>Datainnbrudd</dt><dd>Å skaffe seg tilgang til et datasystem uten lov. Straffeloven § 204.</dd>
+    <dt>Tillatelse</dt><dd>Et skriftlig ja fra eieren av systemet.</dd>
+    <dt>Systemeier</dt><dd>Den som eier systemet. Bare hen kan si ja.</dd>
+    <dt>Scope</dt><dd>Omfanget: hva du får teste, når og hvordan.</dd>
+    <dt>Etisk hacker</dt><dd>Tester med tillatelse, innenfor scope, og sier fra.</dd>
+    <dt>Ansvarlig varsling</dt><dd>Si fra til eieren først, i stillhet, og gi tid til å fikse.</dd>
+    <dt>Personopplysning</dt><dd>Alt som kan knyttes til en person: navn, e-post, adresse.</dd>
+    <dt>GDPR</dt><dd>EU-regler for personopplysninger. Gjelder i Norge gjennom personopplysningsloven.</dd>
+    <dt>Dataminimering</dt><dd>Ikke samle mer persondata enn du trenger.</dd>
+    <dt>Testlogg</dt><dd>Notatboka di: hva du gjorde, og når.</dd>
+    <dt>Sjekksum</dt><dd>Et «fingeravtrykk» av en fil. Endres fila, endres sjekksummen.</dd>
+  </dl>
+</details>
+
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
+
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · LOV ELLER IKKE LOV ═══════════════════════ -->
+<div class="lab-card" id="l04-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">Lov eller ikke lov?</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Tillatelse</div>
+<p class="e-hook">De samme verktøyene brukes av helter og skurker. Bare én ting skiller dem. Klarer du å se hva? 🦸 🦹</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Lov eller ikke lov?" data-knapper="✅ Lov|🚫 Ikke lov">
+  <div class="ly-item" data-svar="0" data-hvorfor="Din egen maskin, ditt eget nett. Du er eieren.">Du skanner din egen Kali-maskin hjemme 🏠</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Gode hensikter hjelper ikke. Uten ja fra eieren er det ulovlig.">Du tester nettsida til banken din, «bare for å sjekke at den er sikker» 🏦</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Signert ja fra eieren, og du holder deg innenfor. Sånn jobber en etisk hacker.">Du tester serverne til Kanelsnurr AS med en signert avtale fra daglig leder 📝</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Et passord du har sett, gir deg ikke lov. Det er fortsatt innbrudd.">Du logger inn på skoleserveren med passordet du så over skulderen til en medelev 👀</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Din egen øvelab. Ingen andre blir berørt.">Du øver på en bevisst sårbar maskin du har satt opp selv i labben 🧪</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Også et forsøk kan straffes. Det holder å prøve.">Du prøver ett eneste passord på Instagram-kontoen til eksen, «bare for å se» 🔑</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Tilgang uten lov heter <b>datainnbrudd</b>. Det står i <b>straffeloven § 204</b>: bot eller fengsel inntil 2 år. Det som skiller helten fra skurken, er <b>tillatelse</b>.
+</div>
+<p class="e-sikker">⚖️ Dette er ikke juridisk rådgivning. Men huskeregelen er enkel: <b>ingen tillatelse = ingen test</b>.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="whoami" data-mal="Hvem er det som skriver kommandoene?"><template class="ut"><span class="h1">kali</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>brukeren du er logget inn som</span></li></ul><p>Bak hver kommando står en bruker. Bak brukeren står <b>du</b>. Du er ansvarlig for alt den gjør.</p></template></div>
+<div class="tm-o" data-cmd="date" data-mal="Hva er klokka akkurat nå?"><template class="ut"><span class="h2">Tue Oct  6</span> <span class="h1">08:01:47</span> CEST <span class="h2">2026</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>dato: tirsdag 6. oktober 2026</span></li><li><span class="m h1"></span><span>klokkeslett: timer:minutter:sekunder</span></li></ul><p>Hvem og når. De to tingene trenger du for å bevise at du testet med lov, i riktig tidsrom.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="kali"><span class="ans-q">Hvilken bruker står bak kommandoene?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det <code>whoami</code> svarte.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">kali</div></div></div>
+<div class="ans-row" data-p="1" data-a="08:01|8:01|08:01:47"><span class="ans-q">Hva var klokka da du kjørte <code>date</code>? (timer:minutter)</span><input class="ans-in" placeholder="tt:mm"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten. Ta bare med timer og minutter.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">08:01</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv de samme kommandoene. Tiden din blir en annen enn her. Det er helt riktig!<p class="e-win">Windows: <code>whoami</code> og <code>date /t</code> + <code>time /t</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="204|§ 204|paragraf 204"><span class="ans-q">Hvilken paragraf i straffeloven handler om datainnbrudd?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står i den blå fagord-boksen. Tre sifre.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">204</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Du tester en nettbutikk for å hjelpe dem, men har ikke spurt. Er det lov? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Husk bank-kortet 🏦. Hjalp de gode hensiktene?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="tillatelse|tillatelsen|lov fra eieren|samtykke"><span class="ans-q">Hva er det eneste som skiller en etisk hacker fra en kriminell når de bruker samme verktøy?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Siste setning i fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">tillatelse</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · HVEM KAN SI JA ═══════════════════════ -->
+<div class="lab-card" id="l04-2" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">Hvem kan si ja?</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Systemeieren</div>
+<p class="e-hook">En kompis har en «genial» idé. Du har lært litt hacking. Hva kan gå galt? 😅</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Kompis-chatten">
+  <div class="ch-item" data-fra="nabo" data-navn="Jonas">Du som går cyber! Kan du teste nettsida til naboen min? Han har en nettbutikk 😄</div>
+  <div class="ch-item" data-fra="pc" data-navn="Deg">Har naboen sagt ja?</div>
+  <div class="ch-item" data-fra="nabo" data-navn="Jonas">Nei, men han blir sikkert glad! Det er jo for å hjelpe 🙏</div>
+  <div class="ch-item" data-stopp="🤔 Hva svarer du?"></div>
+  <div class="ch-item" data-fra="pc" data-navn="Deg">Sorry! Uten ja fra eieren er det datainnbrudd. Selv om jeg mener det godt.</div>
+  <div class="ch-item" data-fra="nabo" data-navn="Jonas">Men JEG sier jo ja? 😇</div>
+  <div class="ch-item" data-fra="pc" data-navn="Deg">Det er ikke din butikk 😅 Bare eieren kan si ja. Skriftlig: hva jeg får teste, og når.</div>
+  <div class="ch-item" data-fra="sys">⏩ To dager senere…</div>
+  <div class="ch-item" data-fra="nabo" data-navn="Naboen · Kanelsnurr AS">Hei! Du får teste nettbutikken. Jeg signerer avtalen 📝</div>
+  <div class="ch-item" data-fra="pc" data-navn="Deg">Supert! Hvor ligger nettsida?</div>
+  <div class="ch-item" data-fra="nabo" data-navn="Naboen · Kanelsnurr AS">Hos et webhotell. Jeg leier plass der.</div>
+  <div class="ch-item" data-fra="pc" data-navn="Deg">Da eier webhotellet serveren. De må også si ja, ellers tester jeg bare det du eier selv.</div>
+  <div class="ch-item" data-fra="sys">✅ Riktig eier. Skriftlig. Med grenser. Nå er testen lovlig.</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Bare <b>systemeieren</b> kan gi tillatelse. Den skal være <b>skriftlig</b>, i et <b>scope</b>-dokument (omfang): hvilke maskiner, hvilket tidsrom, og hva som ikke er lov.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat scope.txt" data-mal="Les scope-dokumentet fra Kanelsnurr AS:"><template class="ut">SCOPE - sikkerhetstest for Kanelsnurr AS
+Oppdragsgiver: <span class="h1">Kari Nordmann, daglig leder (systemeier)</span>
+Tester: kali
+Tidsrom: <span class="h2">2026-10-06 og 2026-10-07, kl. 08-16</span>
+Innenfor:
+  <span class="h3">10.0.5.10  webserver</span>
+  <span class="h3">10.0.5.20  filserver</span>
+  <span class="h3">10.0.5.30  kasse-PC</span>
+Utenfor:
+  <span class="h4">10.0.5.1   ruter (eies av leverandøren)</span>
+Ikke lov: DoS, phishing mot ansatte
+Stopp-kontakt: Kari Nordmann</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>hvem som sier ja: eieren</span></li><li><span class="m h2"></span><span>når du får teste</span></li><li><span class="m h3"></span><span>maskinene du får teste</span></li><li><span class="m h4"></span><span>en maskin du <b>ikke</b> får røre</span></li></ul><p><code>cat</code> viser innholdet i en fil.</p></template></div>
+<div class="tm-o" data-cmd="grep Oppdragsgiver scope.txt" data-mal="Plukk ut bare linjen om hvem som har sagt ja:" data-alias="grep oppdragsgiver scope.txt|grep -i oppdragsgiver scope.txt"><template class="ut"><span class="h1">Oppdragsgiver</span>: Kari Nordmann, daglig leder (systemeier)</template><template class="forklar"><p><code>grep</code> viser bare linjene som inneholder ordet du søker etter 🔍. Store og små bokstaver teller.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="kari nordmann|kari"><span class="ans-q">Hvem er systemeier for Kanelsnurr AS?</span><input class="ans-in" placeholder="et navn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule linjen. Det <code>grep</code> fant.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Kari Nordmann</div></div></div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hvor mange maskiner står under «Innenfor»?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de grønne linjene.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Du har ingen <code>scope.txt</code> ennå. Lag en selv: <code>nano scope.txt</code>, skriv noen linjer, lagre med <b>Ctrl + O</b>, <b>Enter</b>, og gå ut med <b>Ctrl + X</b>. Prøv så <code>cat</code> og <code>grep</code> på den.<p class="e-win">Windows: <code>type scope.txt</code> og <code>findstr Oppdragsgiver scope.txt</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Jonas sier ja på vegne av naboen. Holder det? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Var det Jonas sin butikk?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="systemeieren|systemeier|eieren|eier"><span class="ans-q">Hvem er den eneste som kan gi tillatelse til å teste et system?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står i fagord-boksen. Den som eier systemet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">systemeieren</div></div></div>
+<div class="ans-row" data-p="1" data-a="webhotellet|webhotell|hostingleverandøren|leverandøren"><span class="ans-q">Nettbutikken ligger hos et webhotell. Hvem må også si ja før du tester serveren?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvem eier serveren, ifølge slutten av chatten?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">webhotellet</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · SCOPE ═══════════════════════ -->
+<div class="lab-card" id="l04-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">Scope: hvor går grensen?</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Innenfor eller utenfor</div>
+<p class="e-hook">Du har fått ja. Men ja til <b>hva</b>? Ett steg over streken, og du er tilbake på «ikke lov» 🚧</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Innenfor eller utenfor scope?" data-knapper="✅ Innenfor|🚫 Utenfor">
+  <div class="ly-fast">📄 Scope: <code>10.0.5.10</code> · <code>10.0.5.20</code> · <code>10.0.5.30</code> · 6.–7. oktober kl. 08–16 · ikke DoS, ikke phishing</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Riktig maskin, riktig dag, riktig tid.">Skanne filserveren 10.0.5.20 tirsdag 6. oktober kl. 10 🗄️</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Ruteren eies av leverandøren. Kanelsnurr kan ikke si ja til den.">Skanne ruteren 10.0.5.1 «bare kjapt» 📡</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Tidsrommet slutter kl. 16. Etter det har du ikke lov.">Fortsette skanningen kl. 22 samme kveld 🌙</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Står ikke på lista. Ikke på lista = ikke lov.">Skanne 10.0.6.15, som du oppdaget underveis 🔭</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Phishing mot ansatte står under «Ikke lov».">Sende en falsk e-post til de ansatte for å se om de klikker 🎣</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Kasse-PC-en er på lista, og onsdag kl. 09 er innenfor.">Teste kasse-PC-en 10.0.5.30 onsdag 7. oktober kl. 09 🧾</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Grensene heter <b>scope</b> (omfang). Det som står utenfor, har du ikke tillatelse til. Da er det like ulovlig som om du aldri fikk et ja.
+</div>
+<p class="e-sikker">🛑 Fant du noe utenfor scope? Ikke test det. Skriv det ned og spør eieren først.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="grep 10.0.5.20 scope.txt" data-mal="Står filserveren 10.0.5.20 i scope?" data-alias="grep &quot;10.0.5.20&quot; scope.txt|grep '10.0.5.20' scope.txt"><template class="ut">  <span class="h3">10.0.5.20</span>  filserver</template><template class="forklar"><p>✅ grep fant en linje. 10.0.5.20 står i scope.</p></template></div>
+<div class="tm-o" data-cmd="grep 10.0.6.15 scope.txt" data-mal="Står den nye maskinen 10.0.6.15 i scope?" data-alias="grep &quot;10.0.6.15&quot; scope.txt|grep '10.0.6.15' scope.txt" data-skjult data-hint="Samme kommando som over, med en ny IP."><template class="ut"><span class="dim">(ingen utskrift)</span></template><template class="forklar"><p>🚫 Ingen linje = ikke funnet. 10.0.6.15 står <b>ikke</b> i scope. Hold fingrene unna!</p></template></div>
+<div class="tm-o" data-cmd="grep -i &quot;ikke lov&quot; scope.txt" data-mal="Finn linjen om hva som ikke er lov:" data-alias="grep -i 'ikke lov' scope.txt|grep &quot;Ikke lov&quot; scope.txt|grep 'Ikke lov' scope.txt"><template class="ut"><span class="h4">Ikke lov</span>: DoS, phishing mot ansatte</template><template class="forklar"><p><code>-i</code> betyr «bry deg ikke om store og små bokstaver». Anførselstegnene holder <code>ikke lov</code> sammen som ett søk.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="filserver|filserveren"><span class="ans-q">Hva slags maskin er 10.0.5.20?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ordet etter IP-en i første oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">filserver</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Fant grep 10.0.6.15 i scope.txt? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kom det noen linje ut i andre oppdrag?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Bruk <code>scope.txt</code> du laget i oppgave 2. Søk etter en IP som står der, og én som ikke gjør det. Ingen utskrift betyr «ikke funnet».<p class="e-win">Windows: <code>findstr 10.0.5.20 scope.txt</code> og <code>findstr /i /c:"ikke lov" scope.txt</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Er ruteren 10.0.5.1 innenfor scope? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvem eier den? 📡</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="16|kl 16|klokka 16|16:00"><span class="ans-q">Hvilket klokkeslett må du senest stoppe testen hver dag?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på kortet med månen 🌙, eller på linjen «Tidsrom».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">16</div></div></div>
+<div class="ans-row" data-p="1" data-a="scope|omfang"><span class="ans-q">Hva heter grensene for testen, på engelsk?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Navnet på fila du søkte i. Fem bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">scope</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · ANSVARLIG VARSLING ═══════════════════════ -->
+<div class="lab-card" id="l04-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Du fant et hull. Hva nå?</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Ansvarlig varsling</div>
+<p class="e-hook">Bingo! 🎯 Filserveren lar hvem som helst lese alle filene. Det kribler i fingrene. Men hva gjør en proff nå?</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Fra funn til fiks" data-oppgave="Sett stegene i riktig rekkefølge.">
+  <div class="rf-item" data-forklar="Du har bevist at hullet finnes. Mer graving gir bare mer risiko.">🛑 Stopp. Ikke grav videre</div>
+  <div class="rf-item" data-forklar="Hva, når og hvordan. Uten persondata.">📝 Skriv det ned i testloggen</div>
+  <div class="rf-item" data-forklar="Privat, til kontakten i scope. Ikke på sosiale medier.">📞 Varsle systemeieren i stillhet</div>
+  <div class="rf-item" data-forklar="Eieren trenger tid til å fikse før noen andre får vite.">⏳ Gi eieren tid til å tette hullet</div>
+  <div class="rf-item" data-forklar="Først når hullet er tettet, og eieren er enig.">📢 Del lærdommen, uten hemmelige detaljer</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Dette heter <b>ansvarlig varsling</b> (responsible disclosure). Eieren får vite det først, og får tid til å fikse. En <b>etisk hacker</b> gjør det sånn. En kriminell bruker hullet, eller selger det.
+</div>
+<p class="e-sikker">💡 Fun fact: Mange nettsider har en fil som heter <code>security.txt</code>. Den forteller hvor du melder sikkerhetsfeil.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="curl http://10.0.5.10/.well-known/security.txt" data-mal="Finn ut hvor Kanelsnurr vil ha sikkerhetsvarsler:"><template class="ut"><span class="h1">Contact: mailto:sikkerhet@eksempel.no</span>
+<span class="h2">Expires: 2027-06-30T22:00:00.000Z</span>
+Preferred-Languages: no, en</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>hvor du sender varselet</span></li><li><span class="m h2"></span><span>når fila går ut på dato</span></li></ul><p><code>curl</code> henter en fil fra en webserver. Webserveren 10.0.5.10 er innenfor scope 👍</p></template></div>
+<div class="tm-o" data-cmd="sha256sum rapport.pdf" data-mal="Lag et fingeravtrykk av rapporten før du sender den:"><template class="ut"><span class="h1">e44420ff82b6b3a95b326c438527b715ba53e851acb89b06ac533211b0a99d3d</span>  rapport.pdf</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>sjekksummen: 64 tegn, fingeravtrykket til fila</span></li></ul><p>Send sjekksummen sammen med rapporten. Endres så mye som én bokstav, blir sjekksummen helt annerledes. Da ser alle at rapporten er tuklet med.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="sikkerhet@eksempel.no"><span class="ans-q">Hvilken e-postadresse skal du sende varselet til?</span><input class="ans-in" placeholder="en e-post"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står etter <code>mailto:</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">sikkerhet@eksempel.no</div></div></div>
+<div class="ans-row" data-p="1" data-a="e444|e44420"><span class="ans-q">Hva er de fire første tegnene i sjekksummen?</span><input class="ans-in" placeholder="fire tegn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Starten på den gule linjen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">e444</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag en fil og ta fingeravtrykket: <code>echo hei &gt; test.txt</code> og <code>sha256sum test.txt</code>. Endre fila med <code>echo Hei &gt; test.txt</code> og kjør <code>sha256sum</code> igjen. Se hvor mye som endrer seg!<p class="e-win">Windows: <code>certutil -hashfile test.txt SHA256</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="stopp|stoppe|stopper|stopp ikke grav videre"><span class="ans-q">Hva er det aller første du gjør når du finner et alvorlig hull?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Første steg i spillet 🛑.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">stopp</div></div></div>
+<div class="ans-row" data-p="1" data-a="systemeieren|systemeier|eieren|eier|kontaktpersonen"><span class="ans-q">Hvem skal få vite om hullet først?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den du ringte 📞 i spillet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">systemeieren</div></div></div>
+<div class="ans-row" data-p="1" data-a="security.txt|security txt"><span class="ans-q">Hva heter fila som forteller hvor du melder sikkerhetsfeil til en nettside?</span><input class="ans-in" placeholder="et filnavn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Du hentet den med <code>curl</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">security.txt</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · PERSONOPPLYSNINGER ═══════════════════════ -->
+<div class="lab-card" id="l04-5" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">Personopplysninger: se, men ikke ta</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — GDPR</div>
+<p class="e-hook">På filserveren ligger en fil som heter <code>notater.txt</code>. Noe av det er helt ufarlig. Noe handler om ekte mennesker 👤</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Finn personopplysningene" data-oppgave="Klikk på alt som kan knyttes til en bestemt person.">
+<pre>Åpningstider: <span class="kl" data-forklar="Gjelder butikken, ikke en person.">07-17</span>
+Pris kanelsnurr: <span class="kl" data-forklar="En pris sier ingenting om noen person.">39 kr</span>
+Gjestenett: <span class="kl" data-forklar="Navnet på et nettverk, ikke på en person.">Kanelsnurr-Gjest</span>
+Fast kunde: <span class="kl" data-rett data-forklar="Et navn peker rett på en person.">Kari Nordmann</span>
+E-post: <span class="kl" data-rett data-forklar="E-postadressen hører til én person.">kari.n@eksempel.no</span>
+Bor: <span class="kl" data-rett data-forklar="En hjemmeadresse kan knyttes til de som bor der.">Storgata 12, Sandefjord</span>
+Bursdag: <span class="kl" data-rett data-forklar="Fødselsdato sammen med navn identifiserer en person.">3. april 1988</span>
+Leverandør: <span class="kl" data-forklar="Et firma er ikke en person. GDPR handler om mennesker.">Mel &amp; Sukker AS</span></pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Alt som kan knyttes til en person, er en <b>personopplysning</b>. Reglene heter <b>GDPR</b>, og gjelder i Norge gjennom <b>personopplysningsloven</b>. Ett viktig prinsipp er <b>dataminimering</b>: ikke samle mer enn du trenger.
+</div>
+<p class="e-sikker">🔐 Under en test: <b>se, men ikke ta</b>. Noter at fila finnes og hva slags data den har. Ikke kopier den til din egen PC.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="head -3 kunder.csv" data-mal="Kikk på de tre første linjene i kundelista:" data-alias="head -n 3 kunder.csv|head -n3 kunder.csv"><template class="ut"><span class="h2">navn,epost,postnr</span>
+Emil Larsen,<span class="h1">emil.larsen14@eksempel.no</span>,3241
+Silje Johansen,<span class="h1">silje.johansen12@eksempel.no</span>,3211</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>overskriften: hva hver kolonne er</span></li><li><span class="m h1"></span><span>e-postadresser = personopplysninger</span></li></ul><p><code>head -3</code> viser bare starten. Nok til å se hva fila er, uten å lese alt. Det er dataminimering i praksis.</p></template></div>
+<div class="tm-o" data-cmd="grep -c &quot;@&quot; kunder.csv" data-mal="Tell hvor mange linjer som har en e-postadresse (tegnet @):" data-alias="grep -c @ kunder.csv|grep -c '@' kunder.csv"><template class="ut"><span class="h1">312</span></template><template class="forklar"><p><code>-c</code> betyr «count», tell. Du får bare et tall, og ser ingen av adressene 👍 312 kunder sine e-poster ligger åpent. Det er funnet ditt.</p></template></div>
+<div class="tm-o" data-cmd="wc -l kunder.csv" data-mal="Hvor mange linjer har fila totalt?" data-skjult data-hint="<code>wc</code> = word count. <code>-l</code> = lines."><template class="ut"><span class="h1">313</span> kunder.csv</template><template class="forklar"><p>313 linjer: 1 overskrift + 312 kunder. Tallet skriver du i rapporten. Selve fila blir der den er 🔒</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="312"><span class="ans-q">Hvor mange linjer i kunder.csv har en e-postadresse?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tallet fra <code>grep -c</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">312</div></div></div>
+<div class="ans-row" data-p="1" data-a="navn|navn epost postnr|epost"><span class="ans-q">Nevn én kolonne i fila som er en personopplysning.</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se den blå overskriftslinjen fra <code>head</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">epost</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Du har ingen kundeliste, og det er bra 😄 Prøv på en fil som finnes: <code>head -3 /etc/passwd</code> og <code>wc -l /etc/passwd</code>. Den lista har brukerne på maskinen din.<p class="e-win">Windows (PowerShell): <code>Get-Content kunder.csv -TotalCount 3</code> og <code>(Select-String "@" kunder.csv).Count</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Er en e-postadresse som kari.n@eksempel.no en personopplysning? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ble den grønn da du klikket på den i spillet?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Du finner kunder.csv under en godkjent test. Skal du kopiere den til din egen PC? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se, men ikke … 🔐</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="dataminimering|data minimering"><span class="ans-q">Hva heter prinsippet om å ikke samle mer persondata enn du trenger?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står i fagord-boksen. Starter med «data…».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">dataminimering</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 6 · LOGG OG ANSVAR ═══════════════════════ -->
+<div class="lab-card" id="l04-6" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">06</span>
+  <span class="lab-title">Testlogg: bevis på at du gjorde det riktig</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Logging og ansvar</div>
+<p class="e-hook">Kl. 10:15 går filserveren ned 💥 Var det deg? Eller noe annet? Uten notater kan du ikke bevise noen ting.</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hele leksjonen i seks par" data-oppgave="Koble ordet til det det betyr.">
+  <div class="pr-par" data-forklar="Uten lov = straffeloven § 204."><span>Datainnbrudd</span><span>Å skaffe seg tilgang uten lov</span></div>
+  <div class="pr-par" data-forklar="Ikke kompisen, ikke deg. Eieren."><span>Systemeier</span><span>Den eneste som kan si ja</span></div>
+  <div class="pr-par" data-forklar="Maskiner, tidsrom og hva som ikke er lov."><span>Scope</span><span>Grensene for testen</span></div>
+  <div class="pr-par" data-forklar="Eieren først, i stillhet."><span>Ansvarlig varsling</span><span>Si fra til eieren og gi tid til å fikse</span></div>
+  <div class="pr-par" data-forklar="Se, men ikke ta."><span>Dataminimering</span><span>Ikke samle mer persondata enn nødvendig</span></div>
+  <div class="pr-par" data-forklar="Hvem, hva og når. Beviset ditt."><span>Testlogg</span><span>Notater om hva du gjorde, og når</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+En <b>testlogg</b> viser hva du gjorde, når, og mot hvilken maskin. Den beskytter både kunden og deg. Skjer det noe rart, kan loggen vise om det var testen din.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="date" data-mal="Sjekk klokka før du starter neste skann." data-skjult data-hint="Samme kommando som i oppgave 1."><template class="ut"><span class="h2">Tue Oct  6</span> <span class="h1">10:14:03</span> CEST <span class="h2">2026</span></template><template class="forklar"><p>Klokka er <b>10:14</b>. Det skriver du i loggen nå.</p></template></div>
+<div class="tm-o" data-cmd="echo &quot;10:14 skann av 10.0.5.20 startet&quot; &gt;&gt; testlogg.txt" data-mal="Skriv en ny linje nederst i testloggen:" data-alias="echo '10:14 skann av 10.0.5.20 startet' &gt;&gt; testlogg.txt|echo 10:14 skann av 10.0.5.20 startet &gt;&gt; testlogg.txt"><template class="ut"><span class="dim">(ingen utskrift, teksten havnet i fila)</span></template><template class="forklar"><p><code>echo</code> skriver ut tekst. <code>&gt;&gt;</code> sender den til <b>slutten</b> av fila, uten å slette det som står der fra før.</p><p>⚠️ Én <code>&gt;</code> skriver over hele fila. Da er loggen borte!</p></template></div>
+<div class="tm-o" data-cmd="cat testlogg.txt" data-mal="Les hele testloggen." data-skjult data-hint="Samme kommando som viste scope-fila i oppgave 2."><template class="ut"><span class="dim">08:02 start, scope.txt lest</span>
+<span class="dim">09:15 skann av 10.0.5.10 ferdig</span>
+<span class="h1">10:14 skann av 10.0.5.20 startet</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>linjen du nettopp la til. De grå linjene sto der fra før.</span></li></ul><p>Nå kan du svare på «var det deg?» Skannet startet 10:14. Om det skadet serveren, må kunden og du finne ut sammen. Loggen er utgangspunktet.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="3|tre"><span class="ans-q">Hvor mange linjer har testloggen nå?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell linjene fra <code>cat testlogg.txt</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">3</div></div></div>
+<div class="ans-row" data-p="1" data-a="leste scope.txt|scope.txt lest|scope"><span class="ans-q">Hva var det første som skjedde i dag, ifølge loggen?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Første linje i loggen, kl. 08:02. Hvilken fil ble lest?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">leste scope.txt</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Start din egen logg: <code>echo "$(date) start" &gt;&gt; testlogg.txt</code>. <code>$(date)</code> setter inn klokka for deg. Kjør den to ganger, og se resultatet med <code>cat testlogg.txt</code>.<p class="e-win">Windows: <code>echo %date% %time% start &gt;&gt; testlogg.txt</code> og <code>type testlogg.txt</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="&gt;&gt;"><span class="ans-q">Hvilket tegn legger til nederst i en fil uten å slette det som står der? <code>&gt;</code> eller <code>&gt;&gt;</code></span><input class="ans-in" placeholder="tegn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se ⚠️-linjen etter andre oppdrag.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">&gt;&gt;</div></div></div>
+<div class="ans-row" data-p="1" data-a="whoami"><span class="ans-q">Hvilken kommando viser hvem du er logget inn som?</span><input class="ans-in" placeholder="en kommando"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Første oppdrag i oppgave 1. «Hvem er jeg?» på engelsk.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">whoami</div></div></div>
+<div class="ans-row" data-p="1" data-a="sha256sum"><span class="ans-q">Hvilken kommando lager et fingeravtrykk som viser at rapporten ikke er endret?</span><input class="ans-in" placeholder="en kommando"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Du brukte den på <code>rapport.pdf</code> i oppgave 4.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">sha256sum</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-inner">
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+</div></div></footer>
+<script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
+</body>
+</html>

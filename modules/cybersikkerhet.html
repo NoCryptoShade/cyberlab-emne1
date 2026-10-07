@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Å jobbe med cybersikkerhet — CyberLab</title>
+<link rel="stylesheet" href="../css/style.css?v=13">
+<link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+.x-epost{background:var(--bg3, #0d1117);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:15.5px;line-height:1.8;color:var(--text)}
+.x-epost .x-hode{border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:10px;color:var(--text2);font-size:14.5px;word-break:break-word}
+.x-epost .x-hode b{color:var(--text);font-weight:600}
+.x-epost p{margin:0 0 8px}
+</style>
+</head>
+<body class="page enkel">
+<nav class="nav">
+  <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
+  <div class="nav-links">
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="nav-link">Hjem</a>
+    <a href="../emne1.html" class="nav-link">Emne 1</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne3.html" class="nav-link">Emne 3</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="nav-link on">Labber</a>
+    <a href="https://tk1104.timoamling.com/" target="_blank" rel="noopener" class="nav-link">Self check &nearr;</a>
+  </div>
+</nav>
+
+<div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
+
+<div class="mod-hero">
+  <div class="section-eyebrow">Emne 1 &middot; Leksjon 1</div>
+  <div class="section-title">Å jobbe med cybersikkerhet</div>
+  <p class="section-desc">Hva passer vi på, hvem gjør jobben, og hvem prøver å komme inn? Fem små spill, og så noen spørsmål etter hvert.</p>
+</div>
+
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
+
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>Konfidensialitet</dt><dd>Ingen uvedkommende får se det. 👀</dd>
+    <dt>Integritet</dt><dd>Ingen har endret det uten lov. ✏️</dd>
+    <dt>Tilgjengelighet</dt><dd>Det er der når du trenger det. 🚫</dd>
+    <dt>CIA</dt><dd>De tre over, på engelsk: confidentiality, integrity, availability.</dd>
+    <dt>Hash</dt><dd>Et fingeravtrykk av en fil. <code>sha256sum</code> lager det.</dd>
+    <dt>Sikkerhetskopi</dt><dd>En ekstra kopi du kan hente tilbake. Backup på engelsk.</dd>
+    <dt>Logg</dt><dd>En fil der maskinen skriver ned hva som skjer.</dd>
+    <dt>SOC</dt><dd>Security Operations Center. Der noen følger med på varsler hele døgnet.</dd>
+    <dt>Blått lag</dt><dd>De som forsvarer.</dd>
+    <dt>Rødt lag</dt><dd>De som angriper, på oppdrag og med lov.</dd>
+    <dt>Trusselaktør</dt><dd>Noen som kan tenkes å angripe deg.</dd>
+    <dt>Innsider</dt><dd>En trusselaktør som allerede har tilgang.</dd>
+    <dt>Sosial manipulering</dt><dd>Å lure et menneske i stedet for en maskin.</dd>
+    <dt>Phishing</dt><dd>Falsk e-post som vil ha deg til å klikke eller logge inn.</dd>
+    <dt>Tofaktor</dt><dd>Passord + én ting til, for eksempel en kode på mobilen. 2FA.</dd>
+  </dl>
+</details>
+
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
+
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · CIA ═══════════════════════ -->
+<div class="lab-card" id="l01-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">De tre tingene vi beskytter</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Hva kan gå galt?</div>
+<p class="e-hook">Vaktmesteren i Storgata 12 har en perm med lista over alle som bor der 📒. Tre helt forskjellige ting kan gå galt med den. Hvilken er det hver gang?</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Hva gikk galt?" data-knapper="👀 Noen så den|✏️ Noen endret den|🚫 Den var borte">
+  <div class="ly-item" data-svar="0" data-hvorfor="Lista er riktig og fortsatt på plass. Men feil person har sett den.">📒 En fremmed tar bilde av leieboerlista i den ulåste kjelleren</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Lista er der, og ingen nye har sett den. Men den forteller ikke lenger sannheten.">✏️ Noen bytter ut et navn i leieboerlista</div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Ingen har lest den, ingen har endret den. Den er bare ikke der.">🔥 Permen er borte den dagen vaktmesteren trenger den</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Alle kan se fakturaen, og den er ikke borte. Men beløpet er feil.">💸 Noen endrer en faktura fra 5 000 til 50 000 kr</div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Ingenting er lest eller endret. Kundene kommer bare ikke inn.">🛒 Nettbutikken er nede i seks timer på Black Friday</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Innholdet er det samme, og du har den selv. Men noen andre har lest den.">📧 En e-post med lønnslista havner hos feil person</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Å slette linjer er også å endre. Loggen forteller ikke lenger hva som skjedde.">🧾 En innbruddstyv sletter tre linjer i loggen for å skjule sporene sine</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+👀 Ingen uvedkommende får se det: <b>konfidensialitet</b> (confidentiality)<br>
+✏️ Ingen endrer det uten lov: <b>integritet</b> (integrity)<br>
+🚫 Det er der når du trenger det: <b>tilgjengelighet</b> (availability)<br>
+Sammen kalles de <b>CIA</b>. Alt du gjør i faget handler om å verne én eller flere av dem.
+</div>
+<p class="e-sikker">🔐 Brutt tilgjengelighet kan du fikse med en sikkerhetskopi. Brutt konfidensialitet kan ikke gjøres om. Det som er lest, er lest.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat /etc/shadow" data-mal="Prøv å lese fila med alles passord-hasher:"><template class="ut">cat: /etc/shadow: <span class="h1">Permission denied</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>«Ingen tilgang». Bare <code>root</code> får lese denne fila.</span></li></ul><p>Det er <b>konfidensialitet</b> i praksis: maskinen nekter deg å se det du ikke skal se 👀🚫</p></template></div>
+<div class="tm-o" data-cmd="sha256sum leieboere.txt" data-mal="Ta fingeravtrykket av leieboerlista:"><template class="ut"><span class="h2">be9ddb2e13550732959dabd61b43be781ffa453119307297ba75e55d45a61193</span>  leieboere.txt</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>fingeravtrykket, en <b>hash</b>. Samme innhold gir alltid samme hash.</span></li></ul></template></div>
+<div class="tm-o" data-cmd="sha256sum leieboere.txt" data-mal="Noen har fjernet én bokstav i fila. Ta fingeravtrykket igjen." data-skjult data-hint="Samme kommando som i forrige oppdrag. Tips: pil opp ⬆️ henter den fram."><template class="ut"><span class="h1">8360be39de2643e57b5353916908bf42881b25913d70e3328015dc930eb70a9f</span>  leieboere.txt</template><template class="forklar"><p>«Nordmann» ble til «Nordman». Bare én bokstav, men hele hashen er ny 🤯</p><ul class="e-forklar"><li><span class="m h2"></span><span>før: <code>be9ddb2e…</code></span></li><li><span class="m h1"></span><span>etter: <code>8360be39…</code></span></li></ul><p>Slik sjekker du <b>integritet</b>: ny hash = noen har endret fila.</p></template></div>
+<div class="tm-o" data-cmd="uptime" data-mal="Hvor lenge har maskinen vært oppe?"><template class="ut"> 10:42:07 <span class="h3">up 3 days,  2:15</span>,  1 user,  load average: 0.08, 0.12, 0.10</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>maskinen har vært oppe i 3 døgn og 2 timer uten stopp</span></li></ul><p>Oppe og klar når du trenger den = <b>tilgjengelighet</b> 🟢</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="permission denied"><span class="ans-q">Hvilke to engelske ord svarte maskinen da du prøvde å lese /etc/shadow?</span><input class="ans-in" placeholder="to ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten i første utskrift.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">Permission denied</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Var de to fingeravtrykkene av leieboere.txt like? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Sammenlign de første tegnene: <code>be9d…</code> og <code>8360…</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>). Lag øvefila først, med akkurat denne kommandoen:<br><code>printf "Bod 12: Kari Hansen\nBod 13: Per Olsen\nBod 14: Ola Nordmann\n" &gt; leieboere.txt</code><br>Kjør <code>sha256sum leieboere.txt</code>. Hashen blir <b>helt lik</b> vår, fordi innholdet er likt 🎯 Fjern så én bokstav med <code>sed -i 's/Nordmann/Nordman/' leieboere.txt</code> og ta hashen igjen. <code>cat /etc/shadow</code> og <code>uptime</code> virker også. Tiden fra <code>uptime</code> blir en annen hos deg.<p class="e-win">Windows: <code>certutil -hashfile leieboere.txt SHA256</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="tilgjengelighet|tilgjengeligheten|tilgjengelighet 🚫"><span class="ans-q">Et løsepengevirus låser alle filene så ingen får åpnet dem, men kopierer ingenting ut. Hvilken av de tre er brutt?</span><input class="ans-in" placeholder="konfidensialitet / integritet / tilgjengelighet"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ingen har lest filene. Men kommer du til dem? Tenk på 🚫-knappen i spillet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">tilgjengelighet</div></div></div>
+<div class="ans-row" data-p="1" data-a="konfidensialitet|konfidensialiteten"><span class="ans-q">En kollega får ved en feil lesetilgang til lønnsmappa. Hun endrer ingenting, og alle andre kommer inn som før. Hva er brutt?</span><input class="ans-in" placeholder="konfidensialitet / integritet / tilgjengelighet"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ligner kortet med lønnslista på e-post 📧. At det var et uhell, endrer ingenting.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">konfidensialitet</div></div></div>
+<div class="ans-row" data-p="1" data-a="sha256sum|sha256"><span class="ans-q">Hvilken kommando lager fingeravtrykket som avslører at en fil er endret?</span><input class="ans-in" placeholder="en kommando"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Du brukte den to ganger i øve-terminalen. Starter med <code>sha</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">sha256sum</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · HINDRE, OPPDAGE, KOMME TILBAKE ═══════════════════════ -->
+<div class="lab-card" id="l01-2" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">Sikkerhetsarbeid er tre jobber, ikke én</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Før, under og etter</div>
+<p class="e-hook">Vaktmesteren kan ikke gjøre tyveri umulig 🤷 Så hva gjør han da? Sett sykkeltyveriet i riktig rekkefølge.</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Sykkeltyveriet i Storgata 12" data-oppgave="Fra start til slutt. Klikk det som skjer først.">
+  <div class="rf-item" data-forklar="Gjør det vanskeligere å komme inn.">🔐 Vaktmesteren setter kodelås på sykkelboden</div>
+  <div class="rf-item" data-forklar="Låsen holdt. Tyven fant bare en annen vei.">🪟 En tyv klatrer inn gjennom kjellervinduet</div>
+  <div class="rf-item" data-forklar="Nå vet noen at det skjedde, og når.">📹 Kameraet i kjelleren filmer ham</div>
+  <div class="rf-item" data-forklar="Hverdagen går videre selv om sykkelen er borte.">🚲 Neste morgen låner beboeren blokkas reservesykkel</div>
+  <div class="rf-item" data-forklar="Og så starter runden på nytt, bare litt bedre.">🪛 Uka etter får kjellervinduet gitter</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Det er alltid tre jobber: <b>hindre</b> 🔐, <b>oppdage</b> 📹 og <b>komme tilbake</b> 🚲.<br>
+I IT: passord og brannmur hindrer. Logger og varsler oppdager. <b>Sikkerhetskopi</b> (backup) får deg tilbake.
+</div>
+<p class="e-sikker">🕵️ De fleste bedrifter bruker mest penger på å hindre og minst på å oppdage. Derfor går mange innbrudd i månedsvis før noen merker dem.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="ls -l leieboere.txt" data-mal="Hvem får lese leieboerlista?" data-alias="ls -la leieboere.txt|ls -al leieboere.txt"><template class="ut">-<span class="h2">rw-</span><span class="h3">r--</span><span class="h1">r--</span> 1 kali kali 59 Oct  7 09:30 leieboere.txt</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>eieren (deg): <b>r</b>ead og <b>w</b>rite, lese og skrive</span></li><li><span class="m h3"></span><span>gruppa: bare lese</span></li><li><span class="m h1"></span><span>alle andre: kan også lese 😬</span></li></ul></template></div>
+<div class="tm-o" data-cmd="chmod 600 leieboere.txt" data-mal="Hindre: steng alle andre ute."><template class="ut"><span class="dim">(ingen utskrift betyr at det gikk bra)</span></template><template class="forklar"><p><code>chmod</code> endrer hvem som får gjøre hva. <code>600</code> betyr «bare eieren får lese og skrive». Det er en lås 🔐</p></template></div>
+<div class="tm-o" data-cmd="ls -l leieboere.txt" data-mal="Sjekk at låsen virker." data-alias="ls -la leieboere.txt|ls -al leieboere.txt" data-skjult data-hint="Samme kommando som i første oppdrag."><template class="ut">-<span class="h2">rw-</span><span class="h3">---</span><span class="h1">---</span> 1 kali kali 59 Oct  7 09:30 leieboere.txt</template><template class="forklar"><p>Strekene betyr «ingenting». Nå er det bare du som kommer inn 🔐</p></template></div>
+<div class="tm-o" data-cmd="cp -v leieboere.txt leieboere.bak" data-mal="Komme tilbake: lag en sikkerhetskopi."><template class="ut">'leieboere.txt' -&gt; '<span class="h3">leieboere.bak</span>'</template><template class="forklar"><p><code>cp</code> = copy, kopier. <code>-v</code> får den til å fortelle hva den gjorde. Blir originalen ødelagt, har du <code>leieboere.bak</code> 🚲</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Etter <code>chmod 600</code>: kan alle andre fortsatt lese fila? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på de tre siste tegnene i andre <code>ls -l</code>. Står det en <code>r</code> der?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="leieboere.bak"><span class="ans-q">Hva heter sikkerhetskopien du lagde?</span><input class="ans-in" placeholder="et filnavn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står etter pila <code>-&gt;</code> i siste utskrift.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">leieboere.bak</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Bruk <code>leieboere.txt</code> fra oppgave 1 og skriv de samme kommandoene. Dato og klokkeslett blir annerledes. Det er helt riktig!<p class="e-win">Windows: <code>icacls leieboere.txt</code> viser hvem som har tilgang, og <code>copy leieboere.txt leieboere.bak</code> lager kopien.</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="komme tilbake|å komme tilbake|komme seg tilbake"><span class="ans-q">En bedrift tar sikkerhetskopi av alle filene hver natt. Hvilken av de tre jobbene er det?</span><input class="ans-in" placeholder="hindre / oppdage / komme tilbake"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">En kopi stopper ingen og varsler ingen. Den er som reservesykkelen 🚲</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">komme tilbake</div></div></div>
+<div class="ans-row" data-p="1" data-a="oppdage|å oppdage"><span class="ans-q">Et selskap har brannmur og sikkerhetskopi, men ingen leser loggene. Hvilken jobb mangler?</span><input class="ans-in" placeholder="hindre / oppdage / komme tilbake"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Brannmur = lås 🔐. Kopi = reservesykkel 🚲. Hva mangler i kjelleren da?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">oppdage</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Vaktmesteren setter opp en lås ingen klarer å bryte opp. Er blokka nå helt sikker? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvordan kom tyven inn i spillet? 🪟</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · FIRE JOBBER ═══════════════════════ -->
+<div class="lab-card" id="l01-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">Fire vanlige jobber i bransjen</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Hvem gjør hva?</div>
+<p class="e-hook">Fire personer. Én sikkerhetsavdeling. En helt vanlig tirsdag ☕ Følg med på hvem som gjør hva.</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Kanalen #sikkerhet">
+  <div class="ch-item" data-fra="sys">📍 Sikkerhetsavdelingen i en norsk bedrift. Klokka er 09:12.</div>
+  <div class="ch-item" data-fra="nabo" data-navn="👀 Sara · følger med på varslene">Varsel nr. 212 i dag. Falsk alarm. Igjen 🙄</div>
+  <div class="ch-item" data-fra="nabo" data-navn="👀 Sara · følger med på varslene">Vent. Seks feil passord på kontoen admin. Og så kom de inn 😳 Dette er ekte. @Ali!</div>
+  <div class="ch-item" data-fra="pc" data-navn="🚒 Ali · rykker ut når noe har skjedd">Jeg tar den! Sperrer kontoen og kaster dem ut 🚒</div>
+  <div class="ch-item" data-fra="nabo" data-navn="📋 Kari · vurderer og gir råd">Jeg skrev i rapporten i fjor at admin må ha tofaktor. Nå skriver jeg det med STORE bokstaver 📋</div>
+  <div class="ch-item" data-fra="ond" data-navn="🔓 Jonas · bryter seg inn, med lov">Jeg kom inn på akkurat samme måte da sjefen ba meg teste oss i mars 😅</div>
+  <div class="ch-item" data-fra="sys">🤝 Tre av dem forsvarer. Én angriper. Alle fire jobber for den samme bedriften.</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+👀 Sara er <b>SOC-analytiker</b> (Security Operations Center).<br>
+🚒 Ali er <b>hendelseshåndterer</b> (incident responder).<br>
+📋 Kari er <b>sikkerhetsrådgiver</b>.<br>
+🔓 Jonas er <b>penetrasjonstester</b> (pentester).<br>
+De som forsvarer, er <b>blått lag</b> 🔵. De som angriper på oppdrag, er <b>rødt lag</b> 🔴.
+</div>
+<p class="e-sikker">🔔 Et SOC kan få hundrevis av varsler om dagen, og nesten alle er falske. Når alt piper, drukner det ene ekte varselet. Det kalles <b>varslingstretthet</b> (alert fatigue).</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="grep &quot;Failed password&quot; auth.log" data-mal="Gjør som Sara: finn alle feil passord i serverloggen." data-alias="grep 'Failed password' auth.log"><template class="ut">Oct  7 09:11:03 server sshd[1931]: <span class="h1">Failed password</span> for <span class="h4">admin</span> from <span class="h2">203.0.113.45</span> port 40122 ssh2
+Oct  7 09:11:06 server sshd[1931]: <span class="h1">Failed password</span> for <span class="h4">admin</span> from <span class="h2">203.0.113.45</span> port 40122 ssh2
+Oct  7 09:11:09 server sshd[1931]: <span class="h1">Failed password</span> for <span class="h4">admin</span> from <span class="h2">203.0.113.45</span> port 40122 ssh2
+Oct  7 09:11:14 server sshd[1935]: <span class="h1">Failed password</span> for <span class="h4">admin</span> from <span class="h2">203.0.113.45</span> port 40130 ssh2
+Oct  7 09:11:17 server sshd[1935]: <span class="h1">Failed password</span> for <span class="h4">admin</span> from <span class="h2">203.0.113.45</span> port 40130 ssh2
+Oct  7 09:11:20 server sshd[1935]: <span class="h1">Failed password</span> for <span class="h4">admin</span> from <span class="h2">203.0.113.45</span> port 40130 ssh2</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>feil passord</span></li><li><span class="m h4"></span><span>kontoen de prøvde</span></li><li><span class="m h2"></span><span>IP-adressen de prøvde fra</span></li></ul><p><code>grep</code> plukker ut bare linjene som inneholder teksten i anførselstegnene 🔎</p></template></div>
+<div class="tm-o" data-cmd="grep -c &quot;Failed password&quot; auth.log" data-mal="Tell dem i stedet for å se på dem:" data-alias="grep -c 'Failed password' auth.log|grep &quot;Failed password&quot; -c auth.log|grep &quot;Failed password&quot; auth.log -c"><template class="ut"><span class="h1">6</span></template><template class="forklar"><p><code>-c</code> = count, tell. Seks forsøk på 17 sekunder. Ingen skriver så fort for hånd. Det er et program 🤖</p></template></div>
+<div class="tm-o" data-cmd="grep &quot;Accepted&quot; auth.log" data-mal="Kom noen inn? Finn de vellykkede innloggingene." data-alias="grep Accepted auth.log|grep 'Accepted' auth.log" data-skjult data-hint="Samme som i første oppdrag, men let etter ordet <code>Accepted</code>."><template class="ut">Oct  7 08:58:02 server sshd[1874]: <span class="h3">Accepted</span> password for kali from <span class="dim">192.168.1.10</span> port 51544 ssh2
+Oct  7 09:11:24 server sshd[1940]: <span class="h3">Accepted</span> password for <span class="h4">admin</span> from <span class="h2">203.0.113.45</span> port 40138 ssh2</template><template class="forklar"><p>Første linje er deg, fra din egen PC. Helt vanlig.</p><p>Andre linje er alarmen 🚨: samme IP som alle feilforsøkene, og nå kom den inn. Her ville Sara ropt på Ali.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="6|seks"><span class="ans-q">Hvor mange feil passord står det i loggen?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det er tallet <code>grep -c</code> skrev ut.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">6</div></div></div>
+<div class="ans-row" data-p="1" data-a="203.0.113.45"><span class="ans-q">Fra hvilken IP-adresse kom angriperen inn på admin?</span><input class="ans-in" placeholder="fire tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå adressen på <code>Accepted</code>-linja for admin.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">203.0.113.45</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b><code>auth.log</code> finnes bare i øve-terminalen. Men du kan lage ditt eget spor! 🕵️<br>1. Skriv <code>sudo -k</code> og så <code>sudo ls</code>. Skriv <b>feil</b> passord med vilje, og trykk <b>Ctrl + C</b>.<br>2. Finn sporet: <code>sudo journalctl | grep "authentication failure"</code><p class="e-win">Windows: åpne <b>Logbokvisning</b> (Event Viewer) → Windows-logger → Sikkerhet. Mislykket pålogging har hendelses-ID <b>4625</b>.</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="1|en|én|ett"><span class="ans-q">Et SOC får 500 varsler på en dag. 499 er falske alarmer. Hvor mange ekte hendelser er det?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">500 minus 499. Og tenk på hvor lett den ene er å overse 🔔</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1</div></div></div>
+<div class="ans-row" data-p="1" data-a="rødt|rødt lag|rød|rodt"><span class="ans-q">Jonas bryter seg inn på oppdrag for å finne hull. Blått eller rødt lag?</span><input class="ans-in" placeholder="blått / rødt"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Han gjør det samme som en angriper, bare med lov. Hvilken farge hadde meldingen hans i chatten?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">rødt</div></div></div>
+<div class="ans-row" data-p="1" data-a="hendelseshåndterer|hendelseshåndtereren|incident responder|ali"><span class="ans-q">Hva heter jobben til den som rykker ut når et angrep allerede har skjedd?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det var Ali 🚒. Se i den blå fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">hendelseshåndterer</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · TRUSSELAKTØRER ═══════════════════════ -->
+<div class="lab-card" id="l01-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Hvem som angriper</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Hvem og hvorfor</div>
+<p class="e-hook">Fire personer vil inn i Storgata 12 🦹 Ingen av dem vil det samme. Hva er de egentlig ute etter?</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hva vil de ha?" data-oppgave="Koble hver person til det de er ute etter.">
+  <div class="pr-par" data-forklar="Han bryr seg ikke om hvilken sykkel. Den som er lettest å selge og ta, holder."><span>🚲 Han som prøver alle sykkellåsene og tar den første som er ulåst</span><span>💰 Penger</span></div>
+  <div class="pr-par" data-forklar="Hun er tålmodig og vet nøyaktig hva hun leter etter."><span>🕵️ Hun som har planlagt i ukevis fordi noe bestemt ligger i bod 14</span><span>📂 Informasjon</span></div>
+  <div class="pr-par" data-forklar="Han trenger ikke bryte seg inn. Han har jo nøkkel."><span>🔑 Den gamle beboeren som aldri leverte inn nøkkelen</span><span>🚪 Har allerede en vei inn</span></div>
+  <div class="pr-par" data-forklar="Poenget er at alle skal se det."><span>📢 Han som henger opp en plakat i oppgangen for en sak han brenner for</span><span>📣 Oppmerksomhet</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+De fire heter <b>trusselaktører</b> (threat actors):<br>
+💰 <b>Kriminelle</b> vil ha penger.<br>
+📂 <b>Statlige aktører</b> vil ha informasjon, og de er tålmodige.<br>
+🚪 <b>Innsidere</b> har allerede tilgang.<br>
+📣 <b>Hacktivister</b> vil ha oppmerksomhet om en sak.
+</div>
+<p class="e-sikker">🚲 «Vi er for små til at noen bryr seg» stemmer ikke. Programmer prøver hele internett og tar den som står åpen. Du blir ikke valgt ut. Du blir funnet.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="whoami" data-mal="Hvem er du på denne maskinen?"><template class="ut"><span class="h1">kali</span></template><template class="forklar"><p>«Who am I?» Du er brukeren <b>kali</b>. Du er altså allerede innenfor 🚪</p></template></div>
+<div class="tm-o" data-cmd="id" data-mal="Hvilke grupper er du med i?"><template class="ut">uid=1000(kali) gid=1000(kali) groups=1000(kali),4(adm),20(dialout),24(cdrom),25(floppy),<span class="h1">27(sudo)</span>,29(audio),30(dip),44(video),46(plugdev),100(users)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>gruppa <code>sudo</code>: du kan gjøre alt som sjef (administrator)</span></li></ul><p>Hver gruppe er en nøkkel til noe. Jo flere nøkler, jo mer kan en innsider gjøre 🔑</p></template></div>
+<div class="tm-o" data-cmd="getent group sudo" data-mal="Hvem andre har sjef-nøkkelen?"><template class="ut">sudo:x:27:<span class="h3">kali</span>,<span class="h1">per</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>deg</span></li><li><span class="m h1"></span><span><b>per</b>, som sluttet i mars 😬</span></li></ul><p>Per har fortsatt nøkkelen. Akkurat som den gamle beboeren i spillet. Da er han en <b>innsider</b>.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="kali"><span class="ans-q">Hvilket brukernavn er du logget inn med?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det <code>whoami</code> svarte.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">kali</div></div></div>
+<div class="ans-row" data-p="1" data-a="per"><span class="ans-q">Hvilken annen bruker er med i gruppa sudo?</span><input class="ans-in" placeholder="ett navn"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på slutten av linja fra <code>getent</code>. Den ene er deg.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">per</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv de samme kommandoene. Hos deg står det sikkert bare <code>kali</code> i sudo-gruppa. Det er bra! 😄 Gruppelista fra <code>id</code> kan være litt lengre eller kortere enn her.<p class="e-win">Windows: <code>whoami /groups</code> og <code>net localgroup administrators</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="innsider|innsideren|en innsider"><span class="ans-q">En ansatt slutter, men kontoen hennes virker fortsatt tre måneder etter. Er hun utenforstående eller innsider?</span><input class="ans-in" placeholder="utenforstående / innsider"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det er ikke hvor hun sitter som teller. Har hun en nøkkel 🔑, som Per?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">innsider</div></div></div>
+<div class="ans-row" data-p="1" data-a="penger"><span class="ans-q">Et løsepengeangrep rammer et sykehjem. Er motivet penger, informasjon eller oppmerksomhet?</span><input class="ans-in" placeholder="penger / informasjon / oppmerksomhet"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva ber de om for å gi filene tilbake?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">penger</div></div></div>
+<div class="ans-row" data-p="1" data-a="hacktivist|hacktivister|hacktivisme|en hacktivist"><span class="ans-q">Forsiden på nettstedet til en kommune byttes ut med et politisk budskap. Hva kalles en slik trusselaktør?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Han med plakaten i oppgangen 📢. Se fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">hacktivist</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · SOSIAL MANIPULERING ═══════════════════════ -->
+<div class="lab-card" id="l01-5" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">Den korteste veien inn går ofte gjennom et menneske</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Lurt, ikke hacket</div>
+<p class="e-hook">Kodelåsen på døra klarer ingen å bryte opp 🔐 Men en travel mann med en tung pakke holder du gjerne døra for. Her er han på e-post 📦</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Er det sjefen?" data-oppgave="Ola får denne e-posten. Finn de fire tegnene på at den er falsk.">
+<div class="x-epost">
+<div class="x-hode"><b>Fra:</b> Kari Berg &lt;kari.berg@<span class="kl" data-rett data-forklar="Se nøye: f-L-r-m-a. Firmaet heter firma.no. Falske domener ligner det ekte.">flrma.no</span>&gt;<br>
+<b>Til:</b> <span class="kl" data-forklar="Det er Olas ekte adresse. Den sier ingenting om avsenderen.">ola@firma.no</span><br>
+<b>Emne:</b> <span class="kl" data-rett data-forklar="Hastverk er det vanligste trikset. Du skal handle før du tenker.">HASTER!</span> Faktura må betales i dag</div>
+<p><span class="kl" data-forklar="En vanlig hilsen. Svindlere vet også hva du heter.">Hei Ola!</span></p>
+<p>Jeg sitter fast i møte og <span class="kl" data-rett data-forklar="De vil hindre at du ringer og sjekker. Det er akkurat det du skal gjøre!">kan ikke ta telefonen</span>.<br>
+Logg inn her og godkjenn fakturaen før kl. 12:<br>
+<span class="kl" data-rett data-forklar="Lenken går til flrma.no, en falsk side som ser ut som den ekte. Passordet havner hos avsenderen.">https://flrma.no/logg-inn</span></p>
+<p><span class="kl" data-forklar="Navn og tittel er lett å finne på nettsida til firmaet.">Hilsen Kari, daglig leder</span></p>
+</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Å lure et menneske i stedet for en maskin heter <b>sosial manipulering</b> (social engineering).<br>
+En falsk e-post som vil ha deg til å klikke eller logge inn, heter <b>phishing</b> 🎣.
+</div>
+<p class="e-sikker">📱 Med <b>tofaktor</b> (2FA) trenger du passord <b>og</b> en kode på mobilen. Blir du lurt til å gi bort passordet, kommer angriperen likevel ikke inn. Det er et av få tiltak som virker <i>etter</i> at noen er lurt.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="head -n 5 epost.eml" data-mal="Se toppen av e-posten, der avsenderen står:" data-alias="head -5 epost.eml|head -n5 epost.eml"><template class="ut">From: Kari Berg &lt;kari.berg@<span class="h1">flrma.no</span>&gt;
+<span class="h2">Reply-To: kari.berg.privat@gmail.com</span>
+To: ola@firma.no
+Subject: HASTER! Faktura må betales i dag
+Date: Tue, 7 Oct 2026 09:14:22 +0200</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>det falske domenet</span></li><li><span class="m h2"></span><span><b>Reply-To</b>: trykker Ola «Svar», går svaret hit. Ikke til firmaet 🎣</span></li></ul><p><code>head</code> viser de første linjene. <code>-n 5</code> = fem linjer.</p></template></div>
+<div class="tm-o" data-cmd="grep http epost.eml" data-mal="Plukk ut lenken." data-alias="grep &quot;http&quot; epost.eml|grep 'http' epost.eml|grep https epost.eml" data-skjult data-hint="Bruk <code>grep</code> som Sara i oppgave 3. Let etter <code>http</code>."><template class="ut"><span class="h1">https://flrma.no</span>/logg-inn</template><template class="forklar"><p>Det er domenet rett etter <code>https://</code> som bestemmer hvor du havner. Her: <b>flrma.no</b> ❌</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="flrma.no|flrma"><span class="ans-q">Hvilket domene går lenken til?</span><input class="ans-in" placeholder="noe.no"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det som står rett etter <code>https://</code>, fram til neste <code>/</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">flrma.no</div></div></div>
+<div class="ans-row" data-p="1" data-a="kari.berg.privat@gmail.com"><span class="ans-q">Ola trykker «Svar». Hvilken adresse går svaret til?</span><input class="ans-in" placeholder="en e-postadresse"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå linja: <code>Reply-To</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">kari.berg.privat@gmail.com</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b><code>epost.eml</code> finnes bare i øve-terminalen. Men alle e-poster har de samme linjene! I Gmail: åpne en e-post, trykk <b>⋮</b> og <b>Vis original</b>. Se etter <code>From:</code> og <code>Reply-To:</code>. Lagrer du den som en fil, virker <code>head</code> og <code>grep</code> på den også.<p class="e-win">Windows (Outlook): åpne e-posten → Fil → Egenskaper. Linjene står under «Internett-hoder».</p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="menneskelig|menneske|mennesket"><span class="ans-q">En ansatt gir passordet sitt på telefon til en som sier han er fra IT. Er svakheten teknisk eller menneskelig?</span><input class="ans-in" placeholder="teknisk / menneskelig"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Ble det brukt et hull i et program her? Eller ble noen lurt, som Ola?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">menneskelig</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">En bedrift kjøper en dyrere brannmur etter at en ansatt ble lurt av phishing. Løser det problemet som faktisk skjedde? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Var det låsen eller pakkemannen som var problemet? 📦</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="tofaktor|2fa|to-faktor|tofaktorautentisering|totrinnsbekreftelse|mfa|flerfaktor"><span class="ans-q">Ola ble lurt og ga bort passordet. Hva kunne likevel stoppet angriperen fra å logge inn?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står i den gule boksen 📱. Det Kari skrev med STORE bokstaver i oppgave 3.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">tofaktor</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-inner">
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+</div></div></footer>
+<script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
+</body>
+</html>

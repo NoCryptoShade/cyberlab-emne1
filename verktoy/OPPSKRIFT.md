@@ -78,6 +78,8 @@ Attributter skrives med doble anførselstegn, så bruk «» inni teksten.
 ```
 
 - Svarsjekken er romslig (store/små bokstaver, «ca.», tall i setninger). List likevel vanlige varianter i `data-a`.
+- Svarsjekken fjerner tegnsetting (`. , ; : ! ? " ' ` ( ) [ ]`). Er svaret selve tegnene (`!=`, `:`, `>>`, `()`),
+  bruk flervalg (`.mcq`) i stedet, ellers godtas feil svar. Flervalg sammenligner teksten nøyaktig.
 - Teksten i `.ah-box.sv` (fasiten) **må** godtas av `data-a`. Testen sjekker det.
 - Hint skal peke på noe studenten har gjort: «Hvor mange pakker klikket du på i spillet?»
 

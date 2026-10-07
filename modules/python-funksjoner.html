@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fem linjer med et navn — CyberLab</title>
+<link rel="stylesheet" href="../css/style.css?v=13">
+<link rel="stylesheet" href="../css/lab-shared.css?v=13">
+<link rel="stylesheet" href="../css/enkel.css?v=5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+.x-kode{margin-bottom:12px !important;color:var(--text) !important}
+.x-kode .x-k{color:var(--blue)}
+.x-kode .x-t{color:var(--green)}
+.ly-fast .x-kode{margin:0 !important}
+.enkel code,.enkel pre,.enkel .ans-in,.enkel .tm-vindu{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0}
+.rf-k code,.rf-svar code{font-size:14px;white-space:pre}
+</style>
+</head>
+<body class="page enkel">
+<nav class="nav">
+  <div class="nav-logo"><span class="bracket">[</span>CyberLab<span class="bracket">]</span></div>
+  <div class="nav-links">
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/index.html" class="nav-link">Hjem</a>
+    <a href="../emne1.html" class="nav-link">Emne 1</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/emne3.html" class="nav-link">Emne 3</a>
+    <a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="nav-link on">Labber</a>
+    <a href="https://tk1104.timoamling.com/" target="_blank" rel="noopener" class="nav-link">Self check &nearr;</a>
+  </div>
+</nav>
+
+<div class="container-sm page" style="padding-top:40px;padding-bottom:80px">
+<a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="back-link">&larr; Tilbake</a>
+
+<div class="mod-hero">
+  <div class="section-eyebrow">Emne 1 &middot; Leksjon 18</div>
+  <div class="section-title">Fem linjer med et navn</div>
+  <p class="section-desc">Funksjoner, parametre og retur. Lese en fil uten å glemme å lukke den. Fem små spill, og så noen spørsmål etter hvert.</p>
+</div>
+
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>💻 Så terminalen</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
+</div>
+
+<details class="e-ordliste">
+  <summary>📖 Glemt et ord? Ordliste</summary>
+  <dl>
+    <dt>Funksjon</dt><dd>Kode med et navn. Skrives én gang, brukes så mange ganger du vil. Function på engelsk.</dd>
+    <dt>def</dt><dd>Ordet som lager en funksjon: <code>def hils():</code></dd>
+    <dt>Kalle</dt><dd>Å bruke en funksjon: navnet og parenteser, <code>hils()</code>. Call på engelsk.</dd>
+    <dt>Parameter</dt><dd>Navnet på en «ingrediens» i def-linja, for eksempel <code>ip</code>.</dd>
+    <dt>Argument</dt><dd>Verdien du sender med når du kaller, for eksempel <code>"203.0.113.45"</code>.</dd>
+    <dt>Standardverdi</dt><dd>Verdi en parameter får hvis du ikke sender med noe: <code>niva="🟡"</code>. Default value.</dd>
+    <dt>return</dt><dd>Gir en verdi tilbake til den som kalte funksjonen.</dd>
+    <dt>None</dt><dd>Pythons «ingenting». Det en funksjon uten <code>return</code> gir tilbake.</dd>
+    <dt>Lokal variabel</dt><dd>En variabel laget inni en funksjon. Finnes bare der inne.</dd>
+    <dt>with</dt><dd><code>with open("fil") as f:</code> åpner en fil og lukker den automatisk etterpå.</dd>
+    <dt>f.read()</dt><dd>Hele fila som én lang tekst.</dd>
+    <dt>FileNotFoundError</dt><dd>Python-feilen når fila du prøver å åpne, ikke finnes.</dd>
+    <dt>nano</dt><dd>En enkel teksteditor i terminalen.</dd>
+  </dl>
+</details>
+
+<div class="progress-wrap">
+  <div class="progress-label"><span>Fremdrift</span><span id="progressLabel">0 / 0 fullf&oslash;rt</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="filter-row">
+  <button class="filter-pill active-all" onclick="setFilter('all',this)">Alle</button>
+  <button class="filter-pill" onclick="setFilter('easy',this)">Lett</button>
+  <button class="filter-pill" onclick="setFilter('medium',this)">Middels</button>
+  <button class="filter-pill" onclick="setFilter('hard',this)">Vanskelig</button>
+</div>
+
+<div class="tasks">
+
+<!-- ═══════════════════════ 1 · DEF OG KALL ═══════════════════════ -->
+<div class="lab-card" id="l18-1" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">01</span>
+  <span class="lab-title">Oppskriftskortet: def og kall</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Gi koden et navn</div>
+<p class="e-hook">Tenk deg et oppskriftskort 📇. Du skriver det én gang, setter et navn på det, og legger det i skuffen. Når du trenger det, sier du bare navnet. Men <b>når</b> skjer hva?</p>
+
+<div class="e-spill" data-spill="rekkefolge" data-tittel="🧩 Hva skjer først?" data-oppgave="Python kjører koden over, linje for linje. Sett det som skjer i riktig rekkefølge.">
+<pre class="x-kode"><span class="x-k">def</span> hils():
+    print(<span class="x-t">"Hei fra funksjonen 👋"</span>)
+
+print(<span class="x-t">"Start"</span>)
+hils()
+print(<span class="x-t">"Slutt"</span>)</pre>
+  <div class="rf-item" data-forklar="def kjører ikke koden inni. Den lagrer bare oppskriften under navnet hils.">📇 Python leser <code>def hils():</code> og legger kortet i skuffen</div>
+  <div class="rf-item" data-forklar="Første linje uten innrykk etter def. Den kjører med en gang.">🖨️ Skjermen viser «Start»</div>
+  <div class="rf-item" data-forklar="Navn + parenteser = kall. Nå hentes kortet fram.">📞 <code>hils()</code>: Python hopper inn i funksjonen</div>
+  <div class="rf-item" data-forklar="Først nå kjører linja inni funksjonen.">👋 Skjermen viser «Hei fra funksjonen»</div>
+  <div class="rf-item" data-forklar="Funksjonen er ferdig. Python fortsetter rett etter kallet.">↩️ Python hopper tilbake dit kallet sto</div>
+  <div class="rf-item" data-forklar="Siste linje i programmet.">🖨️ Skjermen viser «Slutt»</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+En <b>funksjon</b> (function) er kode med et navn. <code>def</code> lager den: navn, parenteser og kolon, og innrykk under, som med <code>if</code> i L16. Å bruke den heter å <b>kalle</b> den (call): <code>hils()</code>
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat hils.py" data-mal="Se på programmet. Her kalles funksjonen to ganger:"><template class="ut"><span class="h2">def hils():</span>
+    print("Hei fra funksjonen 👋")
+
+print("Start")
+<span class="h1">hils()</span>
+<span class="h1">hils()</span>
+print("Slutt")</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>oppskriften skrives én gang</span></li><li><span class="m h1"></span><span>to kall: kortet hentes fram to ganger</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 hils.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet, som i L16."><template class="ut">Start
+<span class="h1">Hei fra funksjonen 👋</span>
+<span class="h1">Hei fra funksjonen 👋</span>
+Slutt</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>én linje per kall</span></li></ul><p>Én oppskrift, to kall 🎯 Med 100 kall hadde du fortsatt bare trengt å skrive oppskriften én gang.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvor mange ganger står «Hei fra funksjonen» i utskriften?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de gule linjene under <code>python3 hils.py</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Åpne terminalen (<b>Ctrl + Alt + T</b>) og skriv <code>nano hils.py</code>. Skriv inn koden fra øve-terminalen, med <b>4 mellomrom</b> foran print-linja inni funksjonen. Lagre med <b>Ctrl + O</b> og <b>Enter</b>, avslutt med <b>Ctrl + X</b>. Kjør <code>python3 hils.py</code>. Legg så til en tredje <code>hils()</code> og kjør igjen 🔁<p class="e-win">Windows: skriv koden i Notisblokk, lagre som <code>hils.py</code> og kjør <code>python hils.py</code></p></div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="def"><span class="ans-q">Hvilket ord starter en funksjon i Python?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det blå ordet i første linje av koden i spillet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">def</div></div></div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Du sletter begge hils()-linjene i hils.py, men beholder def. Hvor mange linjer skrives ut?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Første steg i spillet: def legger bare kortet i skuffen. Hvem henter det fram nå?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+<div class="mcq" data-c="35699334" data-ok="Riktig! Navn + parenteser = kall." data-no="Ikke helt. def lager funksjonen, og navnet alene gjør ingenting. Hva hadde linjene som ble gule i hils.py?"><div class="mcq-q">Hvilken linje kjører funksjonen?</div><button class="mcq-opt">def hils():</button><button class="mcq-opt">hils</button><button class="mcq-opt">hils()</button><div class="mcq-fb"></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 2 · PARAMETRE ═══════════════════════ -->
+<div class="lab-card" id="l18-2" data-level="easy">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">02</span>
+  <span class="lab-title">Ingredienser: parametre og argumenter</span>
+  <div class="lab-meta"><span class="badge badge-easy">Lett</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-1">Nivå 1 — Samme oppskrift, nye ingredienser</div>
+<p class="e-hook">Pannekakeoppskriften virker med 2 egg og med 4 🥞 En funksjon kan også få nye «ingredienser» hver gang du kaller den.</p>
+
+<div class="e-spill" data-spill="par" data-tittel="🔗 Hva skriver varsle ut?" data-oppgave="Koble hvert kall til det som kommer på skjermen.">
+<pre class="x-kode"><span class="x-k">def</span> varsle(ip, niva=<span class="x-t">"🟡"</span>):
+    print(niva, <span class="x-t">"Sjekk"</span>, ip)</pre>
+  <div class="pr-par" data-forklar="Ingen nivå sendt med? Da brukes standardverdien 🟡."><span><code>varsle("203.0.113.45")</code></span><span>🟡 Sjekk 203.0.113.45</span></div>
+  <div class="pr-par" data-forklar="Nå sendte du med 🔴. Den vinner over standardverdien."><span><code>varsle("203.0.113.45", "🔴")</code></span><span>🔴 Sjekk 203.0.113.45</span></div>
+  <div class="pr-par" data-forklar="Første verdi havner i ip, andre i niva."><span><code>varsle("198.51.100.23", "🟠")</code></span><span>🟠 Sjekk 198.51.100.23</span></div>
+  <div class="pr-par" data-forklar="Lurt! Rekkefølgen bestemmer. 🔴 havnet i ip og IP-adressen i niva. Python sjekker ikke om det er fornuftig 🙃"><span><code>varsle("🔴", "192.168.1.10")</code></span><span>192.168.1.10 Sjekk 🔴</span></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>ip</code> og <code>niva</code> i def-linja er <b>parametre</b> (parameters): tomme plasser i oppskriften. Verdiene du sender med i kallet, er <b>argumenter</b> (arguments). De fylles inn i samme rekkefølge.<br>
+<code>niva="🟡"</code> er en <b>standardverdi</b> (default value). Den brukes når du ikke sender med noe.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat varsle.py" data-mal="Se på programmet:"><template class="ut">def varsle(<span class="h2">ip</span>, <span class="h2">niva="🟡"</span>):
+    print(niva, "Sjekk", ip)
+
+varsle(<span class="h1">"192.168.1.10"</span>)
+varsle(<span class="h1">"203.0.113.45"</span>, <span class="h1">"🔴"</span>)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>parametrene: plassene i oppskriften</span></li><li><span class="m h1"></span><span>argumentene: det som fylles inn</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 varsle.py" data-mal="Kjør det." data-skjult data-hint="Samme som i oppgave 1, med <code>varsle.py</code>."><template class="ut"><span class="h3">🟡</span> Sjekk 192.168.1.10
+🔴 Sjekk 203.0.113.45</template><template class="forklar"><ul class="e-forklar"><li><span class="m h3"></span><span>standardverdien, fordi første kall bare sendte med ett argument</span></li></ul></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="gul|🟡|gult"><span class="ans-q">Hvilken farge fikk 192.168.1.10? gul eller rød</span><input class="ans-in" placeholder="gul / rød"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se første linje under <code>python3 varsle.py</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">gul</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Skriv <code>nano varsle.py</code>, lim inn koden og lagre (<b>Ctrl + O</b>, <b>Enter</b>, <b>Ctrl + X</b>). Kjør <code>python3 varsle.py</code>. Legg så til et kall med dine egne argumenter, for eksempel <code>varsle("198.51.100.23", "🟠")</code> 🎯<br>Vanskelig å skrive emoji? Bruk tekst i stedet, som <code>"GUL"</code> og <code>"RØD"</code>.</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvor mange parametre har varsle?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tell de blå i def-linja i <code>cat varsle.py</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+<div class="ans-row" data-p="1" data-a="argument|et argument|argumenter"><span class="ans-q">I kallet varsle("203.0.113.45"): er "203.0.113.45" en parameter eller et argument?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står det i def-linja, eller i kallet? Se fargene i <code>cat varsle.py</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">argument</div></div></div>
+<div class="ans-row" data-p="1" data-a="standardverdi|standardverdien|default value|default|standardverdier"><span class="ans-q">Hva kalles verdien en parameter får når du ikke sender med noe?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det første paret i spillet: 🟡 kom av seg selv. Ordet står i den blå fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">standardverdi</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 3 · RETURN ═══════════════════════ -->
+<div class="lab-card" id="l18-3" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">03</span>
+  <span class="lab-title">print eller return?</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Å få svaret tilbake</div>
+<p class="e-hook">To funksjoner regner ut det samme. Den ene <b>roper</b> svaret ut på skjermen 📢. Den andre <b>gir</b> det til deg 🎁. Bare én av dem kan du bruke videre.</p>
+
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Hva er x nå?" data-knapper="5|10|None">
+  <div class="ly-fast"><pre class="x-kode"><span class="x-k">def</span> med_print(a, b):
+    print(a + b)
+
+<span class="x-k">def</span> med_return(a, b):
+    <span class="x-k">return</span> a + b</pre></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="return gir 5 tilbake, og x tar imot."><code>x = med_return(2, 3)</code></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Skjermen viser 5 📢, men funksjonen gir ingenting tilbake. x blir None."><code>x = med_print(2, 3)</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="5 + 5 kommer tilbake. x er 10."><code>x = med_return(5, 5)</code></div>
+  <div class="ly-item" data-svar="2" data-hvorfor="Lurt! 10 står på skjermen, men x får ingenting. None."><code>x = med_print(4, 6)</code></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="5 kommer tilbake, og 5 * 2 er 10. Det går fordi return ga et ekte tall."><code>x = med_return(2, 3) * 2</code></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="1 + 4 er 5, og return gir det videre."><code>x = med_return(1, 4)</code></div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>return</code> gir en verdi <b>tilbake</b> til den som kalte funksjonen. <code>print</code> viser bare noe på skjermen. En funksjon uten <code>return</code> gir tilbake <code>None</code>, Pythons «ingenting».<br>
+Variabler laget inni en funksjon er <b>lokale</b> (local variables). De forsvinner når funksjonen er ferdig. <code>return</code> er den vanlige veien ut.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat retur.py" data-mal="Se på programmet:"><template class="ut">def med_print(a, b):
+    <span class="h1">print(a + b)</span>
+
+def med_return(a, b):
+    <span class="h3">return a + b</span>
+
+x = med_print(2, 3)
+y = med_return(2, 3)
+print("x er", x)
+print("y er", y)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>roper svaret ut</span></li><li><span class="m h3"></span><span>gir svaret tilbake</span></li></ul><p>Gjett før du kjører: hvor mange linjer kommer ut? 🤔</p></template></div>
+<div class="tm-o" data-cmd="python3 retur.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet."><template class="ut"><span class="h1">5</span>
+x er <span class="h2">None</span>
+y er <span class="h3">5</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>dette skrev med_print selv, inni funksjonen</span></li><li><span class="m h2"></span><span>x fikk ingenting tilbake</span></li><li><span class="m h3"></span><span>y fikk tallet</span></li></ul></template></div>
+<div class="tm-o" data-cmd="cat lokal.py" data-mal="Se på et program som prøver å nå en lokal variabel." data-skjult data-hint="Samme som første oppdrag, med <code>lokal.py</code>."><template class="ut">def tell():
+    <span class="h2">antall = 3</span>
+    return antall
+
+svar = tell()
+print("svar er", svar)
+<span class="h1">print("antall er", antall)</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>antall lages inni funksjonen</span></li><li><span class="m h1"></span><span>…og brukes utenfor. Går det? 🤔</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 lokal.py" data-mal="Kjør den." data-skjult data-hint="Samme som andre oppdrag, med <code>lokal.py</code>."><template class="ut">svar er 3
+<span style="color:var(--red)">Traceback (most recent call last):
+  File "/home/kali/lokal.py", line <span class="h2">7</span>, in &lt;module&gt;
+    print("antall er", antall)
+                       ^^^^^^
+<span class="h1">NameError</span>: name 'antall' is not defined</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>feiltypen: Python kjenner ikke navnet</span></li><li><span class="m h2"></span><span>linja der det smalt</span></li></ul><p><code>svar</code> fikk 3 via <code>return</code> ✅ Men <code>antall</code> forsvant da funksjonen var ferdig 💨</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="none"><span class="ans-q">Hva ble x i retur.py?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den blå biten i <code>python3 retur.py</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">None</div></div></div>
+<div class="ans-row" data-p="1" data-a="nameerror|name error"><span class="ans-q">Hvilken feiltype fikk lokal.py?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten på siste linje av feilmeldingen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">NameError</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag <code>retur.py</code> og <code>lokal.py</code> med nano, akkurat som i oppgave 1. Kjør begge med <code>python3</code>. Står fila di i en annen mappe enn <code>/home/kali</code>, står stien din i feilmeldingen. Det er helt riktig!<br>Prøv så å bytte siste linje i lokal.py til <code>print("antall er", svar)</code>. Nå virker det 🎉</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="return"><span class="ans-q">Hvilket ord gir en verdi tilbake fra en funksjon?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den grønne linja i <code>cat retur.py</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">return</div></div></div>
+<div class="ans-row" data-p="1" data-a="none"><span class="ans-q">En funksjon har print, men ingen return. Hva gir den tilbake?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den tredje knappen i lynrunden.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">None</div></div></div>
+<div class="ans-row" data-p="1" data-a="9|ni"><span class="ans-q">def dobbel(t): return t * 2. Hva blir x = dobbel(4) + 1?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Først kommer 4 * 2 tilbake. Så + 1. Som kortet med <code>* 2</code> i lynrunden.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">9</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 4 · WITH OPEN ═══════════════════════ -->
+<div class="lab-card" id="l18-4" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">04</span>
+  <span class="lab-title">Lån fila, lever den tilbake: with</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Filer på den trygge måten</div>
+<p class="e-hook">I L16 åpnet du auth.log med <code>open()</code>. Men hvem lukket den igjen? 🚪</p>
+
+<div class="e-spill" data-spill="chat" data-tittel="💬 Programmet låner en fil">
+  <div class="ch-item" data-fra="sys">📍 les2.py vil lese auth.log</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 les2.py"><code>with open("auth.log") as f:</code> Kan jeg låne auth.log? Jeg kaller den <code>f</code>.</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🐧 Linux">Værsågod, fila er åpen. Husk å levere den tilbake 🙏</div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 les2.py"><code>for linje in f:</code> Én linje om gangen, takk. Accepted… Failed… Failed…</div>
+  <div class="ch-item" data-stopp="⏩ Spol fram til siste linje"></div>
+  <div class="ch-item" data-fra="pc" data-navn="🐍 les2.py">…Connection. Det var den siste. Blokken med innrykk er ferdig.</div>
+  <div class="ch-item" data-fra="sys">🚪 <code>with</code> lukker fila automatisk. Ingen trenger å huske noe.</div>
+  <div class="ch-item" data-fra="nabo" data-navn="🐧 Linux">Fila er levert tilbake 👍</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 auth.logg">Og hvis noen skriver feil filnavn? Da finnes ikke jeg 😈</div>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+<code>with open("auth.log") as f:</code> åpner fila og gir den navnet <code>f</code>. Når blokken med innrykk er ferdig, <b>lukkes fila automatisk</b>, også om programmet krasjer inni. Med bare <code>open()</code> må du huske <code>f.close()</code> selv.<br>
+<code>for linje in f</code> gir én linje om gangen. <code>f.read()</code> gir hele fila som én lang tekst.
+</div>
+<p class="e-sikker">🔥 Et program som åpner filer i en løkke uten å lukke dem, kan gå tom for filhåndtak. Da stopper det med «Too many open files». Et klassisk problem i loggverktøy som kjører lenge.</p>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat les2.py" data-mal="Se på programmet. Det er les.py fra L16, men med with:"><template class="ut"><span class="h2">with open("auth.log") as f:</span>
+    for linje in f:
+        deler = linje.split()
+        print(deler[5])
+<span class="h1">print("Lukket?", f.closed)</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>lån fila, kall den <code>f</code></span></li><li><span class="m h1"></span><span>etter blokken: spør om fila er lukket</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 les2.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet."><template class="ut">Accepted
+Failed
+Failed
+Failed
+Failed
+Accepted
+Failed
+Connection
+Lukket? <span class="h1">True</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>fila ble lukket av seg selv 🚪</span></li></ul><p>Samme åtte ord som i L16. Bare tryggere.</p></template></div>
+<div class="tm-o" data-cmd="cat borte.py" data-mal="Se på et program med en skrivefeil i filnavnet." data-skjult data-hint="Samme som første oppdrag, med <code>borte.py</code>."><template class="ut">with open(<span class="h1">"auth.logg"</span>) as f:
+    print(f.read())</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>én g for mye</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 borte.py" data-mal="Kjør den." data-skjult data-hint="Samme som andre oppdrag, med <code>borte.py</code>."><template class="ut"><span style="color:var(--red)">Traceback (most recent call last):
+  File "/home/kali/borte.py", line 1, in &lt;module&gt;
+    with open("auth.logg") as f:
+         ~~~~^^^^^^^^^^^^^
+<span class="h1">FileNotFoundError</span>: [Errno 2] No such file or directory: <span class="h2">'auth.logg'</span></span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>feiltypen: fila finnes ikke</span></li><li><span class="m h2"></span><span>navnet Python lette etter</span></li></ul><p>Programmet stopper med en gang 🛑 Hvordan du fanger slike feil, lærer du i L20.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="true"><span class="ans-q">Hva svarte les2.py på «Lukket?»</span><input class="ans-in" placeholder="True / False"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Siste linje under <code>python3 les2.py</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">True</div></div></div>
+<div class="ans-row" data-p="1" data-a="filenotfounderror|file not found error"><span class="ans-q">Hvilken feiltype fikk borte.py?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den gule biten på siste linje av feilmeldingen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">FileNotFoundError</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Du trenger <code>auth.log</code> fra L16 i samme mappe. Mangler den? Lag den med <code>nano auth.log</code> og lim inn de åtte linjene fra L16. Lag så <code>les2.py</code> og <code>borte.py</code> med nano, og kjør begge med <code>python3</code>. Bytt <code>print(f.read())</code> inn i les2.py i stedet for løkka, og se hele fila komme ut på én gang 📄</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="with"><span class="ans-q">Hvilket ord foran open() sørger for at fila lukkes automatisk?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Det første ordet i les2.py.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">with</div></div></div>
+<div class="ans-row" data-p="1" data-a="f.read()|read|f.read|read()"><span class="ans-q">Hva skriver du for å få hele fila f som én lang tekst?</span><input class="ans-in" placeholder="f.…"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den står i borte.py, inni print.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">f.read()</div></div></div>
+<div class="ans-row" data-p="1" data-a="f.close()|close|f.close|close()"><span class="ans-q">Du bruker vanlig open() uten with. Hva må du huske å skrive for å lukke fila f?</span><input class="ans-in" placeholder="f.…"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står i den blå fagord-boksen. «Lukke» på engelsk.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">f.close()</div></div></div>
+</div>
+</div></div>
+</div>
+
+<!-- ═══════════════════════ 5 · TELL_FEIL ═══════════════════════ -->
+<div class="lab-card" id="l18-5" data-level="medium">
+<div class="lab-header" onclick="toggleTask(this)">
+  <span class="lab-num">05</span>
+  <span class="lab-title">Alt sammen: tell_feil(filnavn)</span>
+  <div class="lab-meta"><span class="badge badge-medium">Middels</span><span class="lab-chev">&#9654;</span></div>
+</div>
+<div class="lab-body"><div class="lab-flow">
+<div class="level-badge lb-3">Nivå 2 — Én funksjon, to logger</div>
+<p class="e-hook">Gårsdagens logg ligger i <code>auth.log.1</code>. Kopiere tell.py og bytte filnavn? Nei! Gjør tell.py til et oppskriftskort, og la filnavnet være ingrediensen 📇</p>
+
+<div class="e-spill" data-spill="klikk" data-tittel="🔎 Finn de fire" data-oppgave="Klikk på <b>parameteren</b>, de to <b>argumentene</b> og <b>returverdien</b>.">
+<pre>def tell_feil(<span class="kl" data-rett data-forklar="Parameteren: plassen i oppskriften der filnavnet havner.">filnavn</span>):
+    <span class="kl" data-forklar="Telleren fra L16. En lokal variabel, men ikke det vi leter etter.">antall = 0</span>
+    with open(filnavn) as <span class="kl" data-forklar="f er navnet på den åpne fila. Ikke en parameter.">f</span>:
+        for <span class="kl" data-forklar="Løkkevariabelen fra L16. Den får en ny linje hver runde.">linje</span> in f:
+            if "Failed password" in linje:
+                antall += 1
+    return <span class="kl" data-rett data-forklar="Returverdien: tallet som sendes tilbake til den som kalte.">antall</span>
+
+<span class="kl" data-forklar="Nær! nye tar imot returverdien. Men selve verdien er det som står etter return.">nye</span> = tell_feil(<span class="kl" data-rett data-forklar="Argument nummer 1: dagens logg.">"auth.log"</span>)
+gamle = tell_feil(<span class="kl" data-rett data-forklar="Argument nummer 2: gårsdagens logg. Samme oppskrift, ny ingrediens.">"auth.log.1"</span>)
+print("Totalt:", nye + gamle)</pre>
+</div>
+
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Nå er <code>tell_feil</code> et verktøy: filnavn inn, tall ut. <b>Argument inn → funksjon → returverdi ut</b>. Det mønsteret går igjen i nesten alle Python-skript du kommer til å lese.
+</div>
+
+<div class="e-spill" data-spill="terminal">
+<div class="tm-o" data-cmd="cat auth.log.1" data-mal="Se på gårsdagens logg:"><template class="ut">Oct  6 22:41:10 server sshd[1702]: <span class="h1">Failed</span> password for root from 198.51.100.23 port 52211 ssh2
+Oct  6 22:41:13 server sshd[1702]: <span class="h1">Failed</span> password for root from 198.51.100.23 port 52211 ssh2
+Oct  6 22:41:17 server sshd[1702]: <span class="h1">Failed</span> password for root from 198.51.100.23 port 52211 ssh2
+Oct  6 22:41:20 server sshd[1702]: <span class="h1">Failed</span> password for root from 198.51.100.23 port 52211 ssh2
+Oct  6 22:41:24 server sshd[1702]: <span class="h1">Failed</span> password for root from 198.51.100.23 port 52211 ssh2
+Oct  6 22:41:24 server sshd[1702]: Connection closed by 198.51.100.23 port 52211 [preauth]
+Oct  6 23:05:47 server sshd[1745]: <span class="h3">Accepted</span> password for kari from 192.168.1.10 port 50990 ssh2
+Oct  6 23:20:02 server sshd[1761]: <span class="h1">Failed</span> password for admin from 198.51.100.23 port 52390 ssh2</template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>feil passord</span></li><li><span class="m h3"></span><span>innlogging som lyktes</span></li></ul><p><code>.1</code> på slutten er Linux sin måte å merke en eldre logg på.</p></template></div>
+<div class="tm-o" data-cmd="cat tell_feil.py" data-mal="Se på programmet:" data-skjult data-hint="<code>cat</code> og filnavnet <code>tell_feil.py</code>."><template class="ut"><span class="h2">def tell_feil(filnavn):</span>
+    antall = 0
+    with open(filnavn) as f:
+        for linje in f:
+            if "Failed password" in linje:
+                antall += 1
+    <span class="h3">return antall</span>
+
+nye = <span class="h1">tell_feil("auth.log")</span>
+gamle = <span class="h1">tell_feil("auth.log.1")</span>
+print("auth.log:  ", nye)
+print("auth.log.1:", gamle)
+print("Totalt:", nye + gamle)</template><template class="forklar"><ul class="e-forklar"><li><span class="m h2"></span><span>oppskriften, med filnavnet som parameter</span></li><li><span class="m h3"></span><span>tallet sendes tilbake</span></li><li><span class="m h1"></span><span>to kall, to logger</span></li></ul></template></div>
+<div class="tm-o" data-cmd="python3 tell_feil.py" data-mal="Kjør det." data-skjult data-hint="<code>python3</code> og filnavnet."><template class="ut">auth.log:   <span class="h1">5</span>
+auth.log.1: <span class="h1">6</span>
+Totalt: <span class="h3">11</span></template><template class="forklar"><ul class="e-forklar"><li><span class="m h1"></span><span>én returverdi per kall</span></li><li><span class="m h3"></span><span>returverdiene lagt sammen. Det går fordi de er tall, ikke tekst</span></li></ul><p>Én funksjon, to logger 🎉 En tredje logg? Én linje til.</p></template></div>
+</div>
+
+<div class="ans-block les"><div class="obj-title">🔎 Les av øve-terminalen</div>
+<div class="ans-row" data-p="1" data-a="6|seks"><span class="ans-q">Hvor mange feilede innlogginger var det i auth.log.1?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Andre linje under <code>python3 tell_feil.py</code>. Eller tell de gule i <code>cat auth.log.1</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">6</div></div></div>
+<div class="ans-row" data-p="1" data-a="11|elleve"><span class="ans-q">Hvor mange feilede innlogginger var det totalt?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den grønne, på siste linje.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">11</div></div></div>
+</div>
+
+<div class="e-kali"><b class="t">🐉 Nå på ekte Kali</b>Lag <code>auth.log.1</code> med <code>nano auth.log.1</code> og lim inn de åtte linjene fra <code>cat auth.log.1</code> over. Lag så <code>tell_feil.py</code> med nano. Begge loggene må ligge i samme mappe som skriptet. Kjør <code>python3 tell_feil.py</code>. Får du 5, 6 og 11? 🎯<br>Bonus: bytt <code>"Failed password"</code> med <code>"Accepted password"</code> inni funksjonen. Én endring, og begge loggene telles på nytt.</div>
+
+
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="2|to"><span class="ans-q">Hvor mange ganger kjørte koden inni tell_feil da du kjørte tell_feil.py?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Én gang per kall. Tell de gule i <code>cat tell_feil.py</code>.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2</div></div></div>
+<div class="ans-row" data-p="1" data-a="tell_feil(&quot;secure.log&quot;)|tell_feil('secure.log')|tell_feil(secure.log)"><span class="ans-q">Du vil telle i fila secure.log. Skriv kallet.</span><input class="ans-in" placeholder="tell_feil(…)"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på de to argumentene du klikket på i spillet. Husk anførselstegnene rundt filnavnet.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">tell_feil("secure.log")</div></div></div>
+<div class="ans-row" data-p="1" data-a="int|heltall"><span class="ans-q">tell_feil returnerer et tall. Hvilken datatype fra L15 er det? str eller int</span><input class="ans-in" placeholder="str / int"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kan du legge to av dem sammen og få 11? Se siste linje i utskriften.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">int</div></div></div>
+</div>
+</div></div>
+</div>
+
+</div>
+
+<div style="margin-top:36px"><a href="https://cybersikkerhet-gokstad.github.io/CyberLab/labber.html" class="btn btn-ghost">&larr; Labber</a></div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-inner">
+  <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
+</div></div></footer>
+<script src="../js/cyberlab.js?v=13"></script>
+<script src="../js/enkel.js?v=5"></script>
+</body>
+</html>

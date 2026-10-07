@@ -1,209 +1,196 @@
 /* enkel.css — tilpasset versjon av labbene
    Brukes sammen med style.css og lab-shared.css paa sider med <body class="page enkel">.
-   Mål: storre tekst, en ting om gangen, bilder for alt som er abstrakt. */
+   Ideen: lek forst, svar etterpaa. Hver ide forklares én gang. */
 
-/* ── Lesbarhet: storre tekst og mer luft ── */
-.enkel .lab-flow{max-width:none;padding:28px 34px}
-.enkel .theory-text,.enkel .worked-b{font-size:16px;line-height:1.75}
-.enkel .theory-title{font-size:17px}
-.enkel .worked-t{font-size:15px}
+/* ── Lesbarhet ── */
+.enkel .lab-flow{max-width:none;padding:26px 32px}
 .enkel .ans-q,.enkel .mcq-q{font-size:16px;line-height:1.6;color:var(--text)}
 .enkel .ans-in{font-size:16px;padding:11px 13px}
-.enkel .mcq-opt{font-size:15.5px;padding:12px 15px;line-height:1.5}
-.enkel .mcq-fb{font-size:15px}
 .enkel .hint-box,.enkel .sol-box,.enkel .ah-box{font-size:15px;line-height:1.65}
 .enkel .lab-title{font-size:17px}
 .enkel .section-desc{font-size:17px;line-height:1.7}
-.enkel p{margin:0 0 12px}
 @media(max-width:640px){.enkel .lab-flow{padding:20px 16px}}
 
-/* ── Intro: slik bruker du labben ── */
-.e-intro{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);
-  padding:22px 24px;margin:0 0 22px}
-.e-intro h2{font-size:18px;margin:0 0 14px;color:var(--text)}
-.e-intro-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.e-intro-item{background:var(--bg3);border-radius:10px;padding:14px 16px;font-size:15px;
-  line-height:1.55;color:var(--text2)}
-.e-intro-item b{display:block;color:var(--text);font-size:15.5px;margin-bottom:4px}
-.e-intro-item .ico{font-size:24px;display:block;margin-bottom:6px}
+/* ── Stripe oeverst: slik funker det ── */
+.e-strip{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.e-strip span{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:8px 14px;
+  font-size:15px;color:var(--text)}
 
 /* ── Ordliste ── */
-.e-ordliste{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);
-  margin:0 0 26px;overflow:hidden}
-.e-ordliste summary{cursor:pointer;padding:16px 22px;font-weight:700;font-size:16px;color:var(--text);
-  list-style:none}
+.e-ordliste{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);margin:0 0 24px;overflow:hidden}
+.e-ordliste summary{cursor:pointer;padding:14px 20px;font-weight:700;font-size:16px;color:var(--text);list-style:none}
 .e-ordliste summary::-webkit-details-marker{display:none}
-.e-ordliste summary::before{content:"\25B6";display:inline-block;margin-right:10px;font-size:11px;
-  color:var(--text3);transition:transform .2s}
-.e-ordliste[open] summary::before{transform:rotate(90deg)}
-.e-ordliste dl{margin:0;padding:4px 22px 18px;display:grid;grid-template-columns:max-content 1fr;
-  gap:10px 18px;font-size:15px;line-height:1.55}
+.e-ordliste dl{margin:0;padding:4px 20px 16px;display:grid;grid-template-columns:max-content 1fr;gap:8px 18px;font-size:15px;line-height:1.55}
 .e-ordliste dt{font-weight:700;color:var(--blue)}
 .e-ordliste dd{margin:0;color:var(--text2)}
 @media(max-width:560px){.e-ordliste dl{grid-template-columns:1fr;gap:2px}.e-ordliste dd{margin-bottom:10px}}
 
-/* ── Mål for oppgaven ── */
-.e-mal{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;background:var(--blue-d);
-  border:1px solid rgba(75,142,255,.3);border-radius:10px;padding:13px 16px;margin:6px 0 18px;
-  font-size:16px;color:var(--text)}
-.e-mal .tid{font-family:var(--mono);font-size:12.5px;color:var(--blue);white-space:nowrap}
+/* ── Kroken: en eller to linjer foer spillet ── */
+.e-hook{font-size:18px;line-height:1.6;color:var(--text);margin:8px 0 16px}
+.e-hook b{color:var(--green)}
+.e-roller{display:flex;flex-wrap:wrap;gap:8px;margin:-6px 0 16px}
+.e-roller span{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:8px 12px;font-size:15px;color:var(--text)}
 
-/* ── Steg ── */
-.steg{margin:0 0 8px;padding:20px 0 6px;border-top:1px dashed var(--border2)}
-.steg:first-of-type{border-top:0;padding-top:4px}
-.steg[hidden]{display:none}
-.steg-t{display:flex;align-items:center;gap:12px;font-size:19px;font-weight:700;color:var(--text);
-  margin:0 0 14px}
-.steg-n{flex:0 0 auto;width:32px;height:32px;border-radius:50%;background:var(--green);color:#000;
-  font-family:var(--mono);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center}
-.steg-nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;
-  margin:0 0 14px;font-family:var(--mono);font-size:12.5px;color:var(--text3)}
-.steg-dots{display:flex;gap:6px;align-items:center}
-.steg-dot{width:22px;height:8px;border-radius:4px;background:var(--bg4)}
-.steg-dot.on{background:var(--green)}
-.steg-alle{background:none;border:0;color:var(--text3);font-family:var(--mono);font-size:12.5px;
-  cursor:pointer;text-decoration:underline;padding:4px}
-.steg-alle:hover{color:var(--text)}
-.steg-neste{display:block;margin:22px 0 6px;background:var(--green);color:#000;border:0;border-radius:10px;
-  padding:13px 22px;font-size:16px;font-weight:700;font-family:var(--sans);cursor:pointer}
-.steg-neste:hover{filter:brightness(1.1)}
-.steg-neste:focus-visible{outline:3px solid var(--text);outline-offset:2px}
+/* ── Fagord: navnet paa det du nettopp lekte med, én gang ── */
+.e-fagord{background:var(--blue-d);border:1px solid rgba(75,142,255,.35);border-radius:12px;padding:14px 18px;
+  margin:16px 0;font-size:16px;line-height:1.75;color:var(--text)}
+.e-fagord b{color:var(--blue)}
+.e-fagord .t{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);display:block;margin-bottom:4px}
+.e-sikker{background:var(--amber-d);border-left:3px solid var(--amber);border-radius:0 10px 10px 0;
+  padding:12px 16px;font-size:15.5px;color:var(--text);margin:12px 0 16px;line-height:1.6}
 
-/* ── Liste med ikon foran hver linje: en ide per linje ── */
-.e-liste{list-style:none;margin:0 0 14px;padding:0}
-.e-liste li{display:flex;gap:14px;align-items:flex-start;padding:10px 0;font-size:16.5px;line-height:1.6;
-  color:var(--text);border-bottom:1px solid var(--border)}
-.e-liste li:last-child{border-bottom:0}
-.e-liste .ico{flex:0 0 32px;font-size:22px;line-height:1.3;text-align:center}
+/* ── Spill-ramma ── */
+.e-spill{background:var(--bg3);border:1px solid var(--border2);border-radius:16px;padding:18px 20px 20px;margin:0 0 6px;position:relative}
+.e-spill.ferdig{border-color:var(--green)}
+.sp-topp{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 12px}
+.sp-tittel{font-weight:700;font-size:17px;color:var(--text)}
+.sp-merke{font-family:var(--mono);font-size:12px;color:var(--text3)}
+.e-spill.ferdig .sp-merke{color:var(--green)}
+.sp-tekst{font-size:16.5px;line-height:1.6;color:var(--text);min-height:1.6em;margin:12px 0 0}
+.sp-tekst.ok{color:var(--green)}.sp-tekst.nei{color:var(--red)}
+.sp-knapper{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.sp-k{background:var(--bg4);border:2px solid var(--border2);color:var(--text);border-radius:12px;padding:12px 18px;
+  font-family:var(--sans);font-size:16px;font-weight:700;cursor:pointer;transition:transform .1s,border-color .15s,background .15s}
+.sp-k:hover:not(:disabled){border-color:var(--blue);transform:translateY(-1px)}
+.sp-k:active:not(:disabled){transform:scale(.97)}
+.sp-k:disabled{opacity:.45;cursor:default}
+.sp-k.hoved{background:var(--green);border-color:var(--green);color:#000}
+.sp-k.ok{border-color:var(--green);background:var(--green-d);color:var(--green)}
+.sp-k.nei{border-color:var(--red);background:var(--red-d);color:var(--red)}
+.sp-k:focus-visible{outline:3px solid var(--text);outline-offset:2px}
+@keyframes sp-rist{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@keyframes sp-pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+@keyframes sp-puls{0%,100%{box-shadow:0 0 0 0 rgba(255,92,92,.6)}50%{box-shadow:0 0 0 8px rgba(255,92,92,0)}}
+.rist{animation:sp-rist .3s}
+.pop{animation:sp-pop .35s ease-out}
 
-/* ── Bilde/figur ── */
-.e-fig{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:18px 14px 12px;margin:14px 0 18px}
-.e-fig svg{display:block;width:100%;height:auto}
-.e-fig figcaption{font-size:14.5px;color:var(--text2);text-align:center;margin-top:10px;line-height:1.55}
+/* Spill 1: pakker */
+.pk-linje{display:flex;align-items:center;gap:12px;margin:6px 0}
+.pk-ende{font-size:30px;flex:0 0 auto}
+.pk-bane{flex:1;height:44px;background:var(--bg);border:1px solid var(--border);border-radius:10px;position:relative;overflow:hidden}
+.pk-stor{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--amber);border-radius:9px;
+  display:flex;align-items:center;justify-content:flex-end;padding-right:10px;font-weight:700;color:#000;font-size:14px;white-space:nowrap;overflow:hidden}
+.pk-stor.boom{background:var(--red)}
+.pk-ko{font-size:22px;letter-spacing:4px;margin-top:6px;min-height:28px}
+.pk-mottak{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;margin:8px 0 0}
+.pk-p{aspect-ratio:1;border-radius:8px;background:var(--bg);border:1px dashed var(--border2);display:flex;align-items:center;
+  justify-content:center;font-family:var(--mono);font-size:14px;font-weight:700;color:var(--text3)}
+.pk-p.fram{background:var(--blue-d);border:2px solid var(--blue);color:var(--blue);animation:sp-pop .3s ease-out}
+.pk-p.borte{background:var(--red-d);border:2px solid var(--red);color:var(--red);cursor:pointer;animation:sp-puls 1.2s infinite}
+.pk-p.reddet{background:var(--green-d);border:2px solid var(--green);color:var(--green);animation:sp-pop .35s ease-out}
+.pk-teller{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.pk-teller span{background:var(--bg);border-radius:8px;padding:6px 12px;font-family:var(--mono);font-size:13px;color:var(--text2)}
+.pk-teller b{color:var(--text)}
+@media(max-width:560px){.pk-mottak{grid-template-columns:repeat(6,1fr)}}
 
-/* SVG-farger, saa tegningene folger temaet */
-.sv-t{fill:var(--text);font-family:var(--sans);font-size:16px;font-weight:600}
-.sv-s{fill:var(--text2);font-family:var(--sans);font-size:13.5px}
-.sv-m{fill:var(--text);font-family:var(--mono);font-size:13px}
-.sv-k{fill:var(--bg4);stroke:var(--border2);stroke-width:1.5}
-.sv-g{fill:rgba(0,229,160,.14);stroke:var(--green);stroke-width:2}
-.sv-b{fill:rgba(75,142,255,.16);stroke:var(--blue);stroke-width:2}
-.sv-a{fill:rgba(255,181,71,.16);stroke:var(--amber);stroke-width:2}
-.sv-r{fill:rgba(255,92,92,.14);stroke:var(--red);stroke-width:2}
-.sv-p{fill:rgba(176,122,255,.16);stroke:var(--purple);stroke-width:2}
-.sv-strek{fill:none;stroke:var(--text3);stroke-width:2}
-.sv-strek-g{fill:none;stroke:var(--green);stroke-width:2.5}
-.sv-strek-r{fill:none;stroke:var(--red);stroke-width:2.5}
-.sv-strek-a{fill:none;stroke:var(--amber);stroke-width:2;stroke-dasharray:5 5}
-.sv-pil{fill:var(--text3)}.sv-pil-g{fill:var(--green)}.sv-pil-r{fill:var(--red)}.sv-pil-a{fill:var(--amber)}
-.sv-tg{fill:var(--green)}.sv-tr{fill:var(--red)}.sv-tb{fill:var(--blue)}.sv-ta{fill:var(--amber)}.sv-tp{fill:var(--purple)}
-.sv-stiplet{stroke-dasharray:6 5}
+/* Spill 2: reisen */
+.rs-vei{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 4px}
+.rs-st{text-align:center;padding:10px 4px;border-radius:12px;background:var(--bg);border:2px solid var(--border);font-size:14.5px;color:var(--text2);transition:all .25s}
+.rs-st .i{display:block;font-size:26px;margin-bottom:2px}
+.rs-st.her{border-color:var(--green);color:var(--text);background:var(--green-d)}
+.rs-spor{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0 0}
+.rs-pakke{grid-column:1;background:var(--bg4);border:1px solid var(--border2);border-radius:12px;padding:8px;transition:grid-column .3s;min-width:0}
+.rs-lapp{border-radius:8px;padding:7px 9px;font-size:14px;line-height:1.35;margin:4px 0;color:#000;font-weight:600;word-break:break-word}
+.rs-lapp.ip{background:#8fb6ff}.rs-lapp.mac{background:var(--amber)}
+.rs-lapp small{display:block;font-weight:400;font-size:12px;opacity:.75}
+.rs-lapp.byttet{animation:sp-pop .45s ease-out}
+.rs-lapp .laas{float:right;font-size:12px}
+@media(max-width:560px){.rs-st{font-size:12px}.rs-st .i{font-size:20px}.rs-lapp{font-size:12.5px}}
 
-/* ── Hverdag → fagord ── */
-.e-ord{width:100%;border-collapse:separate;border-spacing:0 8px;margin:0 0 14px;font-size:16px}
-.e-ord td{background:var(--bg3);padding:12px 14px;vertical-align:middle;line-height:1.5}
-.e-ord td:first-child{border-radius:10px 0 0 10px;color:var(--text2);width:42%}
-.e-ord td.pil{width:36px;text-align:center;color:var(--text3);padding:12px 0}
-.e-ord td:last-child{border-radius:0 10px 10px 0;color:var(--text)}
-.e-ord td:last-child b{color:var(--blue)}
+/* Spill 3 og 5: lynrunde */
+.ly-status{display:flex;gap:14px;font-family:var(--mono);font-size:13px;color:var(--text3)}
+.ly-status b{color:var(--text)}
+.ly-streak.het b{color:var(--amber)}
+.ly-fast{background:var(--bg);border-radius:10px;padding:10px 14px;margin:0 0 10px;font-size:15px;color:var(--text2)}
+.ly-kort{background:var(--bg4);border:2px solid var(--border2);border-radius:14px;padding:20px;font-size:18px;line-height:1.55;
+  color:var(--text);text-align:center;min-height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.ly-kort.ok{border-color:var(--green)}.ly-kort.nei{border-color:var(--red)}
+.ly-knapper{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px}
+.ly-knapper .sp-k{font-size:17px;padding:14px 10px}
+.ly-slutt{text-align:center;font-size:18px;color:var(--text);padding:10px 0}
+.ly-slutt .stor{font-size:44px;display:block}
+.e-ip{display:inline-flex;gap:3px;font-family:var(--mono);font-size:20px;align-items:center}
+.e-ip i{font-style:normal;color:var(--text3)}
+.e-ip span{padding:3px 7px;border-radius:6px;background:var(--bg);border:1px solid var(--border2)}
+.e-ip.vis span.like{background:var(--green-d);border-color:var(--green);color:var(--green)}
+.e-ip.vis span.ulik{background:var(--red-d);border-color:var(--red);color:var(--red)}
 
-/* ── Tre kort ved siden av hverandre ── */
-.e-tre{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:0 0 16px}
-.e-tre > div{background:var(--bg3);border:1px solid var(--border);border-top:3px solid var(--blue);
-  border-radius:10px;padding:16px;font-size:15.5px;line-height:1.55;color:var(--text2)}
-.e-tre > div.g{border-top-color:var(--green)}.e-tre > div.a{border-top-color:var(--amber)}
-.e-tre > div.p{border-top-color:var(--purple)}.e-tre > div.r{border-top-color:var(--red)}
-.e-tre .ico{font-size:30px;display:block;margin-bottom:6px}
-.e-tre b{display:block;color:var(--text);font-size:17px;margin-bottom:4px}
-.e-tre .q{display:block;font-style:italic;color:var(--text);margin:6px 0}
+/* Spill 4: chat */
+.ch-logg{display:flex;flex-direction:column;gap:8px;min-height:60px}
+.ch-m{max-width:82%;padding:10px 14px;border-radius:16px;font-size:16px;line-height:1.5;color:var(--text);animation:sp-pop .25s ease-out}
+.ch-m .fra{display:block;font-family:var(--mono);font-size:11.5px;color:var(--text3);margin-bottom:2px}
+.ch-m.pc{align-self:flex-end;background:rgba(75,142,255,.22);border-bottom-right-radius:4px}
+.ch-m.nabo{align-self:flex-start;background:var(--bg4);border-bottom-left-radius:4px}
+.ch-m.ond{align-self:flex-start;background:var(--red-d);border:1px solid var(--red);border-bottom-left-radius:4px}
+.ch-m.sys{align-self:center;background:none;color:var(--text2);font-size:14.5px;text-align:center;max-width:95%;font-style:italic}
+.ch-skriver{align-self:flex-start;color:var(--text3);font-size:20px;letter-spacing:3px;padding:2px 12px}
+.ch-skriver.pc{align-self:flex-end}
 
-/* ── Den ene regelen ── */
-.e-regel{background:var(--green-d);border:2px solid var(--green);border-radius:12px;padding:16px 20px;
-  font-size:19px;font-weight:700;color:var(--text);text-align:center;margin:16px 0;line-height:1.5}
-.e-regel small{display:block;font-size:14.5px;font-weight:400;color:var(--text2);margin-top:4px}
+/* Spill 6: ropet og hoppene */
+.rp-kart{display:flex;align-items:stretch;gap:8px;margin:4px 0}
+.rp-hus{flex:0 0 34%;position:relative;border:2px solid var(--green);background:var(--green-d);border-radius:14px;padding:26px 8px 10px;
+  display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-content:center;overflow:hidden}
+.rp-hus .navn{position:absolute;top:5px;left:0;right:0;text-align:center;font-size:12.5px;color:var(--green);font-family:var(--mono)}
+.rp-hus .d{font-size:24px;position:relative;z-index:1}
+.rp-bolge{position:absolute;left:50%;top:55%;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;border:3px solid var(--amber);opacity:0;pointer-events:none}
+.rp-bolge.gaar{animation:rp-bolge 1.3s ease-out}
+@keyframes rp-bolge{0%{transform:scale(.2);opacity:1}100%{transform:scale(14);opacity:0}}
+.rp-veg{flex:1;display:flex;align-items:center;gap:6px}
+.rp-r{flex:1;text-align:center;border:2px solid var(--border2);background:var(--bg);border-radius:10px;padding:8px 2px;font-size:13px;color:var(--text2);transition:all .25s;position:relative}
+.rp-r .i{font-size:22px;display:block}
+.rp-r.lys{border-color:var(--amber);background:var(--amber-d);color:var(--text)}
+.rp-r.stopp{border-color:var(--red);background:var(--red-d);color:var(--red)}
+.rp-r .nr{position:absolute;top:-10px;right:-6px;background:var(--amber);color:#000;border-radius:50%;width:22px;height:22px;
+  font-size:12px;font-weight:700;display:none;align-items:center;justify-content:center;font-family:var(--mono)}
+.rp-r.lys .nr{display:flex}
+.rp-maal{flex:0 0 auto;font-size:30px;align-self:center;padding:0 4px}
+.rp-teller{font-family:var(--mono);font-size:14px;color:var(--text2);margin-top:8px}
+.rp-teller b{color:var(--amber);font-size:18px}
+@media(max-width:560px){.rp-kart{flex-direction:column}.rp-hus{flex-basis:auto}}
 
-/* ── Husk dette ── */
-.e-husk{display:flex;gap:14px;align-items:center;background:var(--purple-d);border:1px solid rgba(176,122,255,.4);
-  border-radius:12px;padding:16px 20px;margin:20px 0 6px;font-size:17px;font-weight:600;color:var(--text);line-height:1.5}
-.e-husk .ico{font-size:28px}
-
-/* ── Merk: liten advarsel / trygghet ── */
-.e-merk{background:var(--amber-d);border-left:3px solid var(--amber);border-radius:0 8px 8px 0;
-  padding:11px 15px;font-size:15px;color:var(--text);margin:10px 0 14px;line-height:1.6}
-.e-trygg{background:var(--green-d);border-left:3px solid var(--green);border-radius:0 8px 8px 0;
-  padding:11px 15px;font-size:15px;color:var(--text);margin:10px 0 14px;line-height:1.6}
-
-/* ── Vei som brikker ── */
-.e-vei{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:6px 0 14px;font-size:15px}
-.e-vei .b{background:var(--bg4);border:1px solid var(--border2);border-radius:8px;padding:6px 11px;color:var(--text)}
-.e-vei .b.s{border-color:var(--blue);color:var(--blue)}
-.e-vei .b.r{border-color:var(--amber);color:var(--amber)}
-.e-vei .b.f{border-color:var(--purple);color:var(--purple)}
-.e-vei .pil{color:var(--text3)}
-.e-tur{background:var(--bg3);border-radius:10px;padding:12px 16px;margin:0 0 10px}
-.e-tur > div:first-child{font-size:16px;color:var(--text);margin-bottom:4px}
-
-/* ── Sammenlign tall: like / ulike ── */
-.e-tall{display:flex;flex-wrap:wrap;align-items:center;gap:5px;font-family:var(--mono);font-size:18px;margin:6px 0}
-.e-tall span{min-width:44px;text-align:center;padding:6px 8px;border-radius:7px;background:var(--bg4);
-  border:1px solid var(--border2);color:var(--text)}
-.e-tall span.like{background:var(--green-d);border-color:var(--green);color:var(--green)}
-.e-tall span.ulik{background:var(--red-d);border-color:var(--red);color:var(--red)}
-.e-tall i{font-style:normal;color:var(--text3);min-width:0;padding:0;border:0;background:none}
-.e-tall .navn{font-family:var(--sans);font-size:14.5px;color:var(--text2);min-width:118px;text-align:left;
-  background:none;border:0;padding:0}
-
-/* ── Valg-diagram: ja / nei ── */
-.e-valg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 16px}
-.e-valg-q{grid-column:1/-1;text-align:center;background:var(--bg4);border:2px solid var(--blue);border-radius:12px;
-  padding:14px;font-size:17px;font-weight:700;color:var(--text)}
-.e-valg > div:not(.e-valg-q){border-radius:12px;padding:14px 16px;font-size:15.5px;line-height:1.55;color:var(--text2)}
-.e-valg .ja{background:var(--green-d);border:1px solid var(--green)}
-.e-valg .nei{background:var(--amber-d);border:1px solid var(--amber)}
-.e-valg b{display:block;font-size:17px;color:var(--text);margin-bottom:4px}
-@media(max-width:520px){.e-valg{grid-template-columns:1fr}}
-
-/* ── Terminal: steg for steg ── */
-.e-term-steg{list-style:none;counter-reset:t;margin:0 0 12px;padding:0}
-.e-term-steg > li{counter-increment:t;position:relative;padding:0 0 16px 44px;font-size:16px;line-height:1.6;color:var(--text)}
-.e-term-steg > li::before{content:counter(t);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:8px;
+/* ── Terminal: valgfri utfelling ── */
+.e-terminal{border:1px solid var(--border);border-radius:12px;margin:16px 0;background:var(--bg2)}
+.e-terminal summary{cursor:pointer;padding:13px 18px;font-weight:700;font-size:16px;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.e-terminal summary::-webkit-details-marker{display:none}
+.e-terminal summary small{font-weight:400;font-family:var(--mono);font-size:12px;color:var(--text3)}
+.e-terminal > div{padding:4px 18px 16px}
+.e-term-steg{list-style:none;counter-reset:t;margin:6px 0 8px;padding:0}
+.e-term-steg > li{counter-increment:t;position:relative;padding:0 0 14px 42px;font-size:16px;line-height:1.6;color:var(--text)}
+.e-term-steg > li::before{content:counter(t);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:8px;
   background:var(--blue-d);border:1px solid var(--blue);color:var(--blue);font-family:var(--mono);font-weight:700;
-  display:flex;align-items:center;justify-content:center;font-size:14px}
-.e-kode{display:block;margin:8px 0 6px;background:#05070a;border:1px solid var(--border);border-left:3px solid var(--green);
-  border-radius:0 8px 8px 0;padding:11px 14px;font-family:var(--mono);font-size:15px;color:var(--green);
-  white-space:pre-wrap;word-break:break-word}
-.e-deler{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
-.e-deler span{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:6px 10px;font-size:14.5px;color:var(--text2)}
-.e-deler code{font-size:14px;color:var(--green);background:none;padding:0;margin-right:6px}
-.e-ut{margin:8px 0 6px;background:#05070a;border:1px solid var(--border);border-radius:8px;padding:12px 14px;
+  display:flex;align-items:center;justify-content:center;font-size:13px}
+.e-kode{display:block;margin:6px 0;background:#05070a;border:1px solid var(--border);border-left:3px solid var(--green);
+  border-radius:0 8px 8px 0;padding:10px 14px;font-family:var(--mono);font-size:15px;color:var(--green);white-space:pre-wrap;word-break:break-word}
+.e-deler{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0}
+.e-deler span{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:5px 10px;font-size:14px;color:var(--text2)}
+.e-deler code{font-size:13.5px;color:var(--green);background:none;padding:0;margin-right:6px}
+.e-ut{margin:6px 0;background:#05070a;border:1px solid var(--border);border-radius:8px;padding:11px 14px;
   font-family:var(--mono);font-size:13.5px;color:var(--text2);line-height:1.8;white-space:pre;overflow-x:auto}
 .e-ut .h1{color:#000;background:var(--amber);border-radius:3px;padding:0 3px}
 .e-ut .h2{color:#000;background:var(--blue);border-radius:3px;padding:0 3px}
 .e-ut .h3{color:#000;background:var(--green);border-radius:3px;padding:0 3px}
 .e-ut .h4{color:#000;background:var(--purple);border-radius:3px;padding:0 3px}
 .e-ut .dim{color:var(--text3)}
-.e-forklar{list-style:none;margin:6px 0 4px;padding:0}
-.e-forklar li{display:flex;gap:10px;align-items:baseline;padding:4px 0;font-size:15.5px;line-height:1.55;color:var(--text)}
-.e-forklar .m{flex:0 0 auto;width:14px;height:14px;border-radius:3px;transform:translateY(2px)}
+.e-forklar{list-style:none;margin:4px 0;padding:0}
+.e-forklar li{display:flex;gap:10px;align-items:baseline;padding:3px 0;font-size:15px;line-height:1.55;color:var(--text)}
+.e-forklar .m{flex:0 0 auto;width:13px;height:13px;border-radius:3px;transform:translateY(2px)}
 .e-forklar .m.h1{background:var(--amber)}.e-forklar .m.h2{background:var(--blue)}
 .e-forklar .m.h3{background:var(--green)}.e-forklar .m.h4{background:var(--purple)}
-.e-win{font-size:14.5px;color:var(--text2);margin:4px 0 0}
-.e-win code{font-size:13.5px}
+.e-merk{background:var(--amber-d);border-left:3px solid var(--amber);border-radius:0 8px 8px 0;padding:10px 14px;font-size:15px;color:var(--text);margin:8px 0;line-height:1.6}
+.e-win{font-size:14.5px;color:var(--text2);margin:6px 0 0}
+.e-feil{width:100%;border-collapse:collapse;font-size:15px;margin:6px 0}
+.e-feil td{padding:7px 10px;border-bottom:1px solid var(--border);color:var(--text)}
 
-/* ── Lopende tekst i stegene ── */
-.enkel .steg > p,.enkel .e-term-steg{font-size:16.5px;line-height:1.7;color:var(--text)}
-.enkel .worked-b p,.enkel .wsteps li{font-size:16px;line-height:1.7}
-/* "Neste steg" skal ikke gjemme overskriften under den faste menyen */
-.steg,.steg-t{scroll-margin-top:90px}
+/* ── Feiring ── */
+.e-toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(30px);opacity:0;z-index:100;
+  background:var(--green);color:#000;font-weight:700;font-size:18px;padding:14px 24px;border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);transition:all .3s;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
+.e-toast.vis{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ── Mobil: tabeller stables, tegninger kan rulles sidelengs i stedet for aa krympe ── */
-@media(max-width:600px){
-  .e-ord,.e-ord tbody,.e-ord tr,.e-ord td{display:block;width:auto !important}
-  .e-ord{border-spacing:0}
-  .e-ord tr{background:var(--bg3);border-radius:10px;margin:0 0 8px;padding:10px 14px}
-  .e-ord td{background:none;padding:2px 0;border-radius:0 !important}
-  .e-ord td.pil{display:none}
-  .e-ord code{word-break:break-all}
-  .e-fig{overflow-x:auto}
-  .e-fig svg{min-width:560px}
-}
+@media(prefers-reduced-motion:reduce){.e-spill *,.e-toast{animation:none !important;transition:none !important}}
+
+/* valgt svar skal synes tydelig, ogsaa naar knappene er laast */
+.sp-k.ok:disabled,.sp-k.nei:disabled{opacity:1}
+.sp-k.ok:disabled{opacity:1}
+/* smal skjerm: pakken faar hele bredden under stasjonene */
+@media(max-width:700px){.rs-pakke{grid-column:1 / -1 !important}}

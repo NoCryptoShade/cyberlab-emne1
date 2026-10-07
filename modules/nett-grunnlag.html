@@ -6,7 +6,7 @@
 <title>Hva et nettverk er — CyberLab</title>
 <link rel="stylesheet" href="../css/style.css?v=13">
 <link rel="stylesheet" href="../css/lab-shared.css?v=13">
-<link rel="stylesheet" href="../css/enkel.css?v=1">
+<link rel="stylesheet" href="../css/enkel.css?v=3">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Bricolage+Grotesque:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
@@ -29,36 +29,28 @@
 <div class="mod-hero">
   <div class="section-eyebrow">Lab 13 &middot; Emne 1 &middot; Leksjon 5</div>
   <div class="section-title">Hva et nettverk er</div>
-  <p class="section-desc">Hvordan kommer en melding fra din PC til en annen maskin? Her lærer du det, én liten bit om gangen. Alt senere i emnet bygger på dette.</p>
+  <p class="section-desc">Hvordan kommer en melding fra din PC til en annen maskin? Seks små spill, og så noen spørsmål etter hvert.</p>
 </div>
 
-<div class="e-intro">
-  <h2>Slik bruker du denne labben</h2>
-  <div class="e-intro-grid">
-    <div class="e-intro-item"><span class="ico">🪜</span><b>Ett steg om gangen</b>Hver oppgave er delt i små steg. Trykk «Neste steg» når du er klar.</div>
-    <div class="e-intro-item"><span class="ico">🖼️</span><b>Bilde først</b>Vi starter alltid med noe fra hverdagen. Fagordene kommer etterpå.</div>
-    <div class="e-intro-item"><span class="ico">💡</span><b>Hint er lov</b>Trykk på Hint så ofte du vil. Det koster ingenting.</div>
-    <div class="e-intro-item"><span class="ico">☕</span><b>Ta pauser</b>Én oppgave tar ca. 10 minutter. Du kan stoppe når som helst. Nettleseren husker hvor du var.</div>
-  </div>
+<div class="e-strip">
+  <span>🎮 Lek først</span><span>✍️ Svar etterpå</span><span>💡 Hint er gratis</span><span>☕ Pauser er lov, siden husker hvor du var</span>
 </div>
 
 <details class="e-ordliste">
-  <summary>📖 Ordliste: alle nye ord i denne labben</summary>
+  <summary>📖 Glemt et ord? Ordliste</summary>
   <dl>
-    <dt>Pakke</dt><dd>En liten bit av en melding. Som én eske i en flytting.</dd>
-    <dt>Header</dt><dd>Adresselappen på pakken. Sier hvem den er fra og hvem den skal til.</dd>
-    <dt>Nyttelast</dt><dd>Selve innholdet i pakken. Som tingene inni eska.</dd>
-    <dt>IP-adresse</dt><dd>Adressen til målet. Ser slik ut: <code>192.168.1.10</code>. Den står likt hele veien.</dd>
-    <dt>MAC-adresse</dt><dd>Adressen til neste stopp. Ser slik ut: <code>3c:22:fb:7a:10:05</code>. Den byttes ved hvert stopp.</dd>
-    <dt>Switch</dt><dd>Boksen som flytter trafikk <em>innenfor</em> ett nettverk.</dd>
-    <dt>Ruter</dt><dd>Boksen som flytter trafikk <em>mellom</em> nettverk. Døra ut.</dd>
-    <dt>Brannmur</dt><dd>Vakten som <em>bestemmer</em> hva som får lov til å gå gjennom.</dd>
-    <dt>ARP</dt><dd>Maskinen roper til alle: «hvem har denne IP-adressen?»</dd>
-    <dt>ARP-tabell</dt><dd>Notatboka der maskinen husker svarene.</dd>
-    <dt>Gateway</dt><dd>Ruteren maskinen sender til når målet er i et annet nettverk. Som postkontoret.</dd>
-    <dt>Lokalnett</dt><dd>Maskinene på din side av ruteren. De når hverandre direkte.</dd>
-    <dt>Fjernnett</dt><dd>Alt på den andre siden av en ruter.</dd>
-    <dt>Hopp</dt><dd>Hver gang pakken går gjennom en ruter.</dd>
+    <dt>Pakke</dt><dd>En liten bit av en melding.</dd>
+    <dt>Header</dt><dd>Adresselappen på pakken.</dd>
+    <dt>Nyttelast</dt><dd>Innholdet i pakken.</dd>
+    <dt>IP-adresse</dt><dd>Der pakken skal til slutt. <code>192.168.1.10</code></dd>
+    <dt>MAC-adresse</dt><dd>Neste stopp. <code>3c:22:fb:7a:10:05</code></dd>
+    <dt>Switch</dt><dd>Flytter trafikk innenfor ett nett.</dd>
+    <dt>Ruter</dt><dd>Flytter trafikk mellom nett.</dd>
+    <dt>Brannmur</dt><dd>Bestemmer hva som får lov.</dd>
+    <dt>ARP</dt><dd>Ropet «hvem har denne IP-en?».</dd>
+    <dt>Gateway</dt><dd>Ruteren du sender til når målet er i et annet nett.</dd>
+    <dt>Lokalnett</dt><dd>Alle på din side av ruteren.</dd>
+    <dt>Hopp</dt><dd>Én ruter på veien.</dd>
   </dl>
 </details>
 
@@ -76,7 +68,7 @@
 
 <div class="tasks">
 
-<!-- ═══════════════════════ OPPGAVE 1 ═══════════════════════ -->
+<!-- ═══════════════════════ 1 · PAKKER ═══════════════════════ -->
 <div class="lab-card" id="n5-1" data-level="easy">
 <div class="lab-header" onclick="toggleTask(this)">
   <span class="lab-num">01</span>
@@ -85,157 +77,47 @@
 </div>
 <div class="lab-body"><div class="lab-flow">
 <div class="level-badge lb-1">Nivå 1 — Pakker</div>
-<div class="e-mal"><span>🎯 Målet: Du forstår hvorfor alt på nettet sendes i små biter.</span><span class="tid">⏱ ca. 10 min</span></div>
+<p class="e-hook">Du skal sende et bilde på 3 MB til en venn. To måter å gjøre det på. Hvilken vinner? 🥊</p>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">1</span> Tenk på det slik</h3>
-<p>Tenk deg at du skal flytte 1000 bøker til en venn.</p>
-<ul class="e-liste">
-  <li><span class="ico">📦</span><span>Du legger bøkene i mange små esker.</span></li>
-  <li><span class="ico">🔢</span><span>Du skriver et nummer på hver eske: 1, 2, 3 og så videre.</span></li>
-  <li><span class="ico">🚗</span><span>Eskene kjøres hver for seg. Andre biler kommer forbi på veien imens.</span></li>
-  <li><span class="ico">❌</span><span>Blir én eske borte? Da sender du bare <b>den ene</b> eska på nytt. Ikke alle 1000 bøkene.</span></li>
-</ul>
-<figure class="e-fig">
-<svg viewBox="0 0 640 200" role="img" aria-label="En stor fil deles i seks nummererte pakker. Pakke 4 blir borte, og bare den sendes på nytt.">
-  <defs><marker id="p1a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="sv-pil"/></marker></defs>
-  <rect x="10" y="55" width="125" height="90" rx="10" class="sv-a"/>
-  <text x="72" y="96" text-anchor="middle" class="sv-t">Hele fila</text>
-  <text x="72" y="118" text-anchor="middle" class="sv-s">for stor i ett stykke</text>
-  <line x1="142" y1="100" x2="186" y2="100" class="sv-strek" marker-end="url(#p1a)"/>
-  <text x="164" y="88" text-anchor="middle" class="sv-s">del opp</text>
-  <g>
-    <rect x="198" y="74" width="54" height="52" rx="8" class="sv-b"/><text x="225" y="107" text-anchor="middle" class="sv-t">1</text><text x="225" y="62" text-anchor="middle" class="sv-tg sv-t">✓</text>
-    <rect x="264" y="74" width="54" height="52" rx="8" class="sv-b"/><text x="291" y="107" text-anchor="middle" class="sv-t">2</text><text x="291" y="62" text-anchor="middle" class="sv-tg sv-t">✓</text>
-    <rect x="330" y="74" width="54" height="52" rx="8" class="sv-b"/><text x="357" y="107" text-anchor="middle" class="sv-t">3</text><text x="357" y="62" text-anchor="middle" class="sv-tg sv-t">✓</text>
-    <rect x="396" y="74" width="54" height="52" rx="8" class="sv-r sv-stiplet"/><text x="423" y="107" text-anchor="middle" class="sv-tr sv-t">4</text><text x="423" y="62" text-anchor="middle" class="sv-tr sv-t">✗</text>
-    <rect x="462" y="74" width="54" height="52" rx="8" class="sv-b"/><text x="489" y="107" text-anchor="middle" class="sv-t">5</text><text x="489" y="62" text-anchor="middle" class="sv-tg sv-t">✓</text>
-    <rect x="528" y="74" width="54" height="52" rx="8" class="sv-b"/><text x="555" y="107" text-anchor="middle" class="sv-t">6</text><text x="555" y="62" text-anchor="middle" class="sv-tg sv-t">✓</text>
-  </g>
-  <text x="390" y="165" text-anchor="middle" class="sv-tr sv-t">Pakke 4 ble borte.</text>
-  <text x="390" y="188" text-anchor="middle" class="sv-s">Bare pakke 4 sendes på nytt. De andre er allerede framme.</text>
-</svg>
-<figcaption>Én stor ting blir til mange små, nummererte pakker.</figcaption>
-</figure>
-</section>
+<div class="e-spill" data-spill="pakker" data-tittel="🎮 Send bildet"></div>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">2</span> Nå med fagord</h3>
-<p>På nettet er det akkurat det samme. Eskene heter <b>pakker</b>.</p>
-<table class="e-ord">
-  <tr><td>📦 Eska</td><td class="pil">→</td><td><b>Pakke</b></td></tr>
-  <tr><td>🏷️ Adresselappen på eska</td><td class="pil">→</td><td><b>Header</b> (sier fra hvem og til hvem)</td></tr>
-  <tr><td>📚 Bøkene inni eska</td><td class="pil">→</td><td><b>Nyttelast</b> (selve dataene)</td></tr>
-</table>
-<figure class="e-fig">
-<svg viewBox="0 0 640 140" role="img" aria-label="En pakke består av en header med adresser og en nyttelast med selve dataene.">
-  <rect x="10" y="20" width="230" height="80" rx="10" class="sv-b"/>
-  <text x="125" y="50" text-anchor="middle" class="sv-t">Header</text>
-  <text x="125" y="72" text-anchor="middle" class="sv-m">Fra: 192.168.1.10</text>
-  <text x="125" y="90" text-anchor="middle" class="sv-m">Til: 93.184.2.10</text>
-  <rect x="246" y="20" width="384" height="80" rx="10" class="sv-g"/>
-  <text x="438" y="55" text-anchor="middle" class="sv-t">Nyttelast</text>
-  <text x="438" y="80" text-anchor="middle" class="sv-s">en bit av bildet, teksten eller videoen</text>
-  <text x="125" y="128" text-anchor="middle" class="sv-s">= adresselappen</text>
-  <text x="438" y="128" text-anchor="middle" class="sv-s">= tingene i eska</text>
-</svg>
-<figcaption>Én pakke. Den er liten: ca. 1500 byte, omtrent en halv side tekst.</figcaption>
-</figure>
-<p>Hvorfor ikke sende alt i ett stykke? Tre grunner:</p>
-<div class="e-tre">
-  <div class="g"><span class="ico">🚦</span><b>Ingen kø</b>En stor fil ville sperret linja for alle andre. Små pakker slipper andre fram.</div>
-  <div><span class="ico">🔁</span><b>Lite å sende igjen</b>Blir noe borte, sendes bare den ene lille pakken på nytt.</div>
-  <div class="a"><span class="ico">🛣️</span><b>Mange veier</b>Pakkene kan ta ulike veier. De settes sammen igjen hos mottakeren.</div>
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Bitene heter <b>pakker</b>. Hver pakke har en adresselapp, <b>headeren</b> (fra hvem, til hvem), og innholdet, <b>nyttelasten</b>. En pakke er ca. 1500 byte.
 </div>
-</section>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">3</span> Oppvarming</h3>
-<p>Klikk på svaret du tror er riktig. Feil svar er helt greit, du kan prøve igjen.</p>
-<div class="mcq" data-c="-1574691073" data-ok="Riktig! Alt deles i små pakker." data-no="Ikke helt. Tenk på eskene i flyttingen.">
-  <div class="mcq-q">Du sender et bilde til en venn. Hvordan reiser bildet gjennom nettet?</div>
-  <button class="mcq-opt">Hele bildet i ett stykke</button>
-  <button class="mcq-opt">Som mange små pakker</button>
-  <div class="mcq-fb"></div>
-</div>
-<div class="mcq" data-c="-1095038559" data-ok="Riktig! Headeren har adressene." data-no="Ikke helt. Nyttelasten er tingene inni eska.">
-  <div class="mcq-q">Hvilken del av pakken er som adresselappen på eska?</div>
-  <button class="mcq-opt">Nyttelasten</button>
-  <button class="mcq-opt">Headeren</button>
-  <div class="mcq-fb"></div>
-</div>
-<div class="mcq" data-c="1836597000" data-ok="Riktig! Det er hele poenget med pakker." data-no="Ikke helt. Husk den borte eska i flyttingen.">
-  <div class="mcq-q">Én pakke blir borte på veien. Hva må sendes på nytt?</div>
-  <button class="mcq-opt">Bare den ene pakken</button>
-  <button class="mcq-opt">Hele fila fra starten</button>
-  <div class="mcq-fb"></div>
-</div>
-</section>
-
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">4</span> Se et eksempel</h3>
-<div class="worked"><div class="worked-t">Hvor mange pakker blir det?</div><div class="worked-b">
-<p>Vi starter med esker. 3000 bøker, 10 bøker i hver eske:</p>
-<p style="font-size:18px;text-align:center"><b>3000 ÷ 10 = 300 esker</b></p>
-<p>Pakker regnes på samme måte. Vi deler fila på størrelsen til én pakke.</p>
-<ol class="wsteps">
-  <li>Fila er 1,5 MB. Det er <b>1 500 000 byte</b>.</li>
-  <li>Én pakke er <b>1500 byte</b>.</li>
-  <li>1 500 000 ÷ 1500 = <b>1000 pakker</b>.</li>
-  <li>Pakke nummer 412 blir borte. Mottakeren ber om <b>bare nr. 412</b> på nytt.</li>
-  <li>Da sendes 1500 byte igjen, ikke 1 500 000.</li>
-</ol>
-</div></div>
-<div class="e-trygg">💡 Triks: Dobbelt så stor fil gir dobbelt så mange pakker.</div>
-</section>
-
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">5</span> Prøv på maskinen</h3>
-<p>Nå skal du se ekte pakker. Vi bruker kommandoen <code>ping</code>. Den sender små pakker til en annen maskin og venter på svar. Litt som å rope «hallo?» og høre om noen svarer.</p>
+<details class="e-terminal"><summary>💻 Prøv i terminalen <small>valgfritt · 5 min</small></summary><div>
 <ol class="e-term-steg">
-  <li>Åpne terminalen. I Kali: klikk det svarte terminal-ikonet øverst, eller trykk <b>Ctrl + Alt + T</b>.</li>
-  <li>Skriv dette og trykk <b>Enter</b>:
+  <li>Åpne terminalen: <b>Ctrl + Alt + T</b> i Kali.</li>
+  <li>Skriv og trykk Enter:
     <span class="e-kode">ping -c 4 8.8.8.8</span>
-    <div class="e-deler"><span><code>ping</code>send «hallo»</span><span><code>-c 4</code>4 ganger</span><span><code>8.8.8.8</code>en maskin hos Google</span></div>
+    <div class="e-deler"><span><code>ping</code>rop «hallo?»</span><span><code>-c 4</code>4 ganger</span><span><code>8.8.8.8</code>en maskin hos Google</span></div>
   </li>
-  <li>Du får noe som ligner dette. Se på fargene:
-<div class="e-ut">PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
-<span class="h1">64 bytes</span> from 8.8.8.8: <span class="h2">icmp_seq=1</span> ttl=117 <span class="h4">time=12.4 ms</span>
+  <li>Du får noe sånt:
+<div class="e-ut"><span class="h1">64 bytes</span> from 8.8.8.8: <span class="h2">icmp_seq=1</span> ttl=117 <span class="h4">time=12.4 ms</span>
 <span class="h1">64 bytes</span> from 8.8.8.8: <span class="h2">icmp_seq=2</span> ttl=117 <span class="h4">time=11.9 ms</span>
-<span class="h1">64 bytes</span> from 8.8.8.8: <span class="h2">icmp_seq=3</span> ttl=117 <span class="h4">time=12.1 ms</span>
-<span class="h1">64 bytes</span> from 8.8.8.8: <span class="h2">icmp_seq=4</span> ttl=117 <span class="h4">time=12.0 ms</span>
-<span class="dim">--- 8.8.8.8 ping statistics ---</span>
+<span class="dim">…</span>
 4 packets transmitted, 4 received, <span class="h3">0% packet loss</span></div>
     <ul class="e-forklar">
-      <li><span class="m h1"></span><span><b>64 bytes</b>: hvor stor svarpakken er.</span></li>
-      <li><span class="m h2"></span><span><b>icmp_seq=1</b>: pakkenummeret. Akkurat som nummeret på eska!</span></li>
-      <li><span class="m h4"></span><span><b>time</b>: hvor lang tid turen tok. ms betyr tusendels sekund.</span></li>
-      <li><span class="m h3"></span><span><b>0% packet loss</b>: ingen pakker ble borte.</span></li>
+      <li><span class="m h1"></span><span>størrelsen på pakken</span></li>
+      <li><span class="m h2"></span><span>pakkenummeret, som i spillet</span></li>
+      <li><span class="m h4"></span><span>hvor lang tid turen tok (ms = tusendels sekund)</span></li>
+      <li><span class="m h3"></span><span>ingen pakker ble borte 👍</span></li>
     </ul>
   </li>
-  <li>Prøv nå med større pakker:
-    <span class="e-kode">ping -s 1000 -c 2 8.8.8.8</span>
-    <div class="e-deler"><span><code>-s 1000</code>gjør hver pakke 1000 byte</span><span><code>-c 2</code>2 ganger</span></div>
-    Nå ser du et større tall foran «bytes», for eksempel 1008. Noen maskiner svarer med en mindre pakke tilbake. Det er helt greit.
-  </li>
+  <li>Større pakker: <span class="e-kode">ping -s 1000 -c 2 8.8.8.8</span> Nå står det et større tall foran «bytes». (Noen maskiner svarer med en mindre pakke. Helt greit.)</li>
 </ol>
-<p class="e-win">På Windows: skriv <code>ping -n 4 8.8.8.8</code> i stedet.</p>
-</section>
+<p class="e-win">Windows: <code>ping -n 4 8.8.8.8</code></p>
+</div></details>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">6</span> Din tur</h3>
-<div class="ans-block"><div class="obj-title">Skriv svaret og trykk Svar</div>
-<div class="ans-row" data-p="1" data-a="2000|2100"><span class="ans-q">En fil på 3 MB deles i pakker på 1500 byte. Omtrent hvor mange pakker blir det?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se eksempelet: 1,5 MB ga 1000 pakker. 3 MB er dobbelt så mye.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2000</div></div></div>
-<div class="ans-row" data-p="1" data-a="en|én|1"><span class="ans-q">Én pakke av 2000 mistes. Hvor mange pakker må sendes på nytt?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tenk på flyttingen. Hvor mange esker sendte du på nytt?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1</div></div></div>
-<div class="ans-row" data-p="1" data-a="headeren|header"><span class="ans-q">Hva kalles delen av pakken som inneholder adressene?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Adresselappen, ikke tingene i eska.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">header</div></div></div>
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="2000|2100"><span class="ans-q">En fil på 3 MB deles i pakker på 1500 byte. Omtrent hvor mange pakker blir det?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">3 MB = 3 000 000 byte. Del på 1500. Snarvei: 1500 går 2 ganger i 3000.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">2000</div></div></div>
+<div class="ans-row" data-p="1" data-a="en|én|1"><span class="ans-q">Én pakke av 2000 mistes. Hvor mange pakker må sendes på nytt?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvor mange pakker klikket du på i spillet?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">1</div></div></div>
+<div class="ans-row" data-p="1" data-a="headeren|header"><span class="ans-q">Hva kalles delen av pakken som inneholder adressene?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Adresselappen. Står i den blå fagord-boksen.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">header</div></div></div>
 </div>
-<div class="hint-row"><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis løsning</button><div class="sol-box">3 000 000 delt på 1500 er <strong>2000</strong> pakker. Mister du én, sender du bare den ene på nytt. Adressene står i <strong>headeren</strong>.</div></div>
-<div class="e-husk"><span class="ico">🧠</span><span>Husk: Store ting deles i små pakker. Blir én borte, sendes bare den ene på nytt.</span></div>
-</section>
 </div></div>
 </div>
 
-<!-- ═══════════════════════ OPPGAVE 2 ═══════════════════════ -->
+<!-- ═══════════════════════ 2 · IP OG MAC ═══════════════════════ -->
 <div class="lab-card" id="n5-2" data-level="easy">
 <div class="lab-header" onclick="toggleTask(this)">
   <span class="lab-num">02</span>
@@ -244,141 +126,46 @@
 </div>
 <div class="lab-body"><div class="lab-flow">
 <div class="level-badge lb-1">Nivå 1 — De to adressene</div>
-<div class="e-mal"><span>🎯 Målet: Du vet forskjellen på IP-adresse og MAC-adresse.</span><span class="tid">⏱ ca. 10 min</span></div>
+<p class="e-hook">Hver pakke har <b>to</b> lapper på seg. Én av dem er lik hele veien. Den andre byttes hele tiden. Kjør pakken og finn ut hvilken 🕵️</p>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">1</span> Tenk på det slik</h3>
-<p>Du sender en pakke med posten fra Oslo til en venn i Bergen. Pakken stopper på flere postterminaler underveis.</p>
-<ul class="e-liste">
-  <li><span class="ico">🏷️</span><span>På pakken står en <b>stor adresselapp</b>: vennens adresse i Bergen. Den står der <b>hele veien</b>.</span></li>
-  <li><span class="ico">🟨</span><span>Sjåføren får også en <b>liten gul lapp</b>: «Kjør til neste terminal». Den sier bare hvor pakken skal <b>nå</b>.</span></li>
-  <li><span class="ico">🔄</span><span>På hver terminal kastes den gule lappen. En ny gul lapp skrives for neste stopp.</span></li>
-</ul>
-<div class="e-regel">Stor lapp = hvor pakken skal til slutt.<br>Gul lapp = hvor pakken skal nå.</div>
-</section>
+<div class="e-spill" data-spill="reise" data-tittel="🎮 Kjør pakken til serveren"></div>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">2</span> Nå med fagord</h3>
-<table class="e-ord">
-  <tr><td>🏷️ Den store adresselappen</td><td class="pil">→</td><td><b>IP-adresse</b>. Ser slik ut: <code>192.168.1.10</code></td></tr>
-  <tr><td>🟨 Den lille gule lappen</td><td class="pil">→</td><td><b>MAC-adresse</b>. Ser slik ut: <code>3c:22:fb:7a:10:05</code></td></tr>
-  <tr><td>🏤 Postterminalene</td><td class="pil">→</td><td><b>Rutere</b></td></tr>
-</table>
-<figure class="e-fig">
-<svg viewBox="0 0 680 250" role="img" aria-label="Pakken går fra PC via ruter 1 og ruter 2 til serveren. IP-lappen er lik på alle tre strekk. MAC-lappen er ny på hvert strekk.">
-  <defs><marker id="p2a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="sv-pil"/></marker></defs>
-  <!-- pakkene -->
-  <g>
-    <rect x="100" y="24" width="150" height="80" rx="9" class="sv-k"/>
-    <rect x="108" y="32" width="134" height="30" rx="5" class="sv-b"/><text x="175" y="52" text-anchor="middle" class="sv-m">IP: 93.184.2.10</text>
-    <rect x="108" y="68" width="134" height="28" rx="5" class="sv-a"/><text x="175" y="87" text-anchor="middle" class="sv-m">MAC: Ruter 1</text>
-    <rect x="300" y="24" width="150" height="80" rx="9" class="sv-k"/>
-    <rect x="308" y="32" width="134" height="30" rx="5" class="sv-b"/><text x="375" y="52" text-anchor="middle" class="sv-m">IP: 93.184.2.10</text>
-    <rect x="308" y="68" width="134" height="28" rx="5" class="sv-a"/><text x="375" y="87" text-anchor="middle" class="sv-m">MAC: Ruter 2</text>
-    <rect x="490" y="24" width="150" height="80" rx="9" class="sv-k"/>
-    <rect x="498" y="32" width="134" height="30" rx="5" class="sv-b"/><text x="565" y="52" text-anchor="middle" class="sv-m">IP: 93.184.2.10</text>
-    <rect x="498" y="68" width="134" height="28" rx="5" class="sv-a"/><text x="565" y="87" text-anchor="middle" class="sv-m">MAC: Serveren</text>
-  </g>
-  <text x="175" y="135" text-anchor="middle" class="sv-s">Strekk 1</text>
-  <text x="375" y="135" text-anchor="middle" class="sv-s">Strekk 2</text>
-  <text x="565" y="135" text-anchor="middle" class="sv-s">Strekk 3</text>
-  <!-- maskinene -->
-  <rect x="10" y="168" width="100" height="48" rx="9" class="sv-g"/><text x="60" y="198" text-anchor="middle" class="sv-t">Din PC</text>
-  <rect x="225" y="168" width="100" height="48" rx="9" class="sv-k"/><text x="275" y="198" text-anchor="middle" class="sv-t">Ruter 1</text>
-  <rect x="425" y="168" width="100" height="48" rx="9" class="sv-k"/><text x="475" y="198" text-anchor="middle" class="sv-t">Ruter 2</text>
-  <rect x="570" y="168" width="100" height="48" rx="9" class="sv-p"/><text x="620" y="198" text-anchor="middle" class="sv-t">Server</text>
-  <line x1="112" y1="192" x2="221" y2="192" class="sv-strek" marker-end="url(#p2a)"/>
-  <line x1="327" y1="192" x2="421" y2="192" class="sv-strek" marker-end="url(#p2a)"/>
-  <line x1="527" y1="192" x2="566" y2="192" class="sv-strek" marker-end="url(#p2a)"/>
-  <text x="340" y="242" text-anchor="middle" class="sv-s">Blå lapp (IP) er lik hele veien. Gul lapp (MAC) er ny på hvert strekk.</text>
-</svg>
-</figure>
-<ul class="e-liste">
-  <li><span class="ico">🔵</span><span><b>IP-adressen</b> sier hvor pakken skal til slutt. Den <b>endres ikke</b> på veien.</span></li>
-  <li><span class="ico">🟡</span><span><b>MAC-adressen</b> sitter fast i nettverkskortet. Den brukes bare til neste stopp, og <b>byttes</b> på hver ruter.</span></li>
-</ul>
-<div class="e-regel">IP = hele reisen. MAC = neste stopp.<small>Husker du denne setningen, klarer du mange av spørsmålene senere i emnet.</small></div>
-</section>
-
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">3</span> Oppvarming</h3>
-<p>Klikk på svaret du tror er riktig.</p>
-<div class="mcq" data-c="2019846642" data-ok="Riktig! Fire tall med punktum mellom er en IP-adresse." data-no="Ikke helt. En MAC-adresse har bokstaver og kolon, som 3c:22:fb:7a:10:05.">
-  <div class="mcq-q">Hvilken adresse ser slik ut: 192.168.1.10?</div>
-  <button class="mcq-opt">IP-adresse</button>
-  <button class="mcq-opt">MAC-adresse</button>
-  <div class="mcq-fb"></div>
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+🏷️ Til-lappen er <b>IP-adressen</b>. Ser sånn ut: <code>93.184.2.10</code><br>
+🟨 Neste-stopp-lappen er <b>MAC-adressen</b>. Ser sånn ut: <code>3c:22:fb:7a:10:05</code><br>
+Huskeregel: <b>IP = hele reisen. MAC = neste stopp.</b>
 </div>
-<div class="mcq" data-c="272208637" data-ok="Riktig! Den gule lappen er MAC, og den byttes ved hvert stopp." data-no="Ikke helt. Den store lappen står likt hele veien.">
-  <div class="mcq-q">Hvilken lapp byttes på hver postterminal?</div>
-  <button class="mcq-opt">Den store adresselappen (IP)</button>
-  <button class="mcq-opt">Den lille gule lappen (MAC)</button>
-  <div class="mcq-fb"></div>
-</div>
-<div class="mcq" data-c="1623516293" data-ok="Riktig! Første stopp er alltid din egen ruter." data-no="Ikke helt. MAC sier bare hvor pakken skal NÅ. Hva er første stopp?">
-  <div class="mcq-q">Du sender til en server i USA. Hvem står som mottaker-MAC på første strekk?</div>
-  <button class="mcq-opt">Serveren i USA</button>
-  <button class="mcq-opt">Ruteren din</button>
-  <div class="mcq-fb"></div>
-</div>
-</section>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">4</span> Se et eksempel</h3>
-<div class="worked"><div class="worked-t">Din PC henter en nettside</div><div class="worked-b">
-<p>Din PC har IP <code>192.168.1.10</code>. Nettsiden har IP <code>93.184.2.10</code>. Se hva som står på pakken på hvert strekk:</p>
-<table class="e-ord">
-  <tr><td><b style="color:var(--text)">Strekk</b></td><td class="pil"></td><td><b style="color:var(--text)">Blå lapp (IP til)</b> · <b style="color:var(--amber)">Gul lapp (MAC til)</b></td></tr>
-  <tr><td>1. PC → ruteren din</td><td class="pil">→</td><td><code>93.184.2.10</code> · <span style="color:var(--amber)">ruteren din</span></td></tr>
-  <tr><td>2. Ruter → neste ruter</td><td class="pil">→</td><td><code>93.184.2.10</code> · <span style="color:var(--amber)">neste ruter</span></td></tr>
-  <tr><td>3. Siste ruter → server</td><td class="pil">→</td><td><code>93.184.2.10</code> · <span style="color:var(--amber)">serveren</span></td></tr>
-</table>
-<p>Ser du det? <b>IP-en er lik i alle tre linjene.</b> MAC-en er ny hver gang. Serveren ser aldri MAC-adressen til PC-en din.</p>
-</div></div>
-</section>
-
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">5</span> Prøv på maskinen</h3>
-<p>Nå skal du finne dine egne to adresser.</p>
+<details class="e-terminal"><summary>💻 Finn dine egne to adresser <small>valgfritt · 5 min</small></summary><div>
 <ol class="e-term-steg">
-  <li>Åpne terminalen (<b>Ctrl + Alt + T</b> i Kali).</li>
-  <li>Skriv dette og trykk <b>Enter</b>:
-    <span class="e-kode">ip addr</span>
-    <div class="e-deler"><span><code>ip</code>verktøy for nettverk</span><span><code>addr</code>vis adressene mine</span></div>
-  </li>
-  <li>Hopp over delen som heter <code>lo</code>. Det er maskinen som snakker med seg selv. Se på delen som heter <code>eth0</code> (eller <code>wlan0</code>):
+  <li>Skriv: <span class="e-kode">ip addr</span>
+    Hopp over <code>lo</code> (det er maskinen som snakker med seg selv). Se på <code>eth0</code>:
 <div class="e-ut">2: eth0: &lt;BROADCAST,MULTICAST,UP&gt; <span class="h3">mtu 1500</span> ...
     link/ether <span class="h1">08:00:27:3c:7a:10</span> brd ff:ff:ff:ff:ff:ff
     inet <span class="h2">192.168.1.10</span>/24 brd 192.168.1.255 scope global eth0</div>
     <ul class="e-forklar">
-      <li><span class="m h1"></span><span>Etter <b>link/ether</b> står din <b>MAC-adresse</b>.</span></li>
-      <li><span class="m h2"></span><span>Etter <b>inet</b> står din <b>IP-adresse</b>.</span></li>
-      <li><span class="m h3"></span><span><b>mtu 1500</b>: største pakke er 1500 byte. Det tallet så du i oppgave 1!</span></li>
+      <li><span class="m h1"></span><span>din MAC 🟨</span></li>
+      <li><span class="m h2"></span><span>din IP 🏷️</span></li>
+      <li><span class="m h3"></span><span>største pakke: 1500 byte. Kjent tall? 😉</span></li>
     </ul>
   </li>
-  <li>Se nå naboene dine:
-    <span class="e-kode">ip neigh</span>
+  <li>Se naboene: <span class="e-kode">ip neigh</span>
 <div class="e-ut"><span class="h2">192.168.1.1</span> dev eth0 lladdr <span class="h1">3c:22:fb:7a:10:05</span> REACHABLE</div>
-    Hver linje er en nabo: først naboens <span style="color:var(--blue)">IP</span>, så naboens <span style="color:var(--amber)">MAC</span>.
+    Naboens IP, så naboens MAC.
   </li>
 </ol>
-<p class="e-win">På Windows: skriv <code>ipconfig /all</code> og <code>arp -a</code>.</p>
-</section>
+<p class="e-win">Windows: <code>ipconfig /all</code> og <code>arp -a</code></p>
+</div></details>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">6</span> Din tur</h3>
-<div class="ans-block"><div class="obj-title">Skriv svaret og trykk Svar</div>
-<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Du sender til en server i USA. Endrer avsender-IP seg underveis? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">IP er den store lappen. Står den likt hele veien?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
-<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Endrer avsender-MAC seg underveis? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">MAC er den gule lappen. Hva skjer med den på hver terminal?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
-<div class="ans-row" data-p="1" data-a="ip adressen|ip-adressen|ip"><span class="ans-q">Hvilken av de to adressene står i pakken når den forlater ruteren din mot internett, uendret fra din PC?</span><input class="ans-in" placeholder="to bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den som ikke byttes ved hvert stopp. To bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ip</div></div></div>
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Du sender til en server i USA. Endrer avsender-IP seg underveis? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">IP er 🏷️-lappen. Fikk den 🔒 i spillet?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">Endrer avsender-MAC seg underveis? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">MAC er 🟨-lappen. Hva skjedde med den på hver ruter?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
+<div class="ans-row" data-p="1" data-a="ip adressen|ip-adressen|ip"><span class="ans-q">Hvilken av de to adressene står i pakken når den forlater ruteren din mot internett, uendret fra din PC?</span><input class="ans-in" placeholder="to bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den med 🔒. To bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ip</div></div></div>
 </div>
-<div class="hint-row"><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis løsning</button><div class="sol-box">Avsender-IP endres <strong>ikke</strong>. Avsender-MAC endres <strong>ja</strong>, på hver ruter. Det som står uendret er <strong>IP</strong>.</div></div>
-<div class="e-husk"><span class="ico">🧠</span><span>Husk: IP = hele reisen. MAC = neste stopp.</span></div>
-</section>
 </div></div>
 </div>
 
-<!-- ═══════════════════════ OPPGAVE 3 ═══════════════════════ -->
+<!-- ═══════════════════════ 3 · SWITCH, RUTER, BRANNMUR ═══════════════════════ -->
 <div class="lab-card" id="n5-3" data-level="easy">
 <div class="lab-header" onclick="toggleTask(this)">
   <span class="lab-num">03</span>
@@ -387,128 +174,55 @@
 </div>
 <div class="lab-body"><div class="lab-flow">
 <div class="level-badge lb-1">Nivå 1 — Tre jobber</div>
-<div class="e-mal"><span>🎯 Målet: Du vet hva switch, ruter og brannmur gjør.</span><span class="tid">⏱ ca. 10 min</span></div>
-
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">1</span> Tenk på det slik</h3>
-<p>Tenk på en boligblokk i en by.</p>
-<div class="e-tre">
-  <div><span class="ico">📬</span><b>Postkassene i oppgangen</b>Fordeler post til riktig leilighet <b style="display:inline;font-size:inherit">i samme blokk</b>.</div>
-  <div class="a"><span class="ico">🛣️</span><b>Veikrysset</b>Vet hvilken vei du skal kjøre for å komme <b style="display:inline;font-size:inherit">til en annen by</b>.</div>
-  <div class="p"><span class="ico">💂</span><b>Vakten ved porten</b>Sjekker om du <b style="display:inline;font-size:inherit">har lov</b> til å gå inn eller ut.</div>
+<p class="e-hook">Tre bokser. Tre jobber. Det er alt du trenger å vite:</p>
+<div class="e-roller">
+  <span>🔀 <b>Switch</b> flytter <b>innenfor</b> nettet</span>
+  <span>🧭 <b>Ruter</b> flytter <b>mellom</b> nett</span>
+  <span>🛡️ <b>Brannmur</b> <b>bestemmer</b> hva som får lov</span>
 </div>
-<p>Tre ulike jobber. Ingen av dem gjør de andres jobb.</p>
-</section>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">2</span> Nå med fagord</h3>
-<div class="e-tre">
-  <div><span class="ico">🔀</span><b>Switch</b><span class="q">«Hvilken port sitter denne maskinen på?»</span>Flytter trafikk <b style="display:inline;font-size:inherit">innenfor</b> ett nettverk. Ser på MAC-adresser.</div>
-  <div class="a"><span class="ico">🧭</span><b>Ruter</b><span class="q">«Hvilket nettverk skal dette til?»</span>Flytter trafikk <b style="display:inline;font-size:inherit">mellom</b> nettverk. Ser på IP-adresser.</div>
-  <div class="p"><span class="ico">🛡️</span><b>Brannmur</b><span class="q">«Har denne trafikken lov?»</span><b style="display:inline;font-size:inherit">Bestemmer</b> hva som slipper gjennom. Følger regler.</div>
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Hvem sin jobb er det?" data-knapper="🔀 Switch|🧭 Ruter|🛡️ Brannmur">
+  <div class="ly-item" data-svar="0" data-hvorfor="Samme rom, samme nett. Switchen fikser det.">PC-en din sender et dokument til skriveren i samme rom 🖨️</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Fra ett nett til et annet = ruterjobb.">En pakke skal fra kontoret i Oslo til kontoret i Bergen 🚚</div>
+  <div class="ly-item" data-svar="2" data-hvorfor="«Får denne komme inn?» Det er vaktens jobb.">En ukjent maskin på internett prøver å koble seg til PC-en din 🕵️</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Switchen husker hvilken kabel hver MAC-adresse sitter i.">Finn ut hvilken kabel maskinen med MAC <code>3c:22:fb:7a:10:05</code> sitter i 🔌</div>
+  <div class="ly-item" data-svar="2" data-hvorfor="En regel om hva som er lov = brannmur.">Sjefen sier: «Ingen TikTok på jobb-nettet!» 🚫📱</div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Ut av hjemmenettet og videre mot internett = ruteren.">Netflix skal strømme fra internett inn til huset ditt 🍿</div>
 </div>
-<figure class="e-fig">
-<svg viewBox="0 0 660 220" role="img" aria-label="To PC-er er koblet til en switch. Switchen er koblet til en boks med ruter og brannmur, som går videre til internett.">
-  <defs><marker id="p3a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="sv-pil"/></marker></defs>
-  <rect x="6" y="6" width="300" height="186" rx="12" class="sv-k sv-stiplet" style="fill:none"/>
-  <text x="156" y="212" text-anchor="middle" class="sv-s">Hjemmenettet ditt (innenfor)</text>
-  <rect x="24" y="30" width="90" height="46" rx="8" class="sv-g"/><text x="69" y="59" text-anchor="middle" class="sv-t">PC A</text>
-  <rect x="24" y="122" width="90" height="46" rx="8" class="sv-g"/><text x="69" y="151" text-anchor="middle" class="sv-t">PC B</text>
-  <rect x="186" y="74" width="100" height="50" rx="8" class="sv-b"/><text x="236" y="105" text-anchor="middle" class="sv-t">Switch</text>
-  <line x1="116" y1="56" x2="184" y2="90" class="sv-strek" marker-start="url(#p3a)" marker-end="url(#p3a)"/>
-  <line x1="116" y1="144" x2="184" y2="110" class="sv-strek" marker-start="url(#p3a)" marker-end="url(#p3a)"/>
-  <rect x="350" y="60" width="150" height="78" rx="10" class="sv-a"/>
-  <text x="425" y="92" text-anchor="middle" class="sv-t">Ruter</text>
-  <text x="425" y="116" text-anchor="middle" class="sv-tp sv-t">+ brannmur</text>
-  <line x1="288" y1="99" x2="346" y2="99" class="sv-strek" marker-start="url(#p3a)" marker-end="url(#p3a)"/>
-  <ellipse cx="590" cy="99" rx="62" ry="40" class="sv-k"/><text x="590" y="105" text-anchor="middle" class="sv-t">Internett</text>
-  <line x1="502" y1="99" x2="526" y2="99" class="sv-strek" marker-start="url(#p3a)" marker-end="url(#p3a)"/>
-  <text x="425" y="166" text-anchor="middle" class="sv-s">Hjemme sitter ruter og</text>
-  <text x="425" y="184" text-anchor="middle" class="sv-s">brannmur i samme boks.</text>
-</svg>
-</figure>
-<div class="e-regel">Switch flytter innenfor. Ruter flytter mellom. Brannmur bestemmer.</div>
-</section>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">3</span> Oppvarming</h3>
-<p>Klikk på svaret du tror er riktig.</p>
-<div class="mcq" data-c="513733482" data-ok="Riktig! Brannmuren er vakten." data-no="Ikke helt. Hvem er vakten ved porten?">
-  <div class="mcq-q">Hvilken boks spør: «Har denne trafikken lov?»</div>
-  <button class="mcq-opt">Switch</button>
-  <button class="mcq-opt">Ruter</button>
-  <button class="mcq-opt">Brannmur</button>
-  <div class="mcq-fb"></div>
-</div>
-<div class="mcq" data-c="273681623" data-ok="Riktig! Ruteren er veikrysset mellom nettverk." data-no="Ikke helt. Hvem vet veien til en annen by?">
-  <div class="mcq-q">Hvilken boks flytter trafikk mellom to nettverk?</div>
-  <button class="mcq-opt">Switch</button>
-  <button class="mcq-opt">Ruter</button>
-  <button class="mcq-opt">Brannmur</button>
-  <div class="mcq-fb"></div>
-</div>
-<div class="mcq" data-c="707854244" data-ok="Riktig! Hjemmeruteren er ofte switch, ruter og brannmur i én boks." data-no="Ikke helt. Se på tegningen i steg 2.">
-  <div class="mcq-q">Hjemme hos deg: hvor sitter brannmuren som oftest?</div>
-  <button class="mcq-opt">I samme boks som ruteren</button>
-  <button class="mcq-opt">Inne i nettverkskabelen</button>
-  <div class="mcq-fb"></div>
-</div>
-</section>
+<p class="e-sikker">🏠 Fun fact: Boksen du har hjemme fra internettleverandøren er ofte <b>alle tre i én</b>.</p>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">4</span> Se et eksempel</h3>
-<div class="worked"><div class="worked-t">Tre turer, tre veier</div><div class="worked-b">
-<p>PC A og PC B er på samme kontor. PC C er på et annet kontor.</p>
-<div class="e-tur"><div>1. PC A → PC B (samme nett)</div>
-  <div class="e-vei"><span class="b">PC A</span><span class="pil">→</span><span class="b s">Switch</span><span class="pil">→</span><span class="b">PC B</span></div></div>
-<div class="e-tur"><div>2. PC A → PC C (annet nett)</div>
-  <div class="e-vei"><span class="b">PC A</span><span class="pil">→</span><span class="b s">Switch</span><span class="pil">→</span><span class="b r">Ruter</span><span class="pil">→</span><span class="b s">Switch</span><span class="pil">→</span><span class="b">PC C</span></div></div>
-<div class="e-tur"><div>3. PC A → en nettside ute på internett</div>
-  <div class="e-vei"><span class="b">PC A</span><span class="pil">→</span><span class="b s">Switch</span><span class="pil">→</span><span class="b r">Ruter</span><span class="pil">→</span><span class="b f">Brannmur</span><span class="pil">→</span><span class="b">Internett</span></div></div>
-<p>Jo lenger unna målet er, jo flere bokser må pakken innom.</p>
-</div></div>
-</section>
-
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">5</span> Prøv på maskinen</h3>
+<details class="e-terminal"><summary>💻 Se ruteren din og veien ut <small>valgfritt · 5 min</small></summary><div>
 <ol class="e-term-steg">
-  <li>Åpne terminalen (<b>Ctrl + Alt + T</b>).</li>
-  <li>Finn veien ut. Skriv:
-    <span class="e-kode">ip route</span>
+  <li>Skriv: <span class="e-kode">ip route</span>
 <div class="e-ut"><span class="h1">default via 192.168.1.1</span> dev eth0
 <span class="h2">192.168.1.0/24</span> dev eth0 scope link src 192.168.1.10</div>
     <ul class="e-forklar">
-      <li><span class="m h1"></span><span><b>default via 192.168.1.1</b>: «Alt som skal ut, går til ruteren på 192.168.1.1.»</span></li>
-      <li><span class="m h2"></span><span><b>192.168.1.0/24</b>: ditt eget nettverk. Dit sender du direkte, via switchen.</span></li>
+      <li><span class="m h1"></span><span>«Alt som skal ut, går til ruteren på 192.168.1.1.»</span></li>
+      <li><span class="m h2"></span><span>ditt eget nett. Dit går det rett via switchen.</span></li>
     </ul>
   </li>
-  <li>Se alle ruterne på veien til Google:
-    <span class="e-kode">traceroute 8.8.8.8</span>
-<div class="e-ut"> <span class="h1">1</span>  192.168.1.1    1.2 ms     <span class="dim">← din egen ruter</span>
- <span class="h1">2</span>  10.20.0.1      8.5 ms
- <span class="h1">3</span>  * * *                 <span class="dim">← denne ruteren vil ikke svare</span>
- <span class="h1">4</span>  72.14.209.81  12.0 ms
- <span class="h1">5</span>  8.8.8.8       12.3 ms    <span class="dim">← framme</span></div>
-    Hver linje er én ruter pakken gikk gjennom. Stjerner (<code>* * *</code>) er helt vanlig. Det betyr bare at den ruteren ikke svarer.
+  <li>Se alle ruterne på veien til Google: <span class="e-kode">traceroute 8.8.8.8</span>
+<div class="e-ut"> 1  192.168.1.1    1.2 ms   <span class="dim">← din ruter</span>
+ 2  10.20.0.1      8.5 ms
+ 3  * * *                <span class="dim">← vil ikke svare, helt vanlig</span>
+ 4  8.8.8.8       12.3 ms   <span class="dim">← framme</span></div>
+    Én linje = én ruter.
   </li>
 </ol>
-<div class="e-merk">Står det «command not found»? Installer verktøyet først: <code>sudo apt install traceroute</code></div>
-<p class="e-win">På Windows: <code>route print</code> og <code>tracert 8.8.8.8</code>.</p>
-</section>
+<div class="e-merk">«command not found»? Kjør <code>sudo apt install traceroute</code> først.</div>
+<p class="e-win">Windows: <code>route print</code> og <code>tracert 8.8.8.8</code></p>
+</div></details>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">6</span> Din tur</h3>
-<div class="ans-block"><div class="obj-title">Skriv svaret og trykk Svar</div>
-<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">To maskiner på samme nettverk snakker sammen. Er ruteren involvert? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se tur 1 i eksempelet. Hvilke bokser var med?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
-<div class="ans-row" data-p="1" data-a="switchen|switch"><span class="ans-q">Hvilken av de tre ser på MAC-adresser og ikke IP?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Postkassene i oppgangen. Den som flytter innenfor.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">switch</div></div></div>
-<div class="ans-row" data-p="1" data-a="ruteren|router|ruter"><span class="ans-q">Hvilken av de tre er grensen mellom to nettverk?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Veikrysset. Den som flytter mellom.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ruter</div></div></div>
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">To maskiner på samme nettverk snakker sammen. Er ruteren involvert? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Samme nett = innenfor. Hvem flytter innenfor?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="switchen|switch"><span class="ans-q">Hvilken av de tre ser på MAC-adresser og ikke IP?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Husk kortet med kabelen 🔌.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">switch</div></div></div>
+<div class="ans-row" data-p="1" data-a="ruteren|router|ruter"><span class="ans-q">Hvilken av de tre er grensen mellom to nettverk?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den som flytter mellom 🧭.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ruter</div></div></div>
 </div>
-<div class="e-husk"><span class="ico">🧠</span><span>Husk: Switch flytter innenfor. Ruter flytter mellom. Brannmur bestemmer.</span></div>
-</section>
 </div></div>
 </div>
 
-<!-- ═══════════════════════ OPPGAVE 4 ═══════════════════════ -->
+<!-- ═══════════════════════ 4 · ARP ═══════════════════════ -->
 <div class="lab-card" id="n5-4" data-level="medium">
 <div class="lab-header" onclick="toggleTask(this)">
   <span class="lab-num">04</span>
@@ -517,143 +231,55 @@
 </div>
 <div class="lab-body"><div class="lab-flow">
 <div class="level-badge lb-3">Nivå 2 — ARP</div>
-<div class="e-mal"><span>🎯 Målet: Du forstår hvordan en maskin finner MAC-adressen til naboen, og hvorfor det kan misbrukes.</span><span class="tid">⏱ ca. 12 min</span></div>
+<p class="e-hook">PC-en din vet IP-en til naboen, men ikke MAC-en. Så den gjør det eneste den kan: <b>roper</b> 📣</p>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">1</span> Tenk på det slik</h3>
-<p>Du står i døra til et klasserom. Du har en lapp til Ola. Du vet at Ola er i rommet, men ikke hvor han sitter.</p>
-<ul class="e-liste">
-  <li><span class="ico">📣</span><span>Du roper: «Hvem er Ola?» <b>Alle</b> i rommet hører det.</span></li>
-  <li><span class="ico">🙋</span><span>Ola rekker opp hånda: «Det er meg, pult 7!»</span></li>
-  <li><span class="ico">📓</span><span>Du skriver «Ola = pult 7» i notatboka. Neste gang slipper du å rope.</span></li>
-  <li><span class="ico">🦹</span><span>Men hva om en lurendreier roper «Det er meg!» <b>før</b> Ola? Da gir du lappen til feil person.</span></li>
-</ul>
-</section>
-
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">2</span> Nå med fagord</h3>
-<table class="e-ord">
-  <tr><td>📣 Å rope «Hvem er Ola?»</td><td class="pil">→</td><td><b>ARP</b>: «Hvem har denne IP-adressen?»</td></tr>
-  <tr><td>👂 Alle i rommet hører</td><td class="pil">→</td><td><b>Kringkasting</b> (broadcast): sendt til alle</td></tr>
-  <tr><td>🪑 Pult 7</td><td class="pil">→</td><td><b>MAC-adressen</b></td></tr>
-  <tr><td>📓 Notatboka</td><td class="pil">→</td><td><b>ARP-tabellen</b></td></tr>
-  <tr><td>🦹 Lurendreieren</td><td class="pil">→</td><td><b>ARP-spoofing</b>: et falskt svar</td></tr>
-</table>
-<figure class="e-fig">
-<svg viewBox="0 0 660 230" role="img" aria-label="Din PC roper til alle tre maskinene på nettet: hvem har 192.168.1.20? Bare maskinen med .20 svarer: det er meg.">
-  <defs>
-    <marker id="p4a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="sv-pil-a"/></marker>
-    <marker id="p4g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="sv-pil-g"/></marker>
-  </defs>
-  <rect x="10" y="14" width="200" height="40" rx="20" class="sv-a"/><text x="110" y="40" text-anchor="middle" class="sv-t">«Hvem har .20?»</text>
-  <rect x="10" y="90" width="110" height="50" rx="9" class="sv-b"/><text x="65" y="121" text-anchor="middle" class="sv-t">Din PC</text>
-  <rect x="470" y="14" width="130" height="44" rx="8" class="sv-k"/><text x="535" y="42" text-anchor="middle" class="sv-m">192.168.1.11</text>
-  <rect x="470" y="93" width="130" height="44" rx="8" class="sv-g"/><text x="535" y="121" text-anchor="middle" class="sv-m">192.168.1.20</text>
-  <rect x="470" y="172" width="130" height="44" rx="8" class="sv-k"/><text x="535" y="200" text-anchor="middle" class="sv-m">192.168.1.30</text>
-  <line x1="122" y1="98" x2="466" y2="38" class="sv-strek-a" marker-end="url(#p4a)"/>
-  <line x1="122" y1="104" x2="466" y2="104" class="sv-strek-a" marker-end="url(#p4a)"/>
-  <line x1="122" y1="134" x2="466" y2="192" class="sv-strek-a" marker-end="url(#p4a)"/>
-  <line x1="468" y1="124" x2="126" y2="124" class="sv-strek-g" marker-end="url(#p4g)"/>
-  <text x="372" y="152" text-anchor="middle" class="sv-tg sv-t">«Det er meg!»</text>
-</svg>
-<figcaption>Gult: spørsmålet går til <b>alle</b>. Grønt: bare den riktige maskinen svarer.</figcaption>
-</figure>
-<p><b>Problemet:</b> Maskinen tror på det første svaret den får. Den sjekker ikke om svaret er sant.</p>
-<figure class="e-fig">
-<svg viewBox="0 0 660 200" role="img" aria-label="En angriper svarer først med sin egen MAC-adresse. Da går trafikken fra din PC til angriperen, som sender den videre til den ekte maskinen.">
-  <defs><marker id="p4r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="sv-pil-r"/></marker></defs>
-  <rect x="10" y="40" width="110" height="50" rx="9" class="sv-b"/><text x="65" y="71" text-anchor="middle" class="sv-t">Din PC</text>
-  <rect x="270" y="120" width="130" height="56" rx="9" class="sv-r"/><text x="335" y="146" text-anchor="middle" class="sv-tr sv-t">Angriper</text><text x="335" y="166" text-anchor="middle" class="sv-s">«Det er meg!» (løgn)</text>
-  <rect x="530" y="40" width="120" height="50" rx="9" class="sv-g"/><text x="590" y="71" text-anchor="middle" class="sv-m">Ekte .20</text>
-  <path d="M120 80 L 268 140" class="sv-strek-r" marker-end="url(#p4r)"/>
-  <path d="M402 140 L 528 82" class="sv-strek-r" marker-end="url(#p4r)"/>
-  <line x1="124" y1="58" x2="526" y2="58" class="sv-strek sv-stiplet"/>
-  <text x="325" y="48" text-anchor="middle" class="sv-s">veien du tror pakken tar</text>
-  <text x="180" y="138" text-anchor="middle" class="sv-tr sv-s">1. til angriperen</text>
-  <text x="500" y="140" text-anchor="middle" class="sv-tr sv-s">2. videre</text>
-</svg>
-<figcaption>Angriperen leser alt, og sender det videre så du ikke merker noe.</figcaption>
-</figure>
-</section>
-
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">3</span> Oppvarming</h3>
-<p>Klikk på svaret du tror er riktig.</p>
-<div class="mcq" data-c="283520513" data-ok="Riktig! Det er ARP." data-no="Ikke helt. Tenk på klasserommet. Hva gjorde du?">
-  <div class="mcq-q">Du vet IP-adressen, men ikke MAC-adressen. Hva gjør maskinen?</div>
-  <button class="mcq-opt">Gjetter en MAC-adresse</button>
-  <button class="mcq-opt">Roper til alle: «Hvem har denne IP-en?»</button>
-  <button class="mcq-opt">Spør Google</button>
-  <div class="mcq-fb"></div>
+<div class="e-spill" data-spill="chat" data-tittel="💬 Lokalnett-chatten">
+  <div class="ch-item" data-fra="sys">📍 Et lokalnett med fire maskiner. Din PC vil sende noe til 192.168.1.20.</div>
+  <div class="ch-item" data-fra="pc" data-navn="Din PC · 192.168.1.10">📣 HALLO ALLE! Hvem har 192.168.1.20?</div>
+  <div class="ch-item" data-fra="sys">.11 og .30 hører ropet, men sier ingenting. Ikke deres adresse 🤷</div>
+  <div class="ch-item" data-fra="nabo" data-navn="192.168.1.20">Det er meg! 👋 MAC-en min er 3c:22:fb:7a:10:05</div>
+  <div class="ch-item" data-fra="pc" data-navn="Din PC">Takk! Skriver det i notatboka 📓 Neste gang slipper jeg å rope.</div>
+  <div class="ch-item" data-stopp="⏪ Spol tilbake. Nå er det en skurk på nettet…"></div>
+  <div class="ch-item" data-fra="pc" data-navn="Din PC · 192.168.1.10">📣 HALLO ALLE! Hvem har 192.168.1.20?</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 192.168.1.66">DET ER MEG!!! MAC: 66:66:66:66:66:66 😈</div>
+  <div class="ch-item" data-fra="nabo" data-navn="192.168.1.20">Øh… det er jo meg? 😐</div>
+  <div class="ch-item" data-fra="pc" data-navn="Din PC">For sent! Jeg tror på det første svaret jeg får 🤝 Sender alt til 66:66…</div>
+  <div class="ch-item" data-fra="ond" data-navn="🦹 192.168.1.66">Takk 😏 Jeg leser alt, og sender det videre. Du merker ingenting.</div>
+  <div class="ch-item" data-fra="sys">😱 Ingen sjekket hvem som svarte. Hvem som helst kan svare.</div>
 </div>
-<div class="mcq" data-c="-1421803972" data-ok="Riktig! ARP-tabellen er notatboka." data-no="Ikke helt. Hva het notatboka med fagord?">
-  <div class="mcq-q">Hva heter «notatboka» der maskinen husker svarene?</div>
-  <button class="mcq-opt">ARP-tabellen</button>
-  <button class="mcq-opt">Nettleserhistorikken</button>
-  <div class="mcq-fb"></div>
-</div>
-<div class="mcq" data-c="-590004557" data-ok="Riktig! Ingen sjekker hvem som svarer." data-no="Ikke helt. Tenk på lurendreieren i klasserommet.">
-  <div class="mcq-q">Hvorfor er ARP lett å lure?</div>
-  <button class="mcq-opt">Fordi ARP er kryptert</button>
-  <button class="mcq-opt">Fordi hvem som helst kan svare</button>
-  <div class="mcq-fb"></div>
-</div>
-</section>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">4</span> Se et eksempel</h3>
-<div class="worked"><div class="worked-t">Du skal sende til 192.168.1.20, og notatboka er tom</div><div class="worked-b">
-<ol class="wsteps">
-  <li>Du roper til hele nettet: «Hvem har 192.168.1.20?»</li>
-  <li>Riktig maskin svarer med sin MAC. Du skriver den i ARP-tabellen.</li>
-  <li>Neste gang slår du bare opp i tabellen. Ingen roping.</li>
-  <li>Men: en angriper kan svare <b>før</b> den ekte maskinen.</li>
-  <li>Da havner trafikken din hos angriperen. Angriperen sender den videre, så du ikke merker noe.</li>
-</ol>
-</div></div>
-</section>
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Ropet heter <b>ARP</b>. Notatboka heter <b>ARP-tabellen</b>. Skurkens falske svar heter <b>ARP-spoofing</b>.
+</div>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">5</span> Prøv på maskinen</h3>
-<p>Nå skal du se notatboka til din egen maskin, tømme den, og se den fylles igjen.</p>
+<details class="e-terminal"><summary>💻 Se notatboka til din egen maskin <small>valgfritt · 5 min</small></summary><div>
 <ol class="e-term-steg">
-  <li>Se ARP-tabellen:
-    <span class="e-kode">ip neigh</span>
+  <li>Se ARP-tabellen: <span class="e-kode">ip neigh</span>
 <div class="e-ut"><span class="h2">192.168.1.1</span> dev eth0 lladdr <span class="h1">3c:22:fb:7a:10:05</span> <span class="h3">REACHABLE</span></div>
     <ul class="e-forklar">
-      <li><span class="m h2"></span><span>IP-adressen til naboen.</span></li>
-      <li><span class="m h1"></span><span>MAC-adressen naboen svarte med.</span></li>
-      <li><span class="m h3"></span><span><b>REACHABLE</b>: svaret er ferskt. <b>STALE</b> betyr at det er litt gammelt.</span></li>
+      <li><span class="m h2"></span><span>naboens IP</span></li>
+      <li><span class="m h1"></span><span>MAC-en naboen svarte med</span></li>
+      <li><span class="m h3"></span><span>ferskt svar (STALE = litt gammelt)</span></li>
     </ul>
   </li>
-  <li>Tøm notatboka:
-    <span class="e-kode">sudo ip neigh flush all</span>
-    <div class="e-deler"><span><code>sudo</code>kjør som administrator</span><span><code>flush all</code>slett alt</span></div>
-    Den spør kanskje om passordet ditt. Bokstavene vises ikke når du skriver. Det er normalt.
-  </li>
-  <li>Send én pakke til ruteren, og se tabellen igjen:
-    <span class="e-kode">ping -c 1 192.168.1.1 &amp;&amp; ip neigh</span>
-    <div class="e-deler"><span><code>&amp;&amp;</code>«og så»</span></div>
-    Nå står ruteren der igjen. Maskinen ropte, fikk svar og skrev det ned.
-  </li>
+  <li>Tøm notatboka: <span class="e-kode">sudo ip neigh flush all</span>
+    Den spør kanskje om passord. Bokstavene vises ikke mens du skriver. Normalt!</li>
+  <li>Rop igjen, og se: <span class="e-kode">ping -c 1 192.168.1.1 &amp;&amp; ip neigh</span>
+    <code>&amp;&amp;</code> betyr «og så». Ruteren står i notatboka igjen.</li>
 </ol>
-<div class="e-merk">Har ruteren din en annen adresse enn 192.168.1.1? Skriv <code>ip route</code> og bruk tallet etter «default via».</div>
-<p class="e-win">På Windows: <code>arp -a</code> viser tabellen.</p>
-</section>
+<div class="e-merk">Har ruteren din en annen adresse? Skriv <code>ip route</code> og bruk tallet etter «default via».</div>
+<p class="e-win">Windows: <code>arp -a</code></p>
+</div></details>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">6</span> Din tur</h3>
-<div class="ans-block"><div class="obj-title">Skriv svaret og trykk Svar</div>
-<div class="ans-row" data-p="1" data-a="arp"><span class="ans-q">Du kjenner IP-en men ikke MAC-en. Hvilken protokoll finner MAC-en?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den som roper «hvem har …?». Tre bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">arp</div></div></div>
-<div class="ans-row" data-p="1" data-a="alle"><span class="ans-q">Hvor mange maskiner på nettet hører ARP-spørsmålet?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvem i klasserommet hørte deg rope?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">alle</div></div></div>
-<div class="ans-row" data-p="1" data-a="hos angriperen|til angriperen|angriperen"><span class="ans-q">En angriper svarer på ARP før den ekte maskinen. Hvor havner trafikken din?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvem fikk lappen da lurendreieren svarte først?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">hos angriperen</div></div></div>
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="arp"><span class="ans-q">Du kjenner IP-en men ikke MAC-en. Hvilken protokoll finner MAC-en?</span><input class="ans-in" placeholder="tre bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hva het ropet? Tre bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">arp</div></div></div>
+<div class="ans-row" data-p="1" data-a="alle"><span class="ans-q">Hvor mange maskiner på nettet hører ARP-spørsmålet?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvem ropte PC-en «HALLO» til?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">alle</div></div></div>
+<div class="ans-row" data-p="1" data-a="hos angriperen|til angriperen|angriperen"><span class="ans-q">En angriper svarer på ARP før den ekte maskinen. Hvor havner trafikken din?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Hvem fikk alt i chatten? 🦹 Skriv «hos angriperen».</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">hos angriperen</div></div></div>
 </div>
-<div class="e-husk"><span class="ico">🧠</span><span>Husk: ARP roper «hvem har denne IP-en?» til alle. Hvem som helst kan svare, og det er farlig.</span></div>
-</section>
 </div></div>
 </div>
 
-<!-- ═══════════════════════ OPPGAVE 5 ═══════════════════════ -->
+<!-- ═══════════════════════ 5 · DIREKTE ELLER GATEWAY ═══════════════════════ -->
 <div class="lab-card" id="n5-5" data-level="medium">
 <div class="lab-header" onclick="toggleTask(this)">
   <span class="lab-num">05</span>
@@ -662,114 +288,47 @@
 </div>
 <div class="lab-body"><div class="lab-flow">
 <div class="level-badge lb-3">Nivå 2 — Lokalt eller ut</div>
-<div class="e-mal"><span>🎯 Målet: Du kan se på to IP-adresser og si om pakken sendes direkte eller via gateway.</span><span class="tid">⏱ ca. 12 min</span></div>
+<p class="e-hook">Med <code>/24</code> er de <b>tre første tallene</b> «gata» di. Samme gate? Lever selv 🏠. Annen gate? Gi pakken til ruteren, så tar den resten 🏤</p>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">1</span> Tenk på det slik</h3>
-<p>Du skal levere et brev til en venn.</p>
-<div class="e-valg">
-  <div class="e-valg-q">Bor vennen i samme gate som deg?</div>
-  <div class="ja"><b>🏠 Ja, samme gate</b>Du går bort og legger brevet i postkassa selv.</div>
-  <div class="nei"><b>🏤 Nei, en annen by</b>Du leverer brevet på postkontoret. De sender det videre.</div>
+<div class="e-spill" data-spill="lyn" data-tittel="⚡ Lever selv eller via ruteren?" data-knapper="🏠 Direkte|🏤 Via gateway">
+  <div class="ly-fast">Du er 💻 <span class="e-ip"><span>192</span><i>.</i><span>168</span><i>.</i><span>1</span><i>.</i><span>10</span></span> /24</div>
+  <div class="ly-item" data-svar="0" data-hvorfor="192.168.1 = 192.168.1. Samme gate!"><span class="e-ip"><span class="like">192</span><i>.</i><span class="like">168</span><i>.</i><span class="like">1</span><i>.</i><span>55</span></span></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Ikke ett eneste av de tre første tallene stemmer. Ut via ruteren!"><span class="e-ip"><span class="ulik">8</span><i>.</i><span class="ulik">8</span><i>.</i><span class="ulik">8</span><i>.</i><span>8</span></span></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Det tredje tallet er 2, ikke 1. Annen gate."><span class="e-ip"><span class="like">192</span><i>.</i><span class="like">168</span><i>.</i><span class="ulik">2</span><i>.</i><span>10</span></span></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Samme gate. (Det er faktisk ruteren selv 😄)"><span class="e-ip"><span class="like">192</span><i>.</i><span class="like">168</span><i>.</i><span class="like">1</span><i>.</i><span>1</span></span></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Lurt! Andre tall er 169, ikke 168."><span class="e-ip"><span class="like">192</span><i>.</i><span class="ulik">169</span><i>.</i><span class="like">1</span><i>.</i><span>10</span></span></div>
+  <div class="ly-item" data-svar="0" data-hvorfor="Bare husnummeret er nytt. Samme gate."><span class="e-ip"><span class="like">192</span><i>.</i><span class="like">168</span><i>.</i><span class="like">1</span><i>.</i><span>254</span></span></div>
+  <div class="ly-item" data-svar="1" data-hvorfor="Lurt igjen! 10 er ikke 1. Annen gate."><span class="e-ip"><span class="like">192</span><i>.</i><span class="like">168</span><i>.</i><span class="ulik">10</span><i>.</i><span>1</span></span></div>
 </div>
-<p>Legg merke til: Adressen på brevet er alltid vennens. Men den du <b>gir</b> brevet til, er forskjellig.</p>
-</section>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">2</span> Nå med fagord</h3>
-<table class="e-ord">
-  <tr><td>🛣️ Samme gate</td><td class="pil">→</td><td><b>Samme nettverk</b></td></tr>
-  <tr><td>🏤 Postkontoret</td><td class="pil">→</td><td><b>Standard gateway</b> (ruteren din)</td></tr>
-  <tr><td>✉️ Adressen på brevet</td><td class="pil">→</td><td><b>IP-adressen</b> til målet</td></tr>
-  <tr><td>🤝 Den du gir brevet til</td><td class="pil">→</td><td><b>MAC-adressen</b> (neste stopp)</td></tr>
-</table>
-<p>Hvordan vet maskinen om målet er i «samme gate»? Når det står <code>/24</code> etter adressen, er det enkelt:</p>
-<div class="e-regel">De tre første tallene er gatenavnet.<br>Det siste tallet er husnummeret.</div>
-<div class="e-fig">
-  <div class="e-tall"><span class="navn">Du:</span><span class="like">10</span><i>.</i><span class="like">0</span><i>.</i><span class="like">5</span><i>.</i><span>7</span></div>
-  <div class="e-tall"><span class="navn">Mål A:</span><span class="like">10</span><i>.</i><span class="like">0</span><i>.</i><span class="like">5</span><i>.</i><span>99</span><i style="margin-left:10px;font-family:var(--sans);font-size:15px;color:var(--green)">✓ samme gate → send direkte</i></div>
-  <div class="e-tall"><span class="navn">Mål B:</span><span class="like">10</span><i>.</i><span class="like">0</span><i>.</i><span class="ulik">6</span><i>.</i><span>99</span><i style="margin-left:10px;font-family:var(--sans);font-size:15px;color:var(--amber)">✗ annen gate → send til gateway</i></div>
-  <figcaption>Sammenlign bare de tre første tallene. Er alle tre like? Da er det samme gate.</figcaption>
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Ruteren du gir pakken til når målet er i en annen gate, heter <b>standard gateway</b>. Uten gateway når du naboene, men ikke resten av verden.
 </div>
-</section>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">3</span> Oppvarming</h3>
-<p>Klikk på svaret du tror er riktig.</p>
-<div class="mcq" data-c="-2104117446" data-ok="Riktig! De tre første tallene er gatenavnet." data-no="Ikke helt. Det siste tallet er husnummeret.">
-  <div class="mcq-q">Med /24: hvilken del av adressen er «gatenavnet»?</div>
-  <button class="mcq-opt">De tre første tallene</button>
-  <button class="mcq-opt">Det siste tallet</button>
-  <div class="mcq-fb"></div>
-</div>
-<div class="mcq" data-c="5863504" data-ok="Riktig! 192.168.1 er likt. Samme gate." data-no="Ikke helt. Se bare på de tre første tallene: 192, 168 og 1.">
-  <div class="mcq-q">Du er 192.168.1.10/24. Er 192.168.1.200 i samme gate?</div>
-  <button class="mcq-opt">Ja</button>
-  <button class="mcq-opt">Nei</button>
-  <div class="mcq-fb"></div>
-</div>
-<div class="mcq" data-c="-1372147561" data-ok="Riktig! Tredje tall er ulikt, så pakken går til postkontoret." data-no="Ikke helt. Sammenlign det tredje tallet: 1 og 2.">
-  <div class="mcq-q">Du er 192.168.1.10/24. Du sender til 192.168.2.5. Hvem gir du pakken til?</div>
-  <button class="mcq-opt">Rett til 192.168.2.5</button>
-  <button class="mcq-opt">Gatewayen (postkontoret)</button>
-  <div class="mcq-fb"></div>
-</div>
-</section>
-
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">4</span> Se et eksempel</h3>
-<div class="worked"><div class="worked-t">Din maskin er 192.168.1.10/24. Gatewayen er 192.168.1.1.</div><div class="worked-b">
-<div class="e-tur"><div>Til <code>192.168.1.55</code></div>
-  <div class="e-tall" style="font-size:16px"><span class="like">192</span><i>.</i><span class="like">168</span><i>.</i><span class="like">1</span><i>.</i><span>55</span></div>
-  <div>Samme gate. Send <b>direkte</b> til maskinen.</div></div>
-<div class="e-tur"><div>Til <code>8.8.8.8</code></div>
-  <div class="e-tall" style="font-size:16px"><span class="ulik">8</span><i>.</i><span class="ulik">8</span><i>.</i><span class="ulik">8</span><i>.</i><span>8</span></div>
-  <div>Annen gate. Send <b>til gatewayen</b>.</div></div>
-<p>I begge tilfeller står målets IP på pakken. Men MAC-en (den du gir pakken til) er målets i det første og <b>gatewayens</b> i det andre.</p>
-<p>Fjerner du gatewayen, virker det første fortsatt. Det andre slutter å virke. Akkurat som om postkontoret stengte: Du kan fortsatt levere i din egen gate.</p>
-</div></div>
-</section>
-
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">5</span> Prøv på maskinen</h3>
-<p>Med fire korte kommandoer kan du finne ut hvor en feil er.</p>
+<details class="e-terminal"><summary>💻 Finn feilen med fire kommandoer <small>valgfritt · 5 min</small></summary><div>
 <ol class="e-term-steg">
-  <li>Finn gatewayen din:
-    <span class="e-kode">ip route</span>
-    Se etter <code>default via</code>. Tallet etter er gatewayen.
-  </li>
-  <li>Når du gatewayen?
-    <span class="e-kode">ping -c 1 192.168.1.1</span>
-  </li>
-  <li>Når du internett?
-    <span class="e-kode">ping -c 1 8.8.8.8</span>
-  </li>
-  <li>Virker navn (DNS)?
-    <span class="e-kode">ping -c 1 vg.no</span>
-  </li>
+  <li>Finn gatewayen: <span class="e-kode">ip route</span> Tallet etter <code>default via</code>.</li>
+  <li>Når du gatewayen? <span class="e-kode">ping -c 1 192.168.1.1</span></li>
+  <li>Når du internett? <span class="e-kode">ping -c 1 8.8.8.8</span></li>
+  <li>Virker navn? <span class="e-kode">ping -c 1 vg.no</span></li>
 </ol>
-<p>Se svarene sammen. Det første som feiler, viser hvor problemet er:</p>
-<table class="e-ord">
-  <tr><td>❌ Gatewayen svarer ikke</td><td class="pil">→</td><td>Problemet er i <b>ditt eget nett</b></td></tr>
-  <tr><td>✅ Gateway &nbsp; ❌ 8.8.8.8</td><td class="pil">→</td><td>Problemet er <b>ut mot internett</b></td></tr>
-  <tr><td>✅ 8.8.8.8 &nbsp; ❌ vg.no</td><td class="pil">→</td><td>Problemet er <b>navneoppslag (DNS)</b></td></tr>
+<p>Det første som feiler, viser hvor feilen er:</p>
+<table class="e-feil">
+  <tr><td>❌ gatewayen</td><td>feil i ditt eget nett</td></tr>
+  <tr><td>✅ gateway · ❌ 8.8.8.8</td><td>feil ut mot internett</td></tr>
+  <tr><td>✅ 8.8.8.8 · ❌ vg.no</td><td>feil i navneoppslag (DNS)</td></tr>
 </table>
-</section>
+</div></details>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">6</span> Din tur</h3>
-<div class="ans-block"><div class="obj-title">Skriv svaret og trykk Svar</div>
-<div class="ans-row" data-p="1" data-a="direkte"><span class="ans-q">Du er 10.0.5.7/24. Sender du direkte eller via gateway til 10.0.5.99?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Sammenlign de tre første tallene: 10.0.5 og 10.0.5.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">direkte</div></div></div>
-<div class="ans-row" data-p="1" data-a="via gateway|gateway"><span class="ans-q">Samme maskin, til 10.0.6.99. Direkte eller via gateway?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se på det tredje tallet: 5 og 6. Er det samme gate?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">via gateway</div></div></div>
-<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">En maskin har riktig IP men ingen gateway. Når den naboen sin på samme nett? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Postkontoret er stengt. Kan du fortsatt levere i din egen gate?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="direkte"><span class="ans-q">Du er 10.0.5.7/24. Sender du direkte eller via gateway til 10.0.5.99?</span><input class="ans-in" placeholder="ett ord"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">10.0.5 og 10.0.5. Samme gate?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">direkte</div></div></div>
+<div class="ans-row" data-p="1" data-a="via gateway|gateway"><span class="ans-q">Samme maskin, til 10.0.6.99. Direkte eller via gateway?</span><input class="ans-in" placeholder="kort svar"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Tredje tall: 5 og 6.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">via gateway</div></div></div>
+<div class="ans-row" data-p="1" data-a="ja"><span class="ans-q">En maskin har riktig IP men ingen gateway. Når den naboen sin på samme nett? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Trenger du ruteren for å levere i din egen gate?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">ja</div></div></div>
 </div>
-<div class="hint-row"><button class="sol-btn" onclick="toggleSolution(this)">&#9654; Vis løsning</button><div class="sol-box">Uten gateway virker alt i ditt eget nett, men ingenting utenfor. Det forteller deg nøyaktig hva som mangler.</div></div>
-<div class="e-husk"><span class="ico">🧠</span><span>Husk: Samme gate: send direkte. Annen gate: send til gatewayen.</span></div>
-</section>
 </div></div>
 </div>
 
-<!-- ═══════════════════════ OPPGAVE 6 ═══════════════════════ -->
+<!-- ═══════════════════════ 6 · LOKALNETT OG HOPP ═══════════════════════ -->
 <div class="lab-card" id="n5-6" data-level="medium">
 <div class="lab-header" onclick="toggleTask(this)">
   <span class="lab-num">06</span>
@@ -778,120 +337,28 @@
 </div>
 <div class="lab-body"><div class="lab-flow">
 <div class="level-badge lb-3">Nivå 2 — Grensen</div>
-<div class="e-mal"><span>🎯 Målet: Du vet hvor ditt lokalnett slutter, og hvorfor det er viktig for sikkerhet.</span><span class="tid">⏱ ca. 10 min</span></div>
+<p class="e-hook">Hvor langt når et rop? Og hvor mange dører går en pakke gjennom på vei til Google? Test selv 👇</p>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">1</span> Tenk på det slik</h3>
-<ul class="e-liste">
-  <li><span class="ico">🏠</span><span>Ditt <b>hus</b> er lokalnettet. Alle som er inne i huset, hører når du roper.</span></li>
-  <li><span class="ico">🚪</span><span><b>Ytterdøra</b> er ruteren. Ropet ditt kommer ikke ut gjennom døra.</span></li>
-  <li><span class="ico">🏘️</span><span>Alle de andre husene er <b>fjernnett</b>.</span></li>
-  <li><span class="ico">🚶</span><span>Skal du til et hus langt unna, går du gjennom mange dører på veien. Hver dør er ett <b>hopp</b>.</span></li>
-</ul>
-</section>
+<div class="e-spill" data-spill="rop" data-tittel="🎮 Rop og send"></div>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">2</span> Nå med fagord</h3>
-<figure class="e-fig">
-<svg viewBox="0 0 680 210" role="img" aria-label="Ditt lokalnett med tre maskiner. Ropet stopper ved ruter 1. Pakken går videre gjennom ruter 1, 2 og 3 til målets nett. Hver ruter er ett hopp.">
-  <defs><marker id="p6a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="sv-pil"/></marker></defs>
-  <rect x="6" y="30" width="190" height="150" rx="14" class="sv-g"/>
-  <text x="101" y="22" text-anchor="middle" class="sv-tg sv-s">Ditt lokalnett</text>
-  <rect x="22" y="48" width="66" height="34" rx="6" class="sv-k"/><text x="55" y="70" text-anchor="middle" class="sv-s">Du</text>
-  <rect x="22" y="128" width="66" height="34" rx="6" class="sv-k"/><text x="55" y="150" text-anchor="middle" class="sv-s">PC</text>
-  <rect x="112" y="128" width="66" height="34" rx="6" class="sv-k"/><text x="145" y="150" text-anchor="middle" class="sv-s">Skriver</text>
-  <rect x="96" y="56" width="92" height="34" rx="17" class="sv-a"/><text x="142" y="78" text-anchor="middle" class="sv-s" style="fill:var(--text)">📣 ARP</text>
-  <!-- rutere -->
-  <rect x="212" y="85" width="74" height="40" rx="8" class="sv-a"/><text x="249" y="110" text-anchor="middle" class="sv-s" style="fill:var(--text)">Ruter</text>
-  <text x="249" y="72" text-anchor="middle" class="sv-ta sv-t">1</text>
-  <rect x="322" y="85" width="74" height="40" rx="8" class="sv-a"/><text x="359" y="110" text-anchor="middle" class="sv-s" style="fill:var(--text)">Ruter</text>
-  <text x="359" y="72" text-anchor="middle" class="sv-ta sv-t">2</text>
-  <rect x="432" y="85" width="74" height="40" rx="8" class="sv-a"/><text x="469" y="110" text-anchor="middle" class="sv-s" style="fill:var(--text)">Ruter</text>
-  <text x="469" y="72" text-anchor="middle" class="sv-ta sv-t">3</text>
-  <rect x="540" y="60" width="134" height="90" rx="14" class="sv-p"/><text x="607" y="100" text-anchor="middle" class="sv-t">Målets</text><text x="607" y="122" text-anchor="middle" class="sv-t">nett</text>
-  <line x1="196" y1="105" x2="208" y2="105" class="sv-strek" marker-end="url(#p6a)"/>
-  <line x1="288" y1="105" x2="318" y2="105" class="sv-strek" marker-end="url(#p6a)"/>
-  <line x1="398" y1="105" x2="428" y2="105" class="sv-strek" marker-end="url(#p6a)"/>
-  <line x1="508" y1="105" x2="536" y2="105" class="sv-strek" marker-end="url(#p6a)"/>
-  <text x="249" y="152" text-anchor="middle" class="sv-tr sv-s">ropet</text>
-  <text x="249" y="169" text-anchor="middle" class="sv-tr sv-s">stopper her</text>
-  <text x="400" y="200" text-anchor="middle" class="sv-s">Tallene over ruterne er hoppene: 1, 2, 3.</text>
-</svg>
-</figure>
-<table class="e-ord">
-  <tr><td>🏠 Huset ditt</td><td class="pil">→</td><td><b>Lokalnett</b>: maskiner som når hverandre uten ruter</td></tr>
-  <tr><td>🏘️ Alle andre hus</td><td class="pil">→</td><td><b>Fjernnett</b>: alt på andre siden av en ruter</td></tr>
-  <tr><td>🚪 Hver dør på veien</td><td class="pil">→</td><td><b>Hopp</b>: én ruter</td></tr>
-  <tr><td>🌍 Hele byen</td><td class="pil">→</td><td><b>Internett</b>: mange nettverk koblet sammen med rutere</td></tr>
-</table>
-<div class="e-merk">🔐 <b>Hvorfor dette er sikkerhet:</b> Alle i ditt lokalnett hører ARP-ropene dine, og kan svare på dem (husker du lurendreieren?). Derfor er «hvem er i lokalnettet mitt?» et viktig sikkerhetsspørsmål. Det er derfor du lærer om VLAN i leksjon 8.</div>
-</section>
-
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">3</span> Oppvarming</h3>
-<p>Klikk på svaret du tror er riktig.</p>
-<div class="mcq" data-c="-725853061" data-ok="Riktig! Ropet blir inne i huset." data-no="Ikke helt. Kommer ropet ditt ut gjennom ytterdøra?">
-  <div class="mcq-q">Hvor stopper ARP-ropet ditt?</div>
-  <button class="mcq-opt">Ved ruteren. Det blir i lokalnettet.</button>
-  <button class="mcq-opt">Det går ut på hele internett</button>
-  <div class="mcq-fb"></div>
+<div class="e-fagord"><span class="t">📌 Fagord</span>
+Huset ditt er <b>lokalnettet</b>. Alt bak ruteren er <b>fjernnett</b>. Hver ruter på veien er ett <b>hopp</b>. Og internett? Masse nett koblet sammen med rutere 🌍
 </div>
-<div class="mcq" data-c="-1235531121" data-ok="Riktig! Internett er mange nett koblet sammen." data-no="Ikke helt. Tenk på byen med mange hus og dører.">
-  <div class="mcq-q">Hva er internett?</div>
-  <button class="mcq-opt">Én lang kabel rundt jorda</button>
-  <button class="mcq-opt">Mange nettverk koblet sammen med rutere</button>
-  <button class="mcq-opt">En stor maskin hos Google</button>
-  <div class="mcq-fb"></div>
-</div>
-<div class="mcq" data-c="739187736" data-ok="Riktig! Én linje = én ruter = ett hopp." data-no="Ikke helt. Se på traceroute i oppgave 3.">
-  <div class="mcq-q">Traceroute viser 3 linjer. Hva er hver linje?</div>
-  <button class="mcq-opt">En nettside</button>
-  <button class="mcq-opt">En ruter pakken gikk gjennom</button>
-  <div class="mcq-fb"></div>
-</div>
-</section>
+<p class="e-sikker">🔐 Alle i lokalnettet ditt hører ARP-ropene dine, også en skurk 🦹. Derfor lærer du om <b>VLAN</b> i leksjon 8: det deler ett nett i flere «hus».</p>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">4</span> Se et eksempel</h3>
-<div class="worked"><div class="worked-t">Traceroute til en server i utlandet viser 12 hopp</div><div class="worked-b">
-<div class="e-vei"><span class="b r">1</span><span class="pil">→</span><span class="b">2</span><span class="pil">→</span><span class="b">3</span><span class="pil">→</span><span class="b">…</span><span class="pil">→</span><span class="b">11</span><span class="pil">→</span><span class="b f">12</span></div>
-<ol class="wsteps">
-  <li>Hopp 1 er din egen ruter. Ytterdøra ut av lokalnettet.</li>
-  <li>Hopp 2 til 11 er rutere hos ulike selskaper på veien.</li>
-  <li>Hopp 12 er ruteren til målet.</li>
-  <li>Hvert hopp er én grense mellom to nettverk. 12 hopp = 12 grenser.</li>
-  <li>På hvert strekk ble MAC-adressen byttet. IP-adressen sto likt hele veien.</li>
-</ol>
-</div></div>
-</section>
-
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">5</span> Prøv på maskinen</h3>
+<details class="e-terminal"><summary>💻 Tell dine egne hopp <small>valgfritt · 3 min</small></summary><div>
 <ol class="e-term-steg">
-  <li>Tell hoppene til Google:
-    <span class="e-kode">traceroute 8.8.8.8</span>
-    Tell linjene. Hver linje er ett hopp.
-  </li>
-  <li>Se hvor døra ut er:
-    <span class="e-kode">ip route</span>
-    Tallet etter <code>default via</code> er hopp nummer 1.
-  </li>
-  <li>Se hvem som deler lokalnett med deg:
-    <span class="e-kode">ip neigh</span>
-    Alle her kan høre ARP-ropene dine.
-  </li>
+  <li>Tell linjene: <span class="e-kode">traceroute 8.8.8.8</span> Én linje = ett hopp.</li>
+  <li>Hopp nummer 1 er tallet etter <code>default via</code> i: <span class="e-kode">ip route</span></li>
+  <li>Hvem er i huset ditt? <span class="e-kode">ip neigh</span></li>
 </ol>
-</section>
+</div></details>
 
-<section class="steg">
-<h3 class="steg-t"><span class="steg-n">6</span> Din tur</h3>
-<div class="ans-block"><div class="obj-title">Skriv svaret og trykk Svar</div>
-<div class="ans-row" data-p="1" data-a="sju|syv|7"><span class="ans-q">Traceroute viser 7 hopp til målet. Hvor mange nettverksgrenser passerte pakken?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Se eksempelet: 12 hopp = 12 grenser.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">7</div></div></div>
-<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Kan en maskin på et annet lokalnett høre ARP-ropene dine? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kommer ropet ut gjennom ytterdøra?</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
-<div class="ans-row" data-p="1" data-a="vlan"><span class="ans-q">Hva heter teknikken som deler én switch i flere lokalnett? Du møter den neste time</span><input class="ans-in" placeholder="fire bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Den står i den gule boksen i steg 2. Fire bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">vlan</div></div></div>
+<div class="ans-block"><div class="obj-title">✍️ Din tur</div>
+<div class="ans-row" data-p="1" data-a="sju|syv|7"><span class="ans-q">Traceroute viser 7 hopp til målet. Hvor mange nettverksgrenser passerte pakken?</span><input class="ans-in" placeholder="et tall"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">I spillet: 4 hopp = 4 grenser.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">7</div></div></div>
+<div class="ans-row" data-p="1" data-a="nei"><span class="ans-q">Kan en maskin på et annet lokalnett høre ARP-ropene dine? ja eller nei</span><input class="ans-in" placeholder="ja / nei"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Kom ropet forbi den første ruteren i spillet? 🛑</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">nei</div></div></div>
+<div class="ans-row" data-p="1" data-a="vlan"><span class="ans-q">Hva heter teknikken som deler én switch i flere lokalnett? Du møter den neste time</span><input class="ans-in" placeholder="fire bokstaver"><span class="ans-mark"></span><button class="submit-btn" onclick="clSubmit(this)">Svar</button><div class="ah"><button class="ah-btn" onclick="aTip(this)">&#9654; Hint</button><div class="ah-box tip">Står i den gule boksen 🔐. Fire bokstaver.</div><button class="ah-btn sv fasit-btn" onclick="aTip(this)">&#9654; Fasit</button><div class="ah-box sv">vlan</div></div></div>
 </div>
-<div class="e-husk"><span class="ico">🧠</span><span>Husk: Ruteren er døra ut av lokalnettet. Hver ruter på veien er ett hopp.</span></div>
-</section>
 </div></div>
 </div>
 
@@ -904,6 +371,6 @@
   <span>CyberLab &mdash; Fagskole Informasjonssikkerhet</span><span>Gratis &amp; &aring;pen kildekode</span>
 </div></div></footer>
 <script src="../js/cyberlab.js?v=13"></script>
-<script src="../js/enkel.js?v=1"></script>
+<script src="../js/enkel.js?v=3"></script>
 </body>
 </html>

@@ -14,8 +14,9 @@ Startet som en kopi av Emne 1 fra [Cybersikkerhet-Gokstad/CyberLab](https://gith
 | `css/enkel.css`, `js/enkel.js` | Stilen og spillene i den tilpassede versjonen |
 | `verktoy/` | Oppskrift, test og hjelpeskript |
 
-Lenker til sider utenfor Emne 1 peker på den ekte CyberLab-sida:
-`index.html`, `emne3.html`, `labber.html` og `modules/kryptografi.html`.
+Ingen lenker går til Gokstads CyberLab, så studenten blir alltid på denne sida. Menyen har bare
+«Emne 1» (oversikten) og «Self check» (TK1104, åpnes i ny fane). Nederst i hver lab er det en
+«Neste»-knapp til neste leksjon.
 
 ## Tilpasset versjon
 

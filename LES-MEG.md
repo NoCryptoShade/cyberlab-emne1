@@ -15,7 +15,7 @@ Startet som en kopi av Emne 1 fra [Cybersikkerhet-Gokstad/CyberLab](https://gith
 | `verktoy/` | Oppskrift, test og hjelpeskript |
 
 Ingen lenker går til Gokstads CyberLab, så studenten blir alltid på denne sida. Menyen har bare
-«Emne 1» (oversikten) og «Self check» (TK1104, åpnes i ny fane). Nederst i hver lab er det en
+«Emne 1» (oversikten) og «Teori» (Emne 1-teksten på https://emne1.timoamling.com/chapters/01-working-in-cybersecurity.html, åpnes i ny fane). Nederst i hver lab er det en
 «Neste»-knapp til neste leksjon.
 
 ## Tilpasset versjon
